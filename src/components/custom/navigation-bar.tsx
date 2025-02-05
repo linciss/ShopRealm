@@ -8,6 +8,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
+import { ThemeToggle } from './theme-toggle';
 
 // route interface for the links so they are type safe
 interface RouteProps {
@@ -31,7 +32,7 @@ export const NavigationBar = () => {
               <NavigationMenu key={label}>
                 <NavigationMenuList>
                   <NavigationMenuItem>
-                    <NavigationMenuTrigger className='relative font-semibold flex items-center text-sm transition-colors '>
+                    <NavigationMenuTrigger className='relative font-semibold flex items-center text-sm transition-colors !bg-transparent'>
                       Veikals
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
@@ -68,6 +69,7 @@ export const NavigationBar = () => {
           <Link href='#' className='hidden md:flex'>
             <Button size='sm'>Reģistrēties</Button>
           </Link>
+          <ThemeToggle />
         </div>
       </div>
     </header>
