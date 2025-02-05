@@ -61,12 +61,12 @@ export const NavigationBar = () => {
           )}
         </nav>
         <div className='flex items-center gap-4'>
-          <Link href='#' className='hidden md:flex'>
+          <Link href='/auth/sign-in' className='hidden md:flex'>
             <Button variant='outline' size='sm'>
               Pierakstīties
             </Button>
           </Link>
-          <Link href='#' className='hidden md:flex'>
+          <Link href='/auth/sign-up' className='hidden md:flex'>
             <Button size='sm'>Reģistrēties</Button>
           </Link>
           <ThemeToggle />
