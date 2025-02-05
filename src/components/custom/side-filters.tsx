@@ -41,7 +41,7 @@ export const SideFilters = () => {
         <span className='flex flex-row items-center gap-1'>
           {showMore ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
           <p
-            className='text-primary text-sm hover:underline cursor-pointer'
+            className='text-primary text-sm hover:underline cursor-pointer dark:text-purple-400'
             onClick={handleShowMore}
           >
             {showMore ? 'Rādīt mazāk' : 'Rādīt vairāk'}
