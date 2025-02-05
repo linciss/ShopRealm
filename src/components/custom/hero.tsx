@@ -26,6 +26,7 @@ export default function Hero() {
             <div className='relative mx-auto w-full max-w-lg lg:max-w-md'>
               <div className='aspect-w-5 aspect-h-3 rounded-lg bg-primary/10 shadow-xl overflow-hidden'>
                 <Image
+                  priority
                   src='https://kzmlp0g13xkhf3iwox9m.lite.vusercontent.net/placeholder.svg?height=400&width=600'
                   alt='Shop Sphere App'
                   className='object-cover object-center'
