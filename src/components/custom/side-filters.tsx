@@ -1,6 +1,9 @@
+//  use client is for the purpose of using javascript in the browser, making the component as a client component, its not sent from the server to the client
+'use client';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, ChevronUp } from 'lucide-react';
+import { useState } from 'react';
 
 interface FIlterProps {
   value: string;
@@ -9,28 +12,39 @@ interface FIlterProps {
 }
 
 export const SideFilters = () => {
+  const [showMore, setShowMore] = useState(false);
+
+  const handleShowMore = () => {
+    setShowMore(!showMore);
+  };
+
   return (
-    <aside className='flex flex-col gap-8'>
+    <aside className='flex flex-col gap-8 pr-4'>
       <section className='flex flex-col gap-2'>
         <h2 className='text-lg font-semibold'>Kategorijas</h2>
         <RadioGroup defaultValue={categoryFilter[0].value}>
-          {categoryFilter.map(({ id, value, label }) => (
-            <div key={id} className='flex items-center space-x-2'>
-              <RadioGroupItem
-                value={value}
-                id={id}
-                aria-labelledby={`label-${id}`}
-              />
-              <Label id={`label-${id}`} htmlFor={id}>
-                {label}
-              </Label>
-            </div>
-          ))}
+          {categoryFilter
+            .slice(0, showMore ? categoryFilter.length : 5)
+            .map(({ id, value, label }) => (
+              <div key={id} className='flex items-center space-x-2'>
+                <RadioGroupItem
+                  value={value}
+                  id={id}
+                  aria-labelledby={`label-${id}`}
+                />
+                <Label id={`label-${id}`} htmlFor={id}>
+                  {label}
+                </Label>
+              </div>
+            ))}
         </RadioGroup>
         <span className='flex flex-row items-center gap-1'>
-          <ChevronDown size={12} />
-          <p className='text-primary text-sm hover:underline cursor-pointer'>
-            Skatīt vēl
+          {showMore ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+          <p
+            className='text-primary text-sm hover:underline cursor-pointer'
+            onClick={handleShowMore}
+          >
+            {showMore ? 'Rādīt mazāk' : 'Rādīt vairāk'}
           </p>
         </span>
       </section>
@@ -70,6 +84,21 @@ const categoryFilter: FIlterProps[] = [
   {
     value: 'compact',
     id: 'r3',
+    label: 'Compact',
+  },
+  {
+    value: 'all2',
+    id: 'r4',
+    label: 'Visas kategorijas',
+  },
+  {
+    value: 'comfortable2',
+    id: 'r5',
+    label: 'Comfortable',
+  },
+  {
+    value: 'compact2',
+    id: 'r6',
     label: 'Compact',
   },
 ];
