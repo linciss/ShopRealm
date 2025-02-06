@@ -9,6 +9,7 @@ import {
   NavigationMenuTrigger,
 } from '@/components/ui/navigation-menu';
 import { ThemeToggle } from './theme-toggle';
+import { SignOutButton } from '../auth/sign-out-button';
 
 // route interface for the links so they are type safe
 interface RouteProps {
@@ -69,6 +70,9 @@ export const NavigationBar = () => {
           <Link href='/auth/sign-up' className='hidden md:flex'>
             <Button size='sm'>Reģistrēties</Button>
           </Link>
+          <SignOutButton>
+            <Button size='sm'>Iziet</Button>
+          </SignOutButton>
           <ThemeToggle />
         </div>
       </div>
