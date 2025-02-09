@@ -104,7 +104,7 @@ export const SignUpForms = () => {
             name='passwordConfirmation'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Parole vcelvienreiz</FormLabel>
+                <FormLabel>Parole atkārtoti</FormLabel>
                 <FormControl>
                   <Input
                     type='password'
