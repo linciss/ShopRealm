@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export const ProductCard = () => {
   return (
-    <Card className='w-full max-w-xs p-5 cursor-pointer hover:scale-105 duration-200 ease-linear hover:border hover:border-primary'>
+    <Card className='w-full max-w-xs p-5 cursor-pointer'>
       <Image
         priority
         src='https://i.imgur.com/MOZBqVS.jpg'
