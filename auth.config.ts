@@ -7,7 +7,9 @@ import { getUserByEmail } from './data/user';
 export default {
   providers: [
     Credentials({
+      // the authorize function that is  called when a user tries to sign in
       async authorize(credentials) {
+        // validates the fields
         const validateFields = signInSchema.safeParse(credentials);
 
         if (!validateFields.success) {
@@ -16,19 +18,21 @@ export default {
 
         const { email, password } = validateFields.data;
 
+        // gets the user by email
         const user = await getUserByEmail(email);
 
+        // if no user or password is found returns null
         if (!user || !user.password) {
           return null;
         }
-
+        //  checks if the password matches the hashed password in the db
         const passwordMatch = bcrypt.compare(password, user.password);
 
-        console.log(passwordMatch, 'opasswortd match');
         if (!passwordMatch) {
           return null;
         }
 
+        // returns the user if everything is correct
         return user;
       },
     }),

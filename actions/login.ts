@@ -6,12 +6,12 @@ import { signIn } from '../auth';
 import { AuthError } from 'next-auth';
 import { DEFAULT_SIGNIN_REDIRECT } from '../routes';
 
+// login server action
 export const login = async (data: z.infer<typeof signInSchema>) => {
   const { email, password } = data;
 
-  console.log(data);
-
   try {
+    // calls credential authorization provider to sign in and calls signIn afterwards to double check
     await signIn('credentials', {
       email,
       password,
