@@ -17,12 +17,14 @@ import { Button } from '../ui/button';
 import { register } from '../../../actions/register';
 import { FormError } from '../custom/form-error';
 import { FormSuccess } from '../custom/form-success';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 export const SignUpForms = () => {
   const [success, setSuccess] = useState<string>();
   const [error, setError] = useState<string>();
 
   const form = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: '',
       password: '',
@@ -59,7 +61,7 @@ export const SignUpForms = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='flex flex-col space-y-8'
+          className='flex flex-col space-y-8 mt-4'
         >
           <FormField
             control={form.control}
