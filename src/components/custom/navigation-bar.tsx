@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/navigation-menu';
 import { ThemeToggle } from './theme-toggle';
 import { SignOutButton } from '../auth/sign-out-button';
+import { Session } from 'next-auth';
 
 // route interface for the links so they are type safe
 interface RouteProps {
@@ -17,9 +18,12 @@ interface RouteProps {
   href: string;
   description?: string;
 }
+interface NavigationBarProps {
+  session: Session | null;
+}
 
 //  navigation component for the website
-export const NavigationBar = ({ session }: Session) => {
+export const NavigationBar = ({ session }: NavigationBarProps) => {
   return (
     <header className='sticky top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
       <div className='container flex h-14 max-w-screen-2xl items-center justify-between'>

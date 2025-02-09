@@ -1,4 +1,3 @@
-import { CheckCircledIcon } from '@radix-ui/react-icons';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 import { Check } from 'lucide-react';
 
