@@ -14,14 +14,15 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { startTransition, useState, useTransition } from 'react';
 import { login } from '../../../actions/login';
 import { FormError } from '../custom/form-error';
 import { FormSuccess } from '../custom/form-success';
 
 export const SignInForms = () => {
-  const [success, setSuccess] = useState<string | undefined>(null);
-  const [error, setError] = useState<string | undefined>(null);
+  const [success, setSuccess] = useState<string | undefined>();
+  const [error, setError] = useState<string | undefined>();
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {

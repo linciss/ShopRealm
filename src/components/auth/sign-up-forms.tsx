@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form';
 import { CardWrapper } from './card-wrapper';
 import { z } from 'zod';
 import { signUpSchema } from '../../../schemas';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { startTransition, useState, useTransition } from 'react';
 import {
   Form,
