@@ -9,6 +9,10 @@ export const publicRoutes = [
 ];
 export const authRoutes = ['/auth/sign-in', '/auth/sign-up'];
 
+export const privateRoutes = ['/profile'];
+
+export const apiAuthPrefix = '/api/auth';
+
 export const DEFAULT_SIGNOUT_REDIRECT = '/products';
 
 export const DEFAULT_SIGNIN_REDIRECT = '/products';
