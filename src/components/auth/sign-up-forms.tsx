@@ -36,6 +36,8 @@ export const SignUpForms = () => {
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     console.log(data);
+    setError('');
+    setSuccess('');
 
     startTransition(() => {
       register(data).then((res) => {
