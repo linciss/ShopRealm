@@ -6,9 +6,18 @@ generator client {
   provider = "prisma-client-js"
 }
 
+enum Role {
+  ADMIN
+  SHOPPER
+  STORE
+}
 
 model User {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
   email         String?         @unique
   password      String?
+  role          Role            @default(SHOPPER)
+  UUID          String          @default(cuid()) @unique
 }
+
+
