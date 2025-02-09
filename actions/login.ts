@@ -5,10 +5,19 @@ import { signInSchema } from '../schemas';
 import { signIn } from '../auth';
 import { AuthError } from 'next-auth';
 import { DEFAULT_SIGNIN_REDIRECT } from '../routes';
+import prisma from '@/lib/db';
 
 // login server action
 export const login = async (data: z.infer<typeof signInSchema>) => {
   const { email, password } = data;
+
+  const user = await prisma.user.findUnique({
+    where: { email },
+  });
+
+  if (!user) {
+    return { error: 'NAV!' };
+  }
 
   try {
     // calls credential authorization provider to sign in and calls signIn afterwards to double check
@@ -17,6 +26,7 @@ export const login = async (data: z.infer<typeof signInSchema>) => {
       password,
       redirectTo: DEFAULT_SIGNIN_REDIRECT,
     });
+    return { success: 'Logged in!', error: undefined };
   } catch (e) {
     if (e instanceof AuthError) {
       switch (e.type) {
@@ -28,6 +38,4 @@ export const login = async (data: z.infer<typeof signInSchema>) => {
     }
     throw e;
   }
-
-  return { success: 'Logged in!', error: undefined };
 };

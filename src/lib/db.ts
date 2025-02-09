@@ -15,9 +15,11 @@ declare global {
 
 if (process.env.NODE_ENV === 'production') {
   prisma = new PrismaClient();
+  console.log('Prisma Client initialized in production mode');
 } else {
   if (!global.prisma) {
     global.prisma = new PrismaClient();
+    console.log('Prisma Client initialized in development mode');
   }
   prisma = global.prisma;
 }
