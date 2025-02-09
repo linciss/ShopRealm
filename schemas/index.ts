@@ -39,13 +39,29 @@ export const signUpSchema = z
     password: z
       .string()
       .min(8, { message: 'Parolei jābūt vismaz 8 simbolus garai' }),
-    passwordConfirmation: z.string(),
+    passwordConfirmation: z
+      .string()
+      .min(8, { message: 'Parolei jābūt vismaz 8 simbolus garai' }),
   })
-  .refine(({ password, passwordConfirmation }) => {
-    if (password !== passwordConfirmation) {
-      return {
-        passwordConfirmation: 'Paroles nesakrīt',
-      };
+  .superRefine(({ password }, validate) => {
+    // checks for the appropriate password strength
+    const containsLowerCase = /[a-z]/.test(password);
+    const containsUpperCase = /[A-Z]/.test(password);
+    const containsSpecialCharacter =
+      /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password);
+    const containsNumber = /[0-9]/.test(password);
+
+    if (
+      !containsLowerCase ||
+      !containsUpperCase ||
+      !containsSpecialCharacter ||
+      !containsNumber
+    ) {
+      validate.addIssue({
+        code: 'custom',
+        path: ['password'],
+        message:
+          'Parole ir par vāju. Parolei jāsatur vismaz 8 simboli Parolei jāsatur vismaz viens lielais burts, viens mazais burts, viens cipars, viens speciālais simbols.',
+      });
     }
-    return true;
   });
