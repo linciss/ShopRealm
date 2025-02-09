@@ -11,6 +11,16 @@ import {
 import { ThemeToggle } from './theme-toggle';
 import { SignOutButton } from '../auth/sign-out-button';
 import { Session } from 'next-auth';
+import { Avatar, AvatarFallback, AvatarImage } from '../ui/avatar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../ui/dropdown-menu';
+import { auth } from '../../../auth';
 
 // route interface for the links so they are type safe
 interface RouteProps {
@@ -18,12 +28,10 @@ interface RouteProps {
   href: string;
   description?: string;
 }
-interface NavigationBarProps {
-  session: Session | null;
-}
 
 //  navigation component for the website
-export const NavigationBar = ({ session }: NavigationBarProps) => {
+export const NavigationBar = async () => {
+  const session = await auth();
   return (
     <header className='sticky top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
       <div className='container flex h-14 max-w-screen-2xl items-center justify-between'>
@@ -65,11 +73,33 @@ export const NavigationBar = ({ session }: NavigationBarProps) => {
             ),
           )}
         </nav>
+
         <div className='flex items-center gap-4'>
           {session ? (
-            <SignOutButton>
-              <Button size='sm'>Iziet</Button>
-            </SignOutButton>
+            <>
+              <DropdownMenu>
+                <DropdownMenuTrigger>
+                  <Avatar>
+                    <AvatarImage
+                      src='https://github.com/shadcn.png'
+                      alt='Profile Icon'
+                    />
+                    <AvatarFallback>CN</AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>Mans konts</DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <Link href={'/profile'}>
+                    <DropdownMenuItem>Profils </DropdownMenuItem>
+                  </Link>
+
+                  <SignOutButton>
+                    <DropdownMenuItem>Iziet</DropdownMenuItem>
+                  </SignOutButton>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </>
           ) : (
             <>
               <Link href='/auth/sign-in' className='hidden md:flex'>

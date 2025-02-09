@@ -41,7 +41,7 @@ export default async function RootLayout({
         >
           <div className='relative flex min-h-screen flex-col bg-background'>
             <SessionProvider session={session}>
-              <NavigationBar session={session} />
+              <NavigationBar />
               <div className='flex-1'>{children}</div>
             </SessionProvider>
           </div>
