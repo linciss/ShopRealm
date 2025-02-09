@@ -19,7 +19,7 @@ interface RouteProps {
 }
 
 //  navigation component for the website
-export const NavigationBar = () => {
+export const NavigationBar = ({ session }: Session) => {
   return (
     <header className='sticky top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
       <div className='container flex h-14 max-w-screen-2xl items-center justify-between'>
@@ -62,17 +62,22 @@ export const NavigationBar = () => {
           )}
         </nav>
         <div className='flex items-center gap-4'>
-          <Link href='/auth/sign-in' className='hidden md:flex'>
-            <Button variant='outline' size='sm'>
-              Pierakstīties
-            </Button>
-          </Link>
-          <Link href='/auth/sign-up' className='hidden md:flex'>
-            <Button size='sm'>Reģistrēties</Button>
-          </Link>
-          <SignOutButton>
-            <Button size='sm'>Iziet</Button>
-          </SignOutButton>
+          {session ? (
+            <SignOutButton>
+              <Button size='sm'>Iziet</Button>
+            </SignOutButton>
+          ) : (
+            <>
+              <Link href='/auth/sign-in' className='hidden md:flex'>
+                <Button variant='outline' size='sm'>
+                  Pierakstīties
+                </Button>
+              </Link>
+              <Link href='/auth/sign-up' className='hidden md:flex'>
+                <Button size='sm'>Reģistrēties</Button>
+              </Link>
+            </>
+          )}
           <ThemeToggle />
         </div>
       </div>
