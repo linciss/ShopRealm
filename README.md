@@ -1,4 +1,4 @@
-# Eksāmens 2025
+# Eksāmens 2025 =
 
 .env structure
 ```
