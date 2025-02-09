@@ -14,10 +14,14 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { startTransition } from 'react';
+import { startTransition, useState, useTransition } from 'react';
 import { login } from '../../../actions/login';
+import { FormError } from '../custom/form-error';
+import { FormSuccess } from '../custom/form-success';
 
 export const SignInForms = () => {
+  const [success, setSuccess] = useState<string | undefined>(null);
+  const [error, setError] = useState<string | undefined>(null);
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -26,17 +30,22 @@ export const SignInForms = () => {
     },
   });
 
+  const [isPending, startTransition] = useTransition();
+
   const onSubmit = (data: z.infer<typeof signInSchema>) => {
     console.log(data);
 
+    setError('');
+    setSuccess('');
+
     startTransition(() => {
-      login(data)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      login(data).then((res) => {
+        if (res?.error) {
+          setError(res?.error);
+        } else {
+          setSuccess(res?.success);
+        }
+      });
     });
   };
 
@@ -44,7 +53,11 @@ export const SignInForms = () => {
     <CardWrapper
       formType='Pieslēgšanās'
       label='Pieslēdzies, lai izmantotu visas funkcijas'
+      footerText='Nav konta? Reģistrējies un izmanto visas funkcijas'
+      footerUrl='/auth/sign-up'
     >
+      <FormError message={error} />
+      <FormSuccess message={success} />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -86,7 +99,7 @@ export const SignInForms = () => {
               </FormItem>
             )}
           />
-          <Button type='submit' className='mt-8'>
+          <Button type='submit' className='mt-8' disabled={isPending}>
             Pieslēgties
           </Button>
         </form>

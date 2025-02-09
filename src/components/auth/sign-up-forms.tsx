@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { CardWrapper } from './card-wrapper';
 import { z } from 'zod';
 import { signUpSchema } from '../../../schemas';
-import { startTransition } from 'react';
+import { startTransition, useState, useTransition } from 'react';
 import {
   Form,
   FormControl,
@@ -15,8 +15,13 @@ import {
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { register } from '../../../actions/register';
+import { FormError } from '../custom/form-error';
+import { FormSuccess } from '../custom/form-success';
 
 export const SignUpForms = () => {
+  const [success, setSuccess] = useState<string>();
+  const [error, setError] = useState<string>();
+
   const form = useForm<z.infer<typeof signUpSchema>>({
     defaultValues: {
       email: '',
@@ -25,17 +30,20 @@ export const SignUpForms = () => {
     },
   });
 
+  const [isPending, startTransition] = useTransition();
+
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     console.log(data);
 
     startTransition(() => {
-      register(data)
-        .then((res) => {
-          console.log(res);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+      register(data).then((res) => {
+        console.log(res);
+        if (res?.error) {
+          setError(res?.error);
+        } else {
+          setSuccess(res?.success);
+        }
+      });
     });
   };
 
@@ -43,7 +51,11 @@ export const SignUpForms = () => {
     <CardWrapper
       formType='Reģistrācija'
       label='Reģistrējies, lai izmantotu visas funkcijas'
+      footerText='Jau ir konts? Pieslēdzies un izmanto visas funkcijas'
+      footerUrl='/auth/sign-in'
     >
+      <FormError message={error} />
+      <FormSuccess message={success} />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -103,7 +115,7 @@ export const SignUpForms = () => {
               </FormItem>
             )}
           />
-          <Button type='submit' className='mt-8'>
+          <Button type='submit' className='mt-8' disabled={isPending}>
             Registreties
           </Button>
         </form>
