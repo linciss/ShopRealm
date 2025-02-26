@@ -27,6 +27,8 @@ export const SignUpForms = () => {
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
+      name: '',
+      lastName: '',
       email: '',
       password: '',
       passwordConfirmation: '',
@@ -66,6 +68,39 @@ export const SignUpForms = () => {
           onSubmit={form.handleSubmit(onSubmit)}
           className='flex flex-col space-y-8 mt-4'
         >
+          <div className='flex flex-row space-x-4'>
+            <FormField
+              control={form.control}
+              name='name'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Vārds</FormLabel>
+                  <FormControl>
+                    <Input type='name' placeholder='John' {...field} required />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='lastName'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Uzvārds</FormLabel>
+                  <FormControl>
+                    <Input
+                      type='lastName'
+                      placeholder='Doe'
+                      {...field}
+                      required
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
           <FormField
             control={form.control}
             name='email'

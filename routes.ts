@@ -7,7 +7,11 @@ export const publicRoutes = [
   '/new',
   '/categories',
 ];
-export const authRoutes = ['/auth/sign-in', '/auth/sign-up'];
+export const authRoutes = [
+  '/auth/sign-in',
+  '/auth/sign-up',
+  '/auth/forgot-password',
+];
 
 export const privateRoutes = ['/profile'];
 

@@ -35,6 +35,12 @@ export const signInSchema = z
 
 export const signUpSchema = z
   .object({
+    name: z
+      .string()
+      .min(1, { message: 'Vārdam jābūt vismaz 1 simbolam garam' }),
+    lastName: z
+      .string()
+      .min(1, { message: 'Uzvārdam jābūt vismaz 1 simbolam garam' }),
     email: z.string().email({ message: 'Lūdzu ievadiet pareizu epastu' }),
     password: z
       .string()

@@ -16,7 +16,7 @@ export const login = async (data: z.infer<typeof signInSchema>) => {
   });
 
   if (!user) {
-    return { error: 'NAV!' };
+    return { error: 'Nepareia parole vai epasts!' };
   }
 
   try {
