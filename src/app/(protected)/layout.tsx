@@ -8,5 +8,11 @@ export default async function ProtectedLayout({
 }) {
   const session = await auth();
 
-  return <SessionProvider session={session}>{children}</SessionProvider>;
+  return (
+    <div className='relative flex min-h-screen flex-col container'>
+      <SessionProvider session={session}>
+        <div className='px-10'>{children}</div>
+      </SessionProvider>
+    </div>
+  );
 }

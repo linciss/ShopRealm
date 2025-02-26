@@ -19,6 +19,7 @@ import { startTransition, useState, useTransition } from 'react';
 import { login } from '../../../actions/login';
 import { FormError } from '../custom/form-error';
 import { FormSuccess } from '../custom/form-success';
+import Link from 'next/link';
 
 export const SignInForms = () => {
   const [success, setSuccess] = useState<string | undefined>();
@@ -82,24 +83,30 @@ export const SignInForms = () => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name='password'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Parole</FormLabel>
-                <FormControl>
-                  <Input
-                    type='password'
-                    placeholder='********'
-                    {...field}
-                    required
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div className='flex flex-col space-y-2'>
+            <FormField
+              control={form.control}
+              name='password'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Parole</FormLabel>
+                  <FormControl>
+                    <Input
+                      type='password'
+                      placeholder='********'
+                      {...field}
+                      required
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Link href='/auth/forgot-password'>
+              <p className='text-primary text-xs'>Aizmirsi paroli?</p>
+            </Link>
+          </div>
+
           <Button type='submit' className='mt-8' disabled={isPending}>
             Pieslēgties
           </Button>
