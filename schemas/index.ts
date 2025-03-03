@@ -71,3 +71,14 @@ export const signUpSchema = z
       });
     }
   });
+
+export const personalInfoSchema = z.object({
+  name: z.string().min(1, { message: 'Vārdam jābūt vismaz 1 simbolam garam' }),
+  lastName: z
+    .string()
+    .min(1, { message: 'Uzvārdam jābūt vismaz 1 simbolam garam' }),
+  phone: z
+    .string()
+    .min(8, { message: 'Talruna numuram jabut pareizam' })
+    .max(8, { message: 'Talruins nevar but garaks' }),
+});
