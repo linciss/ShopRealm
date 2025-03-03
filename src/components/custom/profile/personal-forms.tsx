@@ -97,23 +97,15 @@ export const PersonalForms = ({ userData }: PersonalFormsProps) => {
               )}
             />
           </div>
-          <FormField
-            disabled={true}
-            control={form.control}
-            name='email'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Epasts</FormLabel>
-                <FormControl>
-                  <Input placeholder='john@doe.com' {...field} />
-                </FormControl>
-                <FormDescription>
-                  Ja vēlies pārmainīt epastu, tad dodies uz iestatījumiem
-                </FormDescription>
-              </FormItem>
-            )}
-          />
-
+          <FormItem>
+            <FormLabel>Email</FormLabel>
+            <FormControl>
+              <Input value={userData.email} disabled />
+            </FormControl>
+            <FormDescription>
+              Ja vēlies pārmainīt epastu, tad dodies uz iestatījumiem
+            </FormDescription>
+          </FormItem>
           <FormField
             control={form.control}
             name='phone'
