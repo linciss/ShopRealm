@@ -1,12 +1,12 @@
-'use client';
-import { useCurrentUser } from '../../../../hooks/use-current-user';
+import { ProfileSettings } from '@/components/custom/profile/profile-settings';
 
 export default function Profile() {
-  const user = useCurrentUser();
+  // const [userData, setUserData] = useState<User | null>();
+
   return (
-    <div>
-      <h1>Profile</h1>
-      <div>{JSON.stringify(user)}</div>
+    <div className='py-10'>
+      <h1 className='text-2xl font-bold'>Mans profils</h1>
+      <ProfileSettings />
     </div>
   );
 }
