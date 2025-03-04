@@ -18,9 +18,12 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Camera } from 'lucide-react';
 import Image from 'next/image';
+import { useState, useTransition } from 'react';
+import { editUserProfile } from '../../../../actions/edit-user';
 
 interface PersonalFormsProps {
   userData: {
+    id: string;
     name: string;
     lastName: string;
     email: string;
@@ -38,8 +41,27 @@ export const PersonalForms = ({ userData }: PersonalFormsProps) => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof personalInfoSchema>) {
-    console.log(values);
+  const [success, setSuccess] = useState<string | undefined>();
+  const [error, setError] = useState<string | undefined>();
+
+  const [isPending, startTransition] = useTransition();
+
+  function onSubmit(data: z.infer<typeof personalInfoSchema>) {
+    console.log(data);
+
+    setError('');
+    setSuccess('');
+
+    startTransition(() => {
+      editUserProfile(data, userData.id).then((res) => {
+        console.log(res);
+        if (res?.error) {
+          setError(res?.error);
+        } else {
+          setSuccess(res?.success);
+        }
+      });
+    });
   }
 
   return (
@@ -68,7 +90,7 @@ export const PersonalForms = ({ userData }: PersonalFormsProps) => {
           onSubmit={form.handleSubmit(onSubmit)}
           className='space-y-4 flex flex-col w-full'
         >
-          <div className='grid grid-cols-2 w-full gap-4'>
+          <div className='grid grid-cols-2 sm:grid-cols-1 md:grid-cols-2 w-full gap-4'>
             <FormField
               control={form.control}
               name='name'
@@ -121,8 +143,12 @@ export const PersonalForms = ({ userData }: PersonalFormsProps) => {
             )}
           />
           <div className='max-w-10'>
-            <Button type='submit'>Iesniegt</Button>
+            <Button disabled={isPending} type='submit'>
+              Iesniegt informaciu
+            </Button>
           </div>
+          {error && <p className='text-red-500'>{error}</p>}
+          {success && <p className='text-green-500'>{success}</p>}
         </form>
       </Form>
     </div>
