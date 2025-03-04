@@ -71,7 +71,9 @@ export const ProfileSettings = async () => {
               <PersonalForms userData={{ ...userData, id: session.user.id }} />
             </PersonalInformation>
             <PersonalInformation cardTitle='Adreses informacija'>
-              <AddressForms userAddress={userAddress} />
+              <AddressForms
+                userAddress={{ ...userAddress, id: session.user.id }}
+              />
             </PersonalInformation>
           </TabsContent>
           <TabsContent value='orders'>orders</TabsContent>

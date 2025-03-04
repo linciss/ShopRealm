@@ -23,9 +23,12 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Pencil } from 'lucide-react';
+import { useState, useTransition } from 'react';
+import { editUserAddress } from '../../../../actions/edit-address';
 
 interface AddressFormsProps {
   userAddress: {
+    id: string;
     street: string | null;
     city: string | null;
     country: string | null;
@@ -44,8 +47,23 @@ export const AddressForms = ({ userAddress }: AddressFormsProps) => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof addressInfoSchema>) {
-    console.log(values);
+  const [error, setError] = useState<string | undefined>();
+  const [success, setSuccess] = useState<string | undefined>();
+
+  const [isPending, startTransition] = useTransition();
+
+  function onSubmit(data: z.infer<typeof addressInfoSchema>) {
+    console.log(data);
+
+    startTransition(() => {
+      editUserAddress(data, userAddress.id).then((res) => {
+        if (res?.error) {
+          setError(res?.error);
+        } else {
+          setSuccess(res?.success);
+        }
+      });
+    });
   }
 
   return (
@@ -127,11 +145,17 @@ export const AddressForms = ({ userAddress }: AddressFormsProps) => {
           </div>
 
           <div className='max-w-10'>
-            <Button type='submit' className='flex flex-row items-center'>
+            <Button
+              disabled={isPending}
+              type='submit'
+              className='flex flex-row items-center'
+            >
               <Pencil className='mr-2 h-4 w-4' />
               Iesniegt Adresi
             </Button>
           </div>
+          {error && <p className='text-red-500'>{error}</p>}
+          {success && <p className='text-green-500'>{success}</p>}
         </form>
       </Form>
     </div>
