@@ -5,7 +5,9 @@ export const getUserByEmail = async (email: string) => {
     const user = await prisma.user.findUnique({ where: { email } });
     return user;
   } catch (error) {
-    console.error('Error fetching users:', error);
+    if (error instanceof Error) {
+      console.log('Error: ', error.stack);
+    }
     return null;
   }
 };
@@ -14,7 +16,9 @@ export const getUserById = async (id: string) => {
   try {
     const user = await prisma.user.findUnique({ where: { id } });
     return user;
-  } catch (e) {
-    console.log(e);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error: ', error.stack);
+    }
   }
 };
