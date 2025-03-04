@@ -16,7 +16,7 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { Camera } from 'lucide-react';
+import { Camera, Pencil } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useTransition } from 'react';
 import { editUserProfile } from '../../../../actions/edit-user';
@@ -143,8 +143,13 @@ export const PersonalForms = ({ userData }: PersonalFormsProps) => {
             )}
           />
           <div className='max-w-10'>
-            <Button disabled={isPending} type='submit'>
-              Iesniegt informaciu
+            <Button
+              disabled={isPending}
+              type='submit'
+              className='flex flex-row items-center'
+            >
+              <Pencil className='mr-2 h-4 w-4' />
+              Iesniegt Adresi
             </Button>
           </div>
           {error && <p className='text-red-500'>{error}</p>}
