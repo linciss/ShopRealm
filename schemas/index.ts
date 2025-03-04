@@ -80,5 +80,12 @@ export const personalInfoSchema = z.object({
   phone: z
     .string()
     .min(8, { message: 'Talruna numuram jabut pareizam' })
-    .max(8, { message: 'Talruins nevar but garaks' }),
+    .max(8, { message: 'Talruna numuram jabut pareizam' }),
+});
+
+export const addressInfoSchema = z.object({
+  street: z.string().min(1, { message: 'Adreseu jabut pareizai!' }),
+  city: z.string().min(1, { message: 'Ievadi pareizu pisletu!' }),
+  country: z.string().min(1, { message: 'Izvelies valsti!' }),
+  postalCode: z.string().min(1, { message: 'Ieraksti pareizu kodu!' }),
 });
