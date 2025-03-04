@@ -43,6 +43,17 @@ export const register = async (data: z.infer<typeof signUpSchema>) => {
       lastName,
       email,
       password: hashedPassword,
+      address: {
+        create: {
+          street: '',
+          city: '',
+          country: '',
+          postalCode: '',
+        },
+      },
+    },
+    include: {
+      address: true,
     },
   });
 
