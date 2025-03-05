@@ -92,6 +92,12 @@ export const NavigationBar = async () => {
                   <Link href={'/profile'}>
                     <DropdownMenuItem>Profils </DropdownMenuItem>
                   </Link>
+                  <Link href={'/store'}>
+                    <DropdownMenuItem>Veikals</DropdownMenuItem>
+                  </Link>
+                  <Link href={'/favorites'}>
+                    <DropdownMenuItem>Mani favoriti</DropdownMenuItem>
+                  </Link>
 
                   <SignOutButton>
                     <DropdownMenuItem>Iziet</DropdownMenuItem>
