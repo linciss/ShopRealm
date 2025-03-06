@@ -89,3 +89,14 @@ export const addressInfoSchema = z.object({
   country: z.string().min(1, { message: 'Izvelies valsti!' }),
   postalCode: z.string().min(1, { message: 'Ieraksti pareizu kodu!' }),
 });
+
+export const storeSchema = z.object({
+  name: z
+    .string()
+    .min(3, { message: 'Nosaukumam jābūt vismaz 3 simboliem garam' }),
+  description: z.string().min(10, { message: 'Jabut noraditam descriptionam' }),
+  phone: z
+    .string()
+    .min(8, { message: 'Talruna numuram jabut pareizam' })
+    .max(8, { message: 'Talruna numuram jabut pareizam' }),
+});
