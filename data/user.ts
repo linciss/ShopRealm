@@ -22,3 +22,18 @@ export const getUserById = async (id: string) => {
     }
   }
 };
+
+export const getUserRole = async (id: string | undefined) => {
+  try {
+    return await prisma.user.findFirst({
+      where: { id },
+      select: {
+        role: true,
+      },
+    });
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error: ', error.stack);
+    }
+  }
+};
