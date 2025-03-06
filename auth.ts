@@ -6,7 +6,7 @@ import { getUserById } from './data/user';
 
 declare module 'next-auth' {
   interface Session {
-    user: {} & DefaultSession['user'];
+    user: { role: string } & DefaultSession['user'];
   }
 }
 
@@ -27,10 +27,21 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return true;
     },
     async session({ token, session }) {
-      if (token.sub && session.user) {
-        session.user.id = token.sub;
-      }
+      if (token.sub) {
+        try {
+          const user = await getUserById(token.sub);
 
+          if (!user) {
+            return null;
+          }
+
+          session.user.id = token.sub;
+          session.user.role = token.role as string;
+        } catch (error) {
+          console.error('Error verifying user session:', error);
+          return null;
+        }
+      }
       return session;
     },
     async jwt({ token }) {
@@ -40,6 +51,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (!user) {
         return token;
       }
+
+      token.role = user.role;
 
       return token;
     },
