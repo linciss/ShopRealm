@@ -20,6 +20,7 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { auth } from '../../../auth';
+import { RoleSwitcherButton } from './role-switcher-button';
 
 // route interface for the links so they are type safe
 interface RouteProps {
@@ -92,13 +93,10 @@ export const NavigationBar = async () => {
                   <Link href={'/profile'}>
                     <DropdownMenuItem>Profils </DropdownMenuItem>
                   </Link>
-                  <Link href={'/store'}>
-                    <DropdownMenuItem>Veikals</DropdownMenuItem>
-                  </Link>
                   <Link href={'/favorites'}>
                     <DropdownMenuItem>Mani favoriti</DropdownMenuItem>
                   </Link>
-
+                  <RoleSwitcherButton id={session?.user.id} />
                   <SignOutButton>
                     <DropdownMenuItem>Iziet</DropdownMenuItem>
                   </SignOutButton>
