@@ -51,8 +51,17 @@ export const register = async (data: z.infer<typeof signUpSchema>) => {
           postalCode: '',
         },
       },
+      store: {
+        create: {
+          name: '',
+          description: '',
+          storePhone: '',
+          category: [],
+        },
+      },
     },
     include: {
+      store: true,
       address: true,
     },
   });
