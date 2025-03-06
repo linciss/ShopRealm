@@ -11,7 +11,7 @@ export default async function ProtectedLayout({
   return (
     <div className='relative flex min-h-screen flex-col container'>
       <SessionProvider session={session}>
-        <div className='px-10'>{children}</div>
+        <div className='sm:px-10 px-0'>{children}</div>
       </SessionProvider>
     </div>
   );
