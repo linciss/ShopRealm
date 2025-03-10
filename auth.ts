@@ -32,16 +32,16 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           const user = await getUserById(token.sub);
 
           if (!user) {
-            return null;
+            return session;
           }
 
           session.user.id = token.sub;
           session.user.role = token.role as string;
         } catch (error) {
           console.error('Error verifying user session:', error);
-          return null;
         }
       }
+      console.log(session);
       return session;
     },
     async jwt({ token }) {
