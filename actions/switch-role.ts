@@ -20,6 +20,7 @@ export const switchRole = async () => {
     const { role } = userRole;
 
     if (role === 'SHOPPER') {
+      console.log('UPDATING USER!!!!!');
       await prisma.user.update({ where: { id }, data: { role: 'STORE' } });
       await checkHasStore();
     }
