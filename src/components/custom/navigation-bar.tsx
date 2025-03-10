@@ -32,6 +32,10 @@ interface RouteProps {
 //  navigation component for the website
 export const NavigationBar = async () => {
   const session = await auth();
+
+  const linksToMap =
+    session?.user?.role === 'STORE' ? storeLinks : shopperLinks;
+
   return (
     <header className='sticky top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
       <div className='container flex h-14 max-w-screen-2xl items-center justify-between'>
@@ -50,7 +54,7 @@ export const NavigationBar = async () => {
                     </NavigationMenuTrigger>
                     <NavigationMenuContent>
                       <ul className='grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] '>
-                        {storeLinks.map((link) => (
+                        {linksToMap.map((link) => (
                           <ListItem key={link.label} {...link}>
                             {link.description}
                           </ListItem>
@@ -96,7 +100,7 @@ export const NavigationBar = async () => {
                   <Link href={'/favorites'}>
                     <DropdownMenuItem>Mani favoriti</DropdownMenuItem>
                   </Link>
-                  <RoleSwitcherButton id={session?.user.id} />
+                  <RoleSwitcherButton role={session?.user?.role} />
                   <SignOutButton>
                     <DropdownMenuItem>Iziet</DropdownMenuItem>
                   </SignOutButton>
@@ -146,6 +150,29 @@ const links: RouteProps[] = [
 ];
 
 const storeLinks: RouteProps[] = [
+  {
+    label: 'Statistika',
+    href: '/store',
+    description: 'Apskaties sava veikala statistiku',
+  },
+  {
+    label: 'Precu parvaldnieks',
+    href: '/store/items',
+    description: 'Apskaties sava veiakal preces',
+  },
+  {
+    label: 'Pasutijumu parvaldnieks',
+    href: '/store/orders',
+    description: 'Apskaties pasutijunmus',
+  },
+  {
+    label: 'Veikala iestatijumi',
+    href: '/store/settings',
+    description: 'Apskaties iesattijums',
+  },
+];
+
+const shopperLinks: RouteProps[] = [
   {
     label: 'Visas preces',
     href: '/products',

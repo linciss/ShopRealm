@@ -5,18 +5,20 @@ import { DropdownMenuItem } from '../ui/dropdown-menu';
 import { switchRole } from '../../../actions/switch-role';
 
 interface RoleSwitcherProps {
-  id: string | undefined;
+  role: string | undefined;
 }
 
-export const RoleSwitcherButton = ({ id }: RoleSwitcherProps) => {
+export const RoleSwitcherButton = ({ role }: RoleSwitcherProps) => {
   return (
     <Link
       href={''}
       onClick={() => {
-        switchRole(id);
+        switchRole();
       }}
     >
-      <DropdownMenuItem>Veikala rezims</DropdownMenuItem>
+      <DropdownMenuItem>
+        {role === 'STORE' ? 'Lietotaja rezims' : 'Veikala rezims'}
+      </DropdownMenuItem>
     </Link>
   );
 };
