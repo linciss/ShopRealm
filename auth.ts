@@ -12,7 +12,7 @@ declare module 'next-auth' {
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   pages: {
-    signIn: '/auth/signin',
+    signIn: '/auth/sign-in',
     signOut: '/auth/signout',
     error: '/auth/error',
   },
@@ -27,7 +27,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       return true;
     },
     async session({ token, session }) {
-      if (token.sub) {
+      if (token.sub && session.user) {
         try {
           const user = await getUserById(token.sub);
 

@@ -26,7 +26,7 @@ export default {
           return null;
         }
         //  checks if the password matches the hashed password in the db
-        const passwordMatch = bcrypt.compare(password, user.password);
+        const passwordMatch = await bcrypt.compare(password, user.password);
 
         if (!passwordMatch) {
           return null;
