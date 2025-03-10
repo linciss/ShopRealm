@@ -3,30 +3,40 @@
 import { z } from 'zod';
 import prisma from '@/lib/db';
 import { addressInfoSchema } from '../schemas';
+import { auth } from '../auth';
 
 export const editUserAddress = async (
   data: z.infer<typeof addressInfoSchema>,
-  userId: string,
 ) => {
   const validateData = addressInfoSchema.safeParse(data);
+  const session = await auth();
+
+  if (!session?.user?.id) return { error: 'Autorizacijas kluda' };
 
   if (!validateData.success) {
     return { error: 'Kluda mainot datus!' };
   }
 
-  const { street, city, country, postalCode } = validateData.data;
+  try {
+    const userId = session?.user?.id;
 
-  console.log(street, city, country, postalCode);
+    const { street, city, country, postalCode } = validateData.data;
 
-  await prisma.address.update({
-    where: { userId: userId },
-    data: {
-      street,
-      city,
-      country,
-      postalCode,
-    },
-  });
+    console.log(street, city, country, postalCode);
 
-  return { success: 'Informacija samainita!' };
+    await prisma.address.update({
+      where: { userId: userId },
+      data: {
+        street,
+        city,
+        country,
+        postalCode,
+      },
+    });
+
+    return { success: 'Informacija samainita!' };
+  } catch (err) {
+    console.log(err);
+    return { error: 'Kļūda apstrādājot datus' };
+  }
 };

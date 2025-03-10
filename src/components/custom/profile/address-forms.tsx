@@ -28,7 +28,6 @@ import { editUserAddress } from '../../../../actions/edit-address';
 
 interface AddressFormsProps {
   userAddress: {
-    id: string;
     street: string | null;
     city: string | null;
     country: string | null;
@@ -53,10 +52,8 @@ export const AddressForms = ({ userAddress }: AddressFormsProps) => {
   const [isPending, startTransition] = useTransition();
 
   function onSubmit(data: z.infer<typeof addressInfoSchema>) {
-    console.log(data);
-
     startTransition(() => {
-      editUserAddress(data, userAddress.id).then((res) => {
+      editUserAddress(data).then((res) => {
         if (res?.error) {
           setError(res?.error);
         } else {

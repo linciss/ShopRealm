@@ -23,7 +23,6 @@ import { editUserProfile } from '../../../../actions/edit-user';
 
 interface PersonalFormsProps {
   userData: {
-    id: string;
     name: string;
     lastName: string;
     email: string;
@@ -53,7 +52,7 @@ export const PersonalForms = ({ userData }: PersonalFormsProps) => {
     setSuccess('');
 
     startTransition(() => {
-      editUserProfile(data, userData.id).then((res) => {
+      editUserProfile(data).then((res) => {
         console.log(res);
         if (res?.error) {
           setError(res?.error);

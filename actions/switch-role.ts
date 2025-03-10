@@ -2,17 +2,34 @@
 
 import prisma from '@/lib/db';
 import { getUserRole } from '../data/user';
+import { checkHasStore } from '../data/store';
+import { auth } from '../auth';
 
-export const switchRole = async (id: string | undefined) => {
-  const userRole = await getUserRole(id);
+export const switchRole = async () => {
+  const session = await auth();
 
-  if (!userRole) return { error: 'Kluda' };
+  if (!session?.user) return { error: 'Kluda!' };
 
-  const { role } = userRole;
+  try {
+    const id = session?.user?.id;
 
-  if (role === 'SHOPPER') {
-    return await prisma.user.update({ where: { id }, data: { role: 'STORE' } });
+    const userRole = await getUserRole(id);
+
+    if (!userRole) return { error: 'Kluda' };
+
+    const { role } = userRole;
+
+    if (role === 'SHOPPER') {
+      await prisma.user.update({ where: { id }, data: { role: 'STORE' } });
+      await checkHasStore();
+    }
+
+    return await prisma.user.update({
+      where: { id },
+      data: { role: 'SHOPPER' },
+    });
+  } catch (err) {
+    console.log(err);
+    return { error: 'Kļūda apstrādājot datus' };
   }
-
-  return await prisma.user.update({ where: { id }, data: { role: 'SHOPPER' } });
 };

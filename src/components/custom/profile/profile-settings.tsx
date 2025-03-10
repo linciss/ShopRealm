@@ -66,12 +66,10 @@ export const ProfileSettings = async () => {
           </TabsList>
           <TabsContent value='profile' className='w-full space-y-20'>
             <PersonalInformation cardTitle='Personala informacija'>
-              <PersonalForms userData={{ ...userData, id: session.user.id }} />
+              <PersonalForms userData={userData} />
             </PersonalInformation>
             <PersonalInformation cardTitle='Adreses informacija'>
-              <AddressForms
-                userAddress={{ ...userAddress, id: session.user.id }}
-              />
+              <AddressForms userAddress={userAddress} />
             </PersonalInformation>
           </TabsContent>
           <TabsContent value='orders'>orders</TabsContent>
