@@ -21,7 +21,7 @@ export const CreateStore = async () => {
       <p className='text-base font-normal text-muted-foreground'>
         Izveido savu veikalu uz Shop Sphere platformas un sāc pārdot produktus.
       </p>
-      <StoreForms userId={session.user.id} phone={userData?.phone} />
+      <StoreForms phone={userData?.phone || ''} />
     </div>
   );
 };

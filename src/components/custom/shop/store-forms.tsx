@@ -18,15 +18,17 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { useState, useTransition } from 'react';
+import { editUserStore } from '../../../../actions/edit-store';
+import { redirect } from 'next/navigation';
 
 interface UserProps {
   phone: string | null | undefined;
-  userId: string | undefined;
 }
 
-export const StoreForms = ({ phone, userId }: UserProps) => {
-  //   const [success, setSuccess] = useState<string | undefined>();
-  //   const [error, setError] = useState<string | undefined>();
+export const StoreForms = ({ phone }: UserProps) => {
+  const [success, setSuccess] = useState<string | undefined>();
+  const [error, setError] = useState<string | undefined>();
   const form = useForm<z.infer<typeof storeSchema>>({
     resolver: zodResolver(storeSchema),
     defaultValues: {
@@ -36,8 +38,24 @@ export const StoreForms = ({ phone, userId }: UserProps) => {
     },
   });
 
-  const onSubmit = async (value: z.infer<typeof storeSchema>) => {
-    console.log(value, userId);
+  const [isPending, startTransition] = useTransition();
+
+  const onSubmit = async (data: z.infer<typeof storeSchema>) => {
+    setError('');
+    setSuccess('');
+
+    startTransition(() => {
+      editUserStore(data).then((res) => {
+        if (res?.error) {
+          setError(res?.error);
+        } else {
+          setSuccess(res?.success);
+          setTimeout(() => {
+            redirect('/store');
+          }, 1000);
+        }
+      });
+    });
   };
 
   return (
@@ -53,10 +71,12 @@ export const StoreForms = ({ phone, userId }: UserProps) => {
         </p>
       </CardTitle>
       <CardContent className='p-0 text-start'>
+        {error && <div className='bg-red-500'>{error}</div>}
+        {success && <div className='bg-green-500'>{success}</div>}
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='flex flex-col space-y-8 mt-4'
+            className='flex flex-col space-y-6 mt-4'
           >
             <FormField
               control={form.control}
@@ -80,7 +100,7 @@ export const StoreForms = ({ phone, userId }: UserProps) => {
               name='description'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Parole</FormLabel>
+                  <FormLabel>Deskripcija</FormLabel>
                   <FormControl>
                     <Input placeholder='Bla bla bla' {...field} required />
                   </FormControl>
@@ -102,7 +122,7 @@ export const StoreForms = ({ phone, userId }: UserProps) => {
               )}
             />
 
-            <Button type='submit' className='mt-8' disabled={false}>
+            <Button type='submit' className='mt-8' disabled={isPending}>
               Izveidot!
             </Button>
           </form>
