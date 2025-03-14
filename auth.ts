@@ -1,12 +1,20 @@
-import NextAuth, { DefaultSession } from 'next-auth';
+import NextAuth from 'next-auth';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import authConfig from './auth.config';
 import prisma from '@/lib/db';
-import { getUserById } from './data/user';
 
+// EXTRA TYPES FOR USER INTERFACE SO I CAN STORE USER PROPS IN JWT FOR EDGE RUNTIME!!!
 declare module 'next-auth' {
-  interface Session {
-    user: { role: string } & DefaultSession['user'];
+  interface User {
+    role?: string | null;
+    hasStore?: boolean | null;
+  }
+}
+
+declare module '@auth/core/adapters' {
+  interface AdapterUser {
+    role?: string | null;
+    hasStore?: boolean | null;
   }
 }
 
@@ -16,45 +24,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     signOut: '/auth/signout',
     error: '/auth/error',
   },
-  adapter: PrismaAdapter({ prisma: prisma }),
+  adapter: PrismaAdapter(prisma),
   session: { strategy: 'jwt' },
   ...authConfig,
-  callbacks: {
-    // checks whether the user even exists in the db after login with credentials
-    async signIn({ user }) {
-      const existingUser = await getUserById(user.id ?? '');
-      if (!existingUser) return false;
-      return true;
-    },
-    async session({ token, session }) {
-      if (token.sub && session.user) {
-        try {
-          const user = await getUserById(token.sub);
-
-          if (!user) {
-            return session;
-          }
-
-          session.user.id = token.sub;
-          session.user.role = token.role as string;
-        } catch (error) {
-          console.error('Error verifying user session:', error);
-        }
-      }
-      console.log(session);
-      return session;
-    },
-    async jwt({ token }) {
-      if (!token?.sub) return token;
-      const user = await getUserById(token.sub);
-
-      if (!user) {
-        return token;
-      }
-
-      token.role = user.role;
-
-      return token;
-    },
-  },
 });
