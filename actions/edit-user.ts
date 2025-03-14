@@ -32,8 +32,10 @@ export const editUserProfile = async (
     });
 
     return { success: 'Informacija samainita!' };
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error: ', error.stack);
+    }
     return { error: 'Kļūda apstrādājot datus' };
   }
 };

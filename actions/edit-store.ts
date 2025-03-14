@@ -20,6 +20,8 @@ export const editUserStore = async (data: z.infer<typeof storeSchema>) => {
 
     const { name, description, phone } = validateData.data;
 
+    console.log(userId, name, description, phone);
+
     await prisma.store.update({
       where: { userId },
       data: {
@@ -39,8 +41,10 @@ export const editUserStore = async (data: z.infer<typeof storeSchema>) => {
     }
 
     return { success: 'Informacija samainita!' };
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error: ', error.stack);
+    }
     return { error: 'Kļūda apstrādājot datus' };
   }
 };

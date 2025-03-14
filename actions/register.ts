@@ -36,41 +36,49 @@ export const register = async (data: z.infer<typeof signUpSchema>) => {
     return { error: 'Lietotājs jau eksistē!' };
   }
 
-  // creates a new user in the db
-  await prisma.user.create({
-    data: {
-      name,
-      lastName,
+  try {
+    await prisma.user.create({
+      data: {
+        name,
+        lastName,
+        email,
+        password: hashedPassword,
+        address: {
+          create: {
+            street: '',
+            city: '',
+            country: '',
+            postalCode: '',
+          },
+        },
+        store: {
+          create: {
+            name: '',
+            description: '',
+            storePhone: '',
+            category: [],
+          },
+        },
+      },
+      include: {
+        store: true,
+        address: true,
+      },
+    });
+
+    await signIn('credentials', {
       email,
-      password: hashedPassword,
-      address: {
-        create: {
-          street: '',
-          city: '',
-          country: '',
-          postalCode: '',
-        },
-      },
-      store: {
-        create: {
-          name: '',
-          description: '',
-          storePhone: '',
-          category: [],
-        },
-      },
-    },
-    include: {
-      store: true,
-      address: true,
-    },
-  });
+      password,
+      redirectTo: DEFAULT_SIGNUP_REDIRECT,
+    });
 
-  await signIn('credentials', {
-    email,
-    password,
-    redirectTo: DEFAULT_SIGNUP_REDIRECT,
-  });
+    return { success: 'Lietotājs izveidots!' };
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error: ', error.stack);
+    }
+    return { error: 'Kļūda apstrādājot datus' };
+  }
 
-  return { success: 'Lietotājs izveidots!' };
+  // creates a new user in the db
 };
