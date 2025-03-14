@@ -4,6 +4,9 @@ import prisma from '@/lib/db';
 
 export const checkHasStore = async (withRedirect: boolean = true) => {
   const session = await auth();
+
+  if (!session?.user) return { error: 'Erorr' };
+
   let hasStore: boolean = false;
   try {
     const storeData = await prisma?.user.findFirst({
