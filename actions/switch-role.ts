@@ -2,7 +2,6 @@
 
 import prisma from '@/lib/db';
 import { getUserRole } from '../data/user';
-import { checkHasStore } from '../data/store';
 import { auth } from '../auth';
 
 export const switchRole = async () => {
@@ -20,10 +19,10 @@ export const switchRole = async () => {
     const { role } = userRole;
 
     if (role === 'SHOPPER') {
-      await prisma.user.update({ where: { id }, data: { role: 'STORE' } });
-      await checkHasStore();
-
-      return;
+      return await prisma.user.update({
+        where: { id },
+        data: { role: 'STORE' },
+      });
     }
 
     return await prisma.user.update({
