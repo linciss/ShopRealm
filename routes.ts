@@ -13,11 +13,13 @@ export const authRoutes = [
   '/auth/forgot-password',
 ];
 
-export const privateRoutes = ['/profile', '/store'];
-
 export const storeRoute = '/store';
 
 export const createStoreRoute = '/store/create';
+
+export const storeRoutes = ['/store', '/store/items'];
+
+export const privateRoutes = ['/profile', ...storeRoutes];
 
 export const apiAuthPrefix = '/api/auth';
 
