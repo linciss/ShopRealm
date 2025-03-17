@@ -1,33 +1,30 @@
 'use server';
 
 import prisma from '@/lib/db';
-import { getUserRole } from '../data/user';
-import { auth } from '../auth';
+import { auth, signOut } from '../auth';
+import { Role } from '@prisma/client';
 
 export const switchRole = async () => {
   const session = await auth();
 
   if (!session?.user) return { error: 'Kluda!' };
 
+  console.log(session?.user?.role);
+
+  let newRole: Role;
+
   try {
     const id = session?.user?.id;
 
-    const userRole = await getUserRole(id);
+    const role = session?.user?.role;
 
-    if (!userRole) return { error: 'Kluda' };
+    newRole = role === 'SHOPPER' ? 'STORE' : 'SHOPPER';
 
-    const { role } = userRole;
+    if (!role) return { error: 'Kluda' };
 
-    if (role === 'SHOPPER') {
-      return await prisma.user.update({
-        where: { id },
-        data: { role: 'STORE' },
-      });
-    }
-
-    return await prisma.user.update({
+    await prisma.user.update({
       where: { id },
-      data: { role: 'SHOPPER' },
+      data: { role: newRole },
     });
   } catch (error) {
     if (error instanceof Error) {
@@ -35,4 +32,8 @@ export const switchRole = async () => {
     }
     return { error: 'Kļūda apstrādājot datus' };
   }
+
+  await signOut({
+    redirectTo: '/auth/sign-in',
+  });
 };

@@ -1,23 +1,22 @@
-export const publicRoutes = [
-  '/',
-  '/about',
+export const shopperRoutes = [
+  '/cart',
+  '/checkout',
   '/products',
   '/products/[id]',
   '/sale',
   '/new',
   '/categories',
 ];
+
+export const publicRoutes = ['/', '/about', ...shopperRoutes];
+
 export const authRoutes = [
   '/auth/sign-in',
   '/auth/sign-up',
   '/auth/forgot-password',
 ];
 
-export const storeRoute = '/store';
-
-export const createStoreRoute = '/store/create';
-
-export const storeRoutes = ['/store', '/store/items'];
+export const storeRoutes = ['/store', '/store/items', '/store/create'];
 
 export const privateRoutes = ['/profile', ...storeRoutes];
 
