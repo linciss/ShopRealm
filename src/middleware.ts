@@ -21,10 +21,7 @@ export default auth(async (req) => {
   const token = await getToken({
     req,
     secret,
-    salt:
-      process.env.NODE_ENV === 'development'
-        ? 'authjs.session-token'
-        : '__Secure-authjs.session-token',
+    salt: '__Secure-authjs.session-token',
   });
 
   const session = {
