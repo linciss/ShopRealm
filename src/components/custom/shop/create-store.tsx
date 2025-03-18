@@ -1,20 +1,8 @@
-import prisma from '@/lib/db';
-import { auth } from '../../../../auth';
+import { getUserData } from '../../../../data/user-data';
 import { StoreForms } from './store-forms';
 
 export const CreateStore = async () => {
-  const session = await auth();
-
-  if (!session?.user) return null;
-
-  const userData = await prisma.user.findFirst({
-    where: {
-      id: session.user.id,
-    },
-    select: {
-      phone: true,
-    },
-  });
+  const userData = await getUserData();
   return (
     <div className='flex flex-col mx-auto text-center gap-3 justify-center container max-w-3xl'>
       <h1 className='text-4xl font-semibold'>Izverido savu veikalu!</h1>

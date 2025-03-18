@@ -1,39 +1,15 @@
-import prisma from '@/lib/db';
-import { auth } from '../../../../auth';
 import { PersonalInformation } from './personal-information';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PersonalForms } from './personal-forms';
 import { AddressForms } from './address-forms';
+import { getUserAddress, getUserData } from '../../../../data/user-data';
 
 export const ProfileSettings = async () => {
-  const session = await auth();
+  const userData = await getUserData();
 
-  if (!session?.user) return null;
+  const userAddress = await getUserAddress();
 
-  const userData = await prisma.user.findUnique({
-    where: { id: session.user.id },
-    select: {
-      email: true,
-      name: true,
-      lastName: true,
-      UUID: true,
-      phone: true,
-    },
-  });
-
-  const userAddress = await prisma.address.findFirst({
-    where: {
-      userId: session.user.id,
-    },
-    select: {
-      street: true,
-      city: true,
-      country: true,
-      postalCode: true,
-    },
-  });
-
-  if (!userData || !userAddress || !session.user.id) return null;
+  if (!userData || !userAddress) return null;
 
   return (
     <div>

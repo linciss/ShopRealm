@@ -54,10 +54,12 @@ export const NavigationBar = async () => {
           <div className='flex flex-1 items-center justify-end  space-x-4  '>
             <RoleSwitcher session={session} />
 
-            <Button variant='ghost' size='icon'>
-              <ShoppingCart className='h-5 w-5' />
-              <span className='sr-only'>Cart</span>
-            </Button>
+            {session?.user.role === 'SHOPPER' && (
+              <Button variant='ghost' size='icon'>
+                <ShoppingCart className='h-5 w-5' />
+                <span className='sr-only'>Cart</span>
+              </Button>
+            )}
 
             {session ? (
               <>
@@ -106,99 +108,3 @@ export const NavigationBar = async () => {
     </header>
   );
 };
-
-//   <header className='sticky top-0 z-50 w-full border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
-//     <div className='container flex h-14 max-w-screen-2xl items-center justify-between'>
-//       <Link href='/' className='flex items-center gap-3' prefetch={false}>
-//         <span className='text-lg font-semibold'>Shop Sphere</span>
-//         <span className='sr-only'>Shop Sphere</span>
-//       </Link>
-//       <nav className='hidden md:flex gap-4'>
-//         {links.map(({ label, href }) =>
-//           label === 'Veikals' ? (
-//             <NavigationMenu key={label}>
-//               <NavigationMenuList>
-//                 <NavigationMenuItem>
-//                   <NavigationMenuTrigger className='relative font-semibold flex items-center text-sm transition-colors !bg-transparent'>
-//                     Veikals
-//                   </NavigationMenuTrigger>
-//                   <NavigationMenuContent>
-//                     <ul className='grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] '>
-//                       {linksToMap.map((link) => (
-//                         <ListItem key={link.label} {...link}>
-//                           {link.description}
-//                         </ListItem>
-//                       ))}
-//                     </ul>
-//                   </NavigationMenuContent>
-//                 </NavigationMenuItem>
-//               </NavigationMenuList>
-//             </NavigationMenu>
-//           ) : (
-//             <Link
-//               key={href}
-//               href={href}
-//               className='relative font-semibold flex items-center text-sm transition-colors
-//                 after:absolute after:h-[3px] after:bg-foreground after:w-full after:scale-x-0 after:hover:scale-x-100 after:transition after:duration-300 after:origin-center after:bottom-0 after:left-0'
-//               prefetch={true}
-//             >
-//               {label}
-//             </Link>
-//           ),
-//         )}
-//       </nav>
-
-//       <div className='flex items-center gap-4'>
-//         {session ? (
-//           <>
-//             <DropdownMenu>
-//               <DropdownMenuTrigger>
-//                 <Avatar>
-//                   <AvatarImage
-//                     src='https://github.com/shadcn.png'
-//                     alt='Profile Icon'
-//                   />
-//                   <AvatarFallback>CN</AvatarFallback>
-//                 </Avatar>
-//               </DropdownMenuTrigger>
-//               <DropdownMenuContent>
-//                 <DropdownMenuLabel>Mans konts</DropdownMenuLabel>
-//                 <DropdownMenuSeparator />
-//                 <Link href={'/profile'}>
-//                   <DropdownMenuItem>Profils </DropdownMenuItem>
-//                 </Link>
-//                 <Link href={'/favorites'}>
-//                   <DropdownMenuItem>Mani favoriti</DropdownMenuItem>
-//                 </Link>
-//                 <RoleSwitcherButton role={session?.user?.role} />
-//                 <SignOutButton>
-//                   <DropdownMenuItem>Iziet</DropdownMenuItem>
-//                 </SignOutButton>
-//               </DropdownMenuContent>
-//             </DropdownMenu>
-//           </>
-//         ) : (
-//           <>
-//             <Link
-//               href='/auth/sign-in'
-//               className='hidden md:flex'
-//               prefetch={true}
-//             >
-//               <Button variant='outline' size='sm'>
-//                 Pierakstīties
-//               </Button>
-//             </Link>
-//             <Link
-//               href='/auth/sign-up'
-//               className='hidden md:flex'
-//               prefetch={true}
-//             >
-//               <Button size='sm'>Reģistrēties</Button>
-//             </Link>
-//           </>
-//         )}
-//         <ThemeToggle />
-//       </div>
-//     </div>
-//   </header>
-// );

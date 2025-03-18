@@ -1,4 +1,3 @@
-import { SessionProvider } from 'next-auth/react';
 import { auth } from '../../../auth';
 
 export default async function ProtectedLayout({
@@ -8,11 +7,14 @@ export default async function ProtectedLayout({
 }) {
   const session = await auth();
 
+  if (!session?.user?.id) {
+    return;
+  }
   return (
-    <div className='relative flex min-h-screen flex-col container'>
-      <SessionProvider session={session}>
-        <div className='sm:px-10 px-0'>{children}</div>
-      </SessionProvider>
+    <div className='flex min-h-screen flex-col container'>
+      <div className='flex flex-1'>
+        <div className='flex-1'>{children}</div>
+      </div>
     </div>
   );
 }
