@@ -5,6 +5,7 @@ import prisma from '@/lib/db';
 import { storeSchema } from '../schemas';
 import { checkHasStore } from '../data/store';
 import { auth } from '../auth';
+import { slugify } from '@/lib/utils';
 
 export const editUserStore = async (data: z.infer<typeof storeSchema>) => {
   const session = await auth();
@@ -20,7 +21,27 @@ export const editUserStore = async (data: z.infer<typeof storeSchema>) => {
 
     const { name, description, phone } = validateData.data;
 
-    console.log(userId, name, description, phone);
+    if (!(await checkHasStore(false))) {
+      await prisma.store.create({
+        data: {
+          name,
+          description,
+          storePhone: phone,
+          user: {
+            connect: { id: userId },
+          },
+          slug: slugify(name),
+        },
+      });
+
+      await prisma.user.update({
+        where: { id: userId },
+        data: {
+          hasStore: true,
+        },
+      });
+      return { success: 'Informacija samainita!' };
+    }
 
     await prisma.store.update({
       where: { userId },
@@ -28,17 +49,9 @@ export const editUserStore = async (data: z.infer<typeof storeSchema>) => {
         name,
         description,
         storePhone: phone,
+        slug: slugify(name),
       },
     });
-
-    if (!(await checkHasStore(false))) {
-      await prisma.user.update({
-        where: { id: userId },
-        data: {
-          hasStore: true,
-        },
-      });
-    }
 
     return { success: 'Informacija samainita!' };
   } catch (error) {
