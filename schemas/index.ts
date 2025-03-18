@@ -93,7 +93,8 @@ export const addressInfoSchema = z.object({
 export const storeSchema = z.object({
   name: z
     .string()
-    .min(3, { message: 'Nosaukumam jābūt vismaz 3 simboliem garam' }),
+    .min(3, { message: 'Nosaukumam jābūt vismaz 3 simboliem garam' })
+    .refine((value) => /^[a-zA-Z]+[-'s]?[a-zA-Z ]+$/.test(value ?? '')),
   description: z.string().min(10, { message: 'Jabut noraditam descriptionam' }),
   phone: z
     .string()
