@@ -17,10 +17,10 @@ export default async function StoreLayout({
   const storeName: string | undefined = await getStoreName();
 
   return (
-    <div className='flex min-h-screen flex-col'>
+    <div className='flex min-h-screen flex-col max-w-full'>
       <div className='flex flex-1'>
         <StoreNavigation storeName={storeName || ''} />
-        <div className='flex-1 container '>{children}</div>
+        <div className='flex-1 '>{children}</div>
       </div>
     </div>
   );

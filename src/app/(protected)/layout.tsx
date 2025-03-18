@@ -11,9 +11,9 @@ export default async function ProtectedLayout({
     return;
   }
   return (
-    <div className='flex min-h-screen flex-col container'>
+    <div className='flex min-h-screen flex-col'>
       <div className='flex flex-1'>
-        <div className='flex-1'>{children}</div>
+        <div className='w-full'>{children}</div>
       </div>
     </div>
   );
