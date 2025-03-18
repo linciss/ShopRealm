@@ -36,7 +36,7 @@ export function StoreNavigation({ storeName }: StoreNavigationProps) {
   ];
 
   return (
-    <div className='flex flex-col min-h-full w-64 border-r bg-card'>
+    <div className=' flex-col min-h-full w-64 border-r bg-card md:flex hidden'>
       <div className='p-6'>
         <div className='flex items-center gap-2 mb-6'>
           <Store className='h-6 w-6 text-primary' />
