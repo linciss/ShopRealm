@@ -32,8 +32,6 @@ export default auth(async (req) => {
     role: token?.role,
   };
 
-  console.log(session);
-
   const isLoggedIn = !!req.auth;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
