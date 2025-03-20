@@ -8,7 +8,7 @@ export const shopperRoutes = [
   '/categories',
 ];
 
-export const publicRoutes = ['/', '/about', ...shopperRoutes];
+export const publicRoutes = ['/about-us', ...shopperRoutes];
 
 export const authRoutes = [
   '/auth/sign-in',
