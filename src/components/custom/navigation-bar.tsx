@@ -18,6 +18,7 @@ import { auth } from '../../../auth';
 import { Menu, ShoppingCart, User } from 'lucide-react';
 import { NavigationShopper } from './navigation-shopper';
 import RoleSwitcher from './role-switcher';
+import { ThemeToggle } from './theme-toggle';
 
 //  navigation component for the website
 export const NavigationBar = async () => {
@@ -102,6 +103,7 @@ export const NavigationBar = async () => {
                 </Link>
               </>
             )}
+            <ThemeToggle />
           </div>
         </div>
       </div>
