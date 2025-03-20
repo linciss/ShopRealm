@@ -101,3 +101,57 @@ export const storeSchema = z.object({
     .min(8, { message: 'Talruna numuram jabut pareizam' })
     .max(8, { message: 'Talruna numuram jabut pareizam' }),
 });
+
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const ACCEPTED_IMAGE_TYPES = [
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/webp',
+];
+
+export const productSchema = z.object({
+  name: z
+    .string()
+    .min(3, { message: 'Nosakumuma jabut normala,' })
+    .refine((value) => /^[a-zA-Z]+[-'s]?[a-zA-Z ]+$/.test(value ?? ''), {
+      message: 'Produjkta nosaukumam  jabut normalam',
+    }),
+  description: z.any(),
+  price: z
+    .number()
+    .refine(
+      (val) =>
+        !isNaN(Number.parseFloat(val.toString())) &&
+        Number.parseFloat(val.toString()) >= 0,
+      {
+        message: 'Vajag cenu!',
+      },
+    ),
+  category: z
+    .array(z.string())
+    .min(1, { message: 'Jbaut vismaz 1 kategorijai' }),
+  // image: z
+  //   .unknown()
+  //   .transform((value) => {
+  //     return value as FileList;
+  //   })
+  //   // .refine((files) => files.length > 0, { message: 'Vajag bilid!' })
+  //   .refine((files) => files[0]?.size <= MAX_FILE_SIZE, {
+  //     message: `Maksimalais izmers ir 5MB`,
+  //   })
+  //   .refine((files) => ACCEPTED_IMAGE_TYPES.includes(files[0]?.type), {
+  //     message: 'Tiaki .jpg, .jpeg, .png and .webp foramtus var.',
+  //   }),
+  quantity: z
+    .number()
+    .refine(
+      (val) =>
+        !isNaN(Number.parseInt(val.toString())) &&
+        Number.parseInt(val.toString()) >= 0,
+      {
+        message: 'Vajag daduzumui',
+      },
+    ),
+  isActive: z.boolean(),
+});
