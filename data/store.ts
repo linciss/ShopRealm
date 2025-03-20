@@ -1,3 +1,5 @@
+'use server';
+
 import { redirect } from 'next/navigation';
 import { auth } from '../auth';
 import prisma from '@/lib/db';
@@ -12,6 +14,8 @@ export const checkHasStore = async (withRedirect: boolean = true) => {
     const storeData = await prisma?.user.findFirst({
       where: { id: session?.user.id, hasStore: true },
     });
+
+    if (!storeData) return;
 
     hasStore = storeData?.hasStore ?? false;
   } catch (err) {
@@ -39,9 +43,14 @@ export const getStoreName = async () => {
       where: { userId },
     });
 
+    if (!storeData) return;
+
     return storeData?.name as string;
-  } catch (err) {
-    console.log('Error: ', err);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error: ', error.stack);
+    }
+    return;
   }
 };
 
@@ -57,8 +66,59 @@ export const getStoreSlug = async () => {
       where: { userId },
     });
 
+    if (!storeData) return;
+
     return storeData?.slug as string;
-  } catch (err) {
-    console.log('Error: ', err);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error: ', error.stack);
+    }
+    return { error: 'Kļūda apstrādājot datus' };
+  }
+};
+
+export const getStoreData = async () => {
+  const session = await auth();
+
+  if (!session) return;
+
+  const userId = session?.user.id;
+
+  try {
+    const storeData = await prisma?.store.findFirst({
+      where: { userId },
+    });
+
+    if (!storeData) return;
+
+    return storeData;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error: ', error.stack);
+    }
+    return { error: 'Kļūda apstrādājot datus' };
+  }
+};
+
+export const getStoreId = async () => {
+  const session = await auth();
+
+  if (!session) return;
+
+  const userId = session?.user.id;
+
+  try {
+    const storeData = await prisma?.store.findFirst({
+      where: { userId },
+    });
+
+    if (!storeData) return;
+
+    return storeData?.id;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error: ', error.stack);
+    }
+    return { error: 'Kļūda apstrādājot datus' };
   }
 };
