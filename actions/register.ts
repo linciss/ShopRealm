@@ -22,19 +22,19 @@ export const register = async (data: z.infer<typeof signUpSchema>) => {
   const { email, password, passwordConfirmation, name, lastName } =
     validateData.data;
 
-  // checks if passwords match
-  if (password !== passwordConfirmation) {
-    return { error: 'Paroles nesakrīt!' };
-  }
-  // hashes the password using bcrypt
-  const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
-
   const existingUser = await getUserByEmail(email);
 
   //  checks if user already exists
   if (existingUser) {
     return { error: 'Lietotājs jau eksistē!' };
   }
+
+  // checks if passwords match
+  if (password !== passwordConfirmation) {
+    return { error: 'Paroles nesakrīt!' };
+  }
+  // hashes the password using bcrypt
+  const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
 
   try {
     // creates a new user in the db
