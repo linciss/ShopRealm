@@ -5,7 +5,7 @@ import Link from 'next/link';
 
 export default async function Store() {
   return (
-    <div className='space-y-4 p-8 pt-6 mx-auto'>
+    <div className='space-y-4 mx-auto'>
       <div className='flex items-center flex-row gap-4'>
         <Link href={`/store/products`}>
           <Button>

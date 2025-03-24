@@ -19,10 +19,10 @@ export default async function StoreLayout({
   console.log(storeName);
 
   return (
-    <div className='flex min-h-screen flex-col max-w-full'>
+    <div className='flex min-h-screen flex-col max-w-full '>
       <div className='flex flex-1'>
         <StoreNavigation storeName={storeName || ''} />
-        <div className='flex-1 max-w-7xl mx-auto'>{children}</div>
+        <div className='flex-1 max-w-7xl mx-auto p-8 pt-6'>{children}</div>
       </div>
     </div>
   );

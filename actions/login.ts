@@ -26,7 +26,7 @@ export const login = async (data: z.infer<typeof signInSchema>) => {
       redirect: false,
     });
 
-    return { success: 'Logged in!' };
+    return { success: 'Ielogojies!!' };
   } catch (e) {
     if (e instanceof AuthError) {
       switch (e.type) {
