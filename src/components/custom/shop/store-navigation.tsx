@@ -20,11 +20,12 @@ export function StoreNavigation({ storeName }: StoreNavigationProps) {
       active: pathname === '/store',
     },
     {
-      href: '/store/items',
+      href: '/store/products',
       icon: Package,
       label: 'Produkti',
       active:
-        pathname === '/store/items' || pathname.startsWith('/store/items/'),
+        pathname === '/store/products' ||
+        pathname.startsWith('/store/products/'),
     },
     {
       href: '/store/orders',

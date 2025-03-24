@@ -16,7 +16,7 @@ export const authRoutes = [
   '/auth/forgot-password',
 ];
 
-export const storeRoutes = ['/store', '/store/items', '/create-store'];
+export const storeRoutes = ['/store', '/store/products', '/create-store'];
 
 export const privateRoutes = ['/profile', ...storeRoutes];
 

@@ -7,7 +7,7 @@ export default async function Store() {
   return (
     <div className='space-y-4 p-8 pt-6 mx-auto'>
       <div className='flex items-center flex-row gap-4'>
-        <Link href={`/store/items`}>
+        <Link href={`/store/products`}>
           <Button>
             <ArrowLeft />
             Atpakal
@@ -18,7 +18,7 @@ export default async function Store() {
         </h1>
         <div className='space-x-2 flex-nowrap flex flex-row'></div>
       </div>
-      <div className='flex lg:flex-row flex-col gap-4 max-w-7xl mx-auto '>
+      <div className=' mx-auto space-y-4'>
         <NewProductForm />
       </div>
     </div>

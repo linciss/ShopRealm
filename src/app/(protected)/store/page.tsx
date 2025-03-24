@@ -11,13 +11,13 @@ export default async function Store() {
           informācijas panelis
         </h1>
         <div className='space-x-2 flex-nowrap flex flex-row'>
-          <Link href={`/store/items`}>
+          <Link href={`/store/products`}>
             <Button>
               <Plus />
               Pievienot preci
             </Button>
           </Link>
-          <Link href={`/store/items`}>
+          <Link href={`/store/products`}>
             <Button variant={'secondary'}>
               <Eye />
               Paradit veikalu
