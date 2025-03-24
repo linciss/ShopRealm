@@ -5,6 +5,7 @@ import { NavigationBar } from '@/components/custom/navigation-bar';
 import { ThemeProvider } from '@/components/ui/theme-provider';
 import { auth } from '../../auth';
 import { SessionProvider } from 'next-auth/react';
+import { Toaster } from '@/components/ui/toaster';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -45,6 +46,7 @@ export default async function RootLayout({
               <div className='flex-1'>{children}</div>
             </SessionProvider>
           </div>
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

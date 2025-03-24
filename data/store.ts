@@ -9,7 +9,7 @@ export const checkHasStore = async (withRedirect: boolean = true) => {
 
   let hasStore: boolean = false;
   try {
-    const storeData = await prisma?.user.findFirst({
+    const storeData = await prisma?.user.findUnique({
       where: { id: session?.user.id, hasStore: true },
     });
 
@@ -37,7 +37,7 @@ export const getStoreName = async () => {
   const userId = session?.user.id;
 
   try {
-    const storeData = await prisma?.store.findFirst({
+    const storeData = await prisma?.store.findUnique({
       where: { userId },
     });
 
@@ -60,7 +60,7 @@ export const getStoreSlug = async () => {
   const userId = session?.user.id;
 
   try {
-    const storeData = await prisma?.store.findFirst({
+    const storeData = await prisma?.store.findUnique({
       where: { userId },
     });
 
@@ -78,12 +78,12 @@ export const getStoreSlug = async () => {
 export const getStoreData = async () => {
   const session = await auth();
 
-  if (!session) return;
+  if (!session?.user) return;
 
   const userId = session?.user.id;
 
   try {
-    const storeData = await prisma?.store.findFirst({
+    const storeData = await prisma?.store.findUnique({
       where: { userId },
     });
 
@@ -101,12 +101,12 @@ export const getStoreData = async () => {
 export const getStoreId = async () => {
   const session = await auth();
 
-  if (!session) return;
+  if (!session?.user) return;
 
   const userId = session?.user.id;
 
   try {
-    const storeData = await prisma?.store.findFirst({
+    const storeData = await prisma?.store.findUnique({
       where: { userId },
     });
 
@@ -118,5 +118,39 @@ export const getStoreId = async () => {
       console.log('Error: ', error.stack);
     }
     return { error: 'Kļūda apstrādājot datus' };
+  }
+};
+
+export const getProducts = async () => {
+  const session = await auth();
+  if (!session?.user) return;
+
+  const userId = session?.user.id;
+
+  try {
+    const storeData = await prisma?.store.findUnique({
+      where: { userId },
+      select: {
+        products: {
+          select: {
+            id: true,
+            name: true,
+            isActive: true,
+            image: true,
+            price: true,
+            quantity: true,
+          },
+        },
+      },
+    });
+
+    if (!storeData) return;
+
+    return storeData?.products;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error: ', error.stack);
+    }
+    return;
   }
 };
