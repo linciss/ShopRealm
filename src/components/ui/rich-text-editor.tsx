@@ -47,6 +47,7 @@ const RichTextEditor = forwardRef<RichTextEditorRef, RichTextEditorProps>(
     ref,
   ) => {
     const editor = useEditor({
+      immediatelyRender: false,
       extensions: [
         StarterKit.configure({
           heading: {
