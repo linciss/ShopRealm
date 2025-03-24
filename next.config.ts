@@ -20,7 +20,9 @@ const nextConfig: NextConfig = {
           {
             key: 'Content-Security-Policy',
             value:
-              "default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'",
+              process.env.NODE_ENV === 'development'
+                ? "default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self' ws: wss:; img-src 'self' data: https://i.imgur.com; font-src 'self' data:;"
+                : "default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'; connect-src 'self'; img-src 'self' data: https://i.imgur.com; font-src 'self' data:; frame-src 'none'; object-src 'none'; base-uri 'self';",
           },
         ],
       },
