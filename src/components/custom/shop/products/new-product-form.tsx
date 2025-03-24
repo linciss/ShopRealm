@@ -20,15 +20,17 @@ import { RichTextEditor } from '@/components/ui/rich-text-editor';
 import { createProduct } from '../../../../../actions/create-product';
 import Link from 'next/link';
 import { Switch } from '@/components/ui/switch';
-// import Image from 'next/image';
-// import { Upload, X } from 'lucide-react';
+
 import { productSchema } from '../../../../../schemas';
+import { Upload, X } from 'lucide-react';
+import Image from 'next/image';
+import { Checkbox } from '@/components/ui/checkbox';
 
 export const NewProductForm = () => {
   const [success, setSuccess] = useState<string | undefined>();
   const [error, setError] = useState<string | undefined>();
   const [isPending, startTransition] = useTransition();
-  // const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
@@ -38,22 +40,22 @@ export const NewProductForm = () => {
       price: 0.0,
       quantity: 1,
       isActive: true,
-      // image: undefined,
+      image: undefined,
       category: [''],
     },
   });
 
-  // function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
-  //   const file = e.target.files?.[0];
-  //   if (file) {
-  //     form.setValue('image', e.target.files as FileList);
-  //     const reader = new FileReader();
-  //     reader.onloadend = () => {
-  //       setImagePreview(reader.result as string);
-  //     };
-  //     reader.readAsDataURL(file);
-  //   }
-  // }
+  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    if (file) {
+      form.setValue('image', e.target.files as FileList);
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  }
 
   const onSubmit = async (data: z.infer<typeof productSchema>) => {
     setError('');
@@ -213,10 +215,10 @@ export const NewProductForm = () => {
               </CardContent>
             </Card>
 
-            <div className='flex flex-col w-full '>
+            <div className='flex flex-col w-full gap-4'>
               {/* 2nd CARD */}
 
-              {/* <Card className='w-full p-8 text-start space-y-4'>
+              <Card className='w-full p-8 text-start space-y-4'>
                 <CardTitle className='flex flex-col gap-2'>
                   <h2 className='text-2xl font-semibold leading-none tracking-tight'>
                     Produkta bilde
@@ -228,7 +230,7 @@ export const NewProductForm = () => {
                 <CardContent className='p-0 text-start space-y-4'>
                   <FormField
                     control={form.control}
-                    name='name'
+                    name='image'
                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     render={({ field: { value, onChange, ...fieldProps } }) => (
                       <FormItem>
@@ -258,6 +260,7 @@ export const NewProductForm = () => {
                                     className='absolute top-2 right-2 h-8 w-8'
                                     onClick={() => {
                                       setImagePreview(null);
+                                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
                                       form.setValue('image', undefined as any);
                                     }}
                                   >
@@ -296,7 +299,72 @@ export const NewProductForm = () => {
                     )}
                   />
                 </CardContent>
-              </Card> */}
+              </Card>
+              <Card className='w-full p-8 text-start space-y-4 h-full'>
+                <CardTitle className='flex flex-col gap-2'>
+                  <h2 className='text-2xl font-semibold leading-none tracking-tight'>
+                    Produkta katoegirjas
+                  </h2>
+                  <p className='text-sm font-normal text-muted-foreground'>
+                    Iedsod kateogriju produktam
+                  </p>
+                </CardTitle>
+                <CardContent className='p-0 text-start space-y-4'>
+                  <FormField
+                    control={form.control}
+                    name='category'
+                    render={() => (
+                      <FormItem className='space-y-1'>
+                        <div className='mb-4'>
+                          <FormLabel className='text-lg font-semibold leading-none tracking-tight'>
+                            Kategorijas
+                          </FormLabel>
+                          <FormDescription>
+                            Izvelies vismaz vienu kategoriju
+                          </FormDescription>
+                        </div>
+                        {items.map((item) => (
+                          <FormField
+                            key={item.id}
+                            control={form.control}
+                            name='category'
+                            render={({ field }) => {
+                              return (
+                                <FormItem
+                                  key={item.id}
+                                  className='flex flex-row items-start space-x-3 space-y-0'
+                                >
+                                  <FormControl>
+                                    <Checkbox
+                                      checked={field.value?.includes(item.id)}
+                                      onCheckedChange={(checked) => {
+                                        return checked
+                                          ? field.onChange([
+                                              ...field.value,
+                                              item.id,
+                                            ])
+                                          : field.onChange(
+                                              field.value?.filter(
+                                                (value) => value !== item.id,
+                                              ),
+                                            );
+                                      }}
+                                    />
+                                  </FormControl>
+                                  <FormLabel className='text-sm font-normal'>
+                                    {item.label}
+                                  </FormLabel>
+                                </FormItem>
+                              );
+                            }}
+                          />
+                        ))}
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </CardContent>
+              </Card>
             </div>
           </div>
           <div className='self-end space-x-4 mt-8 '>
@@ -313,3 +381,46 @@ export const NewProductForm = () => {
     </>
   );
 };
+
+const items = [
+  {
+    id: 'electronics',
+    label: 'Elektronika',
+  },
+  {
+    id: 'clothing',
+    label: 'Apgerbs',
+  },
+  {
+    id: 'home',
+    label: 'Majas un virtuve',
+  },
+  {
+    id: 'beauty',
+    label: 'Veseliba un skaistums',
+  },
+  {
+    id: 'sports',
+    label: 'Sports un atputa',
+  },
+  {
+    id: 'toys',
+    label: 'Rotaļlietas un spēles',
+  },
+  {
+    id: 'books',
+    label: 'Gramatas un mediji',
+  },
+  {
+    id: 'health',
+    label: 'Veseliba un labklajiba',
+  },
+  {
+    id: 'automotive',
+    label: 'Auto un motocikli',
+  },
+  {
+    id: 'jewelry',
+    label: 'Rotaslietas un aksesuari',
+  },
+];
