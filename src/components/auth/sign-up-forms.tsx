@@ -16,8 +16,7 @@ import {
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { register } from '../../../actions/register';
-import { FormError } from '../custom/form-error';
-import { FormSuccess } from '../custom/form-success';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
 import { redirect } from 'next/navigation';
@@ -65,8 +64,6 @@ export const SignUpForms = () => {
       footerText='Jau ir konts? Pieslēdzies un izmanto visas funkcijas'
       footerUrl='/auth/sign-in'
     >
-      <FormError message={error} />
-      <FormSuccess message={success} />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
