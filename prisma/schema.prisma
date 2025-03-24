@@ -65,7 +65,8 @@ model Product {
   store         Store           @relation(fields: [storeId], references: [id])
   storeId       String          @db.ObjectId
   category      String[]
-  image         String
+  // image is optional for now until i make image handler
+  image         String?
   slug          String          @unique
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt

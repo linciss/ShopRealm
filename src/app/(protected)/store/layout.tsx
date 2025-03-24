@@ -16,6 +16,8 @@ export default async function StoreLayout({
 
   const storeName: string | undefined = await getStoreName();
 
+  console.log(storeName);
+
   return (
     <div className='flex min-h-screen flex-col max-w-full'>
       <div className='flex flex-1'>
