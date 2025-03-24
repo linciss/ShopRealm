@@ -4,7 +4,6 @@ import { signUpSchema } from '../schemas';
 import bcrypt from 'bcryptjs';
 import { getUserByEmail } from '../data/user';
 import prisma from '@/lib/db';
-import { DEFAULT_SIGNUP_REDIRECT } from '../routes';
 import { signIn } from '../auth';
 
 const SALT_ROUNDS = 10;
@@ -57,16 +56,17 @@ export const register = async (data: z.infer<typeof signUpSchema>) => {
         address: true,
       },
     });
+    await signIn('credentials', {
+      email,
+      password,
+      redirect: false,
+    });
+
+    return { success: 'Veiksmigi izveidots k0onts!~' };
   } catch (error) {
     if (error instanceof Error) {
       console.log('Error: ', error.stack);
     }
     return { error: 'Kļūda apstrādājot datus' };
   }
-
-  await signIn('credentials', {
-    email,
-    password,
-    redirectTo: DEFAULT_SIGNUP_REDIRECT,
-  });
 };

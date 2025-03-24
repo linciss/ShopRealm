@@ -4,7 +4,7 @@ import { CardWrapper } from './card-wrapper';
 import { z } from 'zod';
 import { signUpSchema } from '../../../schemas';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { startTransition, useState, useTransition } from 'react';
+import { startTransition, useTransition } from 'react';
 import {
   Form,
   FormControl,
@@ -19,11 +19,10 @@ import { register } from '../../../actions/register';
 import { FormError } from '../custom/form-error';
 import { FormSuccess } from '../custom/form-success';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useToast } from '@/hooks/use-toast';
+import { redirect } from 'next/navigation';
 
 export const SignUpForms = () => {
-  const [success, setSuccess] = useState<string>();
-  const [error, setError] = useState<string>();
-
   const form = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
@@ -36,19 +35,24 @@ export const SignUpForms = () => {
   });
 
   const [isPending, startTransition] = useTransition();
+  const { toast } = useToast();
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
-    console.log(data);
-    setError('');
-    setSuccess('');
-
     startTransition(() => {
       register(data).then((res) => {
-        console.log(res);
         if (res?.error) {
-          setError(res?.error);
+          toast({
+            title: 'Kluda!',
+            description: res.error,
+            variant: 'destructive',
+          });
         } else {
-          // setSuccess(res?.success);
+          console.log('LOGGED IN!');
+          toast({
+            title: 'Ielogojies!',
+            description: res.success,
+          });
+          redirect('/products');
         }
       });
     });

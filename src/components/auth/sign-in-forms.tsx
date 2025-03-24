@@ -15,15 +15,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { startTransition, useState, useTransition } from 'react';
+import { startTransition, useTransition } from 'react';
 import { login } from '../../../actions/login';
-import { FormError } from '../custom/form-error';
-import { FormSuccess } from '../custom/form-success';
+
 import Link from 'next/link';
+import { useToast } from '@/hooks/use-toast';
+import { redirect } from 'next/navigation';
 
 export const SignInForms = () => {
-  const [success, setSuccess] = useState<string | undefined>();
-  const [error, setError] = useState<string | undefined>();
   const form = useForm<z.infer<typeof signInSchema>>({
     resolver: zodResolver(signInSchema),
     defaultValues: {
@@ -34,18 +33,24 @@ export const SignInForms = () => {
 
   const [isPending, startTransition] = useTransition();
 
+  const { toast } = useToast();
+
   const onSubmit = (data: z.infer<typeof signInSchema>) => {
-    console.log(data);
-
-    setError('');
-    setSuccess('');
-
     startTransition(() => {
       login(data).then((res) => {
         if (res?.error) {
-          setError(res?.error);
+          toast({
+            title: 'Kluda!',
+            description: res.error,
+            variant: 'destructive',
+          });
         } else {
-          setSuccess(res?.success);
+          console.log('LOGGED IN!');
+          toast({
+            title: 'Ielogojies!',
+            description: res.success,
+          });
+          redirect('/products');
         }
       });
     });
@@ -58,8 +63,6 @@ export const SignInForms = () => {
       footerText='Nav konta? Reģistrējies un izmanto visas funkcijas'
       footerUrl='/auth/sign-up'
     >
-      <FormError message={error} />
-      <FormSuccess message={success} />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
