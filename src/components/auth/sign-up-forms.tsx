@@ -48,7 +48,7 @@ export const SignUpForms = () => {
         if (res?.error) {
           setError(res?.error);
         } else {
-          setSuccess(res?.success);
+          // setSuccess(res?.success);
         }
       });
     });
