@@ -22,6 +22,7 @@ import Image from 'next/image';
 import { deleteProduct } from '../../../../../actions/delete-product';
 import { useState, useTransition } from 'react';
 import { useToast } from '@/hooks/use-toast';
+import { redirect } from 'next/navigation';
 
 interface Product {
   id: string;
@@ -30,6 +31,7 @@ interface Product {
   quantity: number;
   image?: string | null;
   isActive: boolean;
+  slug: string;
 }
 
 interface ProductListProps {
@@ -75,7 +77,7 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Bilde</TableHead>
+              <TableHead className='sm:visible hidden'>Bilde</TableHead>
               <TableHead>Nosaukums</TableHead>
               <TableHead>Cena</TableHead>
               <TableHead>Daudzums</TableHead>
@@ -86,7 +88,7 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
           <TableBody>
             {products?.map((product) => (
               <TableRow key={product.id} className=''>
-                <TableCell>
+                <TableCell className='sm:visible hidden'>
                   <Image
                     src={
                       product.image
@@ -120,11 +122,17 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
                     <DropdownMenuContent>
                       <DropdownMenuLabel>Akcijas</DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem>Paradit produkta lapu</DropdownMenuItem>
+                      <DropdownMenuItem
+                        onClick={() => {
+                          redirect(`/store/products/${product.slug}`);
+                        }}
+                      >
+                        Paradit produkta lapu
+                      </DropdownMenuItem>
                       <DropdownMenuItem>Rediget</DropdownMenuItem>
                       <DropdownMenuItem
                         disabled={isPending}
-                        className='text-red-500'
+                        className='text-red-500 text-center'
                         onClick={() => {
                           handleDelete(product.id);
                         }}

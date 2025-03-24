@@ -47,7 +47,7 @@ export const createProduct = async (data: z.infer<typeof productSchema>) => {
     if (!storeId) return { error: 'Nav veikals atrasts' };
 
     const UUID = nanoid(6);
-    const itemSlug = `${slugify(name)}-${UUID}`;
+    const itemSlug = `${slugify(name).toLowerCase()}-${UUID}`;
 
     await prisma.product.create({
       data: {
