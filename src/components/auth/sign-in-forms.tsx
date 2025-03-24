@@ -45,7 +45,6 @@ export const SignInForms = () => {
             variant: 'destructive',
           });
         } else {
-          console.log('LOGGED IN!');
           toast({
             title: 'Ielogojies!',
             description: res.success,
