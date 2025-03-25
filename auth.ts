@@ -30,12 +30,6 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async session({ token, session }) {
       if (token.sub && session.user) {
         try {
-          const user = await getUserById(token.sub);
-
-          if (!user) {
-            return session;
-          }
-
           session.user.id = token.sub;
           session.user.role = token.role as string;
           session.user.hasStore = token.hasStore as boolean;
