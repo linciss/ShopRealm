@@ -19,8 +19,7 @@ import { register } from '../../../actions/register';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
-import { redirect } from 'next/navigation';
-import { useRouter } from 'next/router';
+import { redirect, useRouter } from 'next/navigation';
 
 export const SignUpForms = () => {
   const form = useForm<z.infer<typeof signUpSchema>>({

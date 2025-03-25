@@ -20,8 +20,7 @@ import { login } from '../../../actions/login';
 
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
-import { redirect } from 'next/navigation';
-import { useRouter } from 'next/router';
+import { redirect, useRouter } from 'next/navigation';
 
 export const SignInForms = () => {
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -38,9 +37,9 @@ export const SignInForms = () => {
   const router = useRouter();
 
   useEffect(() => {
-    router.prefetch('/products');
-    router.prefetch('/auth/sign-up');
-    router.prefetch('/store');
+    if (router) {
+      router.prefetch('/products');
+    }
   }, [router]);
 
   const onSubmit = (data: z.infer<typeof signInSchema>) => {
