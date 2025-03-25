@@ -24,6 +24,7 @@ export const NavigationShopper = () => {
                 <li className='row-span-3' key={category.label}>
                   <NavigationMenuLink asChild>
                     <Link
+                      prefetch={false}
                       className='flex h-full w-full select-none flex-col justify-start lg:justify-end rounded-md bg-gradient-to-b from-primary/20 to-primary/5 p-6 no-underline outline-none focus:shadow-md'
                       href={category.href}
                     >
@@ -40,6 +41,7 @@ export const NavigationShopper = () => {
                 <li key={category.label}>
                   <NavigationMenuLink asChild>
                     <Link
+                      prefetch={false}
                       className='block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground'
                       href={category.href}
                     >
@@ -59,7 +61,7 @@ export const NavigationShopper = () => {
       </NavigationMenuItem>
       {shopperLinks.map((link) => (
         <NavigationMenuItem key={link.label}>
-          <Link href={link.href} legacyBehavior passHref>
+          <Link href={link.href} legacyBehavior passHref prefetch={false}>
             <NavigationMenuLink className='group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-accent/50 data-[state=open]:bg-accent/50'>
               {link.label}
             </NavigationMenuLink>

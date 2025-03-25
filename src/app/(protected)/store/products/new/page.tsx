@@ -7,7 +7,7 @@ export default async function Store() {
   return (
     <div className='space-y-4 mx-auto'>
       <div className='flex items-center flex-row gap-4'>
-        <Link href={`/store/products`}>
+        <Link href={`/store/products`} prefetch={true}>
           <Button>
             <ArrowLeft />
             Atpakal

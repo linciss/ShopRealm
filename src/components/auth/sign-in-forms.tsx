@@ -15,12 +15,13 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { startTransition, useTransition } from 'react';
+import { startTransition, useEffect, useTransition } from 'react';
 import { login } from '../../../actions/login';
 
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 import { redirect } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 export const SignInForms = () => {
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -34,6 +35,13 @@ export const SignInForms = () => {
   const [isPending, startTransition] = useTransition();
 
   const { toast } = useToast();
+  const router = useRouter();
+
+  useEffect(() => {
+    router.prefetch('/products');
+    router.prefetch('/auth/sign-up');
+    router.prefetch('/store');
+  }, [router]);
 
   const onSubmit = (data: z.infer<typeof signInSchema>) => {
     startTransition(() => {

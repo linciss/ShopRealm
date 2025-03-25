@@ -9,13 +9,13 @@ export default async function Store() {
       <div className='flex justify-between items-center flex-col md:flex-row gap-4'>
         <h1 className='text-3xl font-bold '>Informācijas panelis</h1>
         <div className='space-x-2 flex-nowrap flex flex-row'>
-          <Link href={`/store/products`}>
+          <Link href={`/store/products`} prefetch={false}>
             <Button>
               <Plus />
               Pievienot preci
             </Button>
           </Link>
-          <Link href={`/store/products`}>
+          <Link href={`/store/products`} prefetch={false}>
             <Button variant={'secondary'}>
               <Eye />
               Paradit veikalu

@@ -4,7 +4,7 @@ import { CardWrapper } from './card-wrapper';
 import { z } from 'zod';
 import { signUpSchema } from '../../../schemas';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { startTransition, useTransition } from 'react';
+import { startTransition, useEffect, useTransition } from 'react';
 import {
   Form,
   FormControl,
@@ -20,6 +20,7 @@ import { register } from '../../../actions/register';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
 import { redirect } from 'next/navigation';
+import { useRouter } from 'next/router';
 
 export const SignUpForms = () => {
   const form = useForm<z.infer<typeof signUpSchema>>({
@@ -35,6 +36,12 @@ export const SignUpForms = () => {
 
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
+
+  const router = useRouter();
+
+  useEffect(() => {
+    router.prefetch('/products');
+  }, [router]);
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     startTransition(() => {
