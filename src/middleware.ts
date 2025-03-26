@@ -11,7 +11,7 @@ import {
 import { NextResponse } from 'next/server';
 import { DEFAULT_SIGNIN_REDIRECT } from './../routes';
 import { getToken } from 'next-auth/jwt';
-import { cookies } from 'next/headers';
+import { signOut } from '../auth';
 
 const { auth } = NextAuth(authConfig);
 
@@ -70,18 +70,11 @@ export default auth(async (req) => {
     return NextResponse.redirect(new URL('/store', nextUrl));
   }
 
+  // cehcks if user has been redirected to fallback site which means that user has no session and deletes their cookies
   if (isFallbackRoute) {
-    const cookieStore = (await cookies()).get('__Secure-authjs.session-token');
-    console.log(cookieStore, 'all cookies');
-  }
-
-  if (isFallbackRoute) {
-    (await cookies()).delete(
-      process.env.NODE_ENV === 'production'
-        ? '__Secure-authjs.session-token'
-        : 'authjs.session-token',
-    );
-
+    await signOut({
+      redirect: false,
+    });
     return NextResponse.redirect(new URL('/auth/sign-in', nextUrl));
   }
   return NextResponse.next();
