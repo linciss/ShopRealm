@@ -124,7 +124,7 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
                       <DropdownMenuSeparator />
                       <DropdownMenuItem>
                         <Link
-                          href={`/store/products/${product.slug}`}
+                          href={`/store/products/${product.id}`}
                           prefetch={false}
                         >
                           Paradit produktu lapu
