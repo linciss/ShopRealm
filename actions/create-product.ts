@@ -6,7 +6,7 @@ import { getStoreId } from '../data/store';
 import { z } from 'zod';
 import { productSchema } from '../schemas';
 import DOMPurify from 'isomorphic-dompurify';
-import { slugify } from '@/lib/utils';
+import { convertToBase64, slugify } from '@/lib/utils';
 import { revalidatePath } from 'next/cache';
 
 export const createProduct = async (data: z.infer<typeof productSchema>) => {
@@ -20,7 +20,7 @@ export const createProduct = async (data: z.infer<typeof productSchema>) => {
 
   if (!validateData.success) return { error: 'Validācijas kļūda!' };
 
-  const { name, description, price, category, quantity, isActive } =
+  const { name, description, price, category, quantity, isActive, image } =
     validateData.data;
 
   const sanitizedDescription = DOMPurify.sanitize(description, {
@@ -41,6 +41,18 @@ export const createProduct = async (data: z.infer<typeof productSchema>) => {
 
   const checkIfActive = quantity > 0 && isActive;
 
+  // will see if implement imgur
+  // const formData = new FormData();
+  // formData.append('image', image);
+
+  // const uploadImage = await fetch('https://api.imgur.com/3/image', {
+  //   method: 'POST',
+  //   headers: { Authorization: `Client-ID ${process.env.CLIENT_ID}` },
+  //   body: {
+  //     image,
+  //   },
+  // });
+
   try {
     const storeId = (await getStoreId()) as string;
 
@@ -59,6 +71,7 @@ export const createProduct = async (data: z.infer<typeof productSchema>) => {
         isActive: checkIfActive,
         storeId,
         slug: itemSlug,
+        image: image as string,
       },
     });
     revalidatePath('/products');
