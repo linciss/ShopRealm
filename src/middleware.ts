@@ -71,11 +71,17 @@ export default auth(async (req) => {
   }
 
   if (isFallbackRoute) {
+    const cookieStore = (await cookies()).get('__Secure-authjs.session-token');
+    console.log(cookieStore, 'all cookies');
+  }
+
+  if (isFallbackRoute) {
     (await cookies()).delete(
       process.env.NODE_ENV === 'production'
         ? '__Secure-authjs.session-token'
         : 'authjs.session-token',
     );
+
     return NextResponse.redirect(new URL('/auth/sign-in', nextUrl));
   }
   return NextResponse.next();

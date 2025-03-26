@@ -11,14 +11,17 @@ export default async function ProtectedLayout({
 
   // if user accesses private routes wihtout session they are reidrect to fallback url which logs them out
   if (!session?.user?.id) {
+    console.log(session, 'user isnt logged in ');
     redirect(FALLBACK_REDIRECT);
   }
 
   return (
-    <div className='flex min-h-screen flex-col'>
-      <div className='flex flex-1'>
-        <div className='w-full'>{children}</div>
+    session?.user?.id && (
+      <div className='flex min-h-screen flex-col'>
+        <div className='flex flex-1'>
+          <div className='w-full'>{children}</div>
+        </div>
       </div>
-    </div>
+    )
   );
 }
