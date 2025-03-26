@@ -102,13 +102,13 @@ export const storeSchema = z.object({
     .max(8, { message: 'Talruna numuram jabut pareizam' }),
 });
 
-// const MAX_FILE_SIZE = 5 * 1024 * 1024;
-// const ACCEPTED_IMAGE_TYPES = [
-//   'image/jpeg',
-//   'image/jpg',
-//   'image/png',
-//   'image/webp',
-// ];
+const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const ACCEPTED_IMAGE_TYPES = [
+  'image/jpeg',
+  'image/jpg',
+  'image/png',
+  'image/webp',
+];
 
 export const productSchema = z.object({
   name: z
@@ -132,16 +132,19 @@ export const productSchema = z.object({
   category: z
     .array(z.string())
     .min(1, { message: 'Jbaut vismaz 1 kategorijai' }),
-  image: z.unknown().transform((value) => {
-    return value as FileList;
-  }),
-  // .refine((files) => files.length > 0, { message: 'Vajag bilid!' })
-  // .refine((files) => files[0]?.size <= MAX_FILE_SIZE, {
-  //   message: `Maksimalais izmers ir 5MB`,
-  // })
-  // .refine((files) => ACCEPTED_IMAGE_TYPES.includes(files[0]?.type), {
-  //   message: 'Tiaki .jpg, .jpeg, .png and .webp foramtus var.',
-  // }),
+  image: z
+    .union([
+      z
+        .instanceof(File)
+        .refine((file) => file?.size <= MAX_FILE_SIZE, {
+          message: `Maksimalais izmers ir 5MB`,
+        })
+        .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file?.type), {
+          message: 'Tiaki .jpg, .jpeg, .png and .webp foramtus var.',
+        }),
+      z.string().min(1),
+    ])
+    .refine((value) => !!value, { message: 'Vajag bildi!' }),
   quantity: z
     .number()
     .refine(
