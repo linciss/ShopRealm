@@ -28,24 +28,37 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { redirect } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 
-export const NewProductForm = () => {
+interface Product {
+  productData?: {
+    id: number;
+    name: string;
+    description: string;
+    price: number;
+    quantity: number;
+    isActive: boolean;
+    image: FileList | undefined;
+    category: string[];
+  } | null;
+}
+
+export const ProductForm = ({ productData }: Product) => {
   const [isPending, startTransition] = useTransition();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
     defaultValues: {
-      name: '',
-      description: '',
-      price: 0.0,
-      quantity: 1,
-      isActive: true,
-      image: undefined,
-      category: [''],
+      name: productData?.name || '',
+      description: productData?.description || '',
+      price: productData?.price || 0.0,
+      quantity: productData?.quantity || 1,
+      isActive: productData?.isActive || true,
+      image: productData?.image || undefined,
+      category: productData?.category || [''],
     },
   });
 
-  function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       form.setValue('image', e.target.files as FileList);
@@ -55,12 +68,15 @@ export const NewProductForm = () => {
       };
       reader.readAsDataURL(file);
     }
-  }
+  };
 
   const { toast } = useToast();
 
   const onSubmit = async (data: z.infer<typeof productSchema>) => {
     startTransition(() => {
+      if (productData?.id) {
+        console.log('editing!');
+      }
       createProduct(data).then((res) => {
         if (res?.error) {
           toast({

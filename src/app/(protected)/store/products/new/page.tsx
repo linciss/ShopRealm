@@ -1,4 +1,4 @@
-import { NewProductForm } from '@/components/custom/shop/products/new-product-form';
+import { ProductForm } from '@/components/custom/shop/products/product-form';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
@@ -19,7 +19,7 @@ export default async function Store() {
         <div className='space-x-2 flex-nowrap flex flex-row'></div>
       </div>
       <div className=' mx-auto space-y-4'>
-        <NewProductForm />
+        <ProductForm />
       </div>
     </div>
   );
