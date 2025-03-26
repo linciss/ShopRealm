@@ -155,3 +155,35 @@ export const getProducts = async () => {
     return;
   }
 };
+
+export const checkStoreProduct = async (productSlug: string) => {
+  const session = await auth();
+
+  if (!session?.user) return;
+
+  try {
+    const userId = session.user.id;
+
+    const isStoreProduct = await prisma?.store.findUnique({
+      where: { userId },
+      select: {
+        products: {
+          where: {
+            slug: productSlug,
+          },
+        },
+      },
+    });
+
+    console.log(isStoreProduct);
+
+    if (!isStoreProduct) return;
+
+    return isStoreProduct.products[0];
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error: ', error.stack);
+    }
+    return;
+  }
+};
