@@ -33,7 +33,7 @@ interface RoleSwitcherProps {
 export default function RoleSwitcher({ session }: RoleSwitcherProps) {
   const [isPending, startTransition] = useTransition();
 
-  if (!session) return null;
+  if (!session?.user.id) return null;
 
   const role = (session.user.role as Role) || 'SHOPPER';
 
