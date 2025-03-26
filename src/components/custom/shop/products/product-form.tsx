@@ -29,19 +29,21 @@ import { redirect } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 
 interface Product {
-  productData?: {
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-    quantity: number;
-    isActive: boolean;
-    image: FileList | undefined;
-    category: string[];
-  } | null;
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  quantity: number;
+  isActive: boolean;
+  image: File | undefined;
+  category: string[];
 }
 
-export const ProductForm = ({ productData }: Product) => {
+interface ProductDataProps {
+  productData?: Product | null;
+}
+
+export const ProductForm = ({ productData }: ProductDataProps) => {
   const [isPending, startTransition] = useTransition();
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
@@ -61,7 +63,7 @@ export const ProductForm = ({ productData }: Product) => {
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      form.setValue('image', e.target.files as FileList);
+      form.setValue('image', file as File);
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result as string);
@@ -72,12 +74,29 @@ export const ProductForm = ({ productData }: Product) => {
 
   const { toast } = useToast();
 
+  const convertToBase64 = (file: File) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+    });
+  };
+
   const onSubmit = async (data: z.infer<typeof productSchema>) => {
+    const imgString = await convertToBase64(data.image as File);
+
+    const finalData = {
+      ...data,
+      image: imgString as string,
+    };
+
     startTransition(() => {
       if (productData?.id) {
         console.log('editing!');
       }
-      createProduct(data).then((res) => {
+
+      createProduct(finalData).then((res) => {
         if (res?.error) {
           toast({
             title: 'Kluda!',
