@@ -20,7 +20,7 @@ import { login } from '../../../actions/login';
 
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export const SignInForms = () => {
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -56,7 +56,6 @@ export const SignInForms = () => {
             title: 'Ielogojies!',
             description: res.success,
           });
-          redirect('/products');
         }
       });
     });

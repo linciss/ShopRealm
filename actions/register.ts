@@ -5,6 +5,7 @@ import bcrypt from 'bcryptjs';
 import { getUserByEmail } from '../data/user';
 import prisma from '@/lib/db';
 import { signIn } from '../auth';
+import { DEFAULT_SIGNIN_REDIRECT } from '../routes';
 
 const SALT_ROUNDS = 10;
 
@@ -59,7 +60,7 @@ export const register = async (data: z.infer<typeof signUpSchema>) => {
     await signIn('credentials', {
       email,
       password,
-      redirect: false,
+      redirectTo: DEFAULT_SIGNIN_REDIRECT,
     });
 
     return { success: 'Veiksmigi izveidots k0onts!~' };

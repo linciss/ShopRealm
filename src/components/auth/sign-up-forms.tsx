@@ -19,7 +19,7 @@ import { register } from '../../../actions/register';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
-import { redirect, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 
 export const SignUpForms = () => {
   const form = useForm<z.infer<typeof signUpSchema>>({
@@ -57,7 +57,6 @@ export const SignUpForms = () => {
             title: 'Ielogojies!',
             description: res.success,
           });
-          redirect('/products');
         }
       });
     });

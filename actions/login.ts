@@ -5,6 +5,7 @@ import { signInSchema } from '../schemas';
 import { signIn } from '../auth';
 import { AuthError } from 'next-auth';
 import prisma from '@/lib/db';
+import { DEFAULT_SIGNIN_REDIRECT } from '../routes';
 
 // login server action
 export const login = async (data: z.infer<typeof signInSchema>) => {
@@ -23,7 +24,7 @@ export const login = async (data: z.infer<typeof signInSchema>) => {
     await signIn('credentials', {
       email,
       password,
-      redirect: false,
+      redirectTo: DEFAULT_SIGNIN_REDIRECT,
     });
 
     return { success: 'Ielogojies!!' };
