@@ -6,7 +6,7 @@ import { getStoreId } from '../data/store';
 import { z } from 'zod';
 import { productSchema } from '../schemas';
 import DOMPurify from 'isomorphic-dompurify';
-import { convertToBase64, slugify } from '@/lib/utils';
+import { slugify } from '@/lib/utils';
 import { revalidatePath } from 'next/cache';
 
 export const createProduct = async (data: z.infer<typeof productSchema>) => {
