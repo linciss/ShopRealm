@@ -4,7 +4,6 @@ import {
   NavigationMenu,
   NavigationMenuList,
 } from '@/components/ui/navigation-menu';
-// import { ThemeToggle } from './theme-toggle';
 import { SignOutButton } from '../auth/sign-out-button';
 import {
   DropdownMenu,
