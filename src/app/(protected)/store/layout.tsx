@@ -2,6 +2,7 @@ import { auth } from '../../../../auth';
 import { redirect } from 'next/navigation';
 import { getStoreName } from '../../../../data/store';
 import { StoreNavigation } from '@/components/custom/shop/store-navigation';
+import { FALLBACK_REDIRECT } from '../../../../routes';
 
 export default async function StoreLayout({
   children,
@@ -9,6 +10,11 @@ export default async function StoreLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
+
+  if (!session?.user?.id) {
+    console.log(session, 'user isnt logged in ');
+    redirect(FALLBACK_REDIRECT);
+  }
 
   if (!session?.user.hasStore) {
     return redirect('/create-store');
