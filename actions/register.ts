@@ -6,6 +6,7 @@ import { getUserByEmail } from '../data/user';
 import prisma from '@/lib/db';
 import { signIn } from '../auth';
 import { DEFAULT_SIGNIN_REDIRECT } from '../routes';
+import { AuthError } from 'next-auth';
 
 const SALT_ROUNDS = 10;
 
@@ -57,6 +58,7 @@ export const register = async (data: z.infer<typeof signUpSchema>) => {
         address: true,
       },
     });
+
     await signIn('credentials', {
       email,
       password,
@@ -64,10 +66,18 @@ export const register = async (data: z.infer<typeof signUpSchema>) => {
     });
 
     return { success: 'Veiksmigi izveidots k0onts!~' };
-  } catch (error) {
-    if (error instanceof Error) {
-      console.log('Error: ', error.stack);
+  } catch (e) {
+    if (e instanceof AuthError) {
+      switch (e.type) {
+        case 'CredentialsSignin':
+          return { error: 'Nepareia parole vai epasts!' };
+        default:
+          return { error: 'Error!' };
+      }
+    } else if (e instanceof Error) {
+      console.log('Error: ', e.stack);
     }
-    return { error: 'Kļūda apstrādājot datus' };
+
+    throw e;
   }
 };
