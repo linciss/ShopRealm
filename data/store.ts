@@ -5,7 +5,7 @@ import prisma from '@/lib/db';
 export const checkHasStore = async (withRedirect: boolean = true) => {
   const session = await auth();
 
-  if (!session?.user) return { error: 'Erorr' };
+  if (!session?.user.id) return { error: 'Erorr' };
 
   let hasStore: boolean = false;
   try {
@@ -32,7 +32,7 @@ export const checkHasStore = async (withRedirect: boolean = true) => {
 export const getStoreName = async () => {
   const session = await auth();
 
-  if (!session?.user) return;
+  if (!session?.user.id) return;
 
   const userId = session?.user.id;
 
@@ -55,7 +55,7 @@ export const getStoreName = async () => {
 export const getStoreSlug = async () => {
   const session = await auth();
 
-  if (!session?.user) return;
+  if (!session?.user.id) return;
 
   const userId = session?.user.id;
 
@@ -78,7 +78,7 @@ export const getStoreSlug = async () => {
 export const getStoreData = async () => {
   const session = await auth();
 
-  if (!session?.user) return;
+  if (!session?.user.id) return;
 
   const userId = session?.user.id;
 
@@ -101,7 +101,7 @@ export const getStoreData = async () => {
 export const getStoreId = async () => {
   const session = await auth();
 
-  if (!session?.user) return;
+  if (!session?.user.id) return;
 
   const userId = session?.user.id;
 
@@ -123,7 +123,7 @@ export const getStoreId = async () => {
 
 export const getProducts = async () => {
   const session = await auth();
-  if (!session?.user) return;
+  if (!session?.user.id) return;
 
   const userId = session?.user.id;
 

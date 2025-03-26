@@ -4,7 +4,7 @@ import { auth } from '../auth';
 export const getUserData = async () => {
   const session = await auth();
 
-  if (!session?.user) return;
+  if (!session?.user.id) return;
 
   try {
     const userData = await prisma.user.findUnique({
@@ -29,7 +29,7 @@ export const getUserData = async () => {
 export const getUserAddress = async () => {
   const session = await auth();
 
-  if (!session?.user) return;
+  if (!session?.user.id) return;
 
   try {
     const userAddress = await prisma.address.findFirst({
