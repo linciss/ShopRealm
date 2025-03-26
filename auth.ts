@@ -44,6 +44,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       const user = await getUserById(token.sub);
 
       if (!user) {
+        token.sub = undefined;
         return token;
       }
       token.hasStore = user.hasStore;
