@@ -2,10 +2,11 @@ import { redirect } from 'next/navigation';
 import { auth } from '../auth';
 import prisma from '@/lib/db';
 
+// checks if user has a store
 export const checkHasStore = async (withRedirect: boolean = true) => {
   const session = await auth();
 
-  if (!session?.user.id) return { error: 'Erorr' };
+  if (!session?.user.id) return;
 
   let hasStore: boolean = false;
   try {
@@ -29,6 +30,7 @@ export const checkHasStore = async (withRedirect: boolean = true) => {
   return hasStore;
 };
 
+// gets store name
 export const getStoreName = async () => {
   const session = await auth();
 
@@ -52,29 +54,7 @@ export const getStoreName = async () => {
   }
 };
 
-export const getStoreSlug = async () => {
-  const session = await auth();
-
-  if (!session?.user.id) return;
-
-  const userId = session?.user.id;
-
-  try {
-    const storeData = await prisma?.store.findUnique({
-      where: { userId },
-    });
-
-    if (!storeData) return;
-
-    return storeData?.slug as string;
-  } catch (error) {
-    if (error instanceof Error) {
-      console.log('Error: ', error.stack);
-    }
-    return { error: 'Kļūda apstrādājot datus' };
-  }
-};
-
+// gets store data
 export const getStoreData = async () => {
   const session = await auth();
 
@@ -98,6 +78,7 @@ export const getStoreData = async () => {
   }
 };
 
+// gets store id
 export const getStoreId = async () => {
   const session = await auth();
 
@@ -121,6 +102,7 @@ export const getStoreId = async () => {
   }
 };
 
+// gets all products for the store
 export const getProducts = async () => {
   const session = await auth();
   if (!session?.user.id) return;
@@ -156,10 +138,11 @@ export const getProducts = async () => {
   }
 };
 
-export const checkStoreProduct = async (productSlug: string) => {
+// checks if store has the selected product and retursn the product for store preview
+export const checkStoreProduct = async (productId: string) => {
   const session = await auth();
 
-  if (!session?.user) return;
+  if (!session?.user.id) return;
 
   try {
     const userId = session.user.id;
@@ -169,13 +152,11 @@ export const checkStoreProduct = async (productSlug: string) => {
       select: {
         products: {
           where: {
-            slug: productSlug,
+            id: productId,
           },
         },
       },
     });
-
-    console.log(isStoreProduct);
 
     if (!isStoreProduct) return;
 
