@@ -27,3 +27,5 @@ export const DEFAULT_SIGNOUT_REDIRECT = '/products';
 export const DEFAULT_SIGNIN_REDIRECT = '/products';
 
 export const DEFAULT_SIGNUP_REDIRECT = '/products';
+
+export const FALLBACK_REDIRECT = '/invalid-session';

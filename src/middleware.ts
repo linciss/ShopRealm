@@ -3,6 +3,7 @@ import NextAuth from 'next-auth';
 import {
   apiAuthPrefix,
   authRoutes,
+  FALLBACK_REDIRECT,
   publicRoutes,
   shopperRoutes,
   storeRoutes,
@@ -10,6 +11,7 @@ import {
 import { NextResponse } from 'next/server';
 import { DEFAULT_SIGNIN_REDIRECT } from './../routes';
 import { getToken } from 'next-auth/jwt';
+import { cookies } from 'next/headers';
 
 const { auth } = NextAuth(authConfig);
 
@@ -39,6 +41,9 @@ export default auth(async (req) => {
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
   const isStoreRoute = storeRoutes.includes(nextUrl.pathname);
   const isShopperRoute = shopperRoutes.includes(nextUrl.pathname);
+  const isFallbackRoute = FALLBACK_REDIRECT.includes(nextUrl.pathname);
+
+  console.log(isFallbackRoute);
 
   if (isApiAuthRoute) {
     return NextResponse.next();
@@ -65,6 +70,14 @@ export default auth(async (req) => {
     return NextResponse.redirect(new URL('/store', nextUrl));
   }
 
+  if (isFallbackRoute) {
+    (await cookies()).delete(
+      process.env.NODE_ENV === 'production'
+        ? '__Secure-authjs.session-token'
+        : 'authjs.session-token',
+    );
+    return NextResponse.redirect(new URL('/auth/sign-in', nextUrl));
+  }
   return NextResponse.next();
 });
 
