@@ -6,5 +6,5 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export const slugify = (storeName: string) => {
-  return storeName.replace(' ', '-');
+  return storeName.replace(/ /g, '-');
 };
