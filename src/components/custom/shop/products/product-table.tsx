@@ -22,7 +22,7 @@ import Image from 'next/image';
 import { deleteProduct } from '../../../../../actions/delete-product';
 import { useState, useTransition } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import { redirect } from 'next/navigation';
+import Link from 'next/link';
 
 interface Product {
   id: string;
@@ -122,12 +122,13 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
                     <DropdownMenuContent>
                       <DropdownMenuLabel>Akcijas</DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem
-                        onClick={() => {
-                          redirect(`/store/products/${product.slug}`);
-                        }}
-                      >
-                        Paradit produkta lapu
+                      <DropdownMenuItem>
+                        <Link
+                          href={`/store/products/${product.slug}`}
+                          prefetch={false}
+                        >
+                          Paradit produktu lapu
+                        </Link>
                       </DropdownMenuItem>
                       <DropdownMenuItem>Rediget</DropdownMenuItem>
                       <DropdownMenuItem
