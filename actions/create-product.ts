@@ -20,10 +20,19 @@ export const createProduct = async (data: z.infer<typeof productSchema>) => {
 
   if (!validateData.success) return { error: 'Validācijas kļūda!' };
 
-  const { name, description, price, category, quantity, isActive, image } =
-    validateData.data;
+  const {
+    name,
+    description,
+    price,
+    category,
+    quantity,
+    isActive,
+    image,
+    details,
+    specifications,
+  } = validateData.data;
 
-  const sanitizedDescription = DOMPurify.sanitize(description, {
+  const sanitizedDetails = DOMPurify.sanitize(details, {
     ALLOWED_TAGS: [
       'p',
       'b',
@@ -31,6 +40,7 @@ export const createProduct = async (data: z.infer<typeof productSchema>) => {
       'em',
       'strong',
       'ul',
+      'u',
       'ol',
       'li',
       'br',
@@ -60,18 +70,23 @@ export const createProduct = async (data: z.infer<typeof productSchema>) => {
 
     const UUID = nanoid(6);
     const itemSlug = `${slugify(name).toLowerCase()}-${UUID}`;
+    const priceDecimals = price.toFixed(2);
+
+    const stringifiedSpec = JSON.stringify(specifications);
 
     await prisma.product.create({
       data: {
         name,
-        description: sanitizedDescription,
-        price,
+        description,
+        price: priceDecimals,
         quantity,
         category,
         isActive: checkIfActive,
         storeId,
         slug: itemSlug,
         image: image as string,
+        details: sanitizedDetails,
+        specifications: stringifiedSpec,
       },
     });
     revalidatePath('/products');
