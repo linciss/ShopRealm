@@ -154,6 +154,35 @@ export const checkStoreProduct = async (productId: string) => {
           where: {
             id: productId,
           },
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            price: true,
+            quantity: true,
+            isActive: true,
+            image: true,
+            slug: true,
+            storeId: true,
+            category: true,
+            createdAt: true,
+            updatedAt: true,
+            reviews: {
+              select: {
+                id: true,
+                rating: true,
+                comment: true,
+                createdAt: true,
+                user: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+            details: true,
+            specifications: true,
+          },
         },
       },
     });
