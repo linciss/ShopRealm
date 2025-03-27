@@ -61,7 +61,7 @@ model Product {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
   name          String
   description   String
-  price         Float
+  price         String
   store         Store           @relation(fields: [storeId], references: [id])
   storeId       String          @db.ObjectId
   category      String[]
@@ -75,6 +75,8 @@ model Product {
   quantity      Int             @default(1)
   isActive      Boolean         @default(true)
   reviews       Review[]
+  details       String
+  specifications  String?
 }
 
 model CartItem {
