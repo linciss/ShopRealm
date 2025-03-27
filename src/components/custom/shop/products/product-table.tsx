@@ -27,7 +27,7 @@ import Link from 'next/link';
 interface Product {
   id: string;
   name: string;
-  price: number;
+  price: string;
   quantity: number;
   image?: string | null;
   isActive: boolean;
@@ -65,7 +65,6 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
     });
   };
 
-  console.log(products);
   return (
     <Card>
       <CardHeader>

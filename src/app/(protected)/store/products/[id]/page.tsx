@@ -35,7 +35,6 @@ export default async function ProductPagePreview({ params }: Props) {
         <Link href={`/store/products`} prefetch={true}>
           <Button>
             <ArrowLeft />
-            Atpakal
           </Button>
         </Link>
         <h1 className='text-3xl  font-bold md:text-2xl sm:text-xl'>

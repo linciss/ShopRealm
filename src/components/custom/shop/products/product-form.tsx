@@ -1,6 +1,6 @@
 'use client';
 
-import { useForm } from 'react-hook-form';
+import { useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
@@ -22,11 +22,12 @@ import Link from 'next/link';
 import { Switch } from '@/components/ui/switch';
 
 import { productSchema } from '../../../../../schemas';
-import { Upload, X } from 'lucide-react';
+import { Plus, Trash2, Upload, X } from 'lucide-react';
 import Image from 'next/image';
 import { Checkbox } from '@/components/ui/checkbox';
 import { redirect } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
+import { Textarea } from '@/components/ui/textarea';
 
 interface Product {
   id: number;
@@ -37,6 +38,8 @@ interface Product {
   isActive: boolean;
   image: File | undefined;
   category: string[];
+  details: string;
+  specifications: object[];
 }
 
 interface ProductDataProps {
@@ -56,7 +59,9 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
       quantity: productData?.quantity || 1,
       isActive: productData?.isActive || true,
       image: productData?.image || undefined,
-      category: productData?.category || [''],
+      category: productData?.category || [],
+      details: productData?.details || '',
+      specifications: productData?.specifications || [],
     },
   });
 
@@ -82,6 +87,11 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
       reader.onerror = reject;
     });
   };
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: 'specifications',
+  });
 
   const onSubmit = async (data: z.infer<typeof productSchema>) => {
     const imgString = await convertToBase64(data.image as File);
@@ -155,12 +165,32 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                     name='description'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Preces deskripicja</FormLabel>
+                        <FormLabel>Preces arpaksts</FormLabel>
+                        <FormControl>
+                          <Textarea
+                            placeholder='Mazs apraksts par preci.......'
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          Sis arpaksts radisies, kad kads mekles tavu produktu,
+                          ka ari produktu lapa
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name='details'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Preces detaļas</FormLabel>
                         <FormControl>
                           <RichTextEditor
                             value={field.value}
                             onChange={field.onChange}
-                            placeholder='Ievadiet produkta aprakstu...'
+                            placeholder='Ievadiet produkta detalas...'
                             disabled={isPending}
                           />
                         </FormControl>
@@ -341,6 +371,88 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                     />
                   </CardContent>
                 </Card>
+                <Card className='w-full p-8 text-start space-y-4 h-full'>
+                  <CardTitle className='flex flex-col gap-2'>
+                    <h2 className='text-2xl font-semibold leading-none tracking-tight'>
+                      Produkta specifikacijas
+                    </h2>
+                    <p className='text-sm font-normal text-muted-foreground'>
+                      iedod specifikacijas savam produktam
+                    </p>
+                  </CardTitle>
+                  <CardContent className='p-0 text-start space-y-4'>
+                    <div className='space-y-4'>
+                      {fields.map((field, index) => (
+                        <div key={field.id} className='flex items-end gap-2'>
+                          <FormField
+                            control={form.control}
+                            name={`specifications.${index}.key`}
+                            render={({ field }) => (
+                              <FormItem className='flex-1'>
+                                <FormLabel
+                                  className={
+                                    index !== 0 ? 'sr-only' : undefined
+                                  }
+                                >
+                                  specifikacijas nosaukums
+                                </FormLabel>
+                                <FormControl>
+                                  <Input
+                                    placeholder='Smagums, Dimensija, Baterija...'
+                                    {...field}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <FormField
+                            control={form.control}
+                            name={`specifications.${index}.value`}
+                            render={({ field }) => (
+                              <FormItem className='flex-1'>
+                                <FormLabel
+                                  className={
+                                    index !== 0 ? 'sr-only' : undefined
+                                  }
+                                >
+                                  Specifikacijas vertiba
+                                </FormLabel>
+                                <FormControl>
+                                  <Input
+                                    placeholder='500g, 10x15x2cm, 40h...'
+                                    {...field}
+                                  />
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          <Button
+                            type='button'
+                            variant='outline'
+                            size='icon'
+                            onClick={() => remove(index)}
+                            disabled={index === 0 && fields.length === 1}
+                          >
+                            <Trash2 className='h-4 w-4' />
+                          </Button>
+                        </div>
+                      ))}
+                      <Button
+                        type='button'
+                        variant='outline'
+                        size='sm'
+                        className='mt-2'
+                        onClick={() => append({ key: '', value: '' })}
+                      >
+                        <Plus className='mr-2 h-4 w-4' />
+                        Pievienot specifikaciju
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+
                 <Card className='w-full p-8 text-start space-y-4 h-full'>
                   <CardTitle className='flex flex-col gap-2'>
                     <h2 className='text-2xl font-semibold leading-none tracking-tight'>

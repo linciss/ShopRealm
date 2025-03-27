@@ -46,14 +46,11 @@ export const PersonalForms = ({ userData }: PersonalFormsProps) => {
   const [isPending, startTransition] = useTransition();
 
   function onSubmit(data: z.infer<typeof personalInfoSchema>) {
-    console.log(data);
-
     setError('');
     setSuccess('');
 
     startTransition(() => {
       editUserProfile(data).then((res) => {
-        console.log(res);
         if (res?.error) {
           setError(res?.error);
         } else {
