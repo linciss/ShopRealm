@@ -118,7 +118,7 @@ export const productSchema = z.object({
     .refine((value) => /^[a-zA-Z0-9_.\- ]*$/.test(value ?? ''), {
       message: 'jabut normalam',
     }),
-  description: z.any(),
+  description: z.string().min(20, { message: 'Ievadi produkta aprakstu' }),
   price: z
     .number()
     .refine(
@@ -156,4 +156,13 @@ export const productSchema = z.object({
       },
     ),
   isActive: z.boolean(),
+  details: z.string().min(5, { message: 'Dzilak paskaidro par savu preci' }),
+  specifications: z
+    .array(
+      z.object({
+        key: z.string(),
+        value: z.string(),
+      }),
+    )
+    .optional(),
 });
