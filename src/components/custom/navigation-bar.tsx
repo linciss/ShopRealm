@@ -14,17 +14,18 @@ import {
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu';
 import { auth } from '../../../auth';
-import { Menu, ShoppingCart, User } from 'lucide-react';
+import { ShoppingCart, User } from 'lucide-react';
 import { NavigationShopper } from './navigation-shopper';
 import RoleSwitcher from './role-switcher';
 import { ThemeToggle } from './theme-toggle';
+import { MobileMenu } from './mobile-menu';
 
 //  navigation component for the website
 export const NavigationBar = async () => {
   const session = await auth();
 
   return (
-    <header className='sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
+    <header className='sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60'>
       <div className='px-4 flex h-16 items-center justify-between'>
         <div className='mr-4 hidden md:flex'>
           <Link href='/products' className='mr-6 flex items-center space-x-2'>
@@ -38,10 +39,7 @@ export const NavigationBar = async () => {
         </div>
         <div className='flex flex-1 items-center md:justify-end space-x-4 justify-between'>
           <div className='flex flex-1 items-center  space-x-4 '>
-            <Button variant='outline' size='icon' className='mr-2 md:hidden'>
-              <Menu className='h-4 w-4' />
-              <span className='sr-only'>Toggle menu</span>
-            </Button>
+            <MobileMenu />
 
             <Link
               href='/products'
@@ -52,7 +50,13 @@ export const NavigationBar = async () => {
           </div>
 
           <div className='flex flex-1 items-center justify-end  space-x-4  '>
-            <RoleSwitcher session={session} />
+            <div
+              className={`md:block ${
+                session?.user.role === 'STORE' ? '' : 'hidden'
+              }`}
+            >
+              <RoleSwitcher session={session} />
+            </div>
 
             {session?.user.role === 'SHOPPER' && (
               <Button variant='ghost' size='icon'>
@@ -84,11 +88,7 @@ export const NavigationBar = async () => {
               </>
             ) : (
               <>
-                <Link
-                  href='/auth/sign-in'
-                  className='hidden md:flex'
-                  prefetch={true}
-                >
+                <Link href='/auth/sign-in' className=' md:flex' prefetch={true}>
                   <Button variant='outline' size='sm'>
                     Pierakstīties
                   </Button>

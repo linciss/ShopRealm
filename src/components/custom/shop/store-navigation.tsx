@@ -3,16 +3,32 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { LayoutDashboard, Package, ShoppingCart, Store } from 'lucide-react';
+import {
+  LayoutDashboard,
+  LucideProps,
+  Package,
+  ShoppingCart,
+  Store,
+} from 'lucide-react';
+import { ForwardRefExoticComponent, RefAttributes } from 'react';
 
 interface StoreNavigationProps {
   storeName: string;
 }
 
+interface Route {
+  href: string;
+  icon: ForwardRefExoticComponent<
+    Omit<LucideProps, 'ref'> & RefAttributes<SVGSVGElement>
+  >;
+  label: string;
+  active: boolean;
+}
+
 export function StoreNavigation({ storeName }: StoreNavigationProps) {
   const pathname = usePathname();
 
-  const routes = [
+  const routes: Route[] = [
     {
       href: '/store',
       icon: LayoutDashboard,

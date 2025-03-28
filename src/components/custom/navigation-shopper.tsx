@@ -16,7 +16,7 @@ export const NavigationShopper = () => {
   return (
     <>
       <NavigationMenuItem>
-        <NavigationMenuTrigger>Kategorijas</NavigationMenuTrigger>
+        <NavigationMenuTrigger>Preces</NavigationMenuTrigger>
         <NavigationMenuContent>
           <ul className='grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-2'>
             {catgeories.map((category: RouteProps, idx: number) =>
@@ -72,6 +72,19 @@ export const NavigationShopper = () => {
   );
 };
 
+// export const categoryMap: CategoryMap = {
+//   electronics: { id: 'electronics', label: 'Elektronika' },
+//   clothing: { id: 'clothing', label: 'Apgerbs' },
+//   home: { id: 'home', label: 'Majas un virtuve' },
+//   beauty: { id: 'beauty', label: 'Veseliba un skaistums' },
+//   sports: { id: 'sports', label: 'Sports un atputa' },
+//   toys: { id: 'toys', label: 'Rotaļlietas un spēles' },
+//   books: { id: 'books', label: 'Gramatas un mediji' },
+//   health: { id: 'health', label: 'Veseliba un labklajiba' },
+//   automotive: { id: 'automotive', label: 'Auto un motocikli' },
+//   jewelry: { id: 'jewelry', label: 'Rotaslietas un aksesuari' },
+// };
+
 const catgeories: RouteProps[] = [
   {
     label: 'Visas preces',
@@ -85,14 +98,14 @@ const catgeories: RouteProps[] = [
     description: 'Elektronikas preces',
   },
   {
-    label: 'Mode',
-    href: '/fashion',
-    description: 'Izveido sev jaunu stilu',
+    label: 'Rotallietas',
+    href: '/toys',
+    description: 'Rotallietas berniem',
   },
   {
     label: 'Majai',
-    href: '/decoration',
-    description: 'Papildini maju',
+    href: '/home',
+    description: 'Majai un virtuvei',
   },
 ];
 
@@ -105,67 +118,8 @@ const shopperLinks: RouteProps[] = [
     label: 'Jaunumi',
     href: '/new',
   },
+  {
+    label: 'Visas kategorijas',
+    href: '/categories',
+  },
 ];
-
-{
-  /* <li className='row-span-3'>
-              <NavigationMenuLink asChild>
-                <Link
-                  className='flex h-full w-full select-none flex-col justify-start lg:justify-end rounded-md bg-gradient-to-b from-primary/20 to-primary/5 p-6 no-underline outline-none focus:shadow-md'
-                  href='/'
-                >
-                  <div className='mt-4 mb-2 text-lg font-medium'>
-                    Visas preces
-                  </div>
-                  <p className='text-sm leading-tight text-muted-foreground'>
-                    Ej cauri visam precem
-                  </p>
-                </Link>
-              </NavigationMenuLink>
-            </li>
-            <li>
-              <NavigationMenuLink asChild>
-                <Link
-                  className='block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground'
-                  href='/electronics'
-                >
-                  <div className='text-sm font-medium leading-none'>
-                    Electronics
-                  </div>
-                  <p className='line-clamp-2 text-sm leading-snug text-muted-foreground'>
-                    Gadgets, devices, and tech accessories
-                  </p>
-                </Link>
-              </NavigationMenuLink>
-            </li>
-            <li>
-              <NavigationMenuLink asChild>
-                <Link
-                  className='block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground'
-                  href='/fashion'
-                >
-                  <div className='text-sm font-medium leading-none'>
-                    Fashion
-                  </div>
-                  <p className='line-clamp-2 text-sm leading-snug text-muted-foreground'>
-                    Clothing, shoes, and accessories
-                  </p>
-                </Link>
-              </NavigationMenuLink>
-            </li>
-            <li>
-              <NavigationMenuLink asChild>
-                <Link
-                  className='block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground'
-                  href='/home'
-                >
-                  <div className='text-sm font-medium leading-none'>
-                    Home & Garden
-                  </div>
-                  <p className='line-clamp-2 text-sm leading-snug text-muted-foreground'>
-                    Furniture, decor, and outdoor items
-                  </p>
-                </Link>
-              </NavigationMenuLink>
-            </li> */
-}
