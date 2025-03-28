@@ -30,3 +30,29 @@ export const categoryMap: CategoryMap = {
   automotive: { id: 'automotive', label: 'Auto un motocikli' },
   jewelry: { id: 'jewelry', label: 'Rotaslietas un aksesuari' },
 };
+
+interface Review {
+  id: string;
+  rating: number;
+  comment: string;
+  user: {
+    name: string;
+  };
+  createdAt: Date;
+}
+
+export const calculateAverageRating = (reviews: Review[]) => {
+  const reviewCount = reviews.length;
+
+  return (
+    Math.round(
+      (reviews
+        .map((review) => {
+          return review.rating;
+        })
+        .reduce((sum, rating) => sum + rating, 0) /
+        reviewCount) *
+        10,
+    ) / 10 || 0
+  );
+};
