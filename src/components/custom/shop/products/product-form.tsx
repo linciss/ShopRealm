@@ -28,27 +28,45 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { redirect } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { Textarea } from '@/components/ui/textarea';
+import { editProduct } from '../../../../../actions/edit-product';
 
 interface Product {
-  id: number;
+  id: string;
   name: string;
   description: string;
   price: number;
   quantity: number;
   isActive: boolean;
-  image: File | undefined;
+  image: string | null;
   category: string[];
   details: string;
-  specifications: object[];
+  specifications: string | null;
 }
 
 interface ProductDataProps {
   productData?: Product | null;
 }
 
+const convertToBase64 = (file: File) => {
+  console.log(file);
+
+  if (typeof file !== 'string') {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = reject;
+    });
+  }
+  return;
+};
+
 export const ProductForm = ({ productData }: ProductDataProps) => {
   const [isPending, startTransition] = useTransition();
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
+
+  const [imagePreview, setImagePreview] = useState<string | null>(
+    productData?.image || null,
+  );
 
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
@@ -61,7 +79,9 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
       image: productData?.image || undefined,
       category: productData?.category || [],
       details: productData?.details || '',
-      specifications: productData?.specifications || [],
+      specifications: productData?.image
+        ? JSON.parse(productData?.specifications || '')
+        : [],
     },
   });
 
@@ -79,50 +99,61 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
 
   const { toast } = useToast();
 
-  const convertToBase64 = (file: File) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = reject;
-    });
-  };
-
   const { fields, append, remove } = useFieldArray({
     control: form.control,
     name: 'specifications',
   });
 
   const onSubmit = async (data: z.infer<typeof productSchema>) => {
-    const imgString = await convertToBase64(data.image as File);
+    try {
+      const imgString = await convertToBase64(data.image as File);
 
-    const finalData = {
-      ...data,
-      image: imgString as string,
-    };
+      const finalData = {
+        ...data,
+        image: (imgString as string) || data.image,
+      };
 
-    startTransition(() => {
-      if (productData?.id) {
-        console.log('editing!');
-      }
-
-      createProduct(finalData).then((res) => {
-        if (res?.error) {
-          toast({
-            title: 'Kluda!',
-            description: res.error,
-            variant: 'destructive',
+      startTransition(() => {
+        if (productData?.id) {
+          editProduct(finalData, productData.id).then((res) => {
+            if (res?.error) {
+              toast({
+                title: 'Kluda redigejot!',
+                description: res.error,
+                variant: 'destructive',
+              });
+            } else {
+              toast({
+                title: 'Redigets!',
+                description: res.success,
+                variant: 'default',
+              });
+              redirect('/store/products');
+            }
           });
-        } else {
-          toast({
-            title: 'Izveidots!',
-            description: res.success,
-            variant: 'default',
-          });
-          redirect('/store/products');
+          return;
         }
+
+        createProduct(finalData).then((res) => {
+          if (res?.error) {
+            toast({
+              title: 'Kluda veidojot!',
+              description: res.error,
+              variant: 'destructive',
+            });
+          } else {
+            toast({
+              title: 'Izveidots!',
+              description: res.success,
+              variant: 'default',
+            });
+            redirect('/store/products');
+          }
+        });
       });
-    });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
@@ -302,7 +333,7 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                         field: { value, onChange, ...fieldProps },
                       }) => (
                         <FormItem>
-                          <FormLabel>Image</FormLabel>
+                          <FormLabel>Bilde</FormLabel>
                           <FormControl>
                             <div className='space-y-4'>
                               <div
