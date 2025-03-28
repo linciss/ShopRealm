@@ -17,7 +17,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { EllipsisIcon, Trash } from 'lucide-react';
+import { EllipsisIcon, Eye, Pencil, Trash } from 'lucide-react';
 import Image from 'next/image';
 import { deleteProduct } from '../../../../../actions/delete-product';
 import { useState, useTransition } from 'react';
@@ -67,27 +67,27 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
 
   return (
     <Card>
-      <CardHeader>
+      <CardHeader className='sm:p-6 px-2'>
         <CardTitle className='text-2xl  font-semibold leading-none tracking-tight'>
           Produktu parvaldnieks
         </CardTitle>
       </CardHeader>
-      <CardContent>
+      <CardContent className='sm:p-6 px-2'>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className='sm:visible hidden'>Bilde</TableHead>
+              <TableHead className='sm:block hidden'>Bilde</TableHead>
               <TableHead>Nosaukums</TableHead>
               <TableHead>Cena</TableHead>
               <TableHead>Daudzums</TableHead>
-              <TableHead>Statuss</TableHead>
+              <TableHead className='sm:block hidden'>Statuss</TableHead>
               <TableHead>akcvijas</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {products?.map((product) => (
               <TableRow key={product.id} className=''>
-                <TableCell className='sm:visible hidden'>
+                <TableCell className='sm:block hidden'>
                   <Image
                     src={
                       product.image
@@ -102,11 +102,9 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
                 <TableCell>{product.name}</TableCell>
                 <TableCell>€ {product.price}</TableCell>
                 <TableCell>{product.quantity}</TableCell>
-                <TableCell>
+                <TableCell className='sm:block hidden'>
                   {product.isActive && product.quantity < 5 ? (
-                    <Badge className='bg-orange-300'>
-                      Zems daudzuma limenis
-                    </Badge>
+                    <Badge className='bg-orange-300'>Zems daudzums</Badge>
                   ) : product.isActive ? (
                     <Badge className='bg-green-300'>Aktivs</Badge>
                   ) : (
@@ -125,11 +123,22 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
                         <Link
                           href={`/store/products/${product.id}`}
                           prefetch={false}
+                          className='flex items-center gap-1'
                         >
+                          <Eye height={16} width={16} />
                           Paradit produktu lapu
                         </Link>
                       </DropdownMenuItem>
-                      <DropdownMenuItem>Rediget</DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <Link
+                          href={`/store/products/configurator/${product.id}`}
+                          prefetch={false}
+                          className='flex items-center gap-1 '
+                        >
+                          <Pencil height={16} width={16} />
+                          Rediget
+                        </Link>
+                      </DropdownMenuItem>
                       <DropdownMenuItem
                         disabled={isPending}
                         className='text-red-500 text-center'

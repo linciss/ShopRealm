@@ -83,7 +83,7 @@ export const ProductPreview = ({ productData }: ProductProps) => {
           </div>
           <div className='flex flex-col gap-2'>
             <p className='font-medium'>Kategorijas</p>
-            <div>
+            <div className='flex gap-2 flex-wrap'>
               {productData.category.map((category) => (
                 <span
                   key={category}
