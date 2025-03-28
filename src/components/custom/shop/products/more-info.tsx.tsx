@@ -4,6 +4,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ReviewStars } from '../../review-stars';
 import { Separator } from '@/components/ui/separator';
 import { ReviewSection } from './review-section';
+import { calculateAverageRating } from '@/lib/utils';
 
 interface MoreInfoProps {
   details: string;
@@ -25,17 +26,6 @@ export const MoreInfo = ({
   reviews,
 }: MoreInfoProps) => {
   const reviewCount = reviews.length;
-
-  const avgRating =
-    Math.round(
-      (reviews
-        .map((review) => {
-          return review.rating;
-        })
-        .reduce((sum, rating) => sum + rating, 0) /
-        reviewCount) *
-        10,
-    ) / 10 || 0;
 
   const calculatePercentage = (rating: number) => {
     return (
@@ -119,8 +109,10 @@ export const MoreInfo = ({
           <Card className='mt-5 '>
             <CardHeader className='flex flex-row gap-2'>
               <div className='flex flex-col justify-center items-center'>
-                <h3 className='text-xl font-semibold'>{avgRating}</h3>
-                <ReviewStars averageReview={avgRating} />
+                <h3 className='text-xl font-semibold'>
+                  {calculateAverageRating(reviews)}
+                </h3>
+                <ReviewStars averageReview={calculateAverageRating(reviews)} />
                 <p className='text-sm text-muted-foreground'>
                   {reviews.length} atsauksmes
                 </p>
