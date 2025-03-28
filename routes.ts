@@ -6,6 +6,7 @@ export const shopperRoutes = [
   '/sale',
   '/new',
   '/categories',
+  '/electronics',
 ];
 
 export const publicRoutes = ['/about-us', ...shopperRoutes];
