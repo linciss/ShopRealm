@@ -1,23 +1,44 @@
-import { ProductCard } from '@/components/custom/product-card';
-import { SideFilters } from '@/components/custom/side-filters';
+import { ProductGrid } from '@/components/custom/products/product-grid';
+import { getProducts } from '../../../data/product';
 
-export default function Products() {
+interface ProductsPageProps {
+  searchParams: Promise<{
+    page?: string;
+    search?: string;
+    category?: string;
+    minPrice?: string;
+    maxPrice?: string;
+    sort?: string;
+  }>;
+}
+
+export default async function Products({ searchParams }: ProductsPageProps) {
+  const sp = await searchParams;
+
+  const page = Number(sp.page) || 1;
+  const search = sp.search || '';
+  const category = sp.category || '';
+  const minPrice = Number(sp.minPrice) || undefined;
+  const maxPrice = Number(sp.maxPrice) || undefined;
+  const sort = sp.sort || 'newest';
+
+  const { products } = await getProducts({
+    page,
+    search,
+    category,
+    minPrice,
+    maxPrice,
+    sort,
+    limit: 10,
+  });
+
   return (
-    <div className='font-[family-name:var(--font-geist-sans)] text-foreground bg-background md:container mx-auto px-4 sm:px-6 lg:px-14'>
-      <div className='flex flex-col gap-14'>
-        <section className='mt-3'>
-          <h1 className='font-semibold text-3xl'>Visi produkti</h1>
-        </section>
-        <div className='flex flex-row gap-8'>
-          <SideFilters />
-          <section className='flex-1 grid  gap-x-2 gap-y-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 grid-cols-1'>
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-            <ProductCard />
-          </section>
+    <div className=' mx-auto px-4 py-8 container'>
+      <h1 className='text-3xl font-bold mb-6'>Produkti</h1>
+      <div className='flex  gap-2 md:flex-row flex-col'>
+        <div className='w-full md:w-64 shrink-0'>Filtri</div>
+        <div className='flex-1'>
+          <ProductGrid products={products} />
         </div>
       </div>
     </div>
