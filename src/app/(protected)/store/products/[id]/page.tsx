@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { checkStoreProduct } from '../../../../../../data/store';
+import { getFullProductData } from '../../../../../../data/store';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -14,7 +14,7 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
 
-  const productData = await checkStoreProduct(id);
+  const productData = await getFullProductData(id);
 
   return {
     title: productData?.name,
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProductPagePreview({ params }: Props) {
   const { id } = await params;
 
-  const productData = await checkStoreProduct(id);
+  const productData = await getFullProductData(id);
 
   if (!productData) redirect('/store/products');
 
