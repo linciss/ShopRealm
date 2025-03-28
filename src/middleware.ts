@@ -43,8 +43,6 @@ export default auth(async (req) => {
   const isShopperRoute = shopperRoutes.includes(nextUrl.pathname);
   const isFallbackRoute = FALLBACK_REDIRECT.includes(nextUrl.pathname);
 
-  console.log(isFallbackRoute);
-
   if (isApiAuthRoute) {
     return NextResponse.next();
   }

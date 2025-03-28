@@ -6,6 +6,7 @@ import { ThemeProvider } from '@/components/ui/theme-provider';
 import { auth } from '../../auth';
 import { SessionProvider } from 'next-auth/react';
 import { Toaster } from '@/components/ui/toaster';
+import Footer from '@/components/custom/footer';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -48,6 +49,7 @@ export default async function RootLayout({
             <SessionProvider session={session}>
               <NavigationBar />
               <div className='flex-1'>{children}</div>
+              <Footer />
             </SessionProvider>
           </div>
           <Toaster />

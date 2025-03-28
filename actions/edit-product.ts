@@ -17,7 +17,7 @@ export const editProduct = async (
 
   //   console.log(data);
 
-  if (!session) return { error: 'Nav autorizēts lietotājs' };
+  if (!session?.user.id) return { error: 'Nav autorizēts lietotājs' };
 
   const validateData = productSchema.safeParse(data);
 

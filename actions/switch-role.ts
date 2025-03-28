@@ -7,7 +7,7 @@ import { Role } from '@prisma/client';
 export const switchRole = async () => {
   const session = await auth();
 
-  if (!session?.user) return { error: 'Kluda!' };
+  if (!session?.user.id) return { error: 'Kluda!' };
 
   console.log(session?.user?.role);
 

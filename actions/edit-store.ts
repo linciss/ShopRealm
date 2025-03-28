@@ -11,7 +11,7 @@ export const editUserStore = async (data: z.infer<typeof storeSchema>) => {
   const session = await auth();
   const validateData = storeSchema.safeParse(data);
 
-  if (!session?.user) return { error: 'Kluda!' };
+  if (!session?.user.id) return { error: 'Kluda!' };
 
   if (!validateData.success) {
     return { error: 'Kluda mainot datus!' };

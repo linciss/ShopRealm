@@ -7,7 +7,7 @@ import { getStoreId } from '../data/store';
 export const deleteProduct = async (productId: string) => {
   const session = await auth();
 
-  if (!session?.user) return { error: 'Kluda!' };
+  if (!session?.user.id) return { error: 'Kluda!' };
 
   try {
     const storeId = await getStoreId();
