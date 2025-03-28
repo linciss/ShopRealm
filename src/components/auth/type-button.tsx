@@ -8,7 +8,7 @@ interface TypeButtonProps {
 export const TypeButton = ({ text, href }: TypeButtonProps) => {
   return (
     <Button variant={'link'}>
-      <Link href={href} className='text-foreground'>
+      <Link href={href} className='text-foreground sm:text-sm text-xs'>
         {text}
       </Link>
     </Button>
