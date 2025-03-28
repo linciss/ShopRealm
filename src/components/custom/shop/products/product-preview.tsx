@@ -1,7 +1,7 @@
 import { SelectSeparator } from '@/components/ui/select';
 import Image from 'next/image';
 import { AddToCart } from './add-to-cart-preview';
-import { categoryMap } from '@/lib/utils';
+import { calculateAverageRating, categoryMap } from '@/lib/utils';
 import { MoreInfo } from './more-info.tsx';
 import { ReviewStars } from '../../review-stars';
 
@@ -35,20 +35,18 @@ interface ProductProps {
     | undefined;
 }
 export const ProductPreview = ({ productData }: ProductProps) => {
-  console.log(productData?.specifications, 'lol');
-
   if (!productData) return;
 
   return (
-    <div className='px-4 py-8'>
-      <div className='grid grid-cols-1 md:grid-cols-2'>
+    <div className=' px-2 md:px-4 py-8'>
+      <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-0'>
         <div className='border border-muted-foreground rounded-lg'>
           <Image
             width={600}
             height={600}
             src={(productData.image as string) || ''}
             alt='Product Image'
-            className='h-auto w-[600px]  object-contain '
+            className='w-auto h-[550px]  object-contain '
           />
         </div>
 
@@ -56,8 +54,12 @@ export const ProductPreview = ({ productData }: ProductProps) => {
           <div className='flex flex-col gap-2'>
             <h1 className='text-3xl font-semibold '>{productData.name}</h1>
             <div className='flex flex-row items-center gap-1'>
-              <ReviewStars averageReview={4.5} />
-              <p className='text-sm text-muted-foreground'>(24 reviews)</p>
+              <ReviewStars
+                averageReview={calculateAverageRating(productData.reviews)}
+              />
+              <p className='text-sm text-muted-foreground'>
+                ({productData.reviews.length} atsauksmes)
+              </p>
             </div>
           </div>
           <div className='flex flex-col'>
