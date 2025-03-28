@@ -139,7 +139,7 @@ export const getProducts = async () => {
 };
 
 // checks if store has the selected product and retursn the product for store preview
-export const checkStoreProduct = async (productId: string) => {
+export const getFullProductData = async (productId: string) => {
   const session = await auth();
 
   if (!session?.user.id) return;
@@ -180,6 +180,49 @@ export const checkStoreProduct = async (productId: string) => {
                 },
               },
             },
+            details: true,
+            specifications: true,
+          },
+        },
+      },
+    });
+
+    if (!isStoreProduct) return;
+
+    return isStoreProduct.products[0];
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error: ', error.stack);
+    }
+    return;
+  }
+};
+
+// gets just product data for correspodnign productid
+export const getProductData = async (productId: string) => {
+  const session = await auth();
+
+  if (!session?.user.id) return;
+
+  try {
+    const userId = session.user.id;
+
+    const isStoreProduct = await prisma?.store.findUnique({
+      where: { userId },
+      select: {
+        products: {
+          where: {
+            id: productId,
+          },
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            price: true,
+            quantity: true,
+            isActive: true,
+            image: true,
+            category: true,
             details: true,
             specifications: true,
           },
