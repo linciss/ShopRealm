@@ -32,13 +32,13 @@ export const categoryMap: CategoryMap = {
 };
 
 interface Review {
-  id: string;
+  id?: string;
   rating: number;
-  comment: string;
-  user: {
+  comment?: string;
+  user?: {
     name: string;
   };
-  createdAt: Date;
+  createdAt?: Date;
 }
 
 export const calculateAverageRating = (reviews: Review[]) => {
