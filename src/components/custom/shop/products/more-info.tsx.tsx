@@ -5,99 +5,6 @@ import { ReviewStars } from '../../review-stars';
 import { Separator } from '@/components/ui/separator';
 import { ReviewSection } from './review-section';
 
-const mockupReviews = [
-  {
-    id: '1',
-    rating: 4,
-    comment: 'Labas kvalitates prece, atbilst aprakstam 1',
-    user: {
-      name: 'John Doe',
-    },
-    createdAt: new Date(),
-  },
-  {
-    id: '2',
-    rating: 5,
-    comment: 'Labas kvalitates prece, atbilst aprakstam 2',
-    user: {
-      name: 'John Doe',
-    },
-    createdAt: new Date(),
-  },
-  {
-    id: '3',
-    rating: 3,
-    comment: 'Labas kvalitates prece, atbilst aprakstam 3',
-    user: {
-      name: 'John Doe',
-    },
-    createdAt: new Date(),
-  },
-  {
-    id: '4',
-    rating: 2,
-    comment: 'Labas kvalitates prece, atbilst aprakstam 4',
-    user: {
-      name: 'John Doe',
-    },
-    createdAt: new Date(),
-  },
-  {
-    id: '5',
-    rating: 1,
-    comment: 'Labas kvalitates prece, atbilst aprakstam 5',
-    user: {
-      name: 'John Doe',
-    },
-    createdAt: new Date(),
-  },
-  {
-    id: '6',
-    rating: 5,
-    comment: 'Labas kvalitates prece, atbilst aprakstam 6',
-    user: {
-      name: 'John Doe',
-    },
-    createdAt: new Date(),
-  },
-  {
-    id: '7',
-    rating: 4,
-    comment: 'Labas kvalitates prece, atbilst aprakstam 7',
-    user: {
-      name: 'John Doe',
-    },
-    createdAt: new Date(),
-  },
-  {
-    id: '8',
-    rating: 3,
-    comment: 'Labas kvalitates prece, atbilst aprakstam 8 ',
-    user: {
-      name: 'John Doe',
-    },
-    createdAt: new Date(),
-  },
-  {
-    id: '9',
-    rating: 3,
-    comment: 'Labas kvalitates prece, atbilst aprakstam 9',
-    user: {
-      name: 'John Doe',
-    },
-    createdAt: new Date(),
-  },
-  {
-    id: '9',
-    rating: 3,
-    comment: 'Labas kvalitates prece, atbilst aprakstam 10',
-    user: {
-      name: 'John Doe',
-    },
-    createdAt: new Date(),
-  },
-];
-
 interface MoreInfoProps {
   details: string;
   specifications: string | null;
@@ -117,24 +24,23 @@ export const MoreInfo = ({
   specifications,
   reviews,
 }: MoreInfoProps) => {
-  const reviewCount = mockupReviews.length;
+  const reviewCount = reviews.length;
 
   const avgRating =
     Math.round(
-      (mockupReviews
+      (reviews
         .map((review) => {
           return review.rating;
         })
         .reduce((sum, rating) => sum + rating, 0) /
         reviewCount) *
         10,
-    ) / 10;
+    ) / 10 || 0;
 
   const calculatePercentage = (rating: number) => {
     return (
       Math.round(
-        (mockupReviews.filter((rev) => rev.rating === rating).length /
-          reviewCount) *
+        (reviews.filter((rev) => rev.rating === rating).length / reviewCount) *
           100 *
           10,
       ) / 10
@@ -242,7 +148,7 @@ export const MoreInfo = ({
             </CardHeader>
             <CardContent className='space-y-4'>
               <Separator />
-              <ReviewSection reviews={mockupReviews} />
+              <ReviewSection reviews={reviews} />
             </CardContent>
           </Card>
         </TabsContent>
