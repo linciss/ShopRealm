@@ -2,24 +2,34 @@ import { ProductCard } from '../product-card';
 
 interface Product {
   id: string;
+  slug: string;
   name: string;
-  image: string;
+  image: string | null;
   price: string;
   reviews: {
     rating: number;
   }[];
 }
 
-interface ProductGridProps {
-  products: Product[];
+interface Favorite {
+  id: string;
+  productId: string;
 }
 
-export const ProductGrid = ({ products }: ProductGridProps) => {
-  console.log(products);
+interface ProductGridProps {
+  products: Product[];
+  favoriteItems?: Favorite[] | undefined;
+}
+
+export const ProductGrid = ({ products, favoriteItems }: ProductGridProps) => {
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
       {products.map((prod) => (
-        <ProductCard key={prod.id} productData={prod} />
+        <ProductCard
+          key={prod.id}
+          productData={prod}
+          favoriteItems={favoriteItems}
+        />
       ))}
     </div>
   );
