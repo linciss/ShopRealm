@@ -1,5 +1,6 @@
 // import prisma from '@/lib/db';
-import { mockupDatA } from './mockup';
+import prisma from '@/lib/db';
+// import { mockupDatA } from './mockup';
 
 interface ProductsQueryOptions {
   page: number;
@@ -20,39 +21,22 @@ export async function getProducts({
   sort,
   limit,
 }: ProductsQueryOptions) {
-  //   const allProducts = await prisma.product.findMany({
-  //     select: {
-  //       id: true,
-  //       name: true,
-  //       description: true,
-  //       price: true,
-  //       quantity: true,
-  //       isActive: true,
-  //       image: true,
-  //       slug: true,
-  //       storeId: true,
-  //       category: true,
-  //       createdAt: true,
-  //       updatedAt: true,
-  //       reviews: {
-  //         select: {
-  //           id: true,
-  //           rating: true,
-  //           comment: true,
-  //           createdAt: true,
-  //           user: {
-  //             select: {
-  //               name: true,
-  //             },
-  //           },
-  //         },
-  //       },
-  //       details: true,
-  //       specifications: true,
-  //     },
-  //   });
+  const allProducts = await prisma.product.findMany({
+    select: {
+      id: true,
+      name: true,
+      price: true,
+      image: true,
+      slug: true,
+      reviews: {
+        select: {
+          rating: true,
+        },
+      },
+    },
+  });
 
-  const allProducts = mockupDatA;
+  // const allProducts = mockupDatA;
 
   let filteredProducts = [...allProducts];
 
@@ -106,17 +90,58 @@ export async function getProducts({
   );
 
   return {
-    products: paginatedProducts as Product[],
+    products: paginatedProducts,
     totalProducts,
   };
 }
 
-interface Product {
-  id: string;
-  name: string;
-  image: string;
-  price: string;
-  reviews: {
-    rating: number;
-  }[];
-}
+export const getProduct = async (id: string) => {
+  try {
+    const product = await prisma.product.findUnique({
+      where: {
+        id: id,
+      },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        price: true,
+        quantity: true,
+        image: true,
+        store: {
+          select: {
+            name: true,
+            id: true,
+          },
+        },
+        category: true,
+        createdAt: true,
+        reviews: {
+          select: {
+            id: true,
+            rating: true,
+            comment: true,
+            createdAt: true,
+
+            user: {
+              select: {
+                name: true,
+              },
+            },
+          },
+        },
+        details: true,
+        specifications: true,
+      },
+    });
+
+    if (!product) return;
+
+    return product;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error: ', error.stack);
+    }
+    return;
+  }
+};

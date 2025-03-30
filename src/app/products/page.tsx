@@ -1,5 +1,6 @@
 import { ProductGrid } from '@/components/custom/products/product-grid';
 import { getProducts } from '../../../data/product';
+import { getFavoriteItems } from '../../../data/favorites';
 
 interface ProductsPageProps {
   searchParams: Promise<{
@@ -32,13 +33,15 @@ export default async function Products({ searchParams }: ProductsPageProps) {
     limit: 10,
   });
 
+  const favoriteItems = await getFavoriteItems();
+
   return (
     <div className=' mx-auto px-4 py-8 container'>
       <h1 className='text-3xl font-bold mb-6'>Produkti</h1>
       <div className='flex  gap-2 md:flex-row flex-col'>
         <div className='w-full md:w-64 shrink-0'>Filtri</div>
         <div className='flex-1'>
-          <ProductGrid products={products} />
+          <ProductGrid products={products} favoriteItems={favoriteItems} />
         </div>
       </div>
     </div>

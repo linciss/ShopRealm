@@ -98,7 +98,7 @@ export const getStoreId = async () => {
     if (error instanceof Error) {
       console.log('Error: ', error.stack);
     }
-    return { error: 'Kļūda apstrādājot datus' };
+    return;
   }
 };
 
@@ -139,7 +139,7 @@ export const getProducts = async () => {
 };
 
 // checks if store has the selected product and retursn the product for store preview
-export const getFullProductData = async (productId: string) => {
+export const getFullStoreProductData = async (productId: string) => {
   const session = await auth();
 
   if (!session?.user.id) return;
@@ -199,7 +199,7 @@ export const getFullProductData = async (productId: string) => {
 };
 
 // gets just product data for correspodnign productid
-export const getProductData = async (productId: string) => {
+export const getStoreProductData = async (productId: string) => {
   const session = await auth();
 
   if (!session?.user.id) return;

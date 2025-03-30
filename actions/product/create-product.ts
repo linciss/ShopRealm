@@ -12,8 +12,6 @@ import { revalidatePath } from 'next/cache';
 export const createProduct = async (data: z.infer<typeof productSchema>) => {
   const session = await auth();
 
-  console.log(data);
-
   if (!session?.user.id) return { error: 'Nav autorizēts lietotājs' };
 
   const validateData = productSchema.safeParse(data);
