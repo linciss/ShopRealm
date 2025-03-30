@@ -17,6 +17,15 @@ const { auth } = NextAuth(authConfig);
 
 const secret = process.env.AUTH_SECRET;
 
+// matcher for dynamic routes
+const matchesRoute = (pathname: string, routes: string[]): boolean => {
+  return routes.some((route) => {
+    const pattern = route.replace(/\[([^\]]+)\]/g, '([^/]+)');
+    const regex = new RegExp(`^${pattern}$`);
+    return regex.test(pathname);
+  });
+};
+
 export default auth(async (req) => {
   const { nextUrl } = req;
 
@@ -37,7 +46,7 @@ export default auth(async (req) => {
   const isLoggedIn = !!req.auth;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
-  const isPublicRoute = publicRoutes.includes(nextUrl.pathname);
+  const isPublicRoute = matchesRoute(nextUrl.pathname, publicRoutes);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
   const isStoreRoute = storeRoutes.includes(nextUrl.pathname);
   const isShopperRoute = shopperRoutes.includes(nextUrl.pathname);
@@ -79,5 +88,11 @@ export default auth(async (req) => {
 });
 
 export const config = {
-  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
+  matcher: [
+    '/((?!.+\\.[\\w]+$|_next).*)',
+    '/',
+    '/(api|trpc)(.*)',
+    '/products/:path*',
+    '/products/:path',
+  ],
 };
