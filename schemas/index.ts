@@ -166,3 +166,18 @@ export const productSchema = z.object({
     )
     .optional(),
 });
+
+export const reviewSchema = z.object({
+  rating: z
+    .number()
+    .refine(
+      (val) =>
+        !isNaN(Number.parseInt(val.toString())) &&
+        Number.parseInt(val.toString()) >= 1 &&
+        Number.parseInt(val.toString()) <= 5,
+      {
+        message: 'Atsaukmes reitingam jabut no 1 lidz 5',
+      },
+    ),
+  comment: z.string().min(10, { message: 'Jabut vismaz 10 simboliem garam' }),
+});

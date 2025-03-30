@@ -29,6 +29,7 @@ model User {
   cart          Cart?           
   orders        Order[]
   reviews       Review[]
+  favoriteList  FavoriteList?
 }
 
 
@@ -77,6 +78,7 @@ model Product {
   reviews       Review[]
   details       String
   specifications  String?
+  favoriteItems   FavoriteItem[]
 }
 
 model CartItem {
@@ -96,6 +98,25 @@ model Cart {
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
 }
+
+model FavoriteList {
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  user          User            @relation(fields: [userId], references: [id])
+  userId        String          @db.ObjectId @unique
+  products      FavoriteItem[]
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+}
+
+model FavoriteItem{
+  id            String          @id @default(auto()) @map("_id") @db.ObjectId
+  favoriteList  FavoriteList    @relation(fields: [favoriteListId], references: [id])
+  favoriteListId  String        @db.ObjectId
+  product         Product       @relation(fields: [productId], references: [id])
+  productId       String        @db.ObjectId
+  addedAt         DateTime      @default(now())
+}
+
 
 model Order {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
