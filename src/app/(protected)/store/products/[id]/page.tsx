@@ -1,10 +1,10 @@
 import { redirect } from 'next/navigation';
-import { getFullProductData } from '../../../../../../data/store';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { ProductPreview } from '@/components/custom/shop/products/product-preview';
+import { getFullStoreProductData } from '../../../../../../data/store';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -14,7 +14,7 @@ type Props = {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
 
-  const productData = await getFullProductData(id);
+  const productData = await getFullStoreProductData(id);
 
   return {
     title: productData?.name,
@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 export default async function ProductPagePreview({ params }: Props) {
   const { id } = await params;
 
-  const productData = await getFullProductData(id);
+  const productData = await getFullStoreProductData(id);
 
   if (!productData) redirect('/store/products');
 

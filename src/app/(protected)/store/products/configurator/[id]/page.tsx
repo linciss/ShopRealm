@@ -1,9 +1,9 @@
 import { redirect } from 'next/navigation';
-import { getProductData } from '../../../../../../../data/store';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { ProductForm } from '@/components/custom/shop/products/product-form';
+import { getStoreProductData } from '../../../../../../../data/store';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -12,7 +12,7 @@ type Props = {
 export default async function ProductEdit({ params }: Props) {
   const { id } = await params;
 
-  const productData = await getProductData(id);
+  const productData = await getStoreProductData(id);
 
   if (!productData) redirect('/store/products');
 
