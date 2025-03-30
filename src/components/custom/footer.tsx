@@ -62,7 +62,7 @@ export default function Footer() {
                 </ul>
               </div>
             </div>
-            <div className='md:grid md:grid-cols-2 md:gap-8'>
+            <div className='md:grid md:grid-cols-1 md:gap-8'>
               <div>
                 <h3 className='text-sm font-semibold text-card-foreground'>
                   Kompanija

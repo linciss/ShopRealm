@@ -19,7 +19,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useState, useTransition } from 'react';
-import { editUserStore } from '../../../../actions/edit-store';
+import { editUserStore } from '../../../../actions/store/edit-store';
 import { redirect } from 'next/navigation';
 
 interface UserProps {

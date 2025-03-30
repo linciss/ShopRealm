@@ -15,11 +15,11 @@ import {
 } from '../ui/form';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-import { register } from '../../../actions/register';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
+import { register } from '../../../actions/auth/register';
 
 export const SignUpForms = () => {
   const form = useForm<z.infer<typeof signUpSchema>>({
@@ -52,7 +52,6 @@ export const SignUpForms = () => {
             variant: 'destructive',
           });
         } else {
-          console.log('LOGGED IN!');
           toast({
             title: 'Ielogojies!',
             description: res.success,

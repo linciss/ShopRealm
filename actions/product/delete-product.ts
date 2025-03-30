@@ -1,8 +1,8 @@
 'use server';
 
 import prisma from '@/lib/db';
-import { auth } from '../auth';
-import { getStoreId } from '../data/store';
+import { auth } from '../../auth';
+import { getStoreId } from '../../data/store';
 
 export const deleteProduct = async (productId: string) => {
   const session = await auth();

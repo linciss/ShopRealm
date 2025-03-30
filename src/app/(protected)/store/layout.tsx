@@ -12,7 +12,6 @@ export default async function StoreLayout({
   const session = await auth();
 
   if (!session?.user?.id) {
-    console.log(session, 'user isnt logged in ');
     redirect(FALLBACK_REDIRECT);
   }
 
@@ -21,8 +20,6 @@ export default async function StoreLayout({
   }
 
   const storeName: string | undefined = await getStoreName();
-
-  console.log(storeName);
 
   return (
     <div className='flex min-h-screen flex-col max-w-full '>

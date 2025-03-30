@@ -24,7 +24,7 @@ import {
 } from '@/components/ui/select';
 import { Pencil } from 'lucide-react';
 import { useState, useTransition } from 'react';
-import { editUserAddress } from '../../../../actions/edit-address';
+import { editUserAddress } from '../../../../actions/user/edit-address';
 
 interface AddressFormsProps {
   userAddress: {

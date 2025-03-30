@@ -1,12 +1,14 @@
 'use server';
 import { z } from 'zod';
-import { signUpSchema } from '../schemas';
 import bcrypt from 'bcryptjs';
-import { getUserByEmail } from '../data/user';
+
 import prisma from '@/lib/db';
-import { signIn } from '../auth';
-import { DEFAULT_SIGNIN_REDIRECT } from '../routes';
+
 import { AuthError } from 'next-auth';
+import { DEFAULT_SIGNIN_REDIRECT } from '../../routes';
+import { signIn } from '../../auth';
+import { getUserByEmail } from '../../data/user';
+import { signUpSchema } from '../../schemas';
 
 const SALT_ROUNDS = 10;
 

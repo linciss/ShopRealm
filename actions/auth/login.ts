@@ -1,11 +1,11 @@
 'use server';
 
 import { z } from 'zod';
-import { signInSchema } from '../schemas';
-import { signIn } from '../auth';
+import { signInSchema } from '../../schemas';
+import { signIn } from '../../auth';
 import { AuthError } from 'next-auth';
 import prisma from '@/lib/db';
-import { DEFAULT_SIGNIN_REDIRECT } from '../routes';
+import { DEFAULT_SIGNIN_REDIRECT } from '../../routes';
 
 // login server action
 export const login = async (data: z.infer<typeof signInSchema>) => {

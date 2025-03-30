@@ -19,7 +19,7 @@ import {
 } from '@/components/ui/table';
 import { EllipsisIcon, Eye, Pencil, Trash } from 'lucide-react';
 import Image from 'next/image';
-import { deleteProduct } from '../../../../../actions/delete-product';
+import { deleteProduct } from '../../../../../actions/product/delete-product';
 import { useState, useTransition } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';

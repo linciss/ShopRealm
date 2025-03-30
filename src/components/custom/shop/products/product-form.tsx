@@ -17,7 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useState, useTransition } from 'react';
 import { RichTextEditor } from '@/components/ui/rich-text-editor';
-import { createProduct } from '../../../../../actions/create-product';
+import { createProduct } from '../../../../../actions/product/create-product';
 import Link from 'next/link';
 import { Switch } from '@/components/ui/switch';
 
@@ -28,7 +28,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { redirect } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { Textarea } from '@/components/ui/textarea';
-import { editProduct } from '../../../../../actions/edit-product';
+import { editProduct } from '../../../../../actions/product/edit-product';
 
 interface Product {
   id: string;
@@ -48,8 +48,6 @@ interface ProductDataProps {
 }
 
 const convertToBase64 = (file: File) => {
-  console.log(file);
-
   if (typeof file !== 'string') {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();

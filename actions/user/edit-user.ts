@@ -1,9 +1,9 @@
 'use server';
 
 import { z } from 'zod';
-import { personalInfoSchema } from '../schemas';
 import prisma from '@/lib/db';
-import { auth } from '../auth';
+import { personalInfoSchema } from '../../schemas';
+import { auth } from '../../auth';
 
 export const editUserProfile = async (
   data: z.infer<typeof personalInfoSchema>,

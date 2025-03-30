@@ -2,9 +2,9 @@
 
 import { z } from 'zod';
 import prisma from '@/lib/db';
-import { storeSchema } from '../schemas';
-import { checkHasStore } from '../data/store';
-import { auth } from '../auth';
+import { storeSchema } from '../../schemas';
+import { checkHasStore } from '../../data/store';
+import { auth } from '../../auth';
 import { slugify } from '@/lib/utils';
 
 export const editUserStore = async (data: z.infer<typeof storeSchema>) => {

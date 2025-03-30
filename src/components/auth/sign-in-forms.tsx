@@ -16,7 +16,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { startTransition, useEffect, useTransition } from 'react';
-import { login } from '../../../actions/login';
+import { login } from '../../../actions/auth/login';
 
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';

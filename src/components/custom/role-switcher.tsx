@@ -13,7 +13,7 @@ import {
 import { ShoppingBag, Store, ChevronDown } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Session } from 'next-auth';
-import { switchRole } from '../../../actions/switch-role';
+import { switchRole } from '../../../actions/auth/switch-role';
 import {
   Dialog,
   DialogContent,

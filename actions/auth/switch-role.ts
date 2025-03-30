@@ -1,7 +1,7 @@
 'use server';
 
 import prisma from '@/lib/db';
-import { auth, signOut } from '../auth';
+import { auth, signOut } from '../../auth';
 import { Role } from '@prisma/client';
 
 export const switchRole = async () => {

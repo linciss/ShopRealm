@@ -1,18 +1,21 @@
 'use server';
 import { nanoid } from 'nanoid';
 import prisma from '@/lib/db';
-import { auth } from '../auth';
-import { getStoreId } from '../data/store';
+import { auth } from '../../auth';
+import { getStoreId } from '../../data/store';
 import { z } from 'zod';
-import { productSchema } from '../schemas';
+import { productSchema } from '../../schemas';
 import DOMPurify from 'isomorphic-dompurify';
 import { slugify } from '@/lib/utils';
 import { revalidatePath } from 'next/cache';
 
-export const createProduct = async (data: z.infer<typeof productSchema>) => {
+export const editProduct = async (
+  data: z.infer<typeof productSchema>,
+  productId: string,
+) => {
   const session = await auth();
 
-  console.log(data);
+  //   console.log(data);
 
   if (!session?.user.id) return { error: 'Nav autorizēts lietotājs' };
 
@@ -74,7 +77,23 @@ export const createProduct = async (data: z.infer<typeof productSchema>) => {
 
     const stringifiedSpec = JSON.stringify(specifications);
 
-    await prisma.product.create({
+    const userId = session.user.id;
+
+    const isStoreProduct = await prisma?.store.findUnique({
+      where: { userId },
+      select: {
+        products: {
+          where: {
+            id: productId,
+          },
+        },
+      },
+    });
+
+    if (!isStoreProduct) return { error: 'Nav jsuu produkts' };
+
+    await prisma.product.update({
+      where: { id: productId },
       data: {
         name,
         description,
@@ -82,18 +101,18 @@ export const createProduct = async (data: z.infer<typeof productSchema>) => {
         quantity,
         category,
         isActive: checkIfActive,
-        storeId,
         slug: itemSlug,
         image: image as string,
         details: sanitizedDetails,
         specifications: stringifiedSpec,
       },
     });
+
     revalidatePath('/products');
     revalidatePath('/store/products');
     revalidatePath(`/product/${itemSlug}`);
     revalidatePath('/');
-    return { success: 'Produkts veiksmīgi izveidots!' };
+    return { success: 'Produkts veiksmīgi redigets!' };
   } catch (error) {
     if (error instanceof Error) {
       console.log('Error: ', error.stack);

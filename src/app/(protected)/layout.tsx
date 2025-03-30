@@ -9,11 +9,8 @@ export default async function ProtectedLayout({
 }) {
   const session = await auth();
 
-  console.log('layout hit!');
-
   // if user accesses private routes wihtout session they are reidrect to fallback url which logs them out
   if (!session?.user?.id) {
-    console.log(session, 'user isnt logged in ');
     redirect(FALLBACK_REDIRECT);
   }
 

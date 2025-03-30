@@ -19,7 +19,7 @@ import { Button } from '@/components/ui/button';
 import { Camera, Pencil } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useTransition } from 'react';
-import { editUserProfile } from '../../../../actions/edit-user';
+import { editUserProfile } from '../../../../actions/user/edit-user';
 
 interface PersonalFormsProps {
   userData: {

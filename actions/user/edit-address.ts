@@ -2,8 +2,8 @@
 
 import { z } from 'zod';
 import prisma from '@/lib/db';
-import { addressInfoSchema } from '../schemas';
-import { auth } from '../auth';
+import { addressInfoSchema } from '../../schemas';
+import { auth } from '../../auth';
 
 export const editUserAddress = async (
   data: z.infer<typeof addressInfoSchema>,
