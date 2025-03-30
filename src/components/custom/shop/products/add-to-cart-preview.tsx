@@ -5,17 +5,11 @@ import { useToast } from '@/hooks/use-toast';
 import { Heart, Minus, Plus, Share2Icon, ShoppingCartIcon } from 'lucide-react';
 import { useState } from 'react';
 
-interface AddToCartProps {
-  id: string;
-}
-
-export const AddToCart = ({ id }: AddToCartProps) => {
+export const AddToCart = () => {
   const [quantity, setQuantity] = useState<number>(0);
   const url = typeof window !== 'undefined' ? window.location.href : null;
 
   const { toast } = useToast();
-
-  console.log(id);
 
   return (
     <div className='flex flex-col gap-4'>

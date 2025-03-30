@@ -2,7 +2,7 @@ import { SelectSeparator } from '@/components/ui/select';
 import Image from 'next/image';
 import { AddToCart } from './add-to-cart-preview';
 import { calculateAverageRating, categoryMap } from '@/lib/utils';
-import { MoreInfo } from './more-info.tsx';
+import { MoreInfo } from '../../products/more-info.tsx';
 import { ReviewStars } from '../../review-stars';
 
 interface ProductProps {
@@ -95,7 +95,7 @@ export const ProductPreview = ({ productData }: ProductProps) => {
             </div>
           </div>
           <SelectSeparator />
-          <AddToCart id={productData.id} />
+          <AddToCart />
         </div>
       </div>
       <MoreInfo
