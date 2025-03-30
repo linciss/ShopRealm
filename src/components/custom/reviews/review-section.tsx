@@ -1,30 +1,72 @@
 'use client';
 import { Separator } from '@/components/ui/separator';
-import { ReviewStars } from '../../review-stars';
+import { ReviewStars } from '../review-stars';
 import { Button } from '@/components/ui/button';
 import { useState } from 'react';
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from '@/components/ui/card';
+import { ReviewActions } from './review-actions';
 
-interface ReviewSectionProps {
-  reviews: {
-    id: string;
-    rating: number;
-    comment: string;
-    user: {
-      name: string;
-    };
-    createdAt: Date;
-  }[];
+interface Review {
+  id: string;
+  rating: number;
+  comment: string;
+  user: {
+    name: string;
+  };
+  createdAt: Date;
 }
 
-export const ReviewSection = ({ reviews }: ReviewSectionProps) => {
+interface ReviewSectionProps {
+  reviews: Review[];
+  userReviewData?: Review | undefined;
+}
+
+export const ReviewSection = ({
+  reviews,
+  userReviewData,
+}: ReviewSectionProps) => {
   const [pageSkip, setPageSkip] = useState<number>(0);
 
   return (
     <div className='space-y-4 flex flex-col'>
+      {userReviewData && (
+        <>
+          <Card>
+            <CardHeader className='pb-0'>
+              <div className='flex flex-row items-center justify-between'>
+                <div className=''>
+                  <div className='font-medium text-lg'>
+                    {userReviewData.user.name}
+                  </div>
+                  <div className='text-sm text-muted-foreground'>
+                    {new Date(userReviewData.createdAt).toLocaleDateString()}
+                  </div>
+                </div>
+              </div>
+            </CardHeader>
+            <CardContent className='pb-3'>
+              <ReviewStars averageReview={userReviewData.rating} />
+              <p className='text-md text-muted-foreground'>
+                {userReviewData.comment}
+              </p>
+            </CardContent>
+            <CardFooter className='flex-col gap-2 '>
+              <Separator />
+              <ReviewActions reviewData={userReviewData} />
+            </CardFooter>
+          </Card>
+        </>
+      )}
+
       {reviews.slice(0 + pageSkip, 3 + pageSkip).map((review) => (
         <div className='flex flex-col' key={review.id}>
           <div className='flex flex-row items-center justify-between'>
-            <div className='font-medium text-lg'>John doe</div>
+            <div className='font-medium text-lg'>{review.user.name}</div>
             <div className='text-sm text-muted-foreground'>
               {new Date(review.createdAt).toLocaleDateString()}
             </div>

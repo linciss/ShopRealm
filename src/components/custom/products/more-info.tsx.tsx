@@ -1,48 +1,57 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ReviewStars } from '../../review-stars';
 import { Separator } from '@/components/ui/separator';
-import { ReviewSection } from './review-section';
-import { calculateAverageRating } from '@/lib/utils';
+import { ReviewSection } from '../reviews/review-section';
+import { ReviewHeader } from '../reviews/review-header';
+import { ReviewDialog } from './review-dialog';
+
+interface Review {
+  id: string;
+  rating: number;
+  comment: string;
+  user: {
+    name: string;
+  };
+  createdAt: Date;
+}
 
 interface MoreInfoProps {
   details: string;
   specifications: string | null;
-  reviews: {
-    id: string;
-    rating: number;
-    comment: string;
-    user: {
-      name: string;
-    };
-    createdAt: Date;
-  }[];
+  reviews: Review[];
+  preview?: boolean;
+  userReviewId?: string;
 }
 
 export const MoreInfo = ({
   details,
   specifications,
   reviews,
+  preview = true,
+  userReviewId,
 }: MoreInfoProps) => {
-  const reviewCount = reviews.length;
+  let filteredReviews: Review[];
+  let userReviewData: Review | undefined;
 
-  const calculatePercentage = (rating: number) => {
-    return (
-      Math.round(
-        (reviews.filter((rev) => rev.rating === rating).length / reviewCount) *
-          100 *
-          10,
-      ) / 10
-    );
-  };
+  // if user review id is found then remove the review from all reviews and store as variable
+  if (userReviewId) {
+    userReviewData = reviews.find((rev) => rev.id === userReviewId);
+
+    filteredReviews = userReviewData
+      ? reviews.filter((rev) => rev.id !== userReviewData?.id)
+      : reviews;
+  } else {
+    filteredReviews = reviews;
+    userReviewData = undefined;
+  }
 
   return (
     <div className='mt-5'>
       <Tabs defaultValue='details' className=' w-full'>
-        <TabsList className=' space-x-2 bg-muted text-foreground '>
+        <TabsList className=' space-x-2 bg-muted text-foreground w-full justify-start '>
           <TabsTrigger
-            className='data-[state=active]:shadow-none rounded-none'
+            className='data-[state=active]:shadow-none rounded-none '
             value='details'
           >
             Produkta detalas
@@ -107,40 +116,22 @@ export const MoreInfo = ({
         </TabsContent>
         <TabsContent value='reviews'>
           <Card className='mt-5 '>
-            <CardHeader className='flex flex-row gap-2'>
-              <div className='flex flex-col justify-center items-center'>
-                <h3 className='text-xl font-semibold'>
-                  {calculateAverageRating(reviews)}
-                </h3>
-                <ReviewStars averageReview={calculateAverageRating(reviews)} />
-                <p className='text-sm text-muted-foreground'>
-                  {reviews.length} atsauksmes
-                </p>
-              </div>
-              <div className='flex-1'>
-                <ul>
-                  {[5, 4, 3, 2, 1].map((rating) => (
-                    <li
-                      className='flex flex-row items-center gap-2'
-                      key={rating}
-                    >
-                      {rating}
-                      <div className='w-full bg-muted rounded-full h-2 relative'>
-                        <div
-                          className={`rounded-full absolute top-0 h-2 bg-yellow-500`}
-                          style={{
-                            width: calculatePercentage(rating) + '%',
-                          }}
-                        ></div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <CardHeader className='flex flex-row gap-2 items-center'>
+              <ReviewHeader reviews={reviews} />
+              {!preview && (
+                <div className='px-4'>
+                  <ReviewDialog
+                    userEligibleForReview={userReviewData ? false : true}
+                  />
+                </div>
+              )}
             </CardHeader>
             <CardContent className='space-y-4'>
               <Separator />
-              <ReviewSection reviews={reviews} />
+              <ReviewSection
+                reviews={filteredReviews}
+                userReviewData={userReviewData}
+              />
             </CardContent>
           </Card>
         </TabsContent>

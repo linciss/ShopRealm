@@ -25,7 +25,7 @@ export const ReviewStars = ({ averageReview }: StarProps) => {
         {Array.from({ length: Math.floor(averageReview) }, (_, index) => (
           <Star
             key={index}
-            fill='yellow'
+            fill='orange'
             strokeWidth={0}
             width={15}
             className='text-gray-300'
@@ -33,7 +33,7 @@ export const ReviewStars = ({ averageReview }: StarProps) => {
         ))}
         {isDecimal && (
           <StarHalf
-            fill='yellow'
+            fill='orange'
             strokeWidth={0}
             width={15}
             className='text-gray-300'
