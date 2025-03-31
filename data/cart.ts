@@ -29,7 +29,7 @@ export const getUserCart = async () => {
   }
 };
 
-export const getCartItems = async () => {
+export const getCartProducts = async () => {
   const session = await auth();
 
   if (!session?.user.id) return;
