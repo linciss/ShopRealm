@@ -5,6 +5,7 @@ import { Separator } from '@/components/ui/separator';
 import { ReviewSection } from '../reviews/review-section';
 import { ReviewHeader } from '../reviews/review-header';
 import { ReviewDialog } from './review-dialog';
+import { auth } from '../../../../auth';
 
 interface Review {
   id: string;
@@ -24,13 +25,15 @@ interface MoreInfoProps {
   userReviewId?: string;
 }
 
-export const MoreInfo = ({
+export const MoreInfo = async ({
   details,
   specifications,
   reviews,
   preview = true,
   userReviewId,
 }: MoreInfoProps) => {
+  const session = await auth();
+
   let filteredReviews: Review[];
   let userReviewData: Review | undefined;
 
@@ -118,7 +121,7 @@ export const MoreInfo = ({
           <Card className='mt-5 '>
             <CardHeader className='flex flex-row gap-2 items-center'>
               <ReviewHeader reviews={reviews} />
-              {!preview && (
+              {!preview && session?.user.id && (
                 <div className='px-4'>
                   <ReviewDialog
                     userEligibleForReview={userReviewData ? false : true}
