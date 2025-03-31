@@ -6,14 +6,21 @@ import { Heart, Minus, Plus, Share2Icon, ShoppingCartIcon } from 'lucide-react';
 import { useState, useTransition } from 'react';
 import { addItemToCart } from '../../../../actions/cart/add-item-to-cart';
 import { addItemToFavorites } from '../../../../actions/cart/add-item-to-favorites';
+import { Session } from 'next-auth';
 
 interface AddToCartProps {
   id: string;
   isFav: boolean;
+  session: Session | null;
 }
 
-export const AddToCart = ({ id, isFav }: AddToCartProps) => {
-  const [quantity, setQuantity] = useState<number>(0);
+interface CartItem {
+  id: string;
+  quantity: number;
+}
+
+export const AddToCart = ({ id, isFav, session }: AddToCartProps) => {
+  const [quantity, setQuantity] = useState<number>(1);
   const url = typeof window !== 'undefined' ? window.location.href : null;
 
   const [favorite, setFavorite] = useState<boolean>(isFav);
@@ -23,6 +30,42 @@ export const AddToCart = ({ id, isFav }: AddToCartProps) => {
   const [isPending, startTransition] = useTransition();
 
   const handleAddToCart = async () => {
+    if (!session?.user.id) {
+      toast({
+        title: 'Pievienots grozam!',
+        description: 'Pievienots grozam lokali!',
+      });
+
+      let cart = [];
+      try {
+        const savedCart = localStorage.getItem('addToCart');
+        cart = savedCart ? JSON.parse(savedCart) : [];
+      } catch (e) {
+        console.error('KludA!', e);
+        cart = [];
+      }
+
+      const cartItem = cart.find((item: CartItem) => item.id === id);
+
+      if (cartItem) {
+        cartItem.quantity += quantity > 0 ? quantity : 1;
+      } else {
+        cart.push({ id, quantity: quantity > 0 ? quantity : 1 });
+      }
+
+      localStorage.setItem('addToCart', JSON.stringify(cart));
+
+      return;
+    }
+
+    if (quantity < 1) {
+      return toast({
+        title: 'Kluda!',
+        variant: 'destructive',
+        description: 'Jabut vismaz 1 gabalam!',
+      });
+    }
+
     startTransition(() => {
       addItemToCart(id, quantity).then((res) => {
         if (res.error) {
@@ -76,7 +119,7 @@ export const AddToCart = ({ id, isFav }: AddToCartProps) => {
             onClick={() => {
               setQuantity(quantity - 1);
             }}
-            disabled={quantity === 0}
+            disabled={quantity === 1}
           >
             <Minus />
           </Button>
