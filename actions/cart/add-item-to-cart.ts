@@ -7,12 +7,19 @@ import { getUserCart } from '../../data/cart';
 export const addItemToCart = async (productId: string, quantity = 1) => {
   const session = await auth();
 
-  if (!session?.user.id) return { error: 'Lietotajs nav autorizets' };
+  if (quantity < 1) {
+    return { error: 'Jabut vismaz 1 gabalam!' };
+  }
 
   try {
     const product = await prisma.product.findUnique({
       where: { id: productId },
     });
+
+    if (!session?.user.id)
+      return {
+        error: 'Lietotajs nav autorizets!',
+      };
 
     if (!product) {
       return { error: 'Produkts nav atrasts' };
@@ -52,7 +59,7 @@ export const addItemToCart = async (productId: string, quantity = 1) => {
     return { success: 'Pievienots grozam!' };
   } catch (error) {
     if (error instanceof Error) {
-      console.log('Error: ', error.stack);
+      console.log('Kļūda: ', error.stack);
     }
     return { error: 'Kļūda apstrādājot datus' };
   }
