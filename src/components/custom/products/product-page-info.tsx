@@ -7,6 +7,17 @@ import { isItemFavorite } from '../../../../data/favorites';
 import { MoreInfo } from './more-info.tsx';
 import Link from 'next/link';
 import { getUserReview } from '../../../../data/review';
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from '@/components/ui/breadcrumb';
+import { getRelatedProducts } from '../../../../data/product';
+import { ProductCard } from '../product-card';
+import { auth } from '../../../../auth';
 
 interface ProductProps {
   productData:
@@ -38,14 +49,41 @@ interface ProductProps {
       }
     | undefined;
 }
+
 export const ProductPageInfo = async ({ productData }: ProductProps) => {
   if (!productData) return;
 
+  const session = await auth();
+
   const isFav = await isItemFavorite(productData.id);
   const userReview = await getUserReview(productData.id);
+  const relatedProducts = await getRelatedProducts(
+    productData.category,
+    productData.id,
+  );
 
   return (
-    <div className=' px-2 md:px-4 py-8'>
+    <div className=' px-2 md:px-4 '>
+      <div className='py-4'>
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink href='/products'>Produkti</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink href={`/category/${productData.category[0]}`}>
+                {categoryMap[productData.category[0]].label}
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>{productData.name}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </div>
+
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-0'>
         <div className='border border-muted-foreground rounded-lg'>
           <Image
@@ -111,7 +149,11 @@ export const ProductPageInfo = async ({ productData }: ProductProps) => {
             </div>
           </div>
           <SelectSeparator />
-          <AddToCart id={productData.id} isFav={isFav || false} />
+          <AddToCart
+            id={productData.id}
+            isFav={isFav || false}
+            session={session}
+          />
         </div>
       </div>
       <MoreInfo
@@ -121,6 +163,15 @@ export const ProductPageInfo = async ({ productData }: ProductProps) => {
         preview={false}
         userReviewId={userReview}
       />
+
+      <div className='mt-5'>
+        <h3 className='text-2xl font-semibold'>Jums varetu ari patikt</h3>
+        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
+          {relatedProducts?.map((prod) => (
+            <ProductCard key={prod.id} productData={prod} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 };

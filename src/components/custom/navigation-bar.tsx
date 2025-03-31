@@ -58,12 +58,12 @@ export const NavigationBar = async () => {
               <RoleSwitcher session={session} />
             </div>
 
-            {session?.user.role === 'SHOPPER' && (
+            <Link href='/cart' prefetch={true}>
               <Button variant='ghost' size='icon'>
                 <ShoppingCart className='h-5 w-5' />
                 <span className='sr-only'>Cart</span>
               </Button>
-            )}
+            </Link>
 
             {session?.user.id ? (
               <>
