@@ -28,3 +28,45 @@ export const getUserCart = async () => {
     return;
   }
 };
+
+export const getCartItems = async () => {
+  const session = await auth();
+
+  if (!session?.user.id) return;
+
+  try {
+    const userId = session.user.id;
+
+    const userCart = await prisma.user.findUnique({
+      where: { id: userId },
+      select: {
+        cart: {
+          select: {
+            cartItems: {
+              select: {
+                product: {
+                  select: {
+                    id: true,
+                    image: true,
+                    name: true,
+                    price: true,
+                  },
+                },
+                quantity: true,
+              },
+            },
+          },
+        },
+      },
+    });
+
+    if (!userCart) return;
+
+    return userCart.cart?.cartItems;
+  } catch (err) {
+    if (err instanceof Error) {
+      console.log(err);
+    }
+    return;
+  }
+};
