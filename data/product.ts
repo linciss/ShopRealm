@@ -145,3 +145,45 @@ export const getProduct = async (id: string) => {
     return;
   }
 };
+
+export const getRelatedProducts = async (
+  category: string[],
+  productId: string,
+) => {
+  try {
+    const relatedProducts = await prisma.product.findMany({
+      where: {
+        category: {
+          hasSome: category,
+        },
+        id: {
+          not: productId,
+        },
+        isActive: true,
+      },
+      select: {
+        id: true,
+        name: true,
+        price: true,
+        image: true,
+        slug: true,
+        reviews: {
+          select: {
+            rating: true,
+          },
+        },
+      },
+      orderBy: {
+        createdAt: Math.random() > 0.5 ? 'desc' : 'asc',
+      },
+      take: 4,
+    });
+
+    return relatedProducts;
+  } catch (err) {
+    if (err instanceof Error) {
+      console.log(err);
+    }
+    return;
+  }
+};
