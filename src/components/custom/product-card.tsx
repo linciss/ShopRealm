@@ -135,10 +135,10 @@ export const ProductCard = ({
         <Link href={`/products/${productData.id}`}>
           <Image
             priority
-            src='https://i.imgur.com/MOZBqVS.jpg'
+            src={productData.image || ''}
             fill
             alt='Product'
-            className='object-cover transition-transform group-hover:scale-105'
+            className='object-contain transition-transform group-hover:scale-105'
             sizes='(max-width: 368px) (max-height: 368px)'
           />
         </Link>

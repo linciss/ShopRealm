@@ -8,9 +8,10 @@ export const shopperRoutes = [
   '/electronics',
   '/store/[id]',
   '/products/[id]',
+  '/category/',
 ];
 
-export const publicRoutes = ['/about-us', ...shopperRoutes];
+export const publicRoutes = ['/', '/about-us', ...shopperRoutes];
 
 export const authRoutes = [
   '/auth/sign-in',
