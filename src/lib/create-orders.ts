@@ -12,7 +12,6 @@ export const createOrdersFromSession = async (session: any) => {
       stripeSessionId: session.id,
       paymentStatus: 'paid',
       amount: session.amount_total / 100,
-      status: 'processing',
     },
   });
 
@@ -32,6 +31,7 @@ export const createOrdersFromSession = async (session: any) => {
           storeId: item.product.storeId,
           quantity: item.quantity,
           priceAtOrder: parseFloat(item.product.price),
+          total: item.quantity * parseFloat(item.product.price),
         },
       }),
     ),
