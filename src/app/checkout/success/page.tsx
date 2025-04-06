@@ -38,11 +38,14 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
 
   return (
     <div className='container py-10 text-center'>
-      <h1 className='text-2xl font-bold'>Paldies par pirkumu!</h1>
       {order ? (
-        <div>
-          <p>Pasutijuma Nr: {order.id}</p>
-        </div>
+        <>
+          <h1 className='text-2xl font-bold'>Paldies par pirkumu!</h1>
+
+          <div>
+            <p>Pasutijuma Nr: {order.id}</p>
+          </div>
+        </>
       ) : (
         <p>Jūsu pasūtījums tiek apstrādāts...</p>
       )}
