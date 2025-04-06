@@ -21,11 +21,7 @@ export default async function Products() {
         </div>
       </div>
       <div className=''>
-        {products ? (
-          <ProductTable initialProducts={products} />
-        ) : (
-          <div>loading....</div>
-        )}
+        <ProductTable initialProducts={products} />
       </div>
     </div>
   );
