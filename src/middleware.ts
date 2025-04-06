@@ -46,11 +46,13 @@ export default auth(async (req) => {
   const isLoggedIn = !!req.auth;
 
   const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
-  const isPublicRoute = matchesRoute(nextUrl.pathname, publicRoutes);
+  const isPublicRoute =
+    publicRoutes.includes(nextUrl.pathname) ||
+    matchesRoute(nextUrl.pathname, publicRoutes);
   const isAuthRoute = authRoutes.includes(nextUrl.pathname);
   const isStoreRoute = storeRoutes.includes(nextUrl.pathname);
   const isShopperRoute = shopperRoutes.includes(nextUrl.pathname);
-  const isFallbackRoute = FALLBACK_REDIRECT.includes(nextUrl.pathname);
+  const isFallbackRoute = FALLBACK_REDIRECT === nextUrl.pathname;
 
   if (isApiAuthRoute) {
     return NextResponse.next();
