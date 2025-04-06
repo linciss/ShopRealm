@@ -11,6 +11,7 @@ import { useToast } from '@/hooks/use-toast';
 import { addItemToCart } from '../../../actions/cart/add-item-to-cart';
 import { addItemToFavorites } from '../../../actions/cart/add-item-to-favorites';
 import { Session } from 'next-auth';
+import { formatCurrency } from './../../lib/format-currency';
 
 interface Product {
   id: string;
@@ -183,7 +184,9 @@ export const ProductCard = ({
             </p>
           </div>
 
-          <p className='text-md font-semibold'>€ {productData.price}</p>
+          <p className='text-md font-semibold'>
+            {formatCurrency(productData.price)}
+          </p>
         </Link>
       </CardContent>
     </Card>

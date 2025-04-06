@@ -23,6 +23,7 @@ import { deleteProduct } from '../../../../../actions/product/delete-product';
 import { useState, useTransition } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
+import { formatCurrency } from './../../../../lib/format-currency';
 
 interface Product {
   id: string;
@@ -100,7 +101,7 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
                   />
                 </TableCell>
                 <TableCell>{product.name}</TableCell>
-                <TableCell>€ {product.price}</TableCell>
+                <TableCell>{formatCurrency(product.price)}</TableCell>
                 <TableCell>{product.quantity}</TableCell>
                 <TableCell className='sm:block hidden'>
                   {product.isActive &&

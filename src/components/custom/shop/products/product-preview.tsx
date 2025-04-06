@@ -4,6 +4,7 @@ import { AddToCart } from './add-to-cart-preview';
 import { calculateAverageRating, categoryMap } from '@/lib/utils';
 import { MoreInfo } from '../../products/more-info.tsx';
 import { ReviewStars } from '../../review-stars';
+import { formatCurrency } from './../../../../lib/format-currency';
 
 interface ProductProps {
   productData:
@@ -63,7 +64,9 @@ export const ProductPreview = ({ productData }: ProductProps) => {
             </div>
           </div>
           <div className='flex flex-col'>
-            <h3 className='text-3xl font-semibold'>€{productData.price}</h3>
+            <h3 className='text-3xl font-semibold'>
+              {formatCurrency(productData.price)}
+            </h3>
             <p
               className={`text-sm  ${
                 productData.quantity < 5 ? 'text-red-600' : 'text-green-600'
