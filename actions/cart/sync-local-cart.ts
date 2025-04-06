@@ -51,8 +51,23 @@ export const syncCart = async (localProducts: LocalProducts[]) => {
       }
     }
 
+    const updatedCartItems = await prisma.cartItem.findMany({
+      where: { cartId: cart.id },
+      select: {
+        quantity: true,
+        product: {
+          select: {
+            id: true,
+            name: true,
+            price: true,
+            image: true,
+          },
+        },
+      },
+    });
+
     revalidatePath('/cart');
-    return { success: 'Grozs sinhronizets!' };
+    return { success: 'Grozs sinhronizets!', cartItems: updatedCartItems };
   } catch (err) {
     if (err instanceof Error) {
       console.log(err);
