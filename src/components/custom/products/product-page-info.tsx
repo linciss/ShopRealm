@@ -153,6 +153,7 @@ export const ProductPageInfo = async ({ productData }: ProductProps) => {
             id={productData.id}
             isFav={isFav || false}
             session={session}
+            maxQuantity={productData.quantity}
           />
         </div>
       </div>

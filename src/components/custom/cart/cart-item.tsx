@@ -13,6 +13,7 @@ interface Product {
   name: string;
   price: string;
   image: string | null;
+  quantity: number;
 }
 
 interface CartItem {
@@ -118,6 +119,7 @@ export const CartItem = ({
                   setQuantity(quantity + 1);
                   onChange(item.product.id, quantity + 1);
                 }}
+                disabled={quantity === item.product.quantity}
               >
                 <Plus />
               </Button>

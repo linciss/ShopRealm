@@ -12,6 +12,7 @@ import { getLocalCartProducts } from '../../../../actions/cart/get-local-cart-it
 import { CartItem } from './cart-item';
 import { changeItemQuantity } from '../../../../actions/cart/change-item-quantity';
 import { removeItem } from '../../../../actions/cart/remove-item';
+import { CheckoutButton } from './checkout-button';
 
 interface CartItem {
   product: {
@@ -19,6 +20,7 @@ interface CartItem {
     name: string;
     price: string;
     image: string | null;
+    quantity: number;
   };
   quantity: number;
 }
@@ -217,8 +219,6 @@ export const CartContent = ({ session, cart }: CartContentProps) => {
     0,
   );
 
-  const tax = subTotal * 0.21;
-
   return (
     <div className='mt-5 w-full grid grid-cols-1 md:grid-cols-3  gap-6 md:flex-row'>
       <div className='flex flex-col flex-[2] col-span-2 '>
@@ -270,21 +270,17 @@ export const CartContent = ({ session, cart }: CartContentProps) => {
         <CardContent className='space-y-4'>
           <div className='text flex justify-between'>
             <p className='text-sm font-medium text-muted-foreground'>
-              StarpsubTotalma
+              Starpsumma
             </p>
             <p className='text-sm font-medium'>€ {subTotal}</p>
           </div>
-          <div className='text flex justify-between'>
-            <p className='text-sm font-medium text-muted-foreground'>
-              Nodoklis (21%)
-            </p>
-            <p className='text-sm font-medium'>€ {tax}</p>
-          </div>
+
           <Separator />
           <div className='text flex justify-between'>
-            <p className='text-md font-semibold'>Total</p>
-            <p className='text-md font-semibold'>€ {subTotal + tax}</p>
+            <p className='text-md font-semibold'>Summa</p>
+            <p className='text-md font-semibold'>€ {subTotal}</p>
           </div>
+          <CheckoutButton />
         </CardContent>
       </Card>
     </div>
