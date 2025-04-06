@@ -1,17 +1,29 @@
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Eye } from 'lucide-react';
+import { ReactNode } from 'react';
 
-export const StatCard = async () => {
+interface StatCardProps {
+  name?: string;
+  value?: string | number;
+  description?: string;
+  icon?: ReactNode;
+}
+
+export const StatCard = async ({
+  name,
+  value,
+  description,
+  icon,
+}: StatCardProps) => {
   return (
     <Card className='rounded-lg'>
       <CardHeader className='pb-3'>
         <span className='text-sm flex justify-between'>
-          <span>Skatijumi</span> <Eye />
+          <span>{name}</span> {icon}
         </span>
       </CardHeader>
       <CardContent className='flex flex-col'>
-        <span className='text-xl font-bold'>120</span>
-        <span className='text-sm text-muted-foreground'>Tavi skatijumi</span>
+        <span className='text-xl font-bold'>{value}</span>
+        <span className='text-sm text-muted-foreground'>{description}</span>
       </CardContent>
     </Card>
   );
