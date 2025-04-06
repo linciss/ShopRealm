@@ -47,6 +47,16 @@ export const createCheckoutSession = async (redirectUrl: string) => {
     const stripeSession = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items: lineItems,
+      payment_intent_data: {
+        metadata: {
+          orderType: 'escrow',
+          storeIds: JSON.stringify(
+            cartItems
+              .map((item) => item.product.storeId)
+              .filter((v, i, a) => a.indexOf(v) === i),
+          ),
+        },
+      },
       success_url: `${redirectUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${redirectUrl}/cart`,
       client_reference_id: session.user.id,
