@@ -25,7 +25,7 @@ interface CartItem {
 
 interface CartContentProps {
   session: Session | null;
-  cartProducts?: CartItem[] | null;
+  cart?: CartItem[] | null;
 }
 
 interface LocalCartItem {
@@ -33,17 +33,11 @@ interface LocalCartItem {
   quantity: number;
 }
 
-interface Product {
-  id: string;
-  name: string;
-  price: string;
-  image: string | null;
-}
-
-export const CartContent = ({ session, cartProducts }: CartContentProps) => {
-  const [localCartItems, setLocalCartItems] = useState<LocalCartItem[]>([]);
-  const [localProductDetails, setLocalProductDetails] = useState<Product[]>([]);
-  const [cartItems, setCartItems] = useState<CartItem[]>(cartProducts || []);
+export const CartContent = ({ session, cart }: CartContentProps) => {
+  const [localCartProducts, setLocalCartProducts] = useState<LocalCartItem[]>(
+    [],
+  );
+  const [cartProducts, setCartProducts] = useState<CartItem[]>(cart || []);
 
   const [isLoading, setIsLoading] = useState(true);
   const [isPending, startTransition] = useTransition();
@@ -55,7 +49,7 @@ export const CartContent = ({ session, cartProducts }: CartContentProps) => {
     try {
       const savedCart = localStorage.getItem('addToCart');
       const parsedCart = savedCart ? JSON.parse(savedCart) : [];
-      setLocalCartItems(parsedCart);
+      setLocalCartProducts(parsedCart);
 
       if (parsedCart.length > 0 && !session?.user.id) {
         startTransition(async () => {
@@ -63,7 +57,18 @@ export const CartContent = ({ session, cartProducts }: CartContentProps) => {
           const res = await getLocalCartProducts(productIds);
 
           if (res.products) {
-            setLocalProductDetails(res.products);
+            const products = res.products;
+
+            const productsWithQuantity = products.map((product) => {
+              const cartItem = parsedCart.find(
+                (item: LocalCartItem) => item.id === product.id,
+              );
+              return {
+                product: product,
+                quantity: cartItem?.quantity || 1,
+              };
+            });
+            setCartProducts(productsWithQuantity);
           }
           setIsLoading(false);
         });
@@ -78,9 +83,9 @@ export const CartContent = ({ session, cartProducts }: CartContentProps) => {
 
   //   syncs localstroage cart with server and database cart
   useEffect(() => {
-    if (session?.user.id && localCartItems.length > 0) {
+    if (session?.user.id && localCartProducts.length > 0) {
       startTransition(() => {
-        syncCart(localCartItems).then((res) => {
+        syncCart(localCartProducts).then((res) => {
           if (res.error) {
             toast({
               title: 'Kluda!',
@@ -95,23 +100,25 @@ export const CartContent = ({ session, cartProducts }: CartContentProps) => {
             });
 
             localStorage.setItem('addToCart', '[]');
-            setLocalCartItems([]);
-            setCartItems(res.cartItems || []);
+            setLocalCartProducts([]);
+            setCartProducts(res.cartItems || []);
           }
         });
       });
     }
-  }, [session, localCartItems, toast]);
+  }, [session, localCartProducts, toast]);
 
   const updateTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   // remove callback
   const handleCartRemove = (productId: string) => {
     if (!session?.user.id) {
-      setLocalCartItems((prev) => prev.filter((item) => item.id !== productId));
+      setLocalCartProducts((prev) =>
+        prev.filter((item) => item.id !== productId),
+      );
 
-      setLocalProductDetails((prev) =>
-        prev.filter((product) => product.id !== productId),
+      setCartProducts((prev) =>
+        prev.filter((product) => product.product.id !== productId),
       );
       return;
     }
@@ -129,7 +136,7 @@ export const CartContent = ({ session, cartProducts }: CartContentProps) => {
             title: 'Veiksmigi izdzests no groza!',
             description: res.success,
           });
-          setCartItems(res.cartItems || []);
+          setCartProducts(res.cartItems || []);
         }
       });
     });
@@ -138,7 +145,7 @@ export const CartContent = ({ session, cartProducts }: CartContentProps) => {
   // quantity change callback
   const handleChangeQuantity = (productId: string, quantity: number) => {
     if (!session?.user.id) {
-      const changedProduct = localCartItems.find(
+      const changedProduct = localCartProducts.find(
         (item) => item.id === productId,
       );
       if (!changedProduct) {
@@ -162,12 +169,12 @@ export const CartContent = ({ session, cartProducts }: CartContentProps) => {
 
       localStorage.setItem('addToCart', JSON.stringify(cart));
 
-      setLocalCartItems(cart);
+      setLocalCartProducts(cart);
       return;
     }
 
-    setCartItems((prevCartItems) =>
-      prevCartItems.map((item) =>
+    setCartProducts((prevCartProducts) =>
+      prevCartProducts.map((item) =>
         item.product.id === productId ? { ...item, quantity: quantity } : item,
       ),
     );
@@ -208,9 +215,12 @@ export const CartContent = ({ session, cartProducts }: CartContentProps) => {
     <div className='mt-5 w-full grid grid-cols-1 md:grid-cols-3  gap-6 md:flex-row'>
       <div className='flex flex-col flex-[2] col-span-2 '>
         <div className='flex justify-between'>
-          {session?.user.id ? cartProducts?.length || 0 : localCartItems.length}{' '}
+          {session?.user.id
+            ? cartProducts?.length || 0
+            : localCartProducts.length}{' '}
           produkt
-          {(session?.user ? cartProducts?.length : localCartItems.length) !== 1
+          {(session?.user ? cartProducts?.length : localCartProducts.length) !==
+          1
             ? 'i'
             : 's'}
           <Button variant={'outline'} disabled={isPending || isLoading}>
@@ -230,26 +240,9 @@ export const CartContent = ({ session, cartProducts }: CartContentProps) => {
             <Loader2 className='h-8 w-8 animate-spin text-primary' />
             <span className='ml-2 text-muted-foreground'>Ielādē grozu...</span>
           </div>
-        ) : !session?.user.id ? (
-          <div className='space-y-4 mt-4'>
-            {localProductDetails.map((item) => (
-              <div key={item.id}>
-                <CartItem
-                  item={{
-                    product: item,
-                    quantity: localCartItems.find(
-                      (cartItem) => cartItem.id === item.id,
-                    )?.quantity,
-                  }}
-                  onRemove={handleCartRemove}
-                  onChange={handleChangeQuantity}
-                />
-              </div>
-            ))}
-          </div>
         ) : (
           <div className='space-y-4 mt-4'>
-            {cartItems?.map((item) => (
+            {cartProducts?.map((item) => (
               <div key={item.product.id}>
                 <CartItem
                   item={item}

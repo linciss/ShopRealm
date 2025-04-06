@@ -13,7 +13,7 @@ export default async function CartPage() {
         <h2 className='text-3xl font-bold'>Grozs</h2>
       </div>
       <div className='flex flex-row gap-6'>
-        <CartContent session={session} cartProducts={cartProducts} />
+        <CartContent session={session} cart={cartProducts} />
       </div>
     </div>
   );
