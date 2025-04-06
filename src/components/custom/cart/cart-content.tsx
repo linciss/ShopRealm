@@ -211,6 +211,14 @@ export const CartContent = ({ session, cart }: CartContentProps) => {
     };
   }, []);
 
+  const subTotal = cartProducts.reduce(
+    (accumulator, currProd) =>
+      accumulator + currProd.quantity * parseInt(currProd.product.price),
+    0,
+  );
+
+  const tax = subTotal * 0.21;
+
   return (
     <div className='mt-5 w-full grid grid-cols-1 md:grid-cols-3  gap-6 md:flex-row'>
       <div className='flex flex-col flex-[2] col-span-2 '>
@@ -262,26 +270,20 @@ export const CartContent = ({ session, cart }: CartContentProps) => {
         <CardContent className='space-y-4'>
           <div className='text flex justify-between'>
             <p className='text-sm font-medium text-muted-foreground'>
-              Starpsumma
+              StarpsubTotalma
             </p>
-            <p className='text-sm font-medium'>$569.23</p>
-          </div>
-          <div className='text flex justify-between'>
-            <p className='text-sm font-medium text-muted-foreground'>
-              Nosutisana
-            </p>
-            <p className='text-sm font-medium'>$569.23</p>
+            <p className='text-sm font-medium'>€ {subTotal}</p>
           </div>
           <div className='text flex justify-between'>
             <p className='text-sm font-medium text-muted-foreground'>
               Nodoklis (21%)
             </p>
-            <p className='text-sm font-medium'>$569.23</p>
+            <p className='text-sm font-medium'>€ {tax}</p>
           </div>
           <Separator />
           <div className='text flex justify-between'>
-            <p className='text-md font-semibold'>Summa</p>
-            <p className='text-md font-semibold'>$569.23</p>
+            <p className='text-md font-semibold'>Total</p>
+            <p className='text-md font-semibold'>€ {subTotal + tax}</p>
           </div>
         </CardContent>
       </Card>
