@@ -12,6 +12,7 @@ interface AddToCartProps {
   id: string;
   isFav: boolean;
   session: Session | null;
+  maxQuantity?: number;
 }
 
 interface CartItem {
@@ -19,7 +20,12 @@ interface CartItem {
   quantity: number;
 }
 
-export const AddToCart = ({ id, isFav, session }: AddToCartProps) => {
+export const AddToCart = ({
+  id,
+  isFav,
+  session,
+  maxQuantity,
+}: AddToCartProps) => {
   const [quantity, setQuantity] = useState<number>(1);
   const url = typeof window !== 'undefined' ? window.location.href : null;
 
@@ -125,6 +131,7 @@ export const AddToCart = ({ id, isFav, session }: AddToCartProps) => {
           </Button>
           <div className='w-12 text-center'>{quantity}</div>
           <Button
+            disabled={quantity === maxQuantity}
             variant={'ghost'}
             onClick={() => {
               setQuantity(quantity + 1);

@@ -103,9 +103,11 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
                 <TableCell>€ {product.price}</TableCell>
                 <TableCell>{product.quantity}</TableCell>
                 <TableCell className='sm:block hidden'>
-                  {product.isActive && product.quantity < 5 ? (
+                  {product.isActive &&
+                  product.quantity < 5 &&
+                  product.quantity > 0 ? (
                     <Badge className='bg-orange-300'>Zems daudzums</Badge>
-                  ) : product.isActive ? (
+                  ) : product.isActive && product.quantity > 0 ? (
                     <Badge className='bg-green-300'>Aktivs</Badge>
                   ) : (
                     <Badge className='bg-red-500'>Neaktivs</Badge>
