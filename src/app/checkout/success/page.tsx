@@ -3,15 +3,21 @@ import { getOrderBySessionId } from '../../../../actions/orders/get-order';
 import { createOrdersFromSession } from '@/lib/create-orders';
 import { redirect } from 'next/navigation';
 
-interface Session {
-  session_id: string;
+interface SuccessPageProps {
+  searchParams: Promise<{
+    session_id?: string;
+  }>;
 }
 
-interface SuccessPageProps {
-  searchParams: Session;
-}
 export default async function SuccessPage({ searchParams }: SuccessPageProps) {
-  const sessionId = searchParams.session_id;
+  const sp = await searchParams;
+
+  const sessionId = sp.session_id;
+
+  if (!sessionId) {
+    redirect('/');
+    return null;
+  }
 
   let order = await getOrderBySessionId(sessionId);
 
@@ -22,12 +28,6 @@ export default async function SuccessPage({ searchParams }: SuccessPageProps) {
       await createOrdersFromSession(stripeSession);
 
       order = await getOrderBySessionId(sessionId);
-
-      if (order) {
-        setTimeout(() => {
-          redirect('/');
-        }, 3000);
-      }
     } catch (err) {
       if (err instanceof Error) {
         console.log(err);
