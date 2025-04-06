@@ -10,6 +10,7 @@ import { useState, useTransition } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { addItemToCart } from '../../../actions/cart/add-item-to-cart';
 import { addItemToFavorites } from '../../../actions/cart/add-item-to-favorites';
+import { Session } from 'next-auth';
 
 interface Product {
   id: string;
@@ -22,6 +23,11 @@ interface Product {
   }[];
 }
 
+interface CartItem {
+  id: string;
+  quantity: number;
+}
+
 interface Favorite {
   id: string;
   productId: string;
@@ -30,11 +36,13 @@ interface Favorite {
 interface ProductCardProps {
   productData: Product;
   favoriteItems?: Favorite[] | undefined;
+  session?: Session | null;
 }
 
 export const ProductCard = ({
   productData,
   favoriteItems,
+  session,
 }: ProductCardProps) => {
   // checks if item is favorite
   const isFav =
@@ -47,6 +55,36 @@ export const ProductCard = ({
   const [isPending, startTransition] = useTransition();
 
   const handleAddToCart = async () => {
+    if (!session?.user.id) {
+      let cart = [];
+      try {
+        const savedCart = localStorage.getItem('addToCart');
+        cart = savedCart ? JSON.parse(savedCart) : [];
+      } catch (e) {
+        console.error('KludA!', e);
+        cart = [];
+      }
+
+      const cartItem = cart.find(
+        (item: CartItem) => item.id === productData.id,
+      );
+
+      if (cartItem) {
+        cartItem.quantity += 1;
+      } else {
+        cart.push({ id: productData.id, quantity: 1 });
+      }
+
+      localStorage.setItem('addToCart', JSON.stringify(cart));
+
+      toast({
+        title: 'Pievienots grozam!',
+        description: 'Pievienots grozam lokali!',
+      });
+
+      return;
+    }
+
     startTransition(() => {
       addItemToCart(productData.id).then((res) => {
         if (res.error) {

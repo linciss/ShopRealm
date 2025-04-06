@@ -31,11 +31,6 @@ export const AddToCart = ({ id, isFav, session }: AddToCartProps) => {
 
   const handleAddToCart = async () => {
     if (!session?.user.id) {
-      toast({
-        title: 'Pievienots grozam!',
-        description: 'Pievienots grozam lokali!',
-      });
-
       let cart = [];
       try {
         const savedCart = localStorage.getItem('addToCart');
@@ -54,6 +49,11 @@ export const AddToCart = ({ id, isFav, session }: AddToCartProps) => {
       }
 
       localStorage.setItem('addToCart', JSON.stringify(cart));
+
+      toast({
+        title: 'Pievienots grozam!',
+        description: 'Pievienots grozam lokali!',
+      });
 
       return;
     }
