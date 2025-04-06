@@ -1,0 +1,72 @@
+import prisma from '@/lib/db';
+import { stripe } from '@/lib/stripe';
+import { NextResponse } from 'next/server';
+
+export const dynamic = 'force-dynamic';
+export const maxDuration = 300;
+
+export async function GET() {
+  try {
+    // finds the orders that have been completed
+
+    const itemsToRelease = await prisma.orderItem.findMany({
+      where: {
+        escrowStatus: 'holding',
+        status: 'complete',
+        transferScheduledFor: {
+          lte: new Date(),
+        },
+      },
+      include: {
+        order: true,
+        store: true,
+      },
+    });
+    console.log(`${itemsToRelease.length}`);
+
+    // calculates all the logic
+    const results = await Promise.allSettled(
+      itemsToRelease.map(async (item) => {
+        if (!item.store.stripeAccountId) return null;
+
+        // calculates the fee
+        const platformFeePercentage = 0.1;
+        const platformFee = item.total * platformFeePercentage;
+        const storeAmount = item.total - platformFee;
+
+        // transfers funds to stores stripe account
+        const transfer = await stripe.transfers.create({
+          amount: Math.round(storeAmount * 100),
+          currency: 'eur',
+          destination: item.store.stripeAccountId,
+          metadata: {
+            orderId: item.orderId,
+            orderItemId: item.id,
+          },
+        });
+
+        await prisma.orderItem.update({
+          where: { id: item.id },
+          data: {
+            escrowStatus: 'released',
+            transferId: transfer.id,
+          },
+        });
+
+        return { item: item.id, transfer: transfer.id };
+      }),
+    );
+
+    return NextResponse.json({
+      success: true,
+      processed: itemsToRelease.length,
+      results,
+    });
+  } catch (err) {
+    if (err instanceof Error) {
+      console.log(err);
+    }
+    console.error('error:', err);
+    return NextResponse.json({ error: 'error' }, { status: 500 });
+  }
+}
