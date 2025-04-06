@@ -18,6 +18,7 @@ import {
 import { getRelatedProducts } from '../../../../data/product';
 import { ProductCard } from '../product-card';
 import { auth } from '../../../../auth';
+import { formatCurrency } from './../../../lib/format-currency';
 
 interface ProductProps {
   productData:
@@ -117,7 +118,9 @@ export const ProductPageInfo = async ({ productData }: ProductProps) => {
             </div>
           </div>
           <div className='flex flex-col'>
-            <h3 className='text-3xl font-semibold'>€{productData.price}</h3>
+            <h3 className='text-3xl font-semibold'>
+              {formatCurrency(productData.price)}
+            </h3>
             <p
               className={`text-sm  ${
                 productData.quantity < 5 ? 'text-red-600' : 'text-green-600'
