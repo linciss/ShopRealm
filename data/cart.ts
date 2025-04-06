@@ -50,6 +50,7 @@ export const getCartProducts = async () => {
                     image: true,
                     name: true,
                     price: true,
+                    quantity: true,
                   },
                 },
                 quantity: true,

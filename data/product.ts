@@ -22,6 +22,9 @@ export async function getProducts({
   limit,
 }: ProductsQueryOptions) {
   const allProducts = await prisma.product.findMany({
+    where: {
+      isActive: true,
+    },
     select: {
       id: true,
       name: true,

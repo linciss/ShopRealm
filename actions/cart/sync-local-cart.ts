@@ -61,6 +61,7 @@ export const syncCart = async (localProducts: LocalProducts[]) => {
             name: true,
             price: true,
             image: true,
+            quantity: true,
           },
         },
       },

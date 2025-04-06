@@ -39,10 +39,15 @@ export const addItemToCart = async (productId: string, quantity = 1) => {
     });
 
     if (existingCartItem) {
+      const newQuantity = Math.min(
+        product.quantity,
+        existingCartItem.quantity + quantity,
+      );
+
       await prisma.cartItem.update({
         where: { id: existingCartItem.id },
         data: {
-          quantity: existingCartItem.quantity + quantity,
+          quantity: newQuantity,
         },
       });
       return { success: 'Produkta daudzums papildinats!' };

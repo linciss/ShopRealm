@@ -32,6 +32,7 @@ export const removeItem = async (productId: string) => {
             name: true,
             price: true,
             image: true,
+            quantity: true,
           },
         },
       },

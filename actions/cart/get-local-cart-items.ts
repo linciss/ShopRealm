@@ -13,6 +13,7 @@ export const getLocalCartProducts = async (productIds: string[]) => {
         id: true,
         price: true,
         image: true,
+        quantity: true,
       },
     });
 

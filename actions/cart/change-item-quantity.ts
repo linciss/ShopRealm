@@ -17,10 +17,19 @@ export const changeItemQuantity = async (
 
     if (!cart) return { error: 'Kluda ar grozu!' };
 
+    const product = await prisma.product.findUnique({
+      where: { id: productId },
+      select: { quantity: true, name: true },
+    });
+
+    if (!product) return { error: 'Produkts nav atrasts!' };
+
+    const newQuantity = Math.min(quantity, product.quantity);
+
     await prisma.cartItem.updateMany({
       where: { productId, cartId: cart.id },
       data: {
-        quantity: quantity,
+        quantity: newQuantity,
       },
     });
 
