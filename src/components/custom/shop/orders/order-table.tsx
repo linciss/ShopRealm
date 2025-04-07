@@ -10,6 +10,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import Link from 'next/link';
+import { statusMap } from './../../../../lib/utils';
 
 interface OrderTableProps {
   orders:
@@ -59,7 +60,7 @@ export const OrderTable = ({ orders }: OrderTableProps) => {
                 <TableCell className='hidden md:table-cell'>
                   {new Date(order.order.createdAt).toLocaleDateString()}
                 </TableCell>
-                <TableCell>{order.status}</TableCell>
+                <TableCell>{statusMap[order.status].label}</TableCell>
                 <TableCell className='hidden md:table-cell'>
                   {order.total}
                 </TableCell>

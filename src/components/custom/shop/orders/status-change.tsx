@@ -9,20 +9,49 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import { useToast } from '@/hooks/use-toast';
 import { statusMap } from '@/lib/utils';
-import { useState } from 'react';
+import { useState, useTransition } from 'react';
+import { changeOrderStatus } from '../../../../../actions/orders/change-status';
 
 type Status = 'pending' | 'shipped' | 'complete' | 'returned';
 
 interface StatusChangeProps {
   initialStatus: Status;
+  orderItemId: string;
 }
 
-export const StatusChange = ({ initialStatus }: StatusChangeProps) => {
+export const StatusChange = ({
+  initialStatus,
+  orderItemId,
+}: StatusChangeProps) => {
   const [status, setStatus] = useState<Status>(initialStatus);
 
   const handleStatusChange = (newStatus: Status) => {
     setStatus(newStatus);
+  };
+
+  const { toast } = useToast();
+
+  const [isPending, startTransition] = useTransition();
+
+  const handleChangeOrderStatus = () => {
+    startTransition(() => {
+      changeOrderStatus(orderItemId, status).then((res) => {
+        if (res.error) {
+          toast({
+            title: 'Kluda!',
+            description: res.error,
+            variant: 'destructive',
+          });
+        } else {
+          toast({
+            title: 'Samainits!',
+            description: res.success,
+          });
+        }
+      });
+    });
   };
 
   const mappedStatus = statusMap[status];
@@ -48,7 +77,11 @@ export const StatusChange = ({ initialStatus }: StatusChangeProps) => {
         </p>
       )}
 
-      <Select value={status} onValueChange={handleStatusChange}>
+      <Select
+        value={status}
+        onValueChange={handleStatusChange}
+        disabled={isPending}
+      >
         <SelectTrigger className='w-[200px]' aria-label='Status change'>
           <SelectValue placeholder='Izvēlēties statusu' />
         </SelectTrigger>
@@ -62,7 +95,14 @@ export const StatusChange = ({ initialStatus }: StatusChangeProps) => {
           </SelectGroup>
         </SelectContent>
       </Select>
-      <Button>Mainit statusu</Button>
+      <Button
+        onClick={() => {
+          handleChangeOrderStatus();
+        }}
+        disabled={isPending}
+      >
+        Mainit statusu
+      </Button>
     </div>
   );
 };
