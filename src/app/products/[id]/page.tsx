@@ -27,7 +27,7 @@ export default async function ProductPage({ params }: Props) {
   if (!productData) redirect('/products');
 
   return (
-    <div className='space-y-4  max-w-7xl mx-auto container'>
+    <div className='space-y-4  max-w-7xl mx-auto '>
       <ProductPageInfo productData={productData} />
     </div>
   );
