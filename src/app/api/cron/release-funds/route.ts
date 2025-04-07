@@ -1,14 +1,27 @@
 import prisma from '@/lib/db';
 import { stripe } from '@/lib/stripe';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
-export async function GET() {
+export async function GET(request: NextRequest) {
+  // secururity layer for cron so people cant access the route
+  const authHeader = request.headers.get('authorization');
+  if (
+    process.env.NODE_ENV === 'production' &&
+    authHeader !== `Bearer ${process.env.CRON_SECRET}`
+  ) {
+    return NextResponse.json(
+      { error: 'Nav autorizacija!' },
+      {
+        status: 401,
+      },
+    );
+  }
+
   try {
     // finds the orders that have been completed
-
     const itemsToRelease = await prisma.orderItem.findMany({
       where: {
         escrowStatus: 'holding',
