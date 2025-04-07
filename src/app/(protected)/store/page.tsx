@@ -16,7 +16,7 @@ export default async function Store() {
             </Button>
           </Link>
           <Link href={`/store/products`} prefetch={false}>
-            <Button variant={'secondary'}>
+            <Button variant={'outline'}>
               <Eye />
               Paradit veikalu
             </Button>

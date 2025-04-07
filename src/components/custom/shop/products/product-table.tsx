@@ -89,7 +89,7 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
             {products ? (
               products.map((product) => (
                 <TableRow key={product.id} className=''>
-                  <TableCell className='sm:block hidden'>
+                  <TableCell className='sm:sm:table-cell hidden'>
                     <Image
                       src={
                         product.image
@@ -104,7 +104,7 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
                   <TableCell>{product.name}</TableCell>
                   <TableCell>{formatCurrency(product.price)}</TableCell>
                   <TableCell>{product.quantity}</TableCell>
-                  <TableCell className='sm:block hidden'>
+                  <TableCell className='sm:table-cell hidden'>
                     {product.isActive &&
                     product.quantity < 5 &&
                     product.quantity > 0 ? (

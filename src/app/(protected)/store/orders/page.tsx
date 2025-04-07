@@ -9,7 +9,7 @@ export default async function Products() {
 
   const completedOrdersTotal =
     orders
-      ?.filter((order) => order.status === 'completed')
+      ?.filter((order) => order.status === 'complete')
       .reduce((sum, order) => sum + order.priceAtOrder * order.quantity, 0) ||
     0;
 
