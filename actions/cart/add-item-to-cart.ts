@@ -2,6 +2,7 @@
 import prisma from '@/lib/db';
 import { auth } from '../../auth';
 import { getUserCart } from '../../data/cart';
+import { revalidatePath } from 'next/cache';
 
 // Add to cart functionm
 export const addItemToCart = async (productId: string, quantity = 1) => {
@@ -61,6 +62,7 @@ export const addItemToCart = async (productId: string, quantity = 1) => {
       },
     });
 
+    revalidatePath('/cart');
     return { success: 'Pievienots grozam!' };
   } catch (error) {
     if (error instanceof Error) {
