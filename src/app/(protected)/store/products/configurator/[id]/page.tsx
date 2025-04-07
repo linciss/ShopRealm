@@ -32,8 +32,12 @@ export default async function ProductEdit({ params }: Props) {
   return (
     <div className='space-y-4 mx-auto'>
       <div className='flex items-center flex-row gap-4'>
-        <Link href={`/store/products`} prefetch={true}>
-          <Button>
+        <Link
+          href={`/store/products`}
+          prefetch={true}
+          aria-label='Product configurator'
+        >
+          <Button aria-label='Product configurator'>
             <ArrowLeft />
           </Button>
         </Link>

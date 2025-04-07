@@ -58,8 +58,8 @@ export const NavigationBar = async () => {
               <RoleSwitcher session={session} />
             </div>
 
-            <Link href='/cart' prefetch={true}>
-              <Button variant='ghost' size='icon'>
+            <Link href='/cart' prefetch={true} aria-label='Cart page'>
+              <Button variant='ghost' size='icon' aria-label='Cart page'>
                 <ShoppingCart className='h-5 w-5' />
                 <span className='sr-only'>Cart</span>
               </Button>
@@ -68,7 +68,7 @@ export const NavigationBar = async () => {
             {session?.user.id ? (
               <>
                 <DropdownMenu>
-                  <DropdownMenuTrigger>
+                  <DropdownMenuTrigger aria-label='Profile dropdown'>
                     <User className='h-5 w-5' />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent>
@@ -88,8 +88,13 @@ export const NavigationBar = async () => {
               </>
             ) : (
               <>
-                <Link href='/auth/sign-in' className=' md:flex' prefetch={true}>
-                  <Button variant='outline' size='sm'>
+                <Link
+                  href='/auth/sign-in'
+                  className=' md:flex'
+                  prefetch={true}
+                  aria-label='Login'
+                >
+                  <Button variant='outline' size='sm' aria-label='Login Button'>
                     Pierakstīties
                   </Button>
                 </Link>
@@ -97,8 +102,11 @@ export const NavigationBar = async () => {
                   href='/auth/sign-up'
                   className='hidden md:flex'
                   prefetch={true}
+                  aria-label='Login'
                 >
-                  <Button size='sm'>Reģistrēties</Button>
+                  <Button size='sm' aria-label='Login button'>
+                    Reģistrēties
+                  </Button>
                 </Link>
               </>
             )}

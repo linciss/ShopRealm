@@ -88,7 +88,12 @@ export const MobileMenu = async () => {
     <>
       <Sheet>
         <SheetTrigger asChild>
-          <Button variant='outline' size='icon' className='mr-2 md:hidden'>
+          <Button
+            variant='outline'
+            size='icon'
+            className='mr-2 md:hidden'
+            aria-label='Menu'
+          >
             <Menu className='h-5 w-5' />
             <span className='sr-only'>Izvelne</span>
           </Button>

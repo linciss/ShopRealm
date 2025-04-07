@@ -6,10 +6,13 @@ import { ArrowLeft } from 'lucide-react';
 import { OrderInfo } from '@/components/custom/shop/orders/order-info';
 import { CustomerInfo } from '@/components/custom/shop/orders/customer-info';
 import { ShippingInfo } from '@/components/custom/shop/orders/shipping-info';
+import { StatusChange } from '@/components/custom/shop/orders/status-change';
 
 type Props = {
   params: Promise<{ id: string }>;
 };
+
+type Status = 'pending' | 'shipped' | 'complete' | 'returned';
 
 export default async function Order({ params }: Props) {
   const { id } = await params;
@@ -20,18 +23,21 @@ export default async function Order({ params }: Props) {
 
   return (
     <div className='space-y-4 mx-auto'>
-      <div className='flex items-center flex-row gap-4'>
-        <Link href={`/store/orders`} prefetch={true}>
-          <Button>
-            <ArrowLeft />
-          </Button>
-        </Link>
-        <h1 className='text-xl  font-bold md:text-2xl sm:text-xl'>
-          Pasutijums {order.id}
-        </h1>
+      <div className='flex xl:items-center xl:flex-row flex-col gap-4 justify-between'>
+        <div className='flex items-center gap-4'>
+          <Link href={`/store/orders`} prefetch={true} aria-label='Orders page'>
+            <Button aria-label='Order page button'>
+              <ArrowLeft />
+            </Button>
+          </Link>
+          <h1 className='text-xl  font-bold md:text-2xl sm:text-xl'>
+            Pasutijums {order.id}
+          </h1>
+        </div>
+        <StatusChange initialStatus={order.status as Status} />
       </div>
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-        <div className='col-span-2'>
+      <div className='grid grid-cols-1 xl:grid-cols-3 gap-6'>
+        <div className='xl:col-span-2'>
           <OrderInfo order={order} />
         </div>
         <div className='col-span-1 space-y-6'>

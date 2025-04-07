@@ -39,15 +39,15 @@ export const ProductPreview = ({ productData }: ProductProps) => {
   if (!productData) return;
 
   return (
-    <div className=' px-2 md:px-4 py-8'>
+    <div className=' px-1 md:px-4 py-8'>
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-0'>
-        <div className='border border-muted-foreground rounded-lg'>
+        <div className='border border-muted-foreground rounded-lg  '>
           <Image
             width={600}
             height={600}
             src={(productData.image as string) || ''}
             alt='Product Image'
-            className='w-auto h-[550px]  object-contain '
+            className=' h-[550px]  object-contain '
           />
         </div>
 
@@ -64,12 +64,12 @@ export const ProductPreview = ({ productData }: ProductProps) => {
             </div>
           </div>
           <div className='flex flex-col'>
-            <h3 className='text-3xl font-semibold'>
+            <h2 className='text-3xl font-semibold'>
               {formatCurrency(productData.price)}
-            </h3>
+            </h2>
             <p
               className={`text-sm  ${
-                productData.quantity < 5 ? 'text-red-600' : 'text-green-600'
+                productData.quantity < 5 ? 'text-red-600' : 'text-green-700'
               }`}
             >
               Atlicis nolitava (

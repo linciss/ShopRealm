@@ -33,7 +33,7 @@ export default async function ProductPagePreview({ params }: Props) {
     <div className='space-y-4 mx-auto'>
       <div className='flex items-center flex-row gap-4'>
         <Link href={`/store/products`} prefetch={true}>
-          <Button>
+          <Button aria-label='Product page'>
             <ArrowLeft />
           </Button>
         </Link>

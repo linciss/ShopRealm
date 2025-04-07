@@ -148,6 +148,7 @@ export const ProductCard = ({
             <Button
               className='flex-1'
               variant={'outline'}
+              aria-label='Add to cart button'
               onClick={() => {
                 handleAddToCart();
               }}
@@ -157,6 +158,7 @@ export const ProductCard = ({
             </Button>
             <Button
               variant={'outline'}
+              aria-label='Add to favorites button'
               onClick={() => {
                 handleAddToFavorites();
               }}

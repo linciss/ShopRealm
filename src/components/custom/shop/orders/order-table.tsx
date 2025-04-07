@@ -38,10 +38,12 @@ export const OrderTable = ({ orders }: OrderTableProps) => {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Datums</TableHead>
-              <TableHead>Pasutijuma datums</TableHead>
+              <TableHead>Pasutijuma ID</TableHead>
+              <TableHead className='hidden md:table-cell'>
+                Pasutijuma datums
+              </TableHead>
               <TableHead>Statuss</TableHead>
-              <TableHead>Summa</TableHead>
+              <TableHead className='hidden md:table-cell'>Summa</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -54,11 +56,13 @@ export const OrderTable = ({ orders }: OrderTableProps) => {
                     </Link>
                   </Button>
                 </TableCell>
-                <TableCell>
+                <TableCell className='hidden md:table-cell'>
                   {new Date(order.order.createdAt).toLocaleDateString()}
                 </TableCell>
                 <TableCell>{order.status}</TableCell>
-                <TableCell>{order.total}</TableCell>
+                <TableCell className='hidden md:table-cell'>
+                  {order.total}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

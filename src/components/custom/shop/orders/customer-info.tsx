@@ -23,6 +23,7 @@ export const CustomerInfo = ({ user }: CustomerInfoProps) => {
         <a
           className='text-sm text-muted-foreground flex gap-2 items-center'
           href={`mailto:${user.email}`}
+          aria-label='Customer email'
         >
           <Mail width={16} />
           <p className='hover:underline'>{user.email}</p>
@@ -30,6 +31,7 @@ export const CustomerInfo = ({ user }: CustomerInfoProps) => {
         <a
           className='text-sm text-muted-foreground flex gap-2 items-center'
           href={`tel:${user.phone}`}
+          aria-label='Customer phone'
         >
           <Phone width={16} />
           <p className='hover:underline'>{user.phone}</p>

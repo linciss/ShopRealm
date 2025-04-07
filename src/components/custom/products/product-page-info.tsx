@@ -118,12 +118,12 @@ export const ProductPageInfo = async ({ productData }: ProductProps) => {
             </div>
           </div>
           <div className='flex flex-col'>
-            <h3 className='text-3xl font-semibold'>
+            <h2 className='text-3xl font-semibold'>
               {formatCurrency(productData.price)}
-            </h3>
+            </h2>
             <p
-              className={`text-sm  ${
-                productData.quantity < 5 ? 'text-red-600' : 'text-green-600'
+              className={`text-sm ${
+                productData.quantity < 5 ? 'text-red-600' : 'text-green-800'
               }`}
             >
               Atlicis nolitava (

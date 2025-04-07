@@ -12,8 +12,12 @@ export default async function Products() {
       <div className='flex justify-between items-center flex-row gap-4'>
         <h1 className=' font-bold text-3xl '>Produkti</h1>
         <div className='space-x-2 flex-nowrap flex flex-row'>
-          <Link href={`/store/products/configurator`} prefetch={true}>
-            <Button>
+          <Link
+            href={`/store/products/configurator`}
+            prefetch={true}
+            aria-label='Product configurator'
+          >
+            <Button aria-label='Product configurator'>
               <Plus />
               Pievienot preci
             </Button>

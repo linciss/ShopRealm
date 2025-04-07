@@ -48,8 +48,13 @@ export default function RoleSwitcher({ session }: RoleSwitcherProps) {
   return (
     <Dialog>
       <DropdownMenu modal={false}>
-        <DropdownMenuTrigger asChild className=''>
-          <Button variant='ghost' size='sm' className={'gap-1 h-9 px-2 flex'}>
+        <DropdownMenuTrigger asChild className='' aria-label='Role change'>
+          <Button
+            aria-label='Role change'
+            variant='ghost'
+            size='sm'
+            className={'gap-2 h-9 px-2 flex'}
+          >
             {role === 'SHOPPER' ? (
               <ShoppingBag className='h-4 w-4 text-primary' />
             ) : (

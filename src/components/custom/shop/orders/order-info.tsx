@@ -35,9 +35,9 @@ export const OrderInfo = ({ order }: OrderInfoProps) => {
   return (
     <Card className=''>
       <CardHeader>
-        <h3 className='text-xl font-semibold flex gap-2'>
+        <h2 className='text-xl font-semibold flex gap-2'>
           <Box /> Pasutijuma produkts
-        </h3>
+        </h2>
       </CardHeader>
       <CardContent>
         <div className='flex md:flex-row flex-col items-center'>

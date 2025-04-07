@@ -10,13 +10,17 @@ export default async function Store() {
         <h1 className='text-3xl font-bold '>Informācijas panelis</h1>
         <div className='space-x-2 flex-nowrap flex flex-row'>
           <Link href={`/store/products`} prefetch={false}>
-            <Button>
+            <Button aria-label='Add item'>
               <Plus />
               Pievienot preci
             </Button>
           </Link>
-          <Link href={`/store/products`} prefetch={false}>
-            <Button variant={'outline'}>
+          <Link
+            href={`/store/products`}
+            prefetch={false}
+            aria-label='Products page'
+          >
+            <Button variant={'outline'} aria-label='Products page'>
               <Eye />
               Paradit veikalu
             </Button>

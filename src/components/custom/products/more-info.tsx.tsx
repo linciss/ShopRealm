@@ -52,7 +52,7 @@ export const MoreInfo = async ({
   return (
     <div className='mt-5'>
       <Tabs defaultValue='details' className=' w-full'>
-        <TabsList className=' space-x-2 bg-muted text-foreground w-full justify-start '>
+        <TabsList className=' space-x-1 bg-muted text-foreground w-full justify-start '>
           <TabsTrigger
             className='data-[state=active]:shadow-none rounded-none '
             value='details'

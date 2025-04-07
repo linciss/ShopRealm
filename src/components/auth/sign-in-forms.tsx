@@ -115,7 +115,12 @@ export const SignInForms = () => {
             </Link>
           </div>
 
-          <Button type='submit' className='mt-8' disabled={isPending}>
+          <Button
+            type='submit'
+            className='mt-8'
+            disabled={isPending}
+            aria-label='Login'
+          >
             Pieslēgties
           </Button>
         </form>

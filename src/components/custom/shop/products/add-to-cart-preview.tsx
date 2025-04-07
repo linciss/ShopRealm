@@ -16,6 +16,7 @@ export const AddToCart = () => {
       <div className='flex-row flex gap-2'>
         <div className='flex items-center border rounded-md'>
           <Button
+            aria-label='Reduce item amount by 1'
             variant={'ghost'}
             onClick={() => {
               setQuantity(quantity - 1);
@@ -30,6 +31,7 @@ export const AddToCart = () => {
             onClick={() => {
               setQuantity(quantity + 1);
             }}
+            aria-label='Add item amount by 1'
           >
             <Plus />
           </Button>
@@ -43,6 +45,7 @@ export const AddToCart = () => {
           <Heart /> Pievienot pie favortiem
         </Button>
         <Button
+          aria-label='Product link'
           variant={'outline'}
           onClick={() => {
             // LATER ADD SHARES????
