@@ -89,3 +89,25 @@ export const getOrderItemById = async (orderId: string) => {
     return;
   }
 };
+
+export const getOrderHsitory = async () => {
+  const session = await auth();
+
+  if (!session?.user.id) return;
+
+  try {
+    const orderItems = await prisma.order.findFirst({
+      where: { userId: session.user.id },
+      include: {
+        orderItems: true,
+      },
+    });
+
+    return orderItems?.orderItems;
+  } catch (err) {
+    if (err instanceof Error) {
+      console.log(err);
+    }
+    return;
+  }
+};
