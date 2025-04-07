@@ -9,16 +9,16 @@ export const slugify = (storeName: string) => {
   return storeName.replace(/ /g, '-');
 };
 
-interface CategoryItem {
+interface Map {
   label: string;
   id: string;
 }
 
-interface CategoryMap {
-  [key: string]: CategoryItem;
+interface MapObject {
+  [key: string]: Map;
 }
 
-export const categoryMap: CategoryMap = {
+export const categoryMap: MapObject = {
   electronics: { id: 'electronics', label: 'Elektronika' },
   clothing: { id: 'clothing', label: 'Apgerbs' },
   home: { id: 'home', label: 'Majas un virtuve' },
@@ -55,4 +55,11 @@ export const calculateAverageRating = (reviews: Review[]) => {
         10,
     ) / 10 || 0
   );
+};
+
+export const statusMap: MapObject = {
+  pending: { id: 'pending', label: 'Gaida' },
+  shipped: { id: 'shipped', label: 'Izsutits' },
+  complete: { id: 'complete', label: 'Pabeigts' },
+  returned: { id: 'returned', label: 'Atgriezsts' },
 };

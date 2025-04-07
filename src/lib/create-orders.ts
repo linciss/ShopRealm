@@ -29,7 +29,8 @@ export const createOrdersFromSession = async (session: any) => {
     const transferScheduleDate = new Date();
     // for testing purposes
     transferScheduleDate.setDate(transferScheduleDate.getDate());
-    // transferScheduleDate.setDate(transferScheduleDate.getDate() + 14);
+    // at first set 90 days but when the status of order is complete then set 14 days grace period
+    // transferScheduleDate.setDate(transferScheduleDate.getDate() + 90);
 
     // creates an orderitem
     await Promise.all(
