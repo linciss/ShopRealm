@@ -27,8 +27,12 @@ export const changeOrderStatus = async (
       where: { id: orderItemId, storeId },
     });
 
-    if (existingOrderItem?.status === 'complete') {
+    if (existingOrderItem?.status === 'complete' && status !== 'returned') {
       return { error: 'Pabeigtus pasutijumus nevar mainit!' };
+    }
+
+    if (existingOrderItem?.status === 'returned') {
+      return { error: 'Pasutijums jau ir atgriezts!' };
     }
 
     const complete = status === 'complete';
