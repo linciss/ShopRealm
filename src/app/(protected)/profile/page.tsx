@@ -5,6 +5,7 @@ import { PersonalForms } from '@/components/custom/profile/personal-forms';
 import { AddressForms } from '@/components/custom/profile/address-forms';
 import { OrderHistory } from '@/components/custom/profile/order-history';
 import { getOrderHsitory } from '../../../../data/orders';
+import { Settings } from '@/components/custom/profile/settings';
 
 export default async function Profile() {
   const userData = await getUserData();
@@ -58,7 +59,10 @@ export default async function Profile() {
               </PersonalInformation>
             </TabsContent>
             <TabsContent value='orders'>
-              <OrderHistory orderItems={orderHistory} />
+              <OrderHistory history={orderHistory} />
+            </TabsContent>
+            <TabsContent value='settings' className='w-full space-y-20'>
+              <Settings />
             </TabsContent>
           </Tabs>
         </div>
