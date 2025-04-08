@@ -12,6 +12,41 @@ import {
 import Link from 'next/link';
 import { statusMap } from './../../../../lib/utils';
 
+export const badgeMap = (status: string) => {
+  switch (status) {
+    case 'pending':
+      return (
+        <p className='w-fit text-sm px-3 rounded-full border-blue-500 bg-blue-100 text-blue-500'>
+          {statusMap[status].label}
+        </p>
+      );
+    case 'shipped':
+      return (
+        <p className='w-fit text-sm px-3 rounded-full border-purple-500 bg-purple-100 text-purple-500'>
+          {statusMap[status].label}
+        </p>
+      );
+    case 'complete':
+      return (
+        <p className='w-fit text-sm px-3 rounded-full border-green-500 bg-green-100 text-green-700'>
+          {statusMap[status].label}
+        </p>
+      );
+    case 'returned':
+      return (
+        <p className='w-fit text-sm px-3 rounded-full border-red-500 bg-red-100 text-red-500'>
+          {statusMap[status].label}
+        </p>
+      );
+    default:
+      return (
+        <p className='w-fit text-sm px-3 rounded-full border-red-500 bg-red-100 text-red-500'>
+          {statusMap[status].label}
+        </p>
+      );
+  }
+};
+
 interface OrderTableProps {
   orders:
     | {
@@ -60,7 +95,7 @@ export const OrderTable = ({ orders }: OrderTableProps) => {
                 <TableCell className='hidden md:table-cell'>
                   {new Date(order.order.createdAt).toLocaleDateString()}
                 </TableCell>
-                <TableCell>{statusMap[order.status].label}</TableCell>
+                <TableCell>{badgeMap(statusMap[order.status].id)}</TableCell>
                 <TableCell className='hidden md:table-cell'>
                   {order.total}
                 </TableCell>

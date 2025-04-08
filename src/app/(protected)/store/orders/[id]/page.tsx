@@ -3,10 +3,10 @@ import { getOrderItemById } from '../../../../../../data/orders';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
-import { OrderInfo } from '@/components/custom/shop/orders/order-info';
-import { CustomerInfo } from '@/components/custom/shop/orders/customer-info';
+import { OrderInfo } from '@/components/custom/order-info';
 import { ShippingInfo } from '@/components/custom/shop/orders/shipping-info';
 import { StatusChange } from '@/components/custom/shop/orders/status-change';
+import { DataCard } from '@/components/custom/data-card';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -41,15 +41,20 @@ export default async function Order({ params }: Props) {
       </div>
       <div className='grid grid-cols-1 xl:grid-cols-3 gap-6'>
         <div className='xl:col-span-2'>
-          <OrderInfo order={order} />
+          <OrderInfo
+            image={order.product.image}
+            name={order.product.name}
+            priceAtOrder={order.priceAtOrder}
+            quantity={order.quantity}
+            total={order.total}
+          />
         </div>
         <div className='col-span-1 space-y-6'>
-          <CustomerInfo
-            user={{
-              name: order.order.user.name,
-              phone: order.order.user.phone,
-              email: order.order.user.email,
-            }}
+          <DataCard
+            dataType={'Veiakala'}
+            name={order.order.user.name}
+            phone={order.order.user.phone || ''}
+            email={order.order.user.email}
           />
           <ShippingInfo
             address={{

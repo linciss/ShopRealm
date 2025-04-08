@@ -96,14 +96,41 @@ export const getOrderHsitory = async () => {
   if (!session?.user.id) return;
 
   try {
-    const orderItems = await prisma.order.findFirst({
+    const orderItems = await prisma.order.findMany({
       where: { userId: session.user.id },
-      include: {
-        orderItems: true,
+      select: {
+        createdAt: true,
+        orderItems: {
+          select: {
+            id: true,
+            store: {
+              select: {
+                name: true,
+                user: {
+                  select: {
+                    email: true,
+                  },
+                },
+                storePhone: true,
+              },
+            },
+            product: {
+              select: {
+                name: true,
+                image: true,
+                id: true,
+              },
+            },
+            priceAtOrder: true,
+            status: true,
+            quantity: true,
+            total: true,
+          },
+        },
       },
     });
 
-    return orderItems?.orderItems;
+    return orderItems;
   } catch (err) {
     if (err instanceof Error) {
       console.log(err);

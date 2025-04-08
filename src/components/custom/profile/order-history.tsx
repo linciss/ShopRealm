@@ -1,22 +1,114 @@
-interface OrderHistoryProps {
-  orderItems:
-    | {
-        id: string;
-        orderId: string;
-        productId: string;
-        storeId: string;
-        quantity: number;
-        priceAtOrder: number;
-        status: string;
-        escrowStatus: string;
-        total: number;
-        transferScheduledFor: Date | null;
-        transferId: string | null;
-      }[]
-    | undefined
-    | null;
+'use client';
+
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { formatCurrency } from './../../../lib/format-currency';
+import { useState } from 'react';
+import { OrderDetails } from './order-details';
+import { badgeMap } from '../shop/orders/order-table';
+
+interface OrderItem {
+  id: string;
+  status: string;
+  total: number;
+  store: {
+    name: string;
+    storePhone: string;
+    user: {
+      email: string;
+    };
+  };
+  product: {
+    name: string;
+    id: string;
+    image: string | null;
+  };
+  priceAtOrder: number;
+  quantity: number;
 }
 
-export const OrderHistory = ({ orderItems }: OrderHistoryProps) => {
-  return <>{JSON.stringify(orderItems)}</>;
+interface OrderHistory {
+  createdAt: Date;
+  orderItems: OrderItem[];
+}
+
+interface OrderHistoryProps {
+  history?: OrderHistory[] | null | undefined;
+}
+
+export const OrderHistory = ({ history }: OrderHistoryProps) => {
+  const [isViewingOrderInfo, setIsViewvingOrderInfo] = useState<boolean>(false);
+  const [orderItem, setOrderItem] = useState<OrderItem | undefined>();
+
+  const handleOrderDetails = (value: OrderItem) => {
+    setOrderItem(value);
+    setIsViewvingOrderInfo(true);
+  };
+
+  const backCallback = () => {
+    setIsViewvingOrderInfo(false);
+    setOrderItem(undefined);
+  };
+
+  if (isViewingOrderInfo)
+    return <OrderDetails orderItem={orderItem} backCallback={backCallback} />;
+
+  return (
+    <Card>
+      <CardHeader className='sm:p-6 px-2'>
+        <CardTitle className='text-2xl  font-semibold leading-none tracking-tight'>
+          Pasutijumu parvaldnieks
+        </CardTitle>
+      </CardHeader>
+      <CardContent className='sm:p-6 px-2'>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead>Pasutijuma ID</TableHead>
+              <TableHead className='hidden md:table-cell'>
+                Pasutijuma datums
+              </TableHead>
+              <TableHead>Statuss</TableHead>
+              <TableHead className='hidden md:table-cell'>Summa</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {history?.map((order) =>
+              order.orderItems.map((item) => (
+                <TableRow key={item.id}>
+                  <TableCell>
+                    <Button
+                      variant={'link'}
+                      onClick={() => {
+                        handleOrderDetails(item);
+                      }}
+                    >
+                      {item.id}
+                    </Button>
+                  </TableCell>
+                  <TableCell className='hidden md:table-cell'>
+                    {new Date(order.createdAt).toLocaleDateString()}
+                  </TableCell>
+
+                  <TableCell>{badgeMap(item.status)}</TableCell>
+                  <TableCell className='hidden md:table-cell'>
+                    {formatCurrency(item.total)}
+                  </TableCell>
+                </TableRow>
+              )),
+            )}
+          </TableBody>
+        </Table>
+      </CardContent>
+    </Card>
+  );
 };

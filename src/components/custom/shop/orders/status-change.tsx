@@ -13,6 +13,7 @@ import { useToast } from '@/hooks/use-toast';
 import { statusMap } from '@/lib/utils';
 import { useState, useTransition } from 'react';
 import { changeOrderStatus } from '../../../../../actions/orders/change-status';
+import { badgeMap } from './order-table';
 
 type Status = 'pending' | 'shipped' | 'complete' | 'returned';
 
@@ -54,29 +55,12 @@ export const StatusChange = ({
     });
   };
 
-  const mappedStatus = statusMap[status];
+  const mappedStatus = statusMap[initialStatus];
 
   return (
     <div className='flex gap-2 items-center flex-row'>
       <p className='text-sm'>Statuss:</p>
-      {mappedStatus.id === 'pending' ? (
-        <p className='text-sm px-3 rounded-full border-blue-500 bg-blue-100 text-blue-500'>
-          {mappedStatus.label}
-        </p>
-      ) : mappedStatus.id === 'shipped' ? (
-        <p className='text-sm px-3 rounded-full border-purple-500 bg-purple-100 text-purple-500'>
-          {mappedStatus.label}
-        </p>
-      ) : mappedStatus.id === 'complete' ? (
-        <p className='text-sm px-3 rounded-full border-green-500 bg-green-100 text-green-700'>
-          {mappedStatus.label}
-        </p>
-      ) : (
-        <p className='text-sm px-3 rounded-full border-red-500 bg-red-100 text-red-500'>
-          {mappedStatus.label}
-        </p>
-      )}
-
+      {badgeMap(mappedStatus.id)}
       <Select
         value={status}
         onValueChange={handleStatusChange}
