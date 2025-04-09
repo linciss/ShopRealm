@@ -23,18 +23,17 @@ export const addReview = async (
   try {
     const userId = session.user.id;
 
-    // rn commented bcs i hjavent implemented order yet!
     // finds if product has been bought by user since we restrict users from reviewing if they haventy bought item
-    // const hasBoughtProduct = await prisma.order.findFirst({
-    //   where: {
-    //     userId,
-    //     orderItems: {
-    //       some: { productId },
-    //     },
-    //   },
-    // });
+    const hasBoughtProduct = await prisma.order.findFirst({
+      where: {
+        userId,
+        orderItems: {
+          some: { productId },
+        },
+      },
+    });
 
-    // if (!hasBoughtProduct) return { error: 'Nav nopirkts produkts!' };
+    if (!hasBoughtProduct) return { error: 'Nav nopirkts produkts!' };
 
     // checks if user has already reviewed a product
     const review = await prisma.review.findFirst({

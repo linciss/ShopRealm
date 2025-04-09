@@ -15,7 +15,9 @@ export default async function Products() {
 
   const pendingOrdersTotal =
     orders
-      ?.filter((order) => order.status === 'pending')
+      ?.filter(
+        (order) => order.status === 'pending' || order.status === 'shipped',
+      )
       .reduce((sum, order) => sum + order.priceAtOrder * order.quantity, 0) ||
     0;
 
