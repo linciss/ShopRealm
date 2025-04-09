@@ -10,8 +10,6 @@ import {
   Italic,
   UnderlineIcon,
   List,
-  ListOrdered,
-  Heading2,
   Heading3,
   Redo,
   Undo,
@@ -51,11 +49,11 @@ const RichTextEditor = forwardRef<RichTextEditorRef, RichTextEditorProps>(
       extensions: [
         StarterKit.configure({
           heading: {
-            levels: [2, 3],
+            levels: [3],
           },
         }),
         Heading.configure({
-          levels: [2, 3],
+          levels: [3],
           HTMLAttributes: {
             class: 'font-semibold text-lg',
           },
@@ -127,17 +125,6 @@ const RichTextEditor = forwardRef<RichTextEditorRef, RichTextEditorProps>(
 
           <Toggle
             size='sm'
-            pressed={editor.isActive('heading', { level: 2 })}
-            onPressedChange={() =>
-              editor.chain().focus().toggleHeading({ level: 2 }).run()
-            }
-            disabled={disabled}
-            aria-label='Heading 2'
-          >
-            <Heading2 className='h-4 w-4' />
-          </Toggle>
-          <Toggle
-            size='sm'
             pressed={editor.isActive('heading', { level: 3 })}
             onPressedChange={() =>
               editor.chain().focus().toggleHeading({ level: 3 }).run()
@@ -160,17 +147,6 @@ const RichTextEditor = forwardRef<RichTextEditorRef, RichTextEditorProps>(
             aria-label='Bullet List'
           >
             <List className='h-4 w-4' />
-          </Toggle>
-          <Toggle
-            size='sm'
-            pressed={editor.isActive('orderedList')}
-            onPressedChange={() =>
-              editor.chain().focus().toggleOrderedList().run()
-            }
-            disabled={disabled}
-            aria-label='Ordered List'
-          >
-            <ListOrdered className='h-4 w-4' />
           </Toggle>
 
           <Separator orientation='vertical' className='mx-1 h-6' />
