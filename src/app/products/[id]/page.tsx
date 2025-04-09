@@ -24,7 +24,7 @@ export default async function ProductPage({ params }: Props) {
 
   const productData = await getProduct(id);
 
-  if (!productData) redirect('/products');
+  if (!productData || productData.quantity <= 0) redirect('/products');
 
   return (
     <div className='space-y-4  max-w-7xl mx-auto '>
