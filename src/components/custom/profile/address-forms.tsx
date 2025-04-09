@@ -26,6 +26,7 @@ import { Pencil } from 'lucide-react';
 import { useTransition } from 'react';
 import { editUserAddress } from '../../../../actions/user/edit-address';
 import { useToast } from '@/hooks/use-toast';
+import { supportedCountries } from '@/lib/utils';
 
 interface AddressFormsProps {
   userAddress: {
@@ -85,7 +86,7 @@ export const AddressForms = ({ userAddress }: AddressFormsProps) => {
                 <FormItem>
                   <FormLabel>Iela</FormLabel>
                   <FormControl>
-                    <Input placeholder='Brivibas' {...field} />
+                    <Input placeholder='Zalu iela 13' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -98,7 +99,7 @@ export const AddressForms = ({ userAddress }: AddressFormsProps) => {
                 <FormItem>
                   <FormLabel>Pilseta</FormLabel>
                   <FormControl>
-                    <Input placeholder='B rivibas iela 23' {...field} />
+                    <Input placeholder='Liepaja' {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -122,7 +123,7 @@ export const AddressForms = ({ userAddress }: AddressFormsProps) => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {countries.map((country, idx) => (
+                      {supportedCountries.map((country, idx) => (
                         <SelectItem key={idx} value={country}>
                           {country.charAt(0).toUpperCase() + country.slice(1)}
                         </SelectItem>
@@ -163,5 +164,3 @@ export const AddressForms = ({ userAddress }: AddressFormsProps) => {
     </div>
   );
 };
-
-const countries: string[] = ['latvija', 'usa', 'eng'];

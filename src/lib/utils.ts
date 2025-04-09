@@ -63,3 +63,5 @@ export const statusMap: MapObject = {
   complete: { id: 'complete', label: 'Pabeigts' },
   returned: { id: 'returned', label: 'Atgriezsts' },
 };
+
+export const supportedCountries = ['Latvija', 'USA', 'Anlgija', 'Turcija'];
