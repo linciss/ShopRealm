@@ -1,5 +1,4 @@
 'use client';
-import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   DropdownMenu,
@@ -108,11 +107,17 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
                     {product.isActive &&
                     product.quantity < 5 &&
                     product.quantity > 0 ? (
-                      <Badge className='bg-orange-300'>Zems daudzums</Badge>
+                      <p className='w-fit text-sm px-3 rounded-full border-orange-500 bg-orange-100 text-orange-500'>
+                        Zems daudzums
+                      </p>
                     ) : product.isActive && product.quantity > 0 ? (
-                      <Badge className='bg-green-300'>Aktivs</Badge>
+                      <p className='w-fit text-sm px-3 rounded-full border-green-700 bg-green-100 text-green-700'>
+                        Aktivs
+                      </p>
                     ) : (
-                      <Badge className='bg-red-500'>Neaktivs</Badge>
+                      <p className='w-fit text-sm px-3 rounded-full border-red-500 bg-red-100 text-red-500'>
+                        Aktivs
+                      </p>
                     )}
                   </TableCell>
                   <TableCell>

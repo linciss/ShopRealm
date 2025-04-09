@@ -18,8 +18,9 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Camera, Pencil } from 'lucide-react';
 import Image from 'next/image';
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 import { editUserProfile } from '../../../../actions/user/edit-user';
+import { useToast } from '@/hooks/use-toast';
 
 interface PersonalFormsProps {
   userData: {
@@ -40,21 +41,24 @@ export const PersonalForms = ({ userData }: PersonalFormsProps) => {
     },
   });
 
-  const [success, setSuccess] = useState<string | undefined>();
-  const [error, setError] = useState<string | undefined>();
-
   const [isPending, startTransition] = useTransition();
 
-  function onSubmit(data: z.infer<typeof personalInfoSchema>) {
-    setError('');
-    setSuccess('');
+  const { toast } = useToast();
 
+  function onSubmit(data: z.infer<typeof personalInfoSchema>) {
     startTransition(() => {
       editUserProfile(data).then((res) => {
         if (res?.error) {
-          setError(res?.error);
+          toast({
+            title: 'Kluda!',
+            description: res.error,
+            variant: 'destructive',
+          });
         } else {
-          setSuccess(res?.success);
+          toast({
+            title: 'Samainits!',
+            description: res.success,
+          });
         }
       });
     });
@@ -145,11 +149,9 @@ export const PersonalForms = ({ userData }: PersonalFormsProps) => {
               className='flex flex-row items-center'
             >
               <Pencil className='mr-2 h-4 w-4' />
-              Iesniegt Adresi
+              Iesniegt datus
             </Button>
           </div>
-          {error && <p className='text-red-500'>{error}</p>}
-          {success && <p className='text-green-500'>{success}</p>}
         </form>
       </Form>
     </div>

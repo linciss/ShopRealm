@@ -23,8 +23,9 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Pencil } from 'lucide-react';
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 import { editUserAddress } from '../../../../actions/user/edit-address';
+import { useToast } from '@/hooks/use-toast';
 
 interface AddressFormsProps {
   userAddress: {
@@ -46,18 +47,24 @@ export const AddressForms = ({ userAddress }: AddressFormsProps) => {
     },
   });
 
-  const [error, setError] = useState<string | undefined>();
-  const [success, setSuccess] = useState<string | undefined>();
-
   const [isPending, startTransition] = useTransition();
+
+  const { toast } = useToast();
 
   function onSubmit(data: z.infer<typeof addressInfoSchema>) {
     startTransition(() => {
       editUserAddress(data).then((res) => {
         if (res?.error) {
-          setError(res?.error);
+          toast({
+            title: 'Kluda!',
+            description: res.error,
+            variant: 'destructive',
+          });
         } else {
-          setSuccess(res?.success);
+          toast({
+            title: 'Samainits!',
+            description: res.success,
+          });
         }
       });
     });
@@ -151,8 +158,6 @@ export const AddressForms = ({ userAddress }: AddressFormsProps) => {
               Iesniegt Adresi
             </Button>
           </div>
-          {error && <p className='text-red-500'>{error}</p>}
-          {success && <p className='text-green-500'>{success}</p>}
         </form>
       </Form>
     </div>
