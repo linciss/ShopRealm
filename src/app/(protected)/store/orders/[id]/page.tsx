@@ -52,16 +52,17 @@ export default async function Order({ params }: Props) {
         <div className='col-span-1 space-y-6'>
           <DataCard
             dataType={'Veiakala'}
-            name={order.order.user.name}
-            phone={order.order.user.phone || ''}
-            email={order.order.user.email}
+            name={order.shippingName}
+            lastName={order.shippingLastName}
+            phone={order.shippingPhone}
+            email={order.shippingEmail}
           />
           <ShippingInfo
             address={{
-              street: order.order.user.address?.street || '',
-              city: order.order.user.address?.city || '',
-              country: order.order.user.address?.country || '',
-              postalCode: order.order.user.address?.postalCode || '',
+              street: order.shippingStreet || '',
+              city: order.shippingCity || '',
+              country: order.shippingCountry || '',
+              postalCode: order.shippingPostalCode || '',
             }}
           />
         </div>

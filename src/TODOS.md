@@ -25,3 +25,8 @@
 - [ ] Translation with i18
 - [ ] Mkae the nav more responsive 
 - [ ] about us 
+- [x] echckout page 
+- [ ] maybe change the poroduct from id to slug
+- [ ] new order system? where user has 14 days  to confirm after shipped and then when user confirms then only make the order as complete (gonna need another cron) adn then start the escrow holding funds logic
+- [ ] redesign the store craete card
+- [ ] 

@@ -6,9 +6,16 @@ interface DataCardProps {
   name: string;
   email: string;
   phone: string;
+  lastName?: string;
 }
 
-export const DataCard = ({ dataType, name, email, phone }: DataCardProps) => {
+export const DataCard = ({
+  dataType,
+  name,
+  lastName,
+  email,
+  phone,
+}: DataCardProps) => {
   return (
     <Card>
       <CardHeader>
@@ -18,7 +25,9 @@ export const DataCard = ({ dataType, name, email, phone }: DataCardProps) => {
         </h3>
       </CardHeader>
       <CardContent className='flex flex-col gap-2'>
-        <p className='text-md font-semibold'>{name}</p>
+        <p className='text-md font-semibold'>
+          {name} {lastName}
+        </p>
         <a
           className='text-sm text-muted-foreground flex gap-2 items-center'
           href={`mailto:${email}`}

@@ -57,27 +57,20 @@ export const getOrderItemById = async (orderId: string) => {
           select: {
             paymentStatus: true,
             createdAt: true,
-            user: {
-              select: {
-                name: true,
-                email: true,
-                phone: true,
-                address: {
-                  select: {
-                    city: true,
-                    country: true,
-                    street: true,
-                    postalCode: true,
-                  },
-                },
-              },
-            },
           },
         },
         status: true,
         quantity: true,
         priceAtOrder: true,
         total: true,
+        shippingName: true,
+        shippingLastName: true,
+        shippingEmail: true,
+        shippingPhone: true,
+        shippingStreet: true,
+        shippingCity: true,
+        shippingCountry: true,
+        shippingPostalCode: true,
       },
     });
 

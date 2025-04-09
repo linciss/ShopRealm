@@ -1,9 +1,8 @@
-'use client';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { formatCurrency } from '@/lib/format-currency';
-import { redirect } from 'next/navigation';
 import { Button } from '../ui/button';
+import Link from 'next/link';
 
 interface SUmCardProps {
   subTotal: number;
@@ -11,11 +10,6 @@ interface SUmCardProps {
 }
 
 export const SumCard = ({ subTotal, isCheckout = false }: SUmCardProps) => {
-  const handleCheckout = () => {
-    // just a query param so i can show the price on the checkout page
-    redirect(`/checkout?sum=${subTotal}`);
-  };
-
   return (
     <Card className='flex-1 md:col-span-1 h-fit sticky top-20'>
       <CardHeader>
@@ -34,9 +28,9 @@ export const SumCard = ({ subTotal, isCheckout = false }: SUmCardProps) => {
           <p className='text-md font-semibold'>{formatCurrency(subTotal)}</p>
         </div>
         {!isCheckout && (
-          <Button className='w-full' onClick={handleCheckout}>
-            Pasutit
-          </Button>
+          <Link href={`/checkout?sum=${subTotal}`} prefetch={true}>
+            <Button className='w-full'>Pasutit</Button>
+          </Link>
         )}
       </CardContent>
     </Card>
