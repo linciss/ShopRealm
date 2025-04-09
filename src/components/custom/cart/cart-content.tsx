@@ -1,8 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
+
 import { Loader2, RefreshCcw } from 'lucide-react';
 import { Session } from 'next-auth';
 import { useEffect, useRef, useState, useTransition } from 'react';
@@ -12,7 +11,6 @@ import { getLocalCartProducts } from '../../../../actions/cart/get-local-cart-it
 import { CartItem } from './cart-item';
 import { changeItemQuantity } from '../../../../actions/cart/change-item-quantity';
 import { removeItem } from '../../../../actions/cart/remove-item';
-import { CheckoutButton } from './checkout-button';
 
 interface CartItem {
   product: {
@@ -35,6 +33,7 @@ interface LocalCartItem {
   quantity: number;
 }
 
+// overcomplicated cart page because of allowing unsigned users :))))
 export const CartContent = ({ session, cart }: CartContentProps) => {
   const [localCartProducts, setLocalCartProducts] = useState<LocalCartItem[]>(
     [],
@@ -213,76 +212,47 @@ export const CartContent = ({ session, cart }: CartContentProps) => {
     };
   }, []);
 
-  const subTotal = cartProducts.reduce(
-    (accumulator, currProd) =>
-      accumulator + currProd.quantity * parseInt(currProd.product.price),
-    0,
-  );
-
   return (
-    <div className='mt-5 w-full grid grid-cols-1 md:grid-cols-3  gap-6 md:flex-row'>
-      <div className='flex flex-col flex-[2] col-span-2 '>
-        <div className='flex justify-between'>
-          {session?.user.id
-            ? cartProducts?.length || 0
-            : localCartProducts.length}{' '}
-          produkt
-          {(session?.user ? cartProducts?.length : localCartProducts.length) !==
-          1
-            ? 'i'
-            : 's'}
-          <Button variant={'outline'} disabled={isPending || isLoading}>
-            {isPending ? (
-              <>
-                <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Apstrada...
-              </>
-            ) : (
-              <>
-                <RefreshCcw className='mr-2' /> Iztirit
-              </>
-            )}
-          </Button>
-        </div>
-        {isLoading ? (
-          <div className='py-12 flex justify-center items-center'>
-            <Loader2 className='h-8 w-8 animate-spin text-primary' />
-            <span className='ml-2 text-muted-foreground'>Ielādē grozu...</span>
-          </div>
-        ) : (
-          <div className='space-y-4 mt-4'>
-            {cartProducts?.map((item) => (
-              <div key={item.product.id}>
-                <CartItem
-                  item={item}
-                  session={session}
-                  onChange={handleChangeQuantity}
-                  onRemove={handleCartRemove}
-                />
-              </div>
-            ))}
-          </div>
-        )}
+    <div className='flex flex-col flex-[2] col-span-2 '>
+      <div className='flex justify-between'>
+        {session?.user.id
+          ? cartProducts?.length || 0
+          : localCartProducts.length}{' '}
+        produkt
+        {(session?.user ? cartProducts?.length : localCartProducts.length) !== 1
+          ? 'i'
+          : 's'}
+        <Button variant={'outline'} disabled={isPending || isLoading}>
+          {isPending ? (
+            <>
+              <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Apstrada...
+            </>
+          ) : (
+            <>
+              <RefreshCcw className='mr-2' /> Iztirit
+            </>
+          )}
+        </Button>
       </div>
-      <Card className='flex-1 md:col-span-1 h-fit'>
-        <CardHeader>
-          <h4 className='text-xl font-semibold'>Sutijuma kopsavilkums</h4>
-        </CardHeader>
-        <CardContent className='space-y-4'>
-          <div className='text flex justify-between'>
-            <p className='text-sm font-medium text-muted-foreground'>
-              Starpsumma
-            </p>
-            <p className='text-sm font-medium'>€ {subTotal}</p>
-          </div>
-
-          <Separator />
-          <div className='text flex justify-between'>
-            <p className='text-md font-semibold'>Summa</p>
-            <p className='text-md font-semibold'>€ {subTotal}</p>
-          </div>
-          <CheckoutButton />
-        </CardContent>
-      </Card>
+      {isLoading ? (
+        <div className='py-12 flex justify-center items-center'>
+          <Loader2 className='h-8 w-8 animate-spin text-primary' />
+          <span className='ml-2 text-muted-foreground'>Ielādē grozu...</span>
+        </div>
+      ) : (
+        <div className='space-y-4 mt-4'>
+          {cartProducts?.map((item) => (
+            <div key={item.product.id}>
+              <CartItem
+                item={item}
+                session={session}
+                onChange={handleChangeQuantity}
+                onRemove={handleCartRemove}
+              />
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
