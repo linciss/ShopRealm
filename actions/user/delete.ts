@@ -70,12 +70,22 @@ export const deleteAccount = async () => {
         },
       });
 
+      await tx.address.delete({
+        where: { userId },
+      });
+
       await tx.user.delete({
         where: { id: userId },
       });
     });
 
-    await signOut();
+    try {
+      // in try catch since its gonna throw an error because user does not exist anymore
+      await signOut();
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (err) {
+      return;
+    }
 
     revalidatePath(`/products`);
     return { success: 'Veiksmigi izdzesta lietotajs!' };
@@ -83,9 +93,8 @@ export const deleteAccount = async () => {
     // return prisma error so i dont have to query database to check if user exists
     if (error instanceof PrismaClientKnownRequestError) {
       if (error.code === 'P2025') return { error: 'Nav atrasta lietotajs!' };
-      return { error: 'Kļūda apstrādājot datus' };
-    } else {
-      return { error: 'Kļūda apstrādājot datus' };
+      return { error: 'Kļūda apstrādājot datus Prisma' };
     }
+    return { error: 'Kļūda apstrādājot datus' };
   }
 };
