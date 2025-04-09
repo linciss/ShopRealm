@@ -4,13 +4,45 @@ import { stripe } from '@/lib/stripe';
 import prisma from '@/lib/db';
 import { getUserCart } from '../../data/cart';
 import { auth } from '../../auth';
+import { z } from 'zod';
+import { shippingInfoSchema } from '../../schemas';
 
-export const createCheckoutSession = async (redirectUrl: string) => {
+export const createCheckoutSession = async (
+  redirectUrl: string,
+  data: z.infer<typeof shippingInfoSchema>,
+  saveInfo: boolean,
+) => {
   const session = await auth();
 
   if (!session?.user.id) return { error: 'Leitotajs nav autorizets' };
 
+  const validateData = shippingInfoSchema.safeParse(data);
+
+  if (validateData.error) return { error: 'Kluda validejot datus!' };
+
+  const { name, lastName, phone, street, city, country, postalCode } =
+    validateData.data;
+
   try {
+    if (saveInfo) {
+      // if user select that they want to save their data then save  it into database
+      await prisma.user.update({
+        where: { id: session.user.id },
+        data: {
+          phone,
+          address: {
+            update: {
+              data: {
+                street,
+                city,
+                country,
+                postalCode,
+              },
+            },
+          },
+        },
+      });
+    }
     const cart = await getUserCart();
     if (!cart) return { error: 'Groza kluda!' };
 
@@ -62,6 +94,14 @@ export const createCheckoutSession = async (redirectUrl: string) => {
       client_reference_id: session.user.id,
       metadata: {
         cartId: cart.id,
+        name,
+        lastName,
+        email: session.user.email as string,
+        phone,
+        street,
+        city,
+        country,
+        postalCode,
       },
     });
 

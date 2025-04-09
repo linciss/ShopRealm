@@ -3,6 +3,16 @@ import prisma from './db';
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createOrdersFromSession = async (session: any) => {
   const cartId = session.metadata.cartId;
+
+  const shippingName = session.metadata.name;
+  const shippingLastName = session.metadata.lastName;
+  const shippingEmail = session.metadata.email;
+  const shippingPhone = session.metadata.phone;
+  const shippingStreet = session.metadata.street;
+  const shippingCity = session.metadata.city;
+  const shippingCountry = session.metadata.country;
+  const shippingPostalCode = session.metadata.postalCode;
+
   const userId = session.client_reference_id;
 
   try {
@@ -23,7 +33,7 @@ export const createOrdersFromSession = async (session: any) => {
       include: { cartItems: { include: { product: true } } },
     });
 
-    if (!cart) return { error: 'Cart not found' };
+    if (!cart) return { error: 'Grozs nav atrasts' };
 
     // calcualtes the payment date
     const transferScheduleDate = new Date();
@@ -46,6 +56,14 @@ export const createOrdersFromSession = async (session: any) => {
             status: 'pending',
             escrowStatus: 'holding',
             transferScheduledFor: transferScheduleDate,
+            shippingName: shippingName || '',
+            shippingLastName: shippingLastName || '',
+            shippingCity: shippingCity || '',
+            shippingCountry: shippingCountry || '',
+            shippingEmail: shippingEmail || '',
+            shippingPhone: shippingPhone || '',
+            shippingPostalCode: shippingPostalCode || '',
+            shippingStreet: shippingStreet || '',
           },
         });
       }),

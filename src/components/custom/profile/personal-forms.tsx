@@ -27,7 +27,6 @@ interface PersonalFormsProps {
     name: string;
     lastName: string;
     email: string;
-    phone: string | null;
   };
 }
 
@@ -37,7 +36,6 @@ export const PersonalForms = ({ userData }: PersonalFormsProps) => {
     defaultValues: {
       name: userData.name,
       lastName: userData.lastName,
-      phone: userData.phone || '',
     },
   });
 
@@ -128,20 +126,7 @@ export const PersonalForms = ({ userData }: PersonalFormsProps) => {
               Ja vēlies pārmainīt epastu, tad dodies uz iestatījumiem
             </FormDescription>
           </FormItem>
-          <FormField
-            control={form.control}
-            name='phone'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Telefona numurs</FormLabel>
-                <FormControl>
-                  <Input placeholder='22445629' {...field} />
-                </FormControl>
-                <FormDescription></FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+
           <div className='max-w-10'>
             <Button
               disabled={isPending}
