@@ -147,7 +147,16 @@ model OrderItem {
   escrowStatus          String          @default("holding") // "holding", "released", "refunded"
   total                 Float
   transferScheduledFor  DateTime? 
-  transferId            String? 
+  transferId            String?
+  
+  shippingName          String
+  shippingLastName      String
+  shippingEmail         String
+  shippingPhone         String
+  shippingStreet        String
+  shippingCity          String
+  shippingCountry       String
+  shippingPostalCode    String
 }
 
 model Review {

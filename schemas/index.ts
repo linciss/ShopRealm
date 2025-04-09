@@ -77,10 +77,6 @@ export const personalInfoSchema = z.object({
   lastName: z
     .string()
     .min(1, { message: 'Uzvārdam jābūt vismaz 1 simbolam garam' }),
-  phone: z
-    .string()
-    .min(8, { message: 'Talruna numuram jabut pareizam' })
-    .max(8, { message: 'Talruna numuram jabut pareizam' }),
 });
 
 export const addressInfoSchema = z.object({
@@ -181,3 +177,12 @@ export const reviewSchema = z.object({
     ),
   comment: z.string().min(10, { message: 'Jabut vismaz 10 simboliem garam' }),
 });
+
+export const shippingInfoSchema = personalInfoSchema
+  .extend({
+    phone: z
+      .string()
+      .min(8, { message: 'Talruna numuram jabut pareizam' })
+      .max(8, { message: 'Talruna numuram jabut pareizam' }),
+  })
+  .merge(addressInfoSchema);

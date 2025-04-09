@@ -50,3 +50,35 @@ export const getUserAddress = async () => {
     }
   }
 };
+
+export const getUserShippingInfo = async () => {
+  const session = await auth();
+
+  if (!session?.user.id) return;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: {
+        name: true,
+        lastName: true,
+        phone: true,
+        email: true,
+        address: {
+          select: {
+            country: true,
+            city: true,
+            street: true,
+            postalCode: true,
+          },
+        },
+      },
+    });
+
+    return user;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error: ', error.stack);
+    }
+  }
+};
