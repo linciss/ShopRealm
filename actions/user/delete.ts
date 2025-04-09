@@ -82,9 +82,8 @@ export const deleteAccount = async () => {
     try {
       // in try catch since its gonna throw an error because user does not exist anymore
       await signOut();
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
-      return;
+      return { success: 'Izlogots', err };
     }
 
     revalidatePath(`/products`);

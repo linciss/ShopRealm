@@ -2,7 +2,7 @@
 - [ ]  Store owner cant buy/access their products? (IDK YET IF NEEDED)
 - [ ] Probs the fallback nav but its an edge case so will see
 - [ ] Maybe redesign the order page bcs of consistancy
-- [ ] Restrict users from buying if they dont have address && phone
+- [x] Restrict users from buying if they dont have address && phone
 - [ ] Remove every item  from cart button 
 - [ ] Obv the pages ..... category/sale and so on
 - [ ] Change password
@@ -16,7 +16,7 @@
 - [ ] product filtering
 - [ ] pagination (50%)
 - [ ] Wishlist page
-- [ ] show address info in cart page So if user doesnt have their address setup they could just set it up there
+- [x] show address info in cart page So if user doesnt have their address setup they could just set it up there
 - [ ] Stores need to set up their stripe aka give their account info
 - [ ] store settings page breh
 - [ ] analytics
