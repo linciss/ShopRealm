@@ -4,6 +4,7 @@ import prisma from '@/lib/db';
 import { auth } from '../../auth';
 import { getStoreId } from '../../data/store';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { revalidatePath } from 'next/cache';
 
 type Status = 'pending' | 'shipped' | 'complete' | 'returned';
 
@@ -51,6 +52,7 @@ export const changeOrderStatus = async (
       },
     });
 
+    revalidatePath(`/store/orders/${orderItemId}`);
     return { success: 'Nomaits statuss!' };
   } catch (err) {
     if (err instanceof Error) {
