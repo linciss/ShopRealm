@@ -12,8 +12,10 @@ export const login = async (data: z.infer<typeof signInSchema>) => {
   const { email, password } = data;
 
   try {
+    const emailToLower = email.toLowerCase();
+
     const user = await prisma.user.findUnique({
-      where: { email },
+      where: { email: emailToLower },
     });
 
     if (!user) {
@@ -22,7 +24,7 @@ export const login = async (data: z.infer<typeof signInSchema>) => {
 
     // calls credential authorization provider to sign in and calls signIn afterwards to double check
     await signIn('credentials', {
-      email,
+      email: emailToLower,
       password,
       redirectTo: DEFAULT_SIGNIN_REDIRECT,
     });

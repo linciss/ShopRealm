@@ -25,7 +25,9 @@ export const register = async (data: z.infer<typeof signUpSchema>) => {
   const { email, password, passwordConfirmation, name, lastName } =
     validateData.data;
 
-  const existingUser = await getUserByEmail(email);
+  const emailToLower = email.toLowerCase();
+
+  const existingUser = await getUserByEmail(emailToLower);
 
   //  checks if user already exists
   if (existingUser) {
@@ -45,7 +47,7 @@ export const register = async (data: z.infer<typeof signUpSchema>) => {
       data: {
         name,
         lastName,
-        email,
+        email: emailToLower,
         password: hashedPassword,
         address: {
           create: {
