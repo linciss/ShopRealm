@@ -1,45 +1,28 @@
 'use server';
-
-import { revalidatePath } from 'next/cache';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { auth } from '../../auth';
+import { revalidatePath } from 'next/cache';
 import prisma from '@/lib/db';
 import { getUserCart } from '../../data/cart';
-import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
-export const removeItem = async (productId: string) => {
+export const clearCart = async () => {
   const session = await auth();
 
-  if (!session?.user.id) return { error: 'Lietotjas nav autorizets!' };
+  if (!session?.user.id) return { error: 'Lietotajs nav autoriz' };
 
   try {
     const cart = await getUserCart();
 
     if (!cart) return { error: 'Kluda ar grozu!' };
 
-    await prisma.cartItem.deleteMany({
-      where: { cartId: cart.id, productId },
-    });
-
-    const updatedCartItems = await prisma.cartItem.findMany({
+    const updatedCartItems = await prisma.cartItem.deleteMany({
       where: { cartId: cart.id },
-      select: {
-        quantity: true,
-        product: {
-          select: {
-            id: true,
-            name: true,
-            price: true,
-            image: true,
-            quantity: true,
-          },
-        },
-      },
     });
 
     revalidatePath('/cart');
 
     return {
-      success: 'izdzests produkts no groza!',
+      success: 'Grozs iztirits!',
       cartItems: updatedCartItems,
     };
   } catch (error) {

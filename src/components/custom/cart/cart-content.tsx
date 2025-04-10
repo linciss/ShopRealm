@@ -11,6 +11,7 @@ import { getLocalCartProducts } from '../../../../actions/cart/get-local-cart-it
 import { CartItem } from './cart-item';
 import { changeItemQuantity } from '../../../../actions/cart/change-item-quantity';
 import { removeItem } from '../../../../actions/cart/remove-item';
+import { clearCart } from '../../../../actions/cart/clear-cart';
 
 interface CartItem {
   product: {
@@ -212,6 +213,37 @@ export const CartContent = ({ session, cart }: CartContentProps) => {
     };
   }, []);
 
+  const handleClearCart = () => {
+    if (!session?.user.id) {
+      toast({
+        title: 'Grozs iztirits!',
+        description: 'Jusu lokalais grozs tika iztirits',
+      });
+
+      localStorage.setItem('addToCart', '[]');
+      setLocalCartProducts([]);
+      return;
+    }
+
+    startTransition(() => {
+      clearCart().then((res) => {
+        if (res.error) {
+          toast({
+            title: 'Kļūda!',
+            description: res.error,
+            variant: 'destructive',
+          });
+        } else {
+          toast({
+            title: 'Izdzests!',
+            description: res.success,
+          });
+          setCartProducts([]);
+        }
+      });
+    });
+  };
+
   return (
     <div className='flex flex-col flex-[2] col-span-2 '>
       <div className='flex justify-between'>
@@ -222,7 +254,11 @@ export const CartContent = ({ session, cart }: CartContentProps) => {
         {(session?.user ? cartProducts?.length : localCartProducts.length) !== 1
           ? 'i'
           : 's'}
-        <Button variant={'outline'} disabled={isPending || isLoading}>
+        <Button
+          variant={'outline'}
+          disabled={isPending || isLoading}
+          onClick={handleClearCart}
+        >
           {isPending ? (
             <>
               <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Apstrada...

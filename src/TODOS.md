@@ -1,9 +1,9 @@
 
 - [ ]  Store owner cant buy/access their products? (IDK YET IF NEEDED)
 - [ ] Probs the fallback nav but its an edge case so will see
-- [ ] Maybe redesign the order page bcs of consistancy
+- [x] Maybe redesign the order page bcs of consistancy
 - [x] Restrict users from buying if they dont have address && phone
-- [ ] Remove every item  from cart button 
+- [x] Remove every item  from cart button 
 - [ ] Obv the pages ..... category/sale and so on
 - [ ] Change password
 - [ ] Change email
@@ -26,7 +26,6 @@
 - [ ] Mkae the nav more responsive 
 - [ ] about us 
 - [x] echckout page 
-- [ ] maybe change the poroduct from id to slug
 - [ ] new order system? where user has 14 days  to confirm after shipped and then when user confirms then only make the order as complete (gonna need another cron) adn then start the escrow holding funds logic
 - [ ] redesign the store craete card
 - [ ] 
