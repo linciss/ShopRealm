@@ -1,6 +1,7 @@
 import { ProductGrid } from '@/components/custom/products/product-grid';
 import { getProducts } from '../../../data/product';
 import { getFavoriteItems } from '../../../data/favorites';
+import { ProductFilters } from '@/components/custom/products/product-filters';
 
 interface ProductsPageProps {
   searchParams: Promise<{
@@ -38,9 +39,20 @@ export default async function Products({ searchParams }: ProductsPageProps) {
   return (
     <div className=' mx-auto px-4 py-8 container'>
       <h1 className='text-3xl font-bold mb-6'>Produkti</h1>
-      <div className='flex  gap-2 md:flex-row flex-col'>
-        <div className='w-full md:w-64 shrink-0'>Filtri</div>
-        <div className='flex-1'>
+      <div className='flex  gap-10 md:flex-row flex-col'>
+        <div className='w-full md:w-64 shrink-0'>
+          <ProductFilters
+            selectedCategory={category}
+            minPrice={minPrice}
+            maxPrice={maxPrice}
+            search={search}
+          />
+        </div>
+        <div className='flex-1 space-y-2'>
+          <p className='text-muted-foreground'>
+            Rada <span className='text-primary'>{products.length}</span>{' '}
+            produktus
+          </p>
           <ProductGrid products={products} favoriteItems={favoriteItems} />
         </div>
       </div>

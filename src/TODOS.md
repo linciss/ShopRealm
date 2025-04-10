@@ -13,7 +13,8 @@
 - [ ] Rework doc
 - [ ] Search bar
 - [ ] ALL ADMIN SIDE
-- [ ] product filtering
+- [x] product filtering
+- [ ] product sorting
 - [ ] pagination (50%)
 - [ ] Wishlist page
 - [x] show address info in cart page So if user doesnt have their address setup they could just set it up there
@@ -28,4 +29,5 @@
 - [x] echckout page 
 - [ ] new order system? where user has 14 days  to confirm after shipped and then when user confirms then only make the order as complete (gonna need another cron) adn then start the escrow holding funds logic
 - [ ] redesign the store craete card
-- [ ] 
+- [ ] order filters
+- [ ] makea  seperate registration for stores? so tehy dont have to mess with the user stuff?

@@ -1,6 +1,5 @@
 // import prisma from '@/lib/db';
 import prisma from '@/lib/db';
-// import { mockupDatA } from './mockup';
 
 interface ProductsQueryOptions {
   page: number;
@@ -15,7 +14,7 @@ interface ProductsQueryOptions {
 export async function getProducts({
   page,
   search,
-  //   category,
+  category,
   minPrice,
   maxPrice,
   sort,
@@ -31,6 +30,7 @@ export async function getProducts({
       price: true,
       image: true,
       slug: true,
+      category: true,
       reviews: {
         select: {
           rating: true,
@@ -38,8 +38,6 @@ export async function getProducts({
       },
     },
   });
-
-  // const allProducts = mockupDatA;
 
   let filteredProducts = [...allProducts];
 
@@ -50,11 +48,11 @@ export async function getProducts({
     );
   }
 
-  //   if (category) {
-  //     filteredProducts = filteredProducts.filter(
-  //       (product) => product.category.toLowerCase() === category,
-  //     );
-  //   }
+  if (category) {
+    filteredProducts = filteredProducts.filter((product) =>
+      product.category.includes(category),
+    );
+  }
 
   if (minPrice !== undefined) {
     filteredProducts = filteredProducts.filter(

@@ -1,0 +1,209 @@
+'use client';
+
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Separator } from '@/components/ui/separator';
+import { Slider } from '@/components/ui/slider';
+import { Search, X } from 'lucide-react';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { useState, useTransition } from 'react';
+
+const categories = [
+  {
+    id: '',
+    label: 'Notirit',
+  },
+  {
+    id: 'electronics',
+    label: 'Elektronika',
+  },
+  { id: 'clothing', label: 'Apgerbs' },
+  { id: 'home', label: 'Majas un virtuve' },
+  { id: 'beauty', label: 'Veseliba un skaistums' },
+  { id: 'sports', label: 'Sports un atputa' },
+  { id: 'toys', label: 'Rotaļlietas un spēles' },
+  { id: 'books', label: 'Gramatas un mediji' },
+  { id: 'health', label: 'Veseliba un labklajiba' },
+  { id: 'automotive', label: 'Auto un motocikli' },
+  { id: 'jewelry', label: 'Rotaslietas un aksesuari' },
+];
+
+interface ProductFilterProps {
+  selectedCategory: string;
+  minPrice: number | undefined;
+  maxPrice: number | undefined;
+  search: string;
+}
+
+export const ProductFilters = ({
+  selectedCategory,
+  minPrice,
+  maxPrice,
+  search,
+}: ProductFilterProps) => {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [isPending, startTransition] = useTransition();
+
+  const [searchValue, setSearchValue] = useState(search);
+  const [priceRange, setPriceRange] = useState<[number, number]>([
+    minPrice || 0,
+    maxPrice || 10000,
+  ]);
+  const [category, setCategory] = useState<string>(selectedCategory);
+
+  const createQueryString = (
+    params: Record<string, string | number | null>,
+  ) => {
+    // deletes the page query if applying the filter so it doesnt show like page 13 for example
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+
+    newSearchParams.delete('page');
+
+    // iterates thorugh the query params and deletes them or add themn based on the user filter
+    Object.entries(params).forEach(([key, value]) => {
+      if (value === null) {
+        newSearchParams.delete(key);
+      } else {
+        newSearchParams.set(key, String(value));
+      }
+    });
+
+    return newSearchParams.toString();
+  };
+
+  const applyFilters = () => {
+    startTransition(() => {
+      const queryString = createQueryString({
+        search: searchValue || '',
+        minPrice: priceRange[0] || null,
+        maxPrice: priceRange[1] || null,
+      });
+      router.push(`${pathname}?${queryString}`);
+    });
+  };
+
+  const applyCategory = (newCategory: string) => {
+    setCategory(newCategory);
+    startTransition(() => {
+      const queryString = createQueryString({
+        // check if user cleared the category
+        category: newCategory === '' ? null : newCategory || '',
+      });
+      router.push(`${pathname}?${queryString}`);
+    });
+  };
+
+  return (
+    <div className='flex flex-col gap-4 '>
+      <div>
+        <h3 className='font-medium mb-4'>Meklet</h3>
+        <div className='relative'>
+          <Search className='absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground' />
+          <Input
+            type='text'
+            placeholder='Meklet produktu...'
+            className='pl-8 pr-8'
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                applyFilters();
+              }
+            }}
+          />
+          {searchValue && (
+            <Button
+              className='absolute right-2.5 top-2.5 h-4 w-4 text-muted-foreground hover:bg-transparent'
+              onClick={() => {
+                setSearchValue('');
+                if (search) {
+                  startTransition(() => {
+                    const queryString = createQueryString({
+                      search: null,
+                    });
+                    router.push(`${pathname}?${queryString}`);
+                  });
+                }
+              }}
+              variant={'ghost'}
+            >
+              <X className='h-4 w-4' />
+            </Button>
+          )}
+        </div>
+      </div>
+      <Separator />
+      <div className='space-y-2'>
+        <div>
+          <h3 className='font-medium mb-4'>Summa</h3>
+          <Slider
+            defaultValue={priceRange}
+            min={0}
+            max={10000}
+            step={10}
+            value={priceRange}
+            onValueChange={(value) => setPriceRange(value as [number, number])}
+            className='mb-6'
+          />
+          <div className='flex items-center justify-between'>
+            <div className='flex items-center'>
+              <span className='text-sm text-muted-foreground mr-2'>€</span>
+              <Input
+                type='number'
+                min={0}
+                max={priceRange[1]}
+                value={priceRange[0]}
+                onChange={(e) => {
+                  const value = Number(e.target.value);
+                  setPriceRange([value, priceRange[1]]);
+                }}
+                className='w-20 h-8'
+              />
+            </div>
+            <div className='flex items-center'>
+              <span className='text-sm text-muted-foreground mr-2'>€</span>
+              <Input
+                type='number'
+                min={priceRange[0]}
+                max={10000}
+                value={priceRange[1]}
+                onChange={(e) => {
+                  const value = Number(e.target.value);
+                  setPriceRange([priceRange[0], value]);
+                }}
+                className='w-20 h-8'
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <Separator />
+      <div>
+        <h3 className='font-medium mb-4'>Meklet</h3>
+        <div className='flex flex-col gap-2'>
+          <RadioGroup defaultValue={category} value={category}>
+            {categories.map((category) => (
+              <div
+                className='flex items-center space-x-2 cursor-pointer'
+                key={category.id}
+                onClick={() => {
+                  applyCategory(category.id);
+                }}
+              >
+                <RadioGroupItem value={category.id} id={category.id} />
+                <Label htmlFor={category.id}>{category.label}</Label>
+              </div>
+            ))}
+          </RadioGroup>
+        </div>
+      </div>
+      <Button onClick={applyFilters} disabled={isPending}>
+        Filtret
+      </Button>
+    </div>
+  );
+};
