@@ -3,6 +3,7 @@
 import prisma from '@/lib/db';
 import { auth } from '../../auth';
 import { getUserCart } from '../../data/cart';
+import { revalidatePath } from 'next/cache';
 
 export const changeItemQuantity = async (
   productId: string,
@@ -33,6 +34,7 @@ export const changeItemQuantity = async (
       },
     });
 
+    revalidatePath('/cart');
     return { success: 'Samainits daudzums!' };
   } catch (err) {
     if (err instanceof Error) {

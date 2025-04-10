@@ -51,7 +51,7 @@ export default async function Order({ params }: Props) {
         </div>
         <div className='col-span-1 space-y-6'>
           <DataCard
-            dataType={'Veiakala'}
+            dataType={'Pasutitaja'}
             name={order.shippingName}
             lastName={order.shippingLastName}
             phone={order.shippingPhone}
