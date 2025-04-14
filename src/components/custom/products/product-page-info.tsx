@@ -86,13 +86,13 @@ export const ProductPageInfo = async ({ productData }: ProductProps) => {
       </div>
 
       <div className='grid grid-cols-1 lg:grid-cols-2 gap-4 lg:gap-0'>
-        <div className='border border-muted-foreground rounded-lg'>
+        <div className='border border-muted-foreground rounded-lg h-max overflow-hidden'>
           <Image
             width={600}
             height={600}
             src={(productData.image as string) || ''}
             alt='Product Image'
-            className='w-auto h-[550px]  object-contain '
+            className='w-auto h-[550px]  object-cover '
           />
         </div>
 
@@ -172,7 +172,7 @@ export const ProductPageInfo = async ({ productData }: ProductProps) => {
         <h3 className='text-2xl font-semibold'>Jums varetu ari patikt</h3>
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
           {relatedProducts?.map((prod) => (
-            <ProductCard key={prod.id} productData={prod} />
+            <ProductCard key={prod.id} productData={prod} session={session} />
           ))}
         </div>
       </div>

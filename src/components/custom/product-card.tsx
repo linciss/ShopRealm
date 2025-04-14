@@ -135,9 +135,9 @@ export const ProductCard = ({
       <div className='aspect-square relative overflow-hidden '>
         <Link href={`/products/${productData.id}`}>
           <Image
-            priority
             src={productData.image || ''}
             fill
+            loading='lazy'
             alt='Product'
             className='object-cover transition-transform group-hover:scale-105'
             sizes='(max-width: 368px) (max-height: 368px)'

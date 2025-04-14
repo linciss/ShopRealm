@@ -9,7 +9,7 @@
 - [ ] Change email
 - [ ] Emailing (?)
 - [ ] Verify email
-- [ ] Shop page!!!
+- [x] Shop page!!!
 - [ ] Rework doc
 - [ ] Search bar
 - [ ] ALL ADMIN SIDE
