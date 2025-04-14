@@ -31,3 +31,4 @@
 - [ ] redesign the store craete card
 - [ ] order filters
 - [ ] makea  seperate registration for stores? so tehy dont have to mess with the user stuff?
+- [ ] send email to poeple when a favorite item of theirs go on sale?
