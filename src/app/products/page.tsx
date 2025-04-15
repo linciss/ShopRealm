@@ -3,6 +3,7 @@ import { getProducts } from '../../../data/product';
 import { getFavoriteItems } from '../../../data/favorites';
 import { ProductFilters } from '@/components/custom/products/product-filters';
 import { ProductSoter } from '@/components/custom/products/product-sorter';
+import { ProductPagination } from '@/components/custom/products/product-pagination';
 
 interface ProductsPageProps {
   searchParams: Promise<{
@@ -25,17 +26,19 @@ export default async function Products({ searchParams }: ProductsPageProps) {
   const maxPrice = Number(sp.maxPrice) || undefined;
   const sort = sp.sort || '';
 
-  const { products } = await getProducts({
+  const { products, totalProducts } = await getProducts({
     page,
     search,
     category,
     minPrice,
     maxPrice,
     sort,
-    limit: 10,
+    limit: 20,
   });
 
   const favoriteItems = await getFavoriteItems();
+
+  const totalPages = Math.ceil(totalProducts / 20);
 
   return (
     <div className=' mx-auto px-4 py-8 container'>
@@ -61,6 +64,7 @@ export default async function Products({ searchParams }: ProductsPageProps) {
           <ProductGrid products={products} favoriteItems={favoriteItems} />
         </div>
       </div>
+      <ProductPagination currentPage={page} totalPages={totalPages} />
     </div>
   );
 }

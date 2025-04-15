@@ -11,11 +11,11 @@
 - [ ] Verify email
 - [x] Shop page!!!
 - [ ] Rework doc
-- [ ] Search bar
+- [x] Search bar
 - [ ] ALL ADMIN SIDE
 - [x] product filtering
-- [ ] product sorting
-- [ ] pagination (50%)
+- [x] product sorting
+- [x] pagination (50%)
 - [ ] Wishlist page
 - [x] show address info in cart page So if user doesnt have their address setup they could just set it up there
 - [ ] Stores need to set up their stripe aka give their account info
