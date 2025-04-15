@@ -2,6 +2,7 @@ import { ProductGrid } from '@/components/custom/products/product-grid';
 import { getProducts } from '../../../data/product';
 import { getFavoriteItems } from '../../../data/favorites';
 import { ProductFilters } from '@/components/custom/products/product-filters';
+import { ProductSoter } from '@/components/custom/products/product-sorter';
 
 interface ProductsPageProps {
   searchParams: Promise<{
@@ -22,7 +23,7 @@ export default async function Products({ searchParams }: ProductsPageProps) {
   const category = sp.category || '';
   const minPrice = Number(sp.minPrice) || undefined;
   const maxPrice = Number(sp.maxPrice) || undefined;
-  const sort = sp.sort || 'newest';
+  const sort = sp.sort || '';
 
   const { products } = await getProducts({
     page,
@@ -49,10 +50,14 @@ export default async function Products({ searchParams }: ProductsPageProps) {
           />
         </div>
         <div className='flex-1 space-y-2'>
-          <p className='text-muted-foreground'>
-            Rada <span className='text-primary'>{products.length}</span>{' '}
-            produktus
-          </p>
+          <div className='flex justify-between'>
+            <p className='text-muted-foreground'>
+              Rada <span className='text-primary'>{products.length}</span>{' '}
+              produktus
+            </p>
+            <ProductSoter sort={sort} />
+          </div>
+
           <ProductGrid products={products} favoriteItems={favoriteItems} />
         </div>
       </div>

@@ -36,6 +36,7 @@ export async function getProducts({
           rating: true,
         },
       },
+      createdAt: true,
     },
   });
 
@@ -78,6 +79,17 @@ export async function getProducts({
         filteredProducts.sort((a, b) => b.reviews.length - a.reviews.length);
         break;
       case 'newest':
+        filteredProducts.sort(
+          (a, b) =>
+            new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf(),
+        );
+        break;
+      case 'oldest':
+        filteredProducts.sort(
+          (a, b) =>
+            new Date(a.createdAt).valueOf() - new Date(b.createdAt).valueOf(),
+        );
+        break;
       default:
         break;
     }
