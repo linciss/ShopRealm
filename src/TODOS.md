@@ -7,8 +7,8 @@
 - [ ] Obv the pages ..... category/sale and so on
 - [ ] Change password
 - [ ] Change email
-- [ ] Emailing (?)
-- [ ] Verify email
+- [x] Emailing (?)
+- [x] Verify email
 - [x] Shop page!!!
 - [ ] Rework doc
 - [x] Search bar
@@ -32,3 +32,4 @@
 - [ ] order filters
 - [ ] makea  seperate registration for stores? so tehy dont have to mess with the user stuff?
 - [ ] send email to poeple when a favorite item of theirs go on sale?
+- [ ] remove product from cart if for example its deleted, threw some error gotta look into that

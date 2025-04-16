@@ -6,6 +6,7 @@ import { SumCard } from '@/components/custom/sum-card';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
+import { VerifyEmailBanner } from '@/components/custom/verify-email-banner';
 
 interface CheckoutPageProps {
   searchParams: Promise<{ sum: number }>;
@@ -21,6 +22,8 @@ export default async function CheckoutPage({
   }
 
   const subTotal = (await searchParams).sum;
+
+  if (!user.emailVerified) return <VerifyEmailBanner />;
 
   return (
     <div className='container max-w-7xl mx-auto py-8'>
