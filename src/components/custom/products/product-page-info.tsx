@@ -104,6 +104,7 @@ export const ProductPageInfo = async ({ productData }: ProductProps) => {
                 className='text-muted-foreground text-xs justify-self-end'
                 href={`/store/${productData.store.id}`}
                 target='_blank'
+                prefetch={false}
               >
                 Veikals: {productData.store.name}
               </Link>

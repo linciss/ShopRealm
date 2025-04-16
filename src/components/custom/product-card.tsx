@@ -133,7 +133,7 @@ export const ProductCard = ({
   return (
     <Card className='overflow-hidden group'>
       <div className='aspect-square relative overflow-hidden '>
-        <Link href={`/products/${productData.id}`}>
+        <Link href={`/products/${productData.id}`} prefetch={false}>
           <Image
             src={productData.image || ''}
             fill
@@ -175,7 +175,7 @@ export const ProductCard = ({
       </div>
 
       <CardContent className='px-2 py-4'>
-        <Link href={`/products/${productData.id}`}>
+        <Link href={`/products/${productData.id}`} prefetch={false}>
           <p className='text-sm truncate'>{productData.name}</p>
           <div className='flex flex-row gap-2 items-center'>
             <ReviewStars
