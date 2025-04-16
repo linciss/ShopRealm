@@ -90,11 +90,5 @@ export default auth(async (req) => {
 });
 
 export const config = {
-  matcher: [
-    '/((?!.+\\.[\\w]+$|_next).*)',
-    '/',
-    '/(api|trpc)(.*)',
-    '/products/:path*',
-    '/products/:path',
-  ],
+  matcher: ['/((?!.+\\.[\\w]+$|_next).*)', '/', '/(api|trpc)(.*)'],
 };
