@@ -40,6 +40,7 @@ export const getCartProducts = async () => {
     const userCart = await prisma.user.findUnique({
       where: { id: userId },
       select: {
+        emailVerified: true,
         cart: {
           select: {
             cartItems: {
@@ -63,7 +64,10 @@ export const getCartProducts = async () => {
 
     if (!userCart) return;
 
-    return userCart.cart?.cartItems;
+    return {
+      cartProducts: userCart.cart?.cartItems,
+      verifiedEmail: userCart.emailVerified,
+    };
   } catch (err) {
     if (err instanceof Error) {
       console.log(err);

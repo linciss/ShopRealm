@@ -61,6 +61,7 @@ export const getUserShippingInfo = async () => {
       where: { id: session.user.id },
       select: {
         name: true,
+        emailVerified: true,
         lastName: true,
         phone: true,
         email: true,
@@ -76,6 +77,28 @@ export const getUserShippingInfo = async () => {
     });
 
     return user;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error: ', error.stack);
+    }
+  }
+};
+
+export const getUserEmailStatus = async () => {
+  const session = await auth();
+
+  if (!session?.user.id) return;
+
+  try {
+    const userData = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      select: {
+        email: true,
+        emailVerified: true,
+      },
+    });
+
+    return userData;
   } catch (error) {
     if (error instanceof Error) {
       console.log('Error: ', error.stack);

@@ -16,6 +16,16 @@ export const createCheckoutSession = async (
 
   if (!session?.user.id) return { error: 'Leitotajs nav autorizets' };
 
+  const user = await prisma.user.findUnique({
+    where: {
+      id: session.user.id,
+    },
+  });
+
+  if (!user?.emailVerified) {
+    return { error: 'Lietotajs nav veriricejis epastu' };
+  }
+
   const validateData = shippingInfoSchema.safeParse(data);
 
   if (validateData.error) return { error: 'Kluda validejot datus!' };
