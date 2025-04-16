@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Pagination, PaginationContent } from '@/components/ui/pagination';
-import { useEffect, useTransition } from 'react';
+import { useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   ChevronLeftIcon,
@@ -24,13 +24,6 @@ export const ProductPagination = ({
   const searchParams = useSearchParams();
 
   const [isPending, startTransition] = useTransition();
-
-  // prefetch the next page s
-  useEffect(() => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set('page', (currentPage + 1).toString());
-    router.prefetch(`${pathname}?${params.toString()}`);
-  }, [currentPage, pathname, router, searchParams]);
 
   const handlePageChange = (newPage: number) => {
     if (currentPage === newPage) return;
