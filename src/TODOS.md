@@ -5,7 +5,7 @@
 - [x] Restrict users from buying if they dont have address && phone
 - [x] Remove every item  from cart button 
 - [ ] Obv the pages ..... category/sale and so on
-- [ ] Change password
+- [x] Change password
 - [ ] Change email
 - [x] Emailing (?)
 - [x] Verify email

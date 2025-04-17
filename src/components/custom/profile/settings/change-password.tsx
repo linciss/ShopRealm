@@ -3,7 +3,7 @@
 import { useForm } from 'react-hook-form';
 import { CardWrapper } from './card-wrapper';
 import { z } from 'zod';
-import { changePasswordSchema } from '../../../../../schemas';
+import { changeProfilePasswordSchema } from '../../../../../schemas';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Form,
@@ -15,18 +15,45 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { useToast } from '@/hooks/use-toast';
+import { useTransition } from 'react';
+import { changePassword } from '../../../../../actions/user/change-password';
 
 export const ChangePassword = () => {
-  const form = useForm<z.infer<typeof changePasswordSchema>>({
-    resolver: zodResolver(changePasswordSchema),
+  const form = useForm<z.infer<typeof changeProfilePasswordSchema>>({
+    resolver: zodResolver(changeProfilePasswordSchema),
     defaultValues: {
       oldPassword: '',
       newPassword: '',
       newPasswordConfirm: '',
     },
   });
-  const onSubmit = (data: z.infer<typeof changePasswordSchema>) => {
-    console.log(data);
+
+  const { toast } = useToast();
+
+  const [isPending, startTransition] = useTransition();
+  const onSubmit = (data: z.infer<typeof changeProfilePasswordSchema>) => {
+    startTransition(() => {
+      changePassword(data).then((res) => {
+        if (res.error) {
+          toast({
+            variant: 'destructive',
+            title: 'Kluda!',
+            description: res.error,
+          });
+        } else {
+          toast({
+            title: 'Samainits!',
+            description: res.success,
+          });
+          form.reset({
+            oldPassword: '',
+            newPassword: '',
+            newPasswordConfirm: '',
+          });
+        }
+      });
+    });
   };
 
   return (
@@ -81,7 +108,9 @@ export const ChangePassword = () => {
                 </FormItem>
               )}
             />
-            <Button type='submit'>Mainīt</Button>
+            <Button type='submit' disabled={isPending}>
+              Mainīt
+            </Button>
           </form>
         </Form>
       }

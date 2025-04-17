@@ -115,7 +115,7 @@ export const ProductFilters = ({
         )}
       </Button>
       <div
-        className={`flex-col gap-4 ${mobileMenu ? 'flex' : 'md:flex hidden'} mt-2`}
+        className={`flex-col gap-4 ${mobileMenu ? 'flex' : 'md:flex hidden'} mt-6`}
       >
         <div>
           <h2 className='font-medium mb-4'>Meklet</h2>

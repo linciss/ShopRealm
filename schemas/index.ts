@@ -49,6 +49,10 @@ export const signUpSchema = z
       .string()
       .min(8, { message: 'Parolei jābūt vismaz 8 simbolus garai' }),
   })
+  .refine((data) => data.password === data.passwordConfirmation, {
+    message: 'Paroles nesakrit',
+    path: ['password'],
+  })
   .superRefine(({ password }, validate) => {
     // checks for the appropriate password strength
     const containsLowerCase = /[a-z]/.test(password);
@@ -184,37 +188,55 @@ export const reviewSchema = z.object({
 
 export const shippingInfoSchema = personalInfoSchema.merge(addressInfoSchema);
 
-export const changePasswordSchema = z
-  .object({
+export const changePasswordSchema = z.object({
+  newPassword: z
+    .string()
+    .min(8, { message: 'Parolei jābūt vismaz 8 simbolus garai' }),
+  newPasswordConfirm: z
+    .string()
+    .min(8, { message: 'Parolei jābūt vismaz 8 simbolus garai' }),
+});
+
+// change password for users who have access to their account
+export const changeProfilePasswordSchema = changePasswordSchema
+  .extend({
     oldPassword: z
       .string()
       .min(8, { message: 'Parolei jābūt vismaz 8 simbolus garai' }),
-    newPassword: z
-      .string()
-      .min(8, { message: 'Parolei jābūt vismaz 8 simbolus garai' }),
-    newPasswordConfirm: z
-      .string()
-      .min(8, { message: 'Parolei jābūt vismaz 8 simbolus garai' }),
   })
-  .superRefine(({ newPassword }, validate) => {
+  .refine((data) => data.newPassword === data.newPasswordConfirm, {
+    message: 'Jaunas paroles nesakrit',
+    path: ['newPassword'],
+  })
+  .refine((data) => data.oldPassword !== data.newPassword, {
+    message: 'Veca parole nevar but vienada ar jauno',
+    path: ['newPassword'],
+  })
+  .superRefine(({ newPassword, newPasswordConfirm, oldPassword }, validate) => {
     // checks for the appropriate password strength
-    const containsLowerCase = /[a-z]/.test(newPassword);
-    const containsUpperCase = /[A-Z]/.test(newPassword);
-    const containsSpecialCharacter =
-      /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(newPassword);
-    const containsNumber = /[0-9]/.test(newPassword);
+    const checkStrength = (password: string, path: string[]) => {
+      const containsLowerCase = /[a-z]/.test(password);
+      const containsUpperCase = /[A-Z]/.test(password);
+      const containsSpecialCharacter =
+        /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password);
+      const containsNumber = /[0-9]/.test(password);
 
-    if (
-      !containsLowerCase ||
-      !containsUpperCase ||
-      !containsSpecialCharacter ||
-      !containsNumber
-    ) {
-      validate.addIssue({
-        code: 'custom',
-        path: ['newPassword'],
-        message:
-          'Parole ir par vāju. Parolei jāsatur vismaz 8 simboli Parolei jāsatur vismaz viens lielais burts, viens mazais burts, viens cipars, viens speciālais simbols.',
-      });
-    }
+      if (
+        !containsLowerCase ||
+        !containsUpperCase ||
+        !containsSpecialCharacter ||
+        !containsNumber
+      ) {
+        validate.addIssue({
+          code: 'custom',
+          path,
+          message:
+            'Parole ir par vāju. Parolei jāsatur vismaz viens lielais burts, viens mazais burts, viens cipars, viens speciālais simbols.',
+        });
+      }
+    };
+
+    checkStrength(oldPassword, ['oldPassword']);
+    checkStrength(newPassword, ['newPassword']);
+    checkStrength(newPasswordConfirm, ['newPasswordConfirm']);
   });
