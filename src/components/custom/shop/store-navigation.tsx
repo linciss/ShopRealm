@@ -70,6 +70,7 @@ export function StoreNavigation({ storeName }: StoreNavigationProps) {
                   ? 'bg-primary text-primary-foreground'
                   : 'text-muted-foreground hover:bg-muted hover:text-foreground',
               )}
+              prefetch={false}
             >
               <route.icon className='h-4 w-4' />
               {route.label}
