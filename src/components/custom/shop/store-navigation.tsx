@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import {
@@ -11,6 +10,7 @@ import {
   Store,
 } from 'lucide-react';
 import { ForwardRefExoticComponent, RefAttributes } from 'react';
+import { BetterLink } from '../better-link';
 
 interface StoreNavigationProps {
   storeName: string;
@@ -61,7 +61,7 @@ export function StoreNavigation({ storeName }: StoreNavigationProps) {
         </div>
         <nav className='space-y-1'>
           {routes.map((route) => (
-            <Link
+            <BetterLink
               key={route.href}
               href={route.href}
               className={cn(
@@ -70,11 +70,10 @@ export function StoreNavigation({ storeName }: StoreNavigationProps) {
                   ? 'bg-primary text-primary-foreground'
                   : 'text-muted-foreground hover:bg-muted hover:text-foreground',
               )}
-              prefetch={true}
             >
               <route.icon className='h-4 w-4' />
               {route.label}
-            </Link>
+            </BetterLink>
           ))}
         </nav>
       </div>
