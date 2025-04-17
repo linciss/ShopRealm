@@ -16,8 +16,15 @@ export const deleteProduct = async (productId: string) => {
 
     if (!storeId) return { error: 'Kluda' };
 
-    await prisma.product.delete({
-      where: { id: productId, storeId: storeId },
+    // prisma transaction/bachquery since i also want to delete cart items completely forgot lol
+    await prisma.$transaction(async (tx) => {
+      await tx.cartItem.deleteMany({
+        where: { productId },
+      });
+
+      await tx.product.delete({
+        where: { id: productId, storeId: storeId },
+      });
     });
 
     revalidatePath('/store/products');
@@ -26,8 +33,10 @@ export const deleteProduct = async (productId: string) => {
     // return prisma error so i dont have to query database to check if product exists
     if (error instanceof PrismaClientKnownRequestError) {
       if (error.code === 'P2025') return { error: 'Nav atrasts produkts!' };
-      return { error: 'Kļūda apstrādājot datus' };
+      console.log(error);
+      return { error: 'Kļūda apstrādājot datus prisma' };
     } else {
+      console.log(error);
       return { error: 'Kļūda apstrādājot datus' };
     }
   }
