@@ -61,7 +61,7 @@ export const ProfilePage = ({
   const [activeTab, setActiveTab] = useState<string>('profile');
 
   return (
-    <div className='flex md:flex-row flex-col gap-6 px-2'>
+    <div className='flex md:flex-row flex-col gap-6 px-2 md:px-4  '>
       <div className='md:w-64 shrink-0'>
         <Card>
           <CardContent className='flex flex-col p-0'>

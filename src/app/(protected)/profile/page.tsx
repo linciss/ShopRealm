@@ -28,15 +28,13 @@ export default async function Profile() {
         createdAt={userData.createdAt}
         country={userAddress.country || ''}
       />
-      <div className=' max-w-7xl mx-auto py-10'>
-        <div className='mt-10'>
-          <ProfilePage
-            userData={userData}
-            userAddress={userAddress}
-            orderHistory={orderHistory}
-            emailStatus={emailStatus}
-          />
-        </div>
+      <div className=' max-w-7xl mx-auto py-10 container !px-0'>
+        <ProfilePage
+          userData={userData}
+          userAddress={userAddress}
+          orderHistory={orderHistory}
+          emailStatus={emailStatus}
+        />
       </div>
     </div>
   );

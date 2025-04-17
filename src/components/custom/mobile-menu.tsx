@@ -18,10 +18,6 @@ interface RouteProps {
 
 const shopperLinks: RouteProps[] = [
   {
-    label: 'Visas preces',
-    href: '/products',
-  },
-  {
     label: 'Elektronikas',
     href: '/electronics',
   },
@@ -106,10 +102,14 @@ export const MobileMenu = async () => {
             <div className='flex flex-col space-y-3'>
               <SheetClose asChild>
                 <Link
-                  href='/products'
+                  href={
+                    session?.user.role === 'SHOPPER' ? '/products' : '/store'
+                  }
                   className='flex items-center py-2 text-lg font-semibold'
                 >
-                  {session?.user.role === 'SHOPPER' ? 'Produkti' : 'Veikals'}
+                  {session?.user.role === 'SHOPPER'
+                    ? 'Visi produkti'
+                    : 'Mans veikals'}
                 </Link>
               </SheetClose>
               <div className='space-y-3'>

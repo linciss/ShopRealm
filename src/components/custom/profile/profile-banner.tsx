@@ -21,7 +21,7 @@ export const ProfileBanner = ({
 }: ProfileBannerProps) => {
   return (
     <div className='w-full bg-muted'>
-      <div className='max-w-7xl container py-5 flex md:flex-row flex-col items-center md:justify-between justify-center'>
+      <div className='max-w-7xl container py-5 flex md:flex-row flex-col items-center md:justify-between justify-center gap-2'>
         <div className='flex flex-col gap-2'>
           <div className='space-y-2 md:text-start text-center'>
             <h1 className='text-xl font-semibold'>
@@ -42,7 +42,7 @@ export const ProfileBanner = ({
             )}
             {country && (
               <span className='text-sm text-muted-foreground flex flex-row gap-2 items-center'>
-                <MapPin width={16} /> {email}
+                <MapPin width={16} /> {country}
               </span>
             )}
           </div>
