@@ -20,13 +20,14 @@ export const editUserProfile = async (
       return { error: 'Kluda mainot datus!' };
     }
 
-    const { name, lastName } = validateData.data;
+    const { name, lastName, phone } = validateData.data;
 
     await prisma.user.update({
       where: { id: userId },
       data: {
         name,
         lastName,
+        phone,
       },
     });
 

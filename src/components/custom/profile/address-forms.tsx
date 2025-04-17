@@ -27,6 +27,7 @@ import { useTransition } from 'react';
 import { editUserAddress } from '../../../../actions/user/edit-address';
 import { useToast } from '@/hooks/use-toast';
 import { supportedCountries } from '@/lib/utils';
+import { Card } from '@/components/ui/card';
 
 interface AddressFormsProps {
   userAddress: {
@@ -72,95 +73,97 @@ export const AddressForms = ({ userAddress }: AddressFormsProps) => {
   }
 
   return (
-    <div className='flex flex-col items-center sm:flex-row sm:items-start gap-8'>
-      <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className='space-y-4 flex flex-col w-full'
-        >
-          <div className='grid md:grid-cols-2 grid-cols-1 w-full gap-4'>
-            <FormField
-              control={form.control}
-              name='street'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Iela</FormLabel>
-                  <FormControl>
-                    <Input placeholder='Zalu iela 13' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='city'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Pilseta</FormLabel>
-                  <FormControl>
-                    <Input placeholder='Liepaja' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <div className='grid md:grid-cols-2 grid-cols-1 w-full gap-4'>
-            <FormField
-              control={form.control}
-              name='country'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Valsts</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
+    <Card className='p-6 mt-5'>
+      <div className='flex flex-col items-center sm:flex-row sm:items-start gap-8'>
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className='space-y-4 flex flex-col w-full'
+          >
+            <div className='grid md:grid-cols-2 grid-cols-1 w-full gap-4'>
+              <FormField
+                control={form.control}
+                name='street'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Iela</FormLabel>
                     <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder='Izvelies valsti' />
-                      </SelectTrigger>
+                      <Input placeholder='Zalu iela 13' {...field} />
                     </FormControl>
-                    <SelectContent>
-                      {supportedCountries.map((country, idx) => (
-                        <SelectItem key={idx} value={country}>
-                          {country.charAt(0).toUpperCase() + country.slice(1)}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name='postalCode'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Pasta kods</FormLabel>
-                  <FormControl>
-                    <Input placeholder='LV-3401' {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='city'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Pilseta</FormLabel>
+                    <FormControl>
+                      <Input placeholder='Liepaja' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className='grid md:grid-cols-2 grid-cols-1 w-full gap-4'>
+              <FormField
+                control={form.control}
+                name='country'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Valsts</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder='Izvelies valsti' />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {supportedCountries.map((country, idx) => (
+                          <SelectItem key={idx} value={country}>
+                            {country.charAt(0).toUpperCase() + country.slice(1)}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name='postalCode'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Pasta kods</FormLabel>
+                    <FormControl>
+                      <Input placeholder='LV-3401' {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
 
-          <div className='max-w-10'>
-            <Button
-              disabled={isPending}
-              type='submit'
-              className='flex flex-row items-center'
-            >
-              <Pencil className='mr-2 h-4 w-4' />
-              Iesniegt Adresi
-            </Button>
-          </div>
-        </form>
-      </Form>
-    </div>
+            <div className='max-w-10'>
+              <Button
+                disabled={isPending}
+                type='submit'
+                className='flex flex-row items-center'
+              >
+                <Pencil className='mr-2 h-4 w-4' />
+                Saglabat Adresi
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </div>
+    </Card>
   );
 };

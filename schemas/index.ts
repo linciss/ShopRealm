@@ -77,6 +77,10 @@ export const personalInfoSchema = z.object({
   lastName: z
     .string()
     .min(1, { message: 'Uzvārdam jābūt vismaz 1 simbolam garam' }),
+  phone: z
+    .string()
+    .min(8, { message: 'Talruna numuram jabut pareizam' })
+    .max(8, { message: 'Talruna numuram jabut pareizam' }),
 });
 
 export const addressInfoSchema = z.object({
@@ -178,11 +182,39 @@ export const reviewSchema = z.object({
   comment: z.string().min(10, { message: 'Jabut vismaz 10 simboliem garam' }),
 });
 
-export const shippingInfoSchema = personalInfoSchema
-  .extend({
-    phone: z
+export const shippingInfoSchema = personalInfoSchema.merge(addressInfoSchema);
+
+export const changePasswordSchema = z
+  .object({
+    oldPassword: z
       .string()
-      .min(8, { message: 'Talruna numuram jabut pareizam' })
-      .max(8, { message: 'Talruna numuram jabut pareizam' }),
+      .min(8, { message: 'Parolei jābūt vismaz 8 simbolus garai' }),
+    newPassword: z
+      .string()
+      .min(8, { message: 'Parolei jābūt vismaz 8 simbolus garai' }),
+    newPasswordConfirm: z
+      .string()
+      .min(8, { message: 'Parolei jābūt vismaz 8 simbolus garai' }),
   })
-  .merge(addressInfoSchema);
+  .superRefine(({ newPassword }, validate) => {
+    // checks for the appropriate password strength
+    const containsLowerCase = /[a-z]/.test(newPassword);
+    const containsUpperCase = /[A-Z]/.test(newPassword);
+    const containsSpecialCharacter =
+      /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(newPassword);
+    const containsNumber = /[0-9]/.test(newPassword);
+
+    if (
+      !containsLowerCase ||
+      !containsUpperCase ||
+      !containsSpecialCharacter ||
+      !containsNumber
+    ) {
+      validate.addIssue({
+        code: 'custom',
+        path: ['newPassword'],
+        message:
+          'Parole ir par vāju. Parolei jāsatur vismaz 8 simboli Parolei jāsatur vismaz viens lielais burts, viens mazais burts, viens cipars, viens speciālais simbols.',
+      });
+    }
+  });

@@ -42,7 +42,7 @@ interface OrderHistory {
 }
 
 interface OrderHistoryProps {
-  history?: OrderHistory[] | null | undefined;
+  history?: OrderHistory[] | undefined;
 }
 
 export const OrderHistory = ({ history }: OrderHistoryProps) => {

@@ -15,6 +15,7 @@ export const getUserData = async () => {
         lastName: true,
         UUID: true,
         phone: true,
+        createdAt: true,
       },
     });
 

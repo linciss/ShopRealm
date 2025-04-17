@@ -25,7 +25,7 @@ export default async function ProfileLayout({
     session?.user?.id && (
       <div className='flex min-h-screen flex-col'>
         <div className='flex flex-1'>
-          <div className='w-full max-w-7xl mx-auto px-2'>{children}</div>
+          <div className='w-full mx-auto'>{children}</div>
         </div>
       </div>
     )

@@ -141,7 +141,7 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
                         <DropdownMenuItem>
                           <Link
                             href={`/store/products/configurator/${product.id}`}
-                            prefetch={false}
+                            prefetch={true}
                             className='flex items-center gap-1 '
                           >
                             <Pencil height={16} width={16} />
