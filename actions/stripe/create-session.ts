@@ -102,6 +102,7 @@ export const createCheckoutSession = async (
       success_url: `${redirectUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${redirectUrl}/cart`,
       client_reference_id: session.user.id,
+      customer_email: session.user.email as string,
       metadata: {
         cartId: cart.id,
         name,

@@ -89,8 +89,8 @@ export const ProductSoter = ({ sort }: ProductSoterProps) => {
       disabled={isPending}
       defaultValue='default'
     >
-      <SelectTrigger className='w-[180px]'>
-        <SelectValue placeholder='Kartosana' />
+      <SelectTrigger className='w-[180px]' aria-label='Sorting'>
+        <SelectValue placeholder='Kartosana' aria-label='Sorting value' />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>

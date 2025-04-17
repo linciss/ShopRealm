@@ -100,7 +100,7 @@ export const ProductFilters = ({
   return (
     <div className='flex flex-col gap-4 '>
       <div>
-        <h3 className='font-medium mb-4'>Meklet</h3>
+        <h2 className='font-medium mb-4'>Meklet</h2>
         <div className='relative'>
           <Search className='absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground' />
           <Input
@@ -152,7 +152,10 @@ export const ProductFilters = ({
           <div className='flex items-center justify-between'>
             <div className='flex items-center'>
               <span className='text-sm text-muted-foreground mr-2'>€</span>
+              <label htmlFor='min' />
+
               <Input
+                id='min'
                 type='number'
                 min={0}
                 max={priceRange[1]}
@@ -166,7 +169,9 @@ export const ProductFilters = ({
             </div>
             <div className='flex items-center'>
               <span className='text-sm text-muted-foreground mr-2'>€</span>
+              <label htmlFor='max' />
               <Input
+                id='max'
                 type='number'
                 min={priceRange[0]}
                 max={10000}
@@ -194,7 +199,11 @@ export const ProductFilters = ({
                   applyCategory(category.id);
                 }}
               >
-                <RadioGroupItem value={category.id} id={category.id} />
+                <RadioGroupItem
+                  value={category.id}
+                  id={category.id}
+                  aria-label={`Category-${category.label}`}
+                />
                 <Label htmlFor={category.id}>{category.label}</Label>
               </div>
             ))}

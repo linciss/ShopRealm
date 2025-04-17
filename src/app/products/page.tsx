@@ -4,6 +4,12 @@ import { getFavoriteItems } from '../../../data/favorites';
 import { ProductFilters } from '@/components/custom/products/product-filters';
 import { ProductSoter } from '@/components/custom/products/product-sorter';
 import { ProductPagination } from '@/components/custom/products/product-pagination';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Products',
+  description: '',
+};
 
 interface ProductsPageProps {
   searchParams: Promise<{
@@ -15,6 +21,8 @@ interface ProductsPageProps {
     sort?: string;
   }>;
 }
+
+const LIMIT = 20;
 
 export default async function Products({ searchParams }: ProductsPageProps) {
   const sp = await searchParams;
@@ -33,12 +41,12 @@ export default async function Products({ searchParams }: ProductsPageProps) {
     minPrice,
     maxPrice,
     sort,
-    limit: 20,
+    limit: LIMIT,
   });
 
   const favoriteItems = await getFavoriteItems();
 
-  const totalPages = Math.ceil(totalProducts / 20);
+  const totalPages = Math.ceil(totalProducts / LIMIT);
 
   return (
     <div className=' mx-auto px-4 py-8 container'>

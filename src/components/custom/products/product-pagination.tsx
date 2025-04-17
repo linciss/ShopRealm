@@ -1,7 +1,6 @@
 'use client';
 
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Pagination, PaginationContent } from '@/components/ui/pagination';
 import { useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import {
@@ -52,7 +51,6 @@ export const ProductPagination = ({
       pageNumbers.push('ellipsis-start');
     }
 
-    console.log(startPage, endPage);
     for (let i = startPage; i <= endPage; i++) {
       pageNumbers.push(i);
     }
@@ -71,52 +69,54 @@ export const ProductPagination = ({
   const pageNumbers = getPageNumbers();
 
   return (
-    <Pagination>
-      <PaginationContent>
-        <Button
-          variant={'outline'}
-          disabled={currentPage === 1 || isPending}
-          onClick={() => handlePageChange(currentPage - 1)}
-        >
-          <ChevronLeftIcon />
-        </Button>
+    <div className='w-full mx-auto flex flex-row items-center justify-center mt-5 gap-1'>
+      <Button
+        variant={'outline'}
+        disabled={currentPage === 1 || isPending}
+        onClick={() => handlePageChange(currentPage - 1)}
+        aria-label='back'
+      >
+        <ChevronLeftIcon />
+      </Button>
 
-        {pageNumbers.map((page, index) => {
-          if (page === 'ellipsis-start' || page === 'ellipsis-end') {
-            return (
-              <Button
-                key={`ellipsis-${index}`}
-                variant='ghost'
-                size='icon'
-                disabled
-                className='cursor-default'
-              >
-                <MoreHorizontal className='h-4 w-4' />
-              </Button>
-            );
-          }
-
+      {pageNumbers.map((page, index) => {
+        if (page === 'ellipsis-start' || page === 'ellipsis-end') {
           return (
             <Button
-              key={index}
-              variant={currentPage === page ? 'default' : 'outline'}
+              key={`ellipsis-${index}`}
+              variant='ghost'
               size='icon'
-              disabled={isPending}
-              onClick={() => handlePageChange(page as number)}
+              disabled
+              className='cursor-default'
+              aria-label='ellipsis'
             >
-              {page}
+              <MoreHorizontal className='h-4 w-4' />
             </Button>
           );
-        })}
+        }
 
-        <Button
-          variant={'outline'}
-          disabled={currentPage === totalPages || isPending}
-          onClick={() => handlePageChange(currentPage + 1)}
-        >
-          <ChevronRightIcon />
-        </Button>
-      </PaginationContent>
-    </Pagination>
+        return (
+          <Button
+            key={index}
+            variant={currentPage === page ? 'default' : 'outline'}
+            size='icon'
+            disabled={isPending}
+            onClick={() => handlePageChange(page as number)}
+            aria-label='page number'
+          >
+            {page}
+          </Button>
+        );
+      })}
+
+      <Button
+        variant={'outline'}
+        disabled={currentPage === totalPages || isPending}
+        onClick={() => handlePageChange(currentPage + 1)}
+        aria-label='forward'
+      >
+        <ChevronRightIcon />
+      </Button>
+    </div>
   );
 };

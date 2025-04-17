@@ -555,7 +555,11 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
               </Link>
 
               <Button type='submit' className='' disabled={isPending}>
-                {isPending ? 'Veidošana...' : 'Izveidot!'}
+                {isPending
+                  ? 'Veidošana...'
+                  : productData?.id
+                    ? 'Rediģēt'
+                    : 'Izveidot'}
               </Button>
             </div>
           </form>

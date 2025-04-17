@@ -30,6 +30,8 @@ export const createProduct = async (data: z.infer<typeof productSchema>) => {
     specifications,
   } = validateData.data;
 
+  if (price < 1) return { error: 'Preces cenai jabut vismaz 1 eur' };
+
   const sanitizedDetails = DOMPurify.sanitize(details, {
     ALLOWED_TAGS: [
       'p',
