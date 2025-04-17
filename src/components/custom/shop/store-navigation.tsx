@@ -10,7 +10,7 @@ import {
   Store,
 } from 'lucide-react';
 import { ForwardRefExoticComponent, RefAttributes } from 'react';
-import { BetterLink } from '../better-link';
+import Link from 'next/link';
 
 interface StoreNavigationProps {
   storeName: string;
@@ -61,7 +61,7 @@ export function StoreNavigation({ storeName }: StoreNavigationProps) {
         </div>
         <nav className='space-y-1'>
           {routes.map((route) => (
-            <BetterLink
+            <Link
               key={route.href}
               href={route.href}
               className={cn(
@@ -73,7 +73,7 @@ export function StoreNavigation({ storeName }: StoreNavigationProps) {
             >
               <route.icon className='h-4 w-4' />
               {route.label}
-            </BetterLink>
+            </Link>
           ))}
         </nav>
       </div>
