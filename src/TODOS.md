@@ -31,7 +31,7 @@
 - [ ] redesign the store craete card
 - [ ] order filters
 - [ ] makea  seperate registration for stores? so tehy dont have to mess with the user stuff?
-- [ ] send email to poeple when a favorite item of theirs go on sale?
+- [x] send email to poeple when a favorite item of theirs go on sale?
 - [ ] remove product from cart if for example its deleted, threw some error gotta look into that
 - [x] sale price implementation
 

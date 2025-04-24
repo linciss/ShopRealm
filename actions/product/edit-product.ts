@@ -8,6 +8,7 @@ import { productSchema } from '../../schemas';
 import DOMPurify from 'isomorphic-dompurify';
 import { slugify } from '@/lib/utils';
 import { revalidatePath } from 'next/cache';
+import { sendSaleEmail } from '../emailing/email';
 
 export const editProduct = async (
   data: z.infer<typeof productSchema>,
@@ -121,6 +122,37 @@ export const editProduct = async (
     revalidatePath('/store/products');
     revalidatePath(`/product/${itemSlug}`);
     revalidatePath('/');
+
+    // send email to users who have this product in their favorites
+    if (!isStoreProduct.products[0].sale && sale) {
+      const favoriteListsUsers = await prisma.favoriteItem.findMany({
+        where: { productId },
+        select: {
+          favoriteList: {
+            select: {
+              user: {
+                select: {
+                  email: true,
+                },
+              },
+            },
+          },
+        },
+      });
+
+      const emails = favoriteListsUsers.map(
+        (item) => item.favoriteList?.user?.email,
+      );
+
+      const uniqueEmails = [...new Set(emails)];
+
+      if (uniqueEmails.length === 0) {
+        return { success: 'Produkts veiksmīgi redigets!' };
+      }
+
+      await sendSaleEmail(productId, uniqueEmails);
+    }
+
     return { success: 'Produkts veiksmīgi redigets!' };
   } catch (error) {
     if (error instanceof Error) {
