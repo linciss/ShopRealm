@@ -114,62 +114,85 @@ const ACCEPTED_IMAGE_TYPES = [
   'image/webp',
 ];
 
-export const productSchema = z.object({
-  name: z
-    .string()
-    .min(3, { message: 'Nosakumuma jabut normala,' })
-    .max(30, { message: ' nevar p[asrsniegt 30 burtus' })
-    .refine((value) => /^[a-zA-Z0-9_.\- ]*$/.test(value ?? ''), {
-      message: 'jabut normalam',
-    }),
-  description: z.string().min(20, { message: 'Ievadi produkta aprakstu' }),
-  price: z
-    .number()
-    .refine(
-      (val) =>
-        !isNaN(Number.parseFloat(val.toString())) &&
-        Number.parseFloat(val.toString()) >= 0,
-      {
-        message: 'Vajag cenu!',
-      },
-    ),
-  category: z
-    .array(z.string())
-    .min(1, { message: 'Jbaut vismaz 1 kategorijai' }),
-  image: z
-    .union([
-      z
-        .instanceof(File)
-        .refine((file) => file?.size <= MAX_FILE_SIZE, {
-          message: `Maksimalais izmers ir 5MB`,
-        })
-        .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file?.type), {
-          message: 'Tiaki .jpg, .jpeg, .png and .webp foramtus var.',
-        }),
-      z.string().min(1),
-    ])
-    .refine((value) => !!value, { message: 'Vajag bildi!' }),
-  quantity: z
-    .number()
-    .refine(
-      (val) =>
-        !isNaN(Number.parseInt(val.toString())) &&
-        Number.parseInt(val.toString()) >= 0,
-      {
-        message: 'Vajag daduzumui',
-      },
-    ),
-  isActive: z.boolean(),
-  details: z.string().min(5, { message: 'Dzilak paskaidro par savu preci' }),
-  specifications: z
-    .array(
-      z.object({
-        key: z.string(),
-        value: z.string(),
+export const productSchema = z
+  .object({
+    name: z
+      .string()
+      .min(3, { message: 'Nosakumuma jabut normala,' })
+      .max(30, { message: ' nevar p[asrsniegt 30 burtus' })
+      .refine((value) => /^[a-zA-Z0-9_.\- ]*$/.test(value ?? ''), {
+        message: 'jabut normalam',
       }),
-    )
-    .optional(),
-});
+    description: z.string().min(20, { message: 'Ievadi produkta aprakstu' }),
+    price: z
+      .number()
+      .refine(
+        (val) =>
+          !isNaN(Number.parseFloat(val.toString())) &&
+          Number.parseFloat(val.toString()) >= 0,
+        {
+          message: 'Vajag cenu!',
+        },
+      ),
+    category: z
+      .array(z.string())
+      .min(1, { message: 'Jbaut vismaz 1 kategorijai' }),
+    image: z
+      .union([
+        z
+          .instanceof(File)
+          .refine((file) => file?.size <= MAX_FILE_SIZE, {
+            message: `Maksimalais izmers ir 5MB`,
+          })
+          .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file?.type), {
+            message: 'Tiaki .jpg, .jpeg, .png and .webp foramtus var.',
+          }),
+        z.string().min(1),
+      ])
+      .refine((value) => !!value, { message: 'Vajag bildi!' }),
+    quantity: z
+      .number()
+      .refine(
+        (val) =>
+          !isNaN(Number.parseInt(val.toString())) &&
+          Number.parseInt(val.toString()) >= 0,
+        {
+          message: 'Vajag daduzumui',
+        },
+      ),
+    isActive: z.boolean(),
+    details: z.string().min(5, { message: 'Dzilak paskaidro par savu preci' }),
+    specifications: z
+      .array(
+        z.object({
+          key: z.string(),
+          value: z.string(),
+        }),
+      )
+      .optional(),
+    sale: z.boolean(),
+    salePrice: z
+      .number()
+      .refine(
+        (val) =>
+          !isNaN(Number.parseFloat(val.toString())) &&
+          Number.parseFloat(val.toString()) >= 0,
+        {
+          message: 'Vajag izpardosanas cenu!',
+        },
+      )
+      .optional(),
+  })
+  .superRefine(({ salePrice, price, sale }, validate) => {
+    // checks if price is smaller than sale price
+    if (sale && salePrice !== undefined && salePrice <= price) {
+      validate.addIssue({
+        code: 'custom',
+        path: ['salePrice'],
+        message: 'Izpardosanas cenai jabut viarak par parasto cenu!',
+      });
+    }
+  });
 
 export const reviewSchema = z.object({
   rating: z

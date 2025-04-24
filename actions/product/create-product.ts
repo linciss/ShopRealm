@@ -28,6 +28,8 @@ export const createProduct = async (data: z.infer<typeof productSchema>) => {
     image,
     details,
     specifications,
+    sale,
+    salePrice,
   } = validateData.data;
 
   if (price < 1) return { error: 'Preces cenai jabut vismaz 1 eur' };
@@ -71,6 +73,11 @@ export const createProduct = async (data: z.infer<typeof productSchema>) => {
     const UUID = nanoid(6);
     const itemSlug = `${slugify(name).toLowerCase()}-${UUID}`;
     const priceDecimals = price.toFixed(2);
+    const salePriceDecimals = salePrice?.toFixed(2);
+
+    if (sale && salePrice !== undefined && salePrice <= price) {
+      return { error: 'Izpardosanas cenai jabut viarak par parasto cenu!' };
+    }
 
     const stringifiedSpec = JSON.stringify(specifications);
 
@@ -87,6 +94,8 @@ export const createProduct = async (data: z.infer<typeof productSchema>) => {
         image: image as string,
         details: sanitizedDetails,
         specifications: stringifiedSpec,
+        sale,
+        salePrice: salePriceDecimals,
       },
     });
     revalidatePath('/products');

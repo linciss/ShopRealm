@@ -116,7 +116,7 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
                       </p>
                     ) : (
                       <p className='w-fit text-sm px-3 rounded-full border-red-500 bg-red-100 text-red-500'>
-                        Aktivs
+                        Neaktivs
                       </p>
                     )}
                   </TableCell>

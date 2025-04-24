@@ -33,6 +33,8 @@ export const editProduct = async (
     image,
     details,
     specifications,
+    sale,
+    salePrice,
   } = validateData.data;
 
   const sanitizedDetails = DOMPurify.sanitize(details, {
@@ -67,17 +69,11 @@ export const editProduct = async (
   // });
 
   try {
+    const userId = session.user.id;
+
     const storeId = (await getStoreId()) as string;
 
     if (!storeId) return { error: 'Nav veikals atrasts' };
-
-    const UUID = nanoid(6);
-    const itemSlug = `${slugify(name).toLowerCase()}-${UUID}`;
-    const priceDecimals = price.toFixed(2);
-
-    const stringifiedSpec = JSON.stringify(specifications);
-
-    const userId = session.user.id;
 
     const isStoreProduct = await prisma?.store.findUnique({
       where: { userId },
@@ -92,6 +88,17 @@ export const editProduct = async (
 
     if (!isStoreProduct) return { error: 'Nav jsuu produkts' };
 
+    const UUID = nanoid(6);
+    const itemSlug = `${slugify(name).toLowerCase()}-${UUID}`;
+    const priceDecimals = price.toFixed(2);
+    const salePriceDecimals = salePrice?.toFixed(2);
+
+    if (sale && salePrice !== undefined && salePrice <= price) {
+      return { error: 'Izpardosanas cenai jabut viarak par parasto cenu!' };
+    }
+
+    const stringifiedSpec = JSON.stringify(specifications);
+
     await prisma.product.update({
       where: { id: productId },
       data: {
@@ -105,6 +112,8 @@ export const editProduct = async (
         image: image as string,
         details: sanitizedDetails,
         specifications: stringifiedSpec,
+        sale,
+        salePrice: salePriceDecimals,
       },
     });
 

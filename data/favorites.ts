@@ -113,6 +113,8 @@ export const getFavoriteProducts = async () => {
               },
             },
             quantity: true,
+            sale: true,
+            salePrice: true,
           },
         },
       },

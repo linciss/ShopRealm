@@ -81,7 +81,9 @@ model Product {
   details       String
   specifications  String?
   favoriteItems   FavoriteItem[]
-  views           Int        @default(0)        
+  views           Int        @default(0)
+  sale            Boolean    @default(false)
+  salePrice       String?     
 }
 
 model CartItem {

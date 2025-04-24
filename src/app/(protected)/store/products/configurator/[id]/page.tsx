@@ -27,6 +27,8 @@ export default async function ProductEdit({ params }: Props) {
     details: productData.details,
     specifications: productData.specifications,
     quantity: productData.quantity,
+    sale: productData.sale,
+    salePrice: Number(productData.salePrice) || 0,
   };
 
   return (

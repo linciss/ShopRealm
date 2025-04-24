@@ -11,6 +11,8 @@ interface Product {
     rating: number;
   }[];
   quantity: number;
+  sale: boolean;
+  salePrice: string | null;
 }
 
 interface Favorite {

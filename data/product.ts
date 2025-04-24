@@ -38,6 +38,8 @@ export async function getProducts({
       },
       createdAt: true,
       quantity: true,
+      sale: true,
+      salePrice: true,
     },
   });
 
@@ -146,6 +148,8 @@ export const getProduct = async (id: string) => {
         },
         details: true,
         specifications: true,
+        sale: true,
+        salePrice: true,
       },
     });
 
@@ -187,6 +191,8 @@ export const getRelatedProducts = async (
           },
         },
         quantity: true,
+        sale: true,
+        salePrice: true,
       },
       orderBy: {
         createdAt: Math.random() > 0.5 ? 'desc' : 'asc',

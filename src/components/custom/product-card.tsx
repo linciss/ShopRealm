@@ -23,6 +23,8 @@ interface Product {
     rating: number;
   }[];
   quantity: number;
+  sale: boolean;
+  salePrice: string | null;
 }
 
 interface CartItem {
@@ -199,9 +201,20 @@ export const ProductCard = ({
             </p>
           </div>
 
-          <p className='text-md font-semibold'>
-            {formatCurrency(productData.price)}
-          </p>
+          {!productData.sale ? (
+            <p className='text-md font-semibold'>
+              {formatCurrency(productData.price)}
+            </p>
+          ) : (
+            <div className='inline-flex gap-2 items-center'>
+              <p className='text-sm text-muted-foreground line-through '>
+                {formatCurrency(productData.price)}
+              </p>
+              <p className='text-md font-semibold text-red-500'>
+                {formatCurrency(productData.price)}
+              </p>
+            </div>
+          )}
         </Link>
       </CardContent>
     </Card>

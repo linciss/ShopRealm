@@ -41,6 +41,8 @@ interface Product {
   category: string[];
   details: string;
   specifications: string | null;
+  sale: boolean;
+  salePrice: number;
 }
 
 interface ProductDataProps {
@@ -80,6 +82,8 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
       specifications: productData?.image
         ? JSON.parse(productData?.specifications || '')
         : [],
+      sale: productData?.sale || false,
+      salePrice: productData?.salePrice || 0.0,
     },
   });
 
@@ -110,6 +114,8 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
         ...data,
         image: (imgString as string) || data.image,
       };
+
+      console.log(finalData);
 
       startTransition(() => {
         if (productData?.id) {
@@ -304,6 +310,57 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                             onCheckedChange={field.onChange}
                           />
                         </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name='sale'
+                    render={({ field }) => (
+                      <FormItem className='flex flex-row items-center justify-between rounded-lg border p-4'>
+                        <div className='space-y-0.5'>
+                          <FormLabel className='text-base'>
+                            Produkta izpardosana
+                          </FormLabel>
+                          <FormDescription>
+                            Uzliec produktu uz izpardosanu
+                          </FormDescription>
+                        </div>
+                        <FormControl>
+                          <Switch
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name='salePrice'
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Izpardosnas cena</FormLabel>
+                        <FormControl>
+                          <div className='relative'>
+                            <span className='absolute left-3 top-0 bottom-0  translate-y-[20%]'>
+                              €
+                            </span>
+                            <Input
+                              type='number'
+                              step='1'
+                              placeholder='0.00'
+                              {...field}
+                              className='pl-7'
+                              onChange={(e) =>
+                                field.onChange(
+                                  Number.parseFloat(e.target.value),
+                                )
+                              }
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
                       </FormItem>
                     )}
                   />

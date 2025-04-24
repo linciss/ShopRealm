@@ -32,6 +32,8 @@ interface ProductProps {
         }[];
         details: string;
         specifications: string | null;
+        sale: boolean;
+        salePrice: string | null;
       }
     | undefined;
 }
@@ -64,9 +66,21 @@ export const ProductPreview = ({ productData }: ProductProps) => {
             </div>
           </div>
           <div className='flex flex-col'>
-            <h2 className='text-3xl font-semibold'>
-              {formatCurrency(productData.price)}
-            </h2>
+            {!productData.sale ? (
+              <h2 className='text-2xl font-semibold '>
+                {formatCurrency(productData.price)}
+              </h2>
+            ) : (
+              <div className='inline-flex gap-2 items-center '>
+                <p className='text-xl text-muted-foreground line-through '>
+                  {formatCurrency(productData.price)}
+                </p>
+                <h2 className='text-2xl font-semibold text-red-500'>
+                  {formatCurrency(productData.salePrice)}
+                </h2>
+              </div>
+            )}
+
             <p
               className={`text-sm  ${
                 productData.quantity < 5 ? 'text-red-600' : 'text-green-700'
