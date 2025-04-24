@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 import { getProduct } from '../../../../data/product';
 import { ProductPageInfo } from '@/components/custom/products/product-page-info';
+import { ViewTracker } from '@/components/custom/products/view-tracker';
 
 type Props = {
   params: Promise<{ id: string }>;
@@ -29,6 +30,7 @@ export default async function ProductPage({ params }: Props) {
   return (
     <div className='space-y-4  max-w-7xl mx-auto '>
       <ProductPageInfo productData={productData} />
+      <ViewTracker productId={productData.id} />
     </div>
   );
 }
