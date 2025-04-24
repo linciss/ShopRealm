@@ -22,6 +22,7 @@ interface Product {
   reviews: {
     rating: number;
   }[];
+  quantity: number;
 }
 
 interface CartItem {
@@ -133,7 +134,10 @@ export const ProductCard = ({
   return (
     <Card className='overflow-hidden group'>
       <div className='aspect-square relative overflow-hidden '>
-        <Link href={`/products/${productData.id}`} prefetch={false}>
+        <Link
+          href={productData.quantity > 0 ? `/products/${productData.id}` : ''}
+          prefetch={false}
+        >
           <Image
             src={productData.image || ''}
             fill
@@ -145,37 +149,46 @@ export const ProductCard = ({
         </Link>
         <div className='absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/50 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity'>
           <div className='flex gap-2'>
-            <Button
-              className='flex-1'
-              variant={'outline'}
-              aria-label='Add to cart button'
-              onClick={() => {
-                handleAddToCart();
-              }}
-              disabled={isPending}
-            >
-              <ShoppingCart /> Pievienot grozam
-            </Button>
-            <Button
-              variant={'outline'}
-              aria-label='Add to favorites button'
-              onClick={() => {
-                handleAddToFavorites();
-              }}
-              disabled={isPending}
-            >
-              {favorite ? (
-                <Heart fill={'#ff0000'} stroke={'#ff0000'} />
-              ) : (
-                <Heart />
-              )}
-            </Button>
+            {productData.quantity > 0 && (
+              <>
+                <Button
+                  className='flex-1'
+                  variant={'outline'}
+                  aria-label='Add to cart button'
+                  onClick={() => {
+                    handleAddToCart();
+                  }}
+                  disabled={isPending}
+                >
+                  <ShoppingCart /> Pievienot grozam
+                </Button>
+                {session?.user.id && (
+                  <Button
+                    variant={'outline'}
+                    aria-label='Add to favorites button'
+                    onClick={() => {
+                      handleAddToFavorites();
+                    }}
+                    disabled={isPending}
+                  >
+                    {favorite ? (
+                      <Heart fill={'#ff0000'} stroke={'#ff0000'} />
+                    ) : (
+                      <Heart />
+                    )}
+                  </Button>
+                )}
+              </>
+            )}
           </div>
         </div>
       </div>
 
       <CardContent className='px-2 py-4'>
-        <Link href={`/products/${productData.id}`} prefetch={false}>
+        <Link
+          href={productData.quantity > 0 ? `/products/${productData.id}` : ''}
+          prefetch={false}
+        >
           <p className='text-sm truncate'>{productData.name}</p>
           <div className='flex flex-row gap-2 items-center'>
             <ReviewStars

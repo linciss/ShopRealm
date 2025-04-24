@@ -285,6 +285,7 @@ export const getStoreDataById = async (storeId: string) => {
                 rating: true,
               },
             },
+            quantity: true,
           },
         },
       },

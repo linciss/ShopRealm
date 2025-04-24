@@ -37,6 +37,7 @@ export async function getProducts({
         },
       },
       createdAt: true,
+      quantity: true,
     },
   });
 
@@ -185,6 +186,7 @@ export const getRelatedProducts = async (
             rating: true,
           },
         },
+        quantity: true,
       },
       orderBy: {
         createdAt: Math.random() > 0.5 ? 'desc' : 'asc',

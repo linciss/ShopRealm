@@ -10,6 +10,7 @@ interface Product {
   reviews: {
     rating: number;
   }[];
+  quantity: number;
 }
 
 interface Favorite {
