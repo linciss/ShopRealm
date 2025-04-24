@@ -3,7 +3,7 @@ import { ProductCard } from '../product-card';
 
 interface Product {
   id: string;
-  slug: string;
+  slug?: string;
   name: string;
   image: string | null;
   price: string;
@@ -14,7 +14,6 @@ interface Product {
 }
 
 interface Favorite {
-  id: string;
   productId: string;
 }
 

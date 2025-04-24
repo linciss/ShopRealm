@@ -16,13 +16,13 @@
 - [x] product filtering
 - [x] product sorting
 - [x] pagination (50%)
-- [ ] Wishlist page
+- [x] Wishlist page
 - [x] show address info in cart page So if user doesnt have their address setup they could just set it up there
 - [ ] Stores need to set up their stripe aka give their account info
 - [ ] store settings page breh
 - [ ] analytics
-- [ ] increment view stats when viewing a product, maybe like also store views?
-- [ ] vague analytics for products aka views | how many in favorites | cart?
+- [x] increment view stats when viewing a product, maybe like also store views?
+- [x] vague analytics for products aka views | how many in favorites | cart?
 - [ ] Translation with i18
 - [ ] Mkae the nav more responsive 
 - [ ] about us 

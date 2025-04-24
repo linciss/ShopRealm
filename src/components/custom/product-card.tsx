@@ -18,7 +18,7 @@ interface Product {
   name: string;
   image: string | null;
   price: string;
-  slug: string;
+  slug?: string;
   reviews: {
     rating: number;
   }[];
@@ -31,7 +31,6 @@ interface CartItem {
 }
 
 interface Favorite {
-  id: string;
   productId: string;
 }
 
@@ -162,23 +161,24 @@ export const ProductCard = ({
                 >
                   <ShoppingCart /> Pievienot grozam
                 </Button>
-                {session?.user.id && (
-                  <Button
-                    variant={'outline'}
-                    aria-label='Add to favorites button'
-                    onClick={() => {
-                      handleAddToFavorites();
-                    }}
-                    disabled={isPending}
-                  >
-                    {favorite ? (
-                      <Heart fill={'#ff0000'} stroke={'#ff0000'} />
-                    ) : (
-                      <Heart />
-                    )}
-                  </Button>
-                )}
               </>
+            )}
+            {session?.user.id && (
+              <Button
+                variant={'outline'}
+                aria-label='Add to favorites button'
+                onClick={() => {
+                  handleAddToFavorites();
+                }}
+                disabled={isPending}
+                className={productData.quantity <= 0 ? 'flex-1' : undefined}
+              >
+                {favorite ? (
+                  <Heart fill={'#ff0000'} stroke={'#ff0000'} />
+                ) : (
+                  <Heart />
+                )}
+              </Button>
             )}
           </div>
         </div>

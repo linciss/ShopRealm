@@ -2,6 +2,7 @@
 import prisma from '@/lib/db';
 import { auth } from '../../auth';
 import { getUserFavoriteList } from '../../data/favorites';
+import { revalidatePath } from 'next/cache';
 
 // Add to favorite list functionm
 export const addItemToFavorites = async (productId: string) => {
@@ -16,8 +17,6 @@ export const addItemToFavorites = async (productId: string) => {
 
     if (!product) {
       return { error: 'Produkts nav atrasts' };
-    } else if (product.quantity <= 0) {
-      return { error: 'Prece nav pieejama' };
     }
 
     const favoriteList = await getUserFavoriteList();
@@ -46,6 +45,8 @@ export const addItemToFavorites = async (productId: string) => {
         productId: product.id,
       },
     });
+
+    revalidatePath('/favorites');
 
     return { success: 'Pievienots pie favoritiem!' };
   } catch (error) {
