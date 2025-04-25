@@ -118,7 +118,7 @@ export const ProductFilters = ({
         )}
       </Button>
       <div
-        className={`flex-col gap-4 ${mobileMenu ? 'flex' : 'md:flex hidden'} mt-6`}
+        className={`flex-col gap-4 ${mobileMenu ? 'flex mt-6' : 'md:flex hidden '} `}
       >
         <div>
           <h2 className='font-medium mb-4'>{t('searchByKeyword')}</h2>

@@ -213,7 +213,7 @@ export const ProductCard = ({
                 {formatCurrency(productData.price)}
               </p>
               <p className='text-md font-semibold text-red-500'>
-                {formatCurrency(productData.price)}
+                {formatCurrency(productData.salePrice)}
               </p>
             </div>
           )}

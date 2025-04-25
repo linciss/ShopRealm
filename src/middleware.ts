@@ -47,14 +47,19 @@ export default auth(async (req) => {
 
   const isLoggedIn = !!req.auth;
 
-  const isApiAuthRoute = nextUrl.pathname.startsWith(apiAuthPrefix);
+  console.log(nextUrl.pathname);
+
+  const pathname = req.nextUrl.pathname;
+  const pathnameWithoutLocale = pathname.replace(/^\/[a-z]{2}(?=\/|$)/, '');
+
+  const isApiAuthRoute = pathnameWithoutLocale.startsWith(apiAuthPrefix);
   const isPublicRoute =
-    publicRoutes.includes(nextUrl.pathname) ||
-    matchesRoute(nextUrl.pathname, publicRoutes);
-  const isAuthRoute = authRoutes.includes(nextUrl.pathname);
-  const isStoreRoute = storeRoutes.includes(nextUrl.pathname);
-  const isShopperRoute = shopperRoutes.includes(nextUrl.pathname);
-  const isFallbackRoute = FALLBACK_REDIRECT === nextUrl.pathname;
+    publicRoutes.includes(pathnameWithoutLocale) ||
+    matchesRoute(pathnameWithoutLocale, publicRoutes);
+  const isAuthRoute = authRoutes.includes(pathnameWithoutLocale);
+  const isStoreRoute = storeRoutes.includes(pathnameWithoutLocale);
+  const isShopperRoute = shopperRoutes.includes(pathnameWithoutLocale);
+  const isFallbackRoute = FALLBACK_REDIRECT === pathnameWithoutLocale;
 
   if (isApiAuthRoute) {
     return NextResponse.next();
@@ -64,7 +69,7 @@ export default auth(async (req) => {
     if (isLoggedIn) {
       return NextResponse.redirect(new URL(DEFAULT_SIGNIN_REDIRECT, nextUrl));
     }
-    return NextResponse.next();
+    return NextResponse.next() && i18nRouter(req, i18nConfig);
   }
 
   if (!isPublicRoute && !isLoggedIn) {
@@ -88,6 +93,7 @@ export default auth(async (req) => {
     });
     return NextResponse.redirect(new URL('/auth/sign-in', nextUrl));
   }
+
   return NextResponse.next() && i18nRouter(req, i18nConfig);
 });
 
