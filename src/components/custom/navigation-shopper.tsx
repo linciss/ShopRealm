@@ -105,17 +105,17 @@ const catgeories: RouteProps[] = [
   },
   {
     label: 'electronics',
-    href: '/electronics',
+    href: '/products/category/electronics',
     description: 'electronicsDesc',
   },
   {
     label: 'toys',
-    href: '/toys',
+    href: '/products/category/toys',
     description: 'toysDesc',
   },
   {
     label: 'home',
-    href: '/home',
+    href: '/products/category/home',
     description: 'homeDesc',
   },
 ];
