@@ -19,12 +19,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  applicationName: 'Shop Sphere',
-  keywords: ['Shop Sphere', 'ShopSphere', 'shopSphere', 'shop sphere'],
+  applicationName: 'Shop Realm',
+  keywords: ['Shop Realm', 'ShopRealm', 'shopRealm', 'shop realm'],
   creator: 'Linards',
-  title: 'Shop Sphere',
+  title: 'Shop Realm',
   description:
-    'Shop Sphere is a place where you can shop for anything you want. From electronics to clothes, we have it all.',
+    'Shop Realm is a place where you can shop for anything you want. From electronics to clothes, we have it all.',
 };
 
 export default async function RootLayout({

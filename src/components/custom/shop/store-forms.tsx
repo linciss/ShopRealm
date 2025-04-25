@@ -85,7 +85,7 @@ export const StoreForms = ({ phone }: UserProps) => {
                 <FormItem>
                   <FormLabel>Veiakal nosaukums</FormLabel>
                   <FormControl>
-                    <Input placeholder='Shop Sphere' {...field} required />
+                    <Input placeholder='Shop Realm' {...field} required />
                   </FormControl>
                   <FormDescription>
                     Sis laus identificet jusu veikalu

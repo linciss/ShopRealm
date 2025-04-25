@@ -15,7 +15,7 @@ export default function Features() {
             Viss kas jums nepieciešams vienā vietā
           </h2>
           <p className='mt-4 text-lg text-muted-foreground'>
-            Shop Sphere apvieno labāko no tiešsaistes tirgus un e-komercijas
+            Shop Realm apvieno labāko no tiešsaistes tirgus un e-komercijas
             platformām, lai jums sniegtu nevainojamu pieredzi.
           </p>
         </div>

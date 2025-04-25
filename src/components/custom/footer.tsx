@@ -3,7 +3,7 @@ import Link from 'next/link';
 const navigation = {
   solutions: [
     { name: 'Produkti', href: '#' },
-    { name: 'Pardod Shop Sphere platforma', href: '#' },
+    { name: 'Pardod Shop Realm platforma', href: '#' },
   ],
   support: [{ name: 'Cena', href: '#' }],
   company: [{ name: 'Par mums', href: '#' }],
@@ -19,7 +19,7 @@ export default function Footer() {
         <div className='xl:grid xl:grid-cols-3 xl:gap-8 px-20'>
           <div className='space-y-8'>
             <h3 className='text-2xl font-bold text-card-foreground'>
-              Shop Sphere
+              Shop Realm
             </h3>
             <p className='text-sm text-muted-foreground'>
               Padara komerciju labaku
@@ -85,7 +85,7 @@ export default function Footer() {
         </div>
         <div className='mt-12 border-t border-border pt-8'>
           <p className='text-sm text-muted-foreground'>
-            &copy; {new Date().getFullYear()} Shop Sphere. All rights reserved.
+            &copy; {new Date().getFullYear()} Shop Realm. All rights reserved.
           </p>
         </div>
       </div>

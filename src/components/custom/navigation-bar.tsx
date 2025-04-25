@@ -29,7 +29,7 @@ export const NavigationBar = async () => {
       <div className='px-4 flex h-16 items-center justify-between'>
         <div className='mr-4 hidden md:flex'>
           <Link href='/products' className='mr-6 flex items-center space-x-2'>
-            <span className='text-xl font-bold'>Shop Sphere</span>
+            <span className='text-xl font-bold'>Shop Realm</span>
           </Link>
           <NavigationMenu>
             <NavigationMenuList>
@@ -45,7 +45,7 @@ export const NavigationBar = async () => {
               href='/products'
               className='mr-6 flex items-center space-x-2 md:hidden'
             >
-              <span className='text-xl font-bold'>Shop Sphere</span>
+              <span className='text-xl font-bold'>Shop Realm</span>
             </Link>
           </div>
 

@@ -8,12 +8,12 @@ export default function Hero() {
         <div className='lg:grid lg:grid-cols-12 lg:gap-8'>
           <div className='sm:text-center md:mx-auto md:max-w-2xl lg:col-span-6 lg:text-left'>
             <h1 className='text-4xl font-bold tracking-tight text-foreground sm:text-5xl md:text-6xl'>
-              Sveicināti <span className='text-primary'>Shop Sphere</span>
+              Sveicināti <span className='text-primary'>Shop Realm</span>
             </h1>
             <p className='mt-6 text-xl text-muted-foreground'>
               Jūsu universālā platforma, lai iepirktos plašā tirgū vai izveidotu
               savu veikalu. Atklājiet, pārdodiet un attīstieties, izmantojot
-              Shop Sphere.
+              Shop Realm.
             </p>
             <div className='mt-10 sm:flex gap-4  lg:justify-start flex justify-center items-center'>
               <Button size='lg'>Iepirkties</Button>
@@ -28,7 +28,7 @@ export default function Hero() {
                 <Image
                   priority
                   src='https://kzmlp0g13xkhf3iwox9m.lite.vusercontent.net/placeholder.svg?height=400&width=600'
-                  alt='Shop Sphere App'
+                  alt='Shop Realm App'
                   className='object-cover object-center'
                   width={600}
                   height={400}

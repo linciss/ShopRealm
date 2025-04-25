@@ -96,7 +96,7 @@ export const MobileMenu = async () => {
         </SheetTrigger>
         <SheetContent side='left' className='w-[300px] sm:w-[350px]'>
           <SheetHeader>
-            <SheetTitle className='text-left'>Shop Sphere</SheetTitle>
+            <SheetTitle className='text-left'>Shop Realm</SheetTitle>
           </SheetHeader>
           <div className='flex flex-col gap-4 py-6'>
             <div className='flex flex-col space-y-3'>

@@ -5,7 +5,7 @@ interface EmailLink {
 export const ProductSale = ({ confirmLink }: EmailLink) => {
   return (
     <div>
-      <h1>Shop Sphere</h1>
+      <h1>Shop Realm</h1>
       <div>
         <h2>Jusu favoritetais produkts ir uz izpardosanu!</h2>
         <p>Lai aizietu uz produkta lapu, noklikšķiniet uz saites zemāk:</p>

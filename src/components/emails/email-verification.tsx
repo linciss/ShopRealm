@@ -5,7 +5,7 @@ interface EmailLink {
 export const EmailVerification = ({ confirmLink }: EmailLink) => {
   return (
     <div>
-      <h1>Shop Sphere</h1>
+      <h1>Shop Realm</h1>
       <div>
         <h2>Verificējiet savu e-pastu</h2>
         <p>
