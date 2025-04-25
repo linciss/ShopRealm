@@ -45,5 +45,7 @@
 - [ ] Checkout
 - [ ] AUth
 - [x] Nav
+- [x] favorite
+- [ ] 
 
 

@@ -83,5 +83,8 @@
   "new": "New products",
   "sale": "Sale",
   "menu": "Menu",
-  "myStore": "My Store"
+  "myStore": "My Store",
+  "myFavorites": "My Favorites",
+  "myFavoritesDesc": "Your favorite products in one place. You can add or remove products from your favorites list. You can also view the details of each product and add them to your cart. Also if they go on sale you will be notified thorugh email.",
+  "yourFav": "Your favorite products"
 }
