@@ -83,7 +83,7 @@ export const ProductCard = ({
       localStorage.setItem('addToCart', JSON.stringify(cart));
 
       toast({
-        title: t('addedToCart'),
+        title: t('success'),
         description: t('addedToCartLocally'),
       });
 
@@ -100,7 +100,7 @@ export const ProductCard = ({
           });
         } else {
           toast({
-            title: t('addedToCart'),
+            title: t('success'),
             description: t(res.success || t('addedToCart')),
           });
         }

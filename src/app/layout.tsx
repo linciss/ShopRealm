@@ -3,8 +3,7 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import { ThemeProvider } from '@/components/ui/theme-provider';
 import { SessionProvider } from 'next-auth/react';
-import { NavigationBar } from '@/components/custom/navigation-bar';
-import Footer from '@/components/custom/footer';
+
 import { Toaster } from '@/components/ui/toaster';
 import { auth } from '../../auth';
 
@@ -47,9 +46,7 @@ export default async function RootLayout({
         >
           <div className='relative flex min-h-screen flex-col bg-background'>
             <SessionProvider session={session}>
-              <NavigationBar />
               <div className='flex-1'>{children}</div>
-              <Footer />
             </SessionProvider>
           </div>
           <Toaster />

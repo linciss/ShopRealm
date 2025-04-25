@@ -35,3 +35,15 @@
 - [ ] remove product from cart if for example its deleted, threw some error gotta look into that
 - [x] sale price implementation
 
+# TRANSLATIONS TODO 
+
+- [x] product page 
+- [x] reviews
+- [ ] Profile
+- [ ] Store page
+- [ ] Cart
+- [ ] Checkout
+- [ ] AUth
+- [x] Nav
+
+

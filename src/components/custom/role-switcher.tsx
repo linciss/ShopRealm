@@ -23,6 +23,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from '../ui/dialog';
+import { useTranslation } from 'react-i18next';
 
 type Role = 'SHOPPER' | 'STORE';
 
@@ -32,6 +33,7 @@ interface RoleSwitcherProps {
 
 export default function RoleSwitcher({ session }: RoleSwitcherProps) {
   const [isPending, startTransition] = useTransition();
+  const { t } = useTranslation();
 
   if (!session?.user.id) return null;
 
@@ -61,13 +63,13 @@ export default function RoleSwitcher({ session }: RoleSwitcherProps) {
               <Store className='h-4 w-4 text-primary' />
             )}
             <span className='font-medium'>
-              {role === 'SHOPPER' ? 'Pircejs' : 'Veikals'}
+              {role === 'SHOPPER' ? t('shopper') : t('store')}
             </span>
             <ChevronDown className='h-4 w-4 opacity-50' />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end' className='w-[200px]'>
-          <DropdownMenuLabel>Samainit lomu</DropdownMenuLabel>
+          <DropdownMenuLabel>{t('changeRole')}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DialogTrigger asChild>
             <DropdownMenuItem
@@ -77,7 +79,7 @@ export default function RoleSwitcher({ session }: RoleSwitcherProps) {
               )}
             >
               <ShoppingBag className='h-4 w-4' />
-              <span>Pirceja loma</span>
+              <span>{t('shopperRole')}</span>
             </DropdownMenuItem>
           </DialogTrigger>
           <DialogTrigger asChild>
@@ -88,7 +90,7 @@ export default function RoleSwitcher({ session }: RoleSwitcherProps) {
               )}
             >
               <Store className='h-4 w-4' />
-              <span>Veikala loma</span>
+              <span>{t('storeRole')}</span>
             </DropdownMenuItem>
           </DialogTrigger>
 
@@ -98,16 +100,16 @@ export default function RoleSwitcher({ session }: RoleSwitcherProps) {
 
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Mainīt lomu?</DialogTitle>
+          <DialogTitle>{t('changeRole')}</DialogTitle>
           <DialogDescription className='text-base'>
-            Vai tiešām vēlaties mainīt lietotāja lomu uz{' '}
-            {role === 'SHOPPER' ? 'Veikals' : 'Pircejs'}? <br />
-            <b>Jums bus jaautorizejas velvienreiz</b>
+            {t('changeRolePrompt')}{' '}
+            {role === 'SHOPPER' ? t('store') : t('shopper')}? <br />
+            <b className='text-sm mt-1'>{t('authPrompt')}</b>
           </DialogDescription>
         </DialogHeader>
         <DialogFooter>
           <Button onClick={() => handleRoleChange()} disabled={isPending}>
-            Apstiprināt
+            {t('changeRole')}
           </Button>
         </DialogFooter>
       </DialogContent>

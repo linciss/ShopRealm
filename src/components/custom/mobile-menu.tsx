@@ -10,6 +10,7 @@ import {
   SheetTrigger,
 } from '../ui/sheet';
 import { auth } from '../../../auth';
+import initTranslations from '@/app/i18n';
 
 interface RouteProps {
   label: string;
@@ -18,64 +19,74 @@ interface RouteProps {
 
 const shopperLinks: RouteProps[] = [
   {
-    label: 'Elektronikas',
-    href: '/electronics',
+    label: 'electronics',
+    href: '/products/category/electronics',
   },
   {
-    label: 'Rotallietas',
-    href: '/toys',
+    label: 'toys',
+    href: '/products/category/toys',
   },
   {
-    label: 'Majai',
-    href: '/home',
+    label: 'home',
+    href: '/products/category/home',
   },
   {
-    label: 'Veseliba un labklajiba',
-    href: '/health',
+    label: 'health',
+    href: '/products/category/health',
   },
   {
-    label: 'Auto un motocikli',
-    href: '/automotive',
+    label: 'automotive',
+    href: '/products/category/automotive',
   },
   {
-    label: 'Apgerbs',
-    href: '/clothing',
+    label: 'clothing',
+    href: '/products/category/clothing',
   },
   {
-    label: 'Sports un atputa',
-    href: '/sports',
+    label: 'sports',
+    href: '/products/category/sports',
   },
   {
-    label: 'Gramatas un mediji',
-    href: '/books',
+    label: 'books',
+    href: '/products/category/books',
   },
   {
-    label: 'Veseliba un skaistums',
-    href: '/beauty',
+    label: 'beauty',
+    href: '/products/category/beauty',
   },
   {
-    label: 'Rotaslietas un aksesuari',
-    href: '/jewelry',
+    label: 'jewelry',
+    href: '/products/category/jewelry',
   },
 ];
 
 const storeLinks: RouteProps[] = [
   {
-    label: 'Panelis',
+    label: 'panel',
     href: '/store',
   },
   {
     href: '/store/products',
-    label: 'Produkti',
+    label: 'productsHeading',
   },
   {
     href: '/store/orders',
-    label: 'Pasutijumni',
+    label: 'orders',
   },
 ];
 
-export const MobileMenu = async () => {
+interface MobileMenuProps {
+  locale: string;
+}
+
+export const MobileMenu = async ({ locale }: MobileMenuProps) => {
   const session = await auth();
+
+  const { t } = await initTranslations(locale || 'en', [
+    'productPage',
+    'errors',
+    'success',
+  ]);
 
   const routesToRender =
     session?.user.role === 'STORE' ? storeLinks : shopperLinks;
@@ -91,7 +102,7 @@ export const MobileMenu = async () => {
             aria-label='Menu'
           >
             <Menu className='h-5 w-5' />
-            <span className='sr-only'>Izvelne</span>
+            <span className='sr-only'>{t('menu')}</span>
           </Button>
         </SheetTrigger>
         <SheetContent side='left' className='w-[300px] sm:w-[350px]'>
@@ -108,12 +119,12 @@ export const MobileMenu = async () => {
                   className='flex items-center py-2 text-lg font-semibold'
                 >
                   {session?.user.role === 'SHOPPER'
-                    ? 'Visi produkti'
-                    : 'Mans veikals'}
+                    ? t('allProducts')
+                    : t('myStore')}
                 </Link>
               </SheetClose>
               <div className='space-y-3'>
-                <h3 className='font-medium'>Kategorijas</h3>
+                <h3 className='font-medium'>{t('categories')}</h3>
                 <div className='grid grid-cols-1 gap-2'>
                   {routesToRender.map((route) => (
                     <SheetClose asChild key={route.href}>
@@ -121,7 +132,7 @@ export const MobileMenu = async () => {
                         href={route.href}
                         className='text-muted-foreground hover:text-foreground'
                       >
-                        {route.label}
+                        {t(route.label)}
                       </Link>
                     </SheetClose>
                   ))}
@@ -134,7 +145,7 @@ export const MobileMenu = async () => {
                       href='/sale'
                       className='text-muted-foreground hover:text-foreground py-2'
                     >
-                      Izpardosana
+                      {t('sale')}
                     </Link>
                   </SheetClose>
                   <SheetClose asChild>
@@ -142,7 +153,7 @@ export const MobileMenu = async () => {
                       href='/new'
                       className='text-muted-foreground hover:text-foreground py-2'
                     >
-                      Jaunumi
+                      {t('new')}
                     </Link>
                   </SheetClose>
                 </>

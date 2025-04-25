@@ -1,5 +1,7 @@
+import { NavigationBar } from '@/components/custom/navigation-bar';
 import initTranslations from '../i18n';
 import TranslationsProvider from '@/components/translation/translations-prover';
+import Footer from '@/components/custom/footer';
 
 const i18nNamespaces = ['productPage', 'errors', 'success'];
 
@@ -20,7 +22,9 @@ export default async function RootLayout({
       locale={locale}
       resources={resources}
     >
+      <NavigationBar locale={locale} />
       {children}
+      <Footer />
     </TranslationsProvider>
   );
 }
