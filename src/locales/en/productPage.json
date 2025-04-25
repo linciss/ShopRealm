@@ -97,5 +97,8 @@
   "alreadyHaveAccount": "Already have an account? Sign in now!",
   "name": "Name",
   "lastName": "Last name",
-  "confirmPassword": "Confirm password"
+  "confirmPassword": "Confirm password",
+  "thanks": "Thank you for your order!",
+  "orderNr": "Order number",
+  "orderProcessed": "Your order is being processed....."
 }

@@ -46,6 +46,6 @@
 - [x] AUth
 - [x] Nav
 - [x] favorite
-- [ ] checkout
+- [x] checkout success
 
 
