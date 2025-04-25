@@ -12,6 +12,8 @@ import { NextResponse } from 'next/server';
 import { DEFAULT_SIGNIN_REDIRECT } from './../routes';
 import { getToken } from 'next-auth/jwt';
 import { signOut } from '../auth';
+import { i18nRouter } from 'next-i18n-router';
+import i18nConfig from '../i18n-config';
 
 const { auth } = NextAuth(authConfig);
 
@@ -86,7 +88,7 @@ export default auth(async (req) => {
     });
     return NextResponse.redirect(new URL('/auth/sign-in', nextUrl));
   }
-  return NextResponse.next();
+  return NextResponse.next() && i18nRouter(req, i18nConfig);
 });
 
 export const config = {

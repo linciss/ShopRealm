@@ -10,6 +10,7 @@ import {
 } from '@/components/ui/select';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useState, useTransition } from 'react';
+import { useTranslation } from 'react-i18next';
 
 interface ProductSoterProps {
   sort: string;
@@ -46,6 +47,7 @@ export const ProductSoter = ({ sort }: ProductSoterProps) => {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const { t } = useTranslation();
 
   const [sortValue, setSortValue] = useState<string>(sort);
 
@@ -90,14 +92,14 @@ export const ProductSoter = ({ sort }: ProductSoterProps) => {
       defaultValue='default'
     >
       <SelectTrigger className='w-[180px]' aria-label='Sorting'>
-        <SelectValue placeholder='Kartosana' aria-label='Sorting value' />
+        <SelectValue placeholder={t('sorting')} aria-label='Sorting value' />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          <SelectLabel>Kartosana</SelectLabel>
+          <SelectLabel>{t('sorting')}</SelectLabel>
           {sortOptions.map((sort) => (
             <SelectItem key={sort.value} value={sort.value}>
-              {sort.label}
+              {t(sort.value)}
             </SelectItem>
           ))}
         </SelectGroup>

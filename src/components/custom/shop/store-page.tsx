@@ -1,7 +1,6 @@
 import { redirect } from 'next/navigation';
 import { getStoreDataById } from '../../../../data/store';
 import { ProductGrid } from '../products/product-grid';
-import { getFavoriteItems } from '../../../../data/favorites';
 
 interface StorePreviewProps {
   id: string;
@@ -9,7 +8,6 @@ interface StorePreviewProps {
 
 export const StorePreview = async ({ id }: StorePreviewProps) => {
   const storeData = await getStoreDataById(id);
-  const favoriteItems = await getFavoriteItems();
 
   if (!storeData) redirect('/products');
 
@@ -21,10 +19,7 @@ export const StorePreview = async ({ id }: StorePreviewProps) => {
       </div>
       <div className='space-y-4'>
         <h2 className='text-2xl font-semibold'>Veikala produkti</h2>
-        <ProductGrid
-          products={storeData.products}
-          favoriteItems={favoriteItems}
-        />
+        <ProductGrid products={storeData.products} />
       </div>
     </div>
   );

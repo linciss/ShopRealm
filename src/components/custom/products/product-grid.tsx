@@ -1,4 +1,5 @@
 import { auth } from '../../../../auth';
+import { getFavoriteItems } from '../../../../data/favorites';
 import { ProductCard } from '../product-card';
 
 interface Product {
@@ -15,20 +16,14 @@ interface Product {
   salePrice: string | null;
 }
 
-interface Favorite {
-  productId: string;
-}
-
 interface ProductGridProps {
   products: Product[];
-  favoriteItems?: Favorite[] | undefined;
 }
 
-export const ProductGrid = async ({
-  products,
-  favoriteItems,
-}: ProductGridProps) => {
+export const ProductGrid = async ({ products }: ProductGridProps) => {
   const session = await auth();
+  const favoriteItems = await getFavoriteItems();
+
   return (
     <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
       {products.map((prod) => (

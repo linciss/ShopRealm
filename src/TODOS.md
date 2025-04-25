@@ -23,7 +23,7 @@
 - [ ] analytics
 - [x] increment view stats when viewing a product, maybe like also store views?
 - [x] vague analytics for products aka views | how many in favorites | cart?
-- [ ] Translation with i18
+- [x] Translation with i18
 - [ ] Mkae the nav more responsive 
 - [ ] about us 
 - [x] echckout page 

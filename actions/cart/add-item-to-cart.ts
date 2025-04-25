@@ -9,7 +9,7 @@ export const addItemToCart = async (productId: string, quantity = 1) => {
   const session = await auth();
 
   if (quantity < 1) {
-    return { error: 'Jabut vismaz 1 gabalam!' };
+    return { error: '1item' };
   }
 
   try {
@@ -19,18 +19,18 @@ export const addItemToCart = async (productId: string, quantity = 1) => {
 
     if (!session?.user.id)
       return {
-        error: 'Lietotajs nav autorizets!',
+        error: 'authError',
       };
 
     if (!product) {
-      return { error: 'Produkts nav atrasts' };
+      return { error: 'prodNotFound' };
     } else if (product.quantity <= 0) {
-      return { error: 'Prece nav pieejama' };
+      return { error: 'prodNotAvailable' };
     }
 
     const cart = await getUserCart();
 
-    if (!cart) return { error: 'Kluda!' };
+    if (!cart) return { error: 'error' };
 
     const existingCartItem = await prisma.cartItem.findFirst({
       where: {
@@ -51,7 +51,7 @@ export const addItemToCart = async (productId: string, quantity = 1) => {
           quantity: newQuantity,
         },
       });
-      return { success: 'Produkta daudzums papildinats!' };
+      return { success: 'incrementedQuantity' };
     }
 
     await prisma.cartItem.create({
@@ -63,11 +63,11 @@ export const addItemToCart = async (productId: string, quantity = 1) => {
     });
 
     revalidatePath('/cart');
-    return { success: 'Pievienots grozam!' };
+    return { success: 'addedToCart' };
   } catch (error) {
     if (error instanceof Error) {
       console.log('Kļūda: ', error.stack);
     }
-    return { error: 'Kļūda apstrādājot datus' };
+    return { error: 'validationError' };
   }
 };

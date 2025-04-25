@@ -8,7 +8,7 @@ import { revalidatePath } from 'next/cache';
 export const addItemToFavorites = async (productId: string) => {
   const session = await auth();
 
-  if (!session?.user.id) return { error: 'Lietotajs nav autorizets' };
+  if (!session?.user.id) return { error: 'authError' };
 
   try {
     const product = await prisma.product.findUnique({
@@ -16,12 +16,12 @@ export const addItemToFavorites = async (productId: string) => {
     });
 
     if (!product) {
-      return { error: 'Produkts nav atrasts' };
+      return { error: 'prodNotFound' };
     }
 
     const favoriteList = await getUserFavoriteList();
 
-    if (!favoriteList) return { error: 'Kluda!' };
+    if (!favoriteList) return { error: 'error' };
 
     const existingFavoriteItem = await prisma.favoriteItem.findFirst({
       where: {
@@ -36,7 +36,7 @@ export const addItemToFavorites = async (productId: string) => {
           id: existingFavoriteItem.id,
         },
       });
-      return { success1: 'Produikts nonemts no favoritiem!' };
+      return { success1: 'removedFromFav' };
     }
 
     await prisma.favoriteItem.create({
@@ -48,11 +48,11 @@ export const addItemToFavorites = async (productId: string) => {
 
     revalidatePath('/favorites');
 
-    return { success: 'Pievienots pie favoritiem!' };
+    return { success: 'addedToFav' };
   } catch (error) {
     if (error instanceof Error) {
       console.log('Error: ', error.stack);
     }
-    return { error: 'Kļūda apstrādājot datus' };
+    return { error: 'validationError' };
   }
 };

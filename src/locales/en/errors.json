@@ -1,0 +1,7 @@
+{
+  "authError": "Authentication error",
+  "1item": "Must have atleast 1 quantity!",
+  "prodNotFound": "Product not found",
+  "prodNotAvailable": "Product not available",
+  "validationError": "Validation error"
+}

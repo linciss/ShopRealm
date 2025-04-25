@@ -9,6 +9,7 @@ import { Slider } from '@/components/ui/slider';
 import { ChevronDown, ChevronUp, Search, X } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useState, useTransition } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const categories = [
   {
@@ -55,6 +56,8 @@ export const ProductFilters = ({
     maxPrice || 10000,
   ]);
   const [category, setCategory] = useState<string>(selectedCategory);
+
+  const { t } = useTranslation();
 
   const createQueryString = (
     params: Record<string, string | number | null>,
@@ -106,11 +109,11 @@ export const ProductFilters = ({
       >
         {mobileMenu ? (
           <>
-            <ChevronUp /> Aizvert
+            <ChevronUp /> {t('close')}
           </>
         ) : (
           <>
-            <ChevronDown /> Atvert
+            <ChevronDown /> {t('open')}
           </>
         )}
       </Button>
@@ -118,12 +121,12 @@ export const ProductFilters = ({
         className={`flex-col gap-4 ${mobileMenu ? 'flex' : 'md:flex hidden'} mt-6`}
       >
         <div>
-          <h2 className='font-medium mb-4'>Meklet</h2>
+          <h2 className='font-medium mb-4'>{t('searchByKeyword')}</h2>
           <div className='relative'>
             <Search className='absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground' />
             <Input
               type='text'
-              placeholder='Meklet produktu...'
+              placeholder='...'
               className='pl-8 pr-8'
               value={searchValue}
               onChange={(e) => setSearchValue(e.target.value)}
@@ -157,7 +160,7 @@ export const ProductFilters = ({
         <Separator />
         <div className='space-y-2'>
           <div>
-            <h3 className='font-medium mb-4'>Summa</h3>
+            <h3 className='font-medium mb-4'>{t('sum')}</h3>
             <Slider
               defaultValue={priceRange}
               min={0}
@@ -208,7 +211,7 @@ export const ProductFilters = ({
         </div>
         <Separator />
         <div>
-          <h3 className='font-medium mb-4'>Meklet</h3>
+          <h3 className='font-medium mb-4'>{t('searchByCategory')}</h3>
           <div className='flex flex-col gap-2'>
             <RadioGroup defaultValue={category} value={category}>
               {categories.map((category) => (
@@ -224,14 +227,16 @@ export const ProductFilters = ({
                     id={category.id}
                     aria-label={`Category-${category.label}`}
                   />
-                  <Label htmlFor={category.id}>{category.label}</Label>
+                  <Label htmlFor={category.id}>
+                    {t(category.id) || t('clear')}
+                  </Label>
                 </div>
               ))}
             </RadioGroup>
           </div>
         </div>
         <Button onClick={applyFilters} disabled={isPending}>
-          Filtret
+          {t('filter')}
         </Button>
       </div>
     </>

@@ -7,6 +7,7 @@ import { useState, useTransition } from 'react';
 import { addItemToCart } from '../../../../actions/cart/add-item-to-cart';
 import { addItemToFavorites } from '../../../../actions/cart/add-item-to-favorites';
 import { Session } from 'next-auth';
+import { useTranslation } from 'react-i18next';
 
 interface AddToCartProps {
   id: string;
@@ -32,7 +33,7 @@ export const AddToCart = ({
   const [favorite, setFavorite] = useState<boolean>(isFav);
 
   const { toast } = useToast();
-
+  const { t } = useTranslation();
   const [isPending, startTransition] = useTransition();
 
   const handleAddToCart = async () => {
@@ -57,8 +58,8 @@ export const AddToCart = ({
       localStorage.setItem('addToCart', JSON.stringify(cart));
 
       toast({
-        title: 'Pievienots grozam!',
-        description: 'Pievienots grozam lokali!',
+        title: t('success'),
+        description: t('addedToCartLocally'),
       });
 
       return;
@@ -66,9 +67,9 @@ export const AddToCart = ({
 
     if (quantity < 1) {
       return toast({
-        title: 'Kluda!',
+        title: t('error'),
         variant: 'destructive',
-        description: 'Jabut vismaz 1 gabalam!',
+        description: t('1item'),
       });
     }
 
@@ -76,14 +77,14 @@ export const AddToCart = ({
       addItemToCart(id, quantity).then((res) => {
         if (res.error) {
           toast({
-            title: 'Kluda!',
+            title: t('error'),
             variant: 'destructive',
-            description: res.error,
+            description: t(res.error),
           });
         } else {
           toast({
-            title: 'Pieveinots grozam!',
-            description: res.success,
+            title: t('success'),
+            description: t(res.success || t('addedToCart')),
           });
         }
       });
@@ -95,20 +96,20 @@ export const AddToCart = ({
       addItemToFavorites(id).then((res) => {
         if (res.error) {
           toast({
-            title: 'Kluda!',
+            title: t('error'),
             variant: 'destructive',
-            description: res.error,
+            description: t(res.error),
           });
         } else if (res.success) {
           toast({
-            title: 'Pieveinots Pie favoritiem!',
-            description: res.success,
+            title: t('success'),
+            description: t(res.success),
           });
           setFavorite(true);
         } else {
           toast({
-            title: 'Nonemts no favoritiem!',
-            description: res.success1,
+            title: t('success'),
+            description: t(res.success1 || t('removedFromFav')),
           });
           setFavorite(false);
         }
@@ -147,7 +148,7 @@ export const AddToCart = ({
           }}
           disabled={isPending}
         >
-          <ShoppingCartIcon /> Pievienot grozam
+          <ShoppingCartIcon /> {t('atc')}
         </Button>
       </div>
       <div className='flex flex-row gap-2'>
@@ -159,7 +160,7 @@ export const AddToCart = ({
           }}
         >
           {favorite ? <Heart fill={'#ff0000'} stroke={'#ff0000'} /> : <Heart />}
-          {!favorite ? 'Pievienot pie favortiem' : 'Nonemt no favoritiem'}
+          {!favorite ? t('atf') : t('rtf')}
         </Button>
         <Button
           variant={'outline'}
@@ -167,7 +168,7 @@ export const AddToCart = ({
             // LATER ADD SHARES????
             navigator.clipboard.writeText(url || '');
             toast({
-              title: 'Veiksmigi nokopeta saite uz produktu!',
+              title: t('copied'),
             });
           }}
         >

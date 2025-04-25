@@ -12,6 +12,7 @@ import { addItemToCart } from '../../../actions/cart/add-item-to-cart';
 import { addItemToFavorites } from '../../../actions/cart/add-item-to-favorites';
 import { Session } from 'next-auth';
 import { formatCurrency } from './../../lib/format-currency';
+import { useTranslation } from 'react-i18next';
 
 interface Product {
   id: string;
@@ -52,6 +53,7 @@ export const ProductCard = ({
     favoriteItems?.some((fav) => fav.productId === productData.id) || false;
 
   const [favorite, setFavorite] = useState<boolean>(isFav);
+  const { t } = useTranslation();
 
   const { toast } = useToast();
 
@@ -81,8 +83,8 @@ export const ProductCard = ({
       localStorage.setItem('addToCart', JSON.stringify(cart));
 
       toast({
-        title: 'Pievienots grozam!',
-        description: 'Pievienots grozam lokali!',
+        title: t('addedToCart'),
+        description: t('addedToCartLocally'),
       });
 
       return;
@@ -92,14 +94,14 @@ export const ProductCard = ({
       addItemToCart(productData.id).then((res) => {
         if (res.error) {
           toast({
-            title: 'Kluda!',
+            title: t('error'),
             variant: 'destructive',
-            description: res.error,
+            description: t(res.error),
           });
         } else {
           toast({
-            title: 'Pieveinots grozam!',
-            description: res.success,
+            title: t('addedToCart'),
+            description: t(res.success || t('addedToCart')),
           });
         }
       });
@@ -111,20 +113,20 @@ export const ProductCard = ({
       addItemToFavorites(productData.id).then((res) => {
         if (res.error) {
           toast({
-            title: 'Kluda!',
+            title: t('error'),
             variant: 'destructive',
-            description: res.error,
+            description: t(res.error),
           });
         } else if (res.success) {
           toast({
-            title: 'Pieveinots Pie favoritiem!',
-            description: res.success,
+            title: t('success'),
+            description: t(res.success),
           });
           setFavorite(true);
         } else {
           toast({
-            title: 'Nonemts no favoritiem!',
-            description: res.success1,
+            title: t('success'),
+            description: t(res.success1 || t('removedFromFav')),
           });
           setFavorite(false);
         }
@@ -161,7 +163,7 @@ export const ProductCard = ({
                   }}
                   disabled={isPending}
                 >
-                  <ShoppingCart /> Pievienot grozam
+                  <ShoppingCart /> {t('atc')}
                 </Button>
               </>
             )}
