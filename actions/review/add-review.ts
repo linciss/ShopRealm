@@ -12,11 +12,11 @@ export const addReview = async (
 ) => {
   const session = await auth();
 
-  if (!session?.user.id) return { error: 'Liettoajs nav autorizets!' };
+  if (!session?.user.id) return { error: 'authError' };
 
   const validateData = reviewSchema.safeParse(data);
 
-  if (!validateData.success) return { error: 'Kluda ar datiem!' };
+  if (!validateData.success) return { error: 'validationError' };
 
   const { rating, comment } = validateData.data;
 
@@ -33,14 +33,14 @@ export const addReview = async (
       },
     });
 
-    if (!hasBoughtProduct) return { error: 'Nav nopirkts produkts!' };
+    if (!hasBoughtProduct) return { error: 'notBought' };
 
     // checks if user has already reviewed a product
     const review = await prisma.review.findFirst({
       where: { userId, productId },
     });
 
-    if (review) return { error: 'Atsauksme jau pastav!' };
+    if (review) return { error: 'reviewActive' };
 
     // creates the review
     await prisma.review.create({
@@ -54,11 +54,11 @@ export const addReview = async (
 
     revalidatePath(`/products/${productId}`);
 
-    return { success: 'Atsaukme pievienota!' };
+    return { success: 'reviewSubmitted' };
   } catch (err) {
     if (err instanceof Error) {
       console.log('Error: ', err.stack);
     }
-    return { error: 'Kļūda apstrādājot datus' };
+    return { error: 'validationError' };
   }
 };

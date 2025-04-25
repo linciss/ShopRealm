@@ -10,6 +10,7 @@ import {
   CardHeader,
 } from '@/components/ui/card';
 import { ReviewActions } from './review-actions';
+import { useTranslation } from 'react-i18next';
 
 interface Review {
   id: string;
@@ -31,6 +32,7 @@ export const ReviewSection = ({
   userReviewData,
 }: ReviewSectionProps) => {
   const [pageSkip, setPageSkip] = useState<number>(0);
+  const { t } = useTranslation();
 
   return (
     <div className='space-y-4 flex flex-col'>
@@ -87,7 +89,7 @@ export const ReviewSection = ({
               }}
               disabled={pageSkip === 0}
             >
-              Radit pagaisejas
+              {t('showPrev')}
             </Button>
             <Button
               variant={'outline'}
@@ -97,7 +99,7 @@ export const ReviewSection = ({
               }}
               disabled={pageSkip + 3 >= reviews.length}
             >
-              Radit nakamas
+              {t('showNext')}
             </Button>
           </>
         )}

@@ -12,11 +12,11 @@ export const editReview = async (
 ) => {
   const session = await auth();
 
-  if (!session?.user.id) return { error: 'Lietotajs nav autorizets!' };
+  if (!session?.user.id) return { error: 'authError' };
 
   const validateData = reviewSchema.safeParse(data);
 
-  if (!validateData.success) return { error: 'Kluda validejot datusS' };
+  if (!validateData.success) return { error: 'validationError' };
 
   const { rating, comment } = validateData.data;
 
@@ -38,11 +38,11 @@ export const editReview = async (
 
     revalidatePath(`/products/${editedReview.productId}`);
 
-    return { success: 'Redigeta atsauksme' };
+    return { success: 'reviewUpdated' };
   } catch (err) {
     if (err instanceof Error) {
       console.log(err);
     }
-    return { error: 'Kluda validejot datus' };
+    return { error: 'validationError' };
   }
 };

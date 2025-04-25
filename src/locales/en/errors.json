@@ -3,5 +3,8 @@
   "1item": "Must have atleast 1 quantity!",
   "prodNotFound": "Product not found",
   "prodNotAvailable": "Product not available",
-  "validationError": "Validation error"
+  "validationError": "Validation error",
+  "notBought": "You haven't bought this product",
+  "reviewActive": "You have already reviewed this product",
+  "reviewNotFound": "Review not found."
 }

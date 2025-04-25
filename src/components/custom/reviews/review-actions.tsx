@@ -6,6 +6,7 @@ import { Trash } from 'lucide-react';
 import { useTransition } from 'react';
 import { ReviewDialog } from '../products/review-dialog';
 import { deleteReview } from '../../../../actions/review/delete-review';
+import { useTranslation } from 'react-i18next';
 
 interface Review {
   id: string;
@@ -19,6 +20,7 @@ interface ReviewActionsProps {
 
 export const ReviewActions = ({ reviewData }: ReviewActionsProps) => {
   const [isPending, startTransition] = useTransition();
+  const { t } = useTranslation();
 
   const { toast } = useToast();
   const handleDeleteReview = () => {
@@ -26,14 +28,14 @@ export const ReviewActions = ({ reviewData }: ReviewActionsProps) => {
       deleteReview(reviewData.id).then((res) => {
         if (res.error) {
           toast({
-            title: 'Kluda!',
-            description: res.error,
+            title: t('error'),
+            description: t(`errors:${res.error}`),
             variant: 'destructive',
           });
         } else {
           toast({
-            title: 'Veiksmigi izdzesta atsuakmse!',
-            description: res.success,
+            title: t('success'),
+            description: t(`success:${res.success}`),
           });
         }
       });
@@ -52,7 +54,7 @@ export const ReviewActions = ({ reviewData }: ReviewActionsProps) => {
         disabled={isPending}
       >
         <Trash />
-        Dzest
+        {t('deleteReview')}
       </Button>
     </div>
   );

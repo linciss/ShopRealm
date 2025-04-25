@@ -5,7 +5,7 @@ import { ProductPageInfo } from '@/components/custom/products/product-page-info'
 import { ViewTracker } from '@/components/custom/products/view-tracker';
 
 type Props = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; locale: string }>;
 };
 
 // generates metadata for the page based on the product id
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ProductPage({ params }: Props) {
-  const { id } = await params;
+  const { id, locale } = await params;
 
   const productData = await getProduct(id);
 
@@ -29,7 +29,7 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <div className='space-y-4  max-w-7xl mx-auto '>
-      <ProductPageInfo productData={productData} />
+      <ProductPageInfo productData={productData} locale={locale} />
       <ViewTracker productId={productData.id} />
     </div>
   );

@@ -36,8 +36,9 @@ interface ProductProps {
         salePrice: string | null;
       }
     | undefined;
+  locale: string;
 }
-export const ProductPreview = ({ productData }: ProductProps) => {
+export const ProductPreview = ({ productData, locale }: ProductProps) => {
   if (!productData) return;
 
   return (
@@ -119,6 +120,7 @@ export const ProductPreview = ({ productData }: ProductProps) => {
         reviews={productData.reviews}
         details={productData.details}
         specifications={productData.specifications || null}
+        locale={locale}
       />
     </div>
   );

@@ -8,7 +8,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 export const deleteReview = async (reviewId: string) => {
   const session = await auth();
 
-  if (!session?.user.id) return { error: 'Lietotajs nav autorizets!' };
+  if (!session?.user.id) return { error: 'authError' };
 
   const userId = session.user.id;
 
@@ -25,14 +25,14 @@ export const deleteReview = async (reviewId: string) => {
 
     revalidatePath(`/products/${deletedReview?.productId}`);
 
-    return { success: 'Veiksmigi izdzesta atsuaksme!' };
+    return { success: 'reviewDeleted' };
   } catch (error) {
     // return prisma error so i dont have to query database to check if product exists
     if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === 'P2025') return { error: 'Nav atrasta atsauksme!' };
-      return { error: 'Kļūda apstrādājot datus' };
+      if (error.code === 'P2025') return { error: 'reviewNotFound' };
+      return { error: 'validationError' };
     } else {
-      return { error: 'Kļūda apstrādājot datus' };
+      return { error: 'validationError' };
     }
   }
 };

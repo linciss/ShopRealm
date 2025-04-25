@@ -13,9 +13,10 @@ interface Review {
 
 interface ReviewHeaderProps {
   reviews: Review[];
+  t: (value: string) => string;
 }
 
-export const ReviewHeader = ({ reviews }: ReviewHeaderProps) => {
+export const ReviewHeader = ({ reviews, t }: ReviewHeaderProps) => {
   const reviewCount = reviews.length;
   const calculatePercentage = (rating: number) => {
     return (
@@ -35,7 +36,8 @@ export const ReviewHeader = ({ reviews }: ReviewHeaderProps) => {
         </h3>
         <ReviewStars averageReview={calculateAverageRating(reviews)} />
         <p className='text-sm text-muted-foreground'>
-          {reviews.length} {reviews.length === 1 ? 'atsauksme' : 'atsauksmes'}
+          {reviews.length}{' '}
+          {reviews.length === 1 ? t('reviewStat') : t('reviewStats')}
         </p>
       </div>
       <div className='flex-1'>

@@ -18,7 +18,6 @@ import { useState, useTransition } from 'react';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -28,6 +27,7 @@ import { addReview } from '../../../../actions/review/add-review';
 import { useParams } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { editReview } from '../../../../actions/review/edit-review';
+import { useTranslation } from 'react-i18next';
 
 interface Review {
   id: string;
@@ -59,6 +59,7 @@ export const ReviewDialog = ({
   });
 
   const [isPending, startTransition] = useTransition();
+  const { t } = useTranslation();
 
   const { toast } = useToast();
 
@@ -68,14 +69,14 @@ export const ReviewDialog = ({
         addReview(data, params.id).then((res) => {
           if (res.error) {
             toast({
-              title: 'Kluda!',
-              description: res.error,
+              title: t('error'),
+              description: t(`errors:${res.error}`),
               variant: 'destructive',
             });
           } else {
             toast({
-              title: 'Atsauksme izveidota!',
-              description: res.success,
+              title: t('success'),
+              description: t(`success:${res.success}`),
             });
             setOpen(false);
           }
@@ -86,14 +87,14 @@ export const ReviewDialog = ({
         editReview(data, reviewData?.id as string).then((res) => {
           if (res.error) {
             toast({
-              title: 'Kluda!',
-              description: res.error,
+              title: t('error'),
+              description: t(`errors:${res.error}`),
               variant: 'destructive',
             });
           } else {
             toast({
-              title: 'Atsauksme redigeta!',
-              description: res.success,
+              title: t('success'),
+              description: t(`success:${res.success}`),
             });
             setOpen(false);
           }
@@ -110,7 +111,7 @@ export const ReviewDialog = ({
           disabled={!userEligibleForReview && !editing}
         >
           {editing && <Edit />}
-          {!editing ? 'Rakstit atsauksmi' : 'Rediget atsauksmi'}
+          {!editing ? t('writeReview') : t('editReview')}
         </Button>
       </DialogTrigger>
       <DialogContent
@@ -118,7 +119,7 @@ export const ReviewDialog = ({
         aria-describedby='Review dialog'
       >
         <DialogHeader>
-          <DialogTitle>Atsauksme</DialogTitle>
+          <DialogTitle>{t('review')}</DialogTitle>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -130,7 +131,7 @@ export const ReviewDialog = ({
                     name='rating'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Reitings</FormLabel>
+                        <FormLabel>{t('reviewRating')}</FormLabel>
                         <FormControl>
                           <div className='relative'>
                             <div className='flex flex-row flex-nowrap items-center'>
@@ -162,9 +163,6 @@ export const ReviewDialog = ({
                             </div>
                           </div>
                         </FormControl>
-                        <FormDescription>
-                          Sis ir produkta vertejums
-                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -177,13 +175,11 @@ export const ReviewDialog = ({
                   name='comment'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Koments</FormLabel>
+                      <FormLabel>{t('reviewComment')}</FormLabel>
                       <FormControl>
-                        <Input placeholder='Labs produkts!' {...field} />
+                        <Input placeholder='...' {...field} />
                       </FormControl>
-                      <FormDescription>
-                        So vares lasit citi lietotaji
-                      </FormDescription>
+
                       <FormMessage />
                     </FormItem>
                   )}
@@ -192,7 +188,7 @@ export const ReviewDialog = ({
             </div>
             <DialogFooter>
               <Button disabled={isPending} type='submit'>
-                {editing ? 'Rediget astsauksmi' : 'Veidot atsauksmi'}
+                {t('submit')}
               </Button>
             </DialogFooter>
           </form>

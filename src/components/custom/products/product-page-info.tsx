@@ -19,6 +19,7 @@ import { getRelatedProducts } from '../../../../data/product';
 import { ProductCard } from '../product-card';
 import { auth } from '../../../../auth';
 import { formatCurrency } from './../../../lib/format-currency';
+import initTranslations from '@/app/i18n';
 
 interface ProductProps {
   productData:
@@ -51,9 +52,13 @@ interface ProductProps {
         };
       }
     | undefined;
+  locale: string;
 }
 
-export const ProductPageInfo = async ({ productData }: ProductProps) => {
+export const ProductPageInfo = async ({
+  productData,
+  locale,
+}: ProductProps) => {
   if (!productData) return;
 
   const session = await auth();
@@ -65,18 +70,26 @@ export const ProductPageInfo = async ({ productData }: ProductProps) => {
     productData.id,
   );
 
+  const { t } = await initTranslations(locale || 'en', [
+    'productPage',
+    'errors',
+    'success',
+  ]);
+
   return (
     <div className=' px-2 md:px-4 '>
       <div className='py-4'>
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href='/products'>Produkti</BreadcrumbLink>
+              <BreadcrumbLink href='/products'>
+                {t('productHeading')}
+              </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbLink href={`/category/${productData.category[0]}`}>
-                {categoryMap[productData.category[0]].label}
+                {t(categoryMap[productData.category[0]].id)}
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />
@@ -108,7 +121,7 @@ export const ProductPageInfo = async ({ productData }: ProductProps) => {
                 target='_blank'
                 prefetch={false}
               >
-                Veikals: {productData.store.name}
+                {t('shop')}: {productData.store.name}
               </Link>
             </div>
             <div className='flex flex-row items-center gap-1'>
@@ -116,7 +129,7 @@ export const ProductPageInfo = async ({ productData }: ProductProps) => {
                 averageReview={calculateAverageRating(productData.reviews)}
               />
               <p className='text-sm text-muted-foreground'>
-                ({productData.reviews.length} atsauksmes)
+                ({productData.reviews.length} {t('reviews')})
               </p>
             </div>
           </div>
@@ -141,27 +154,27 @@ export const ProductPageInfo = async ({ productData }: ProductProps) => {
                 productData.quantity < 5 ? 'text-red-600' : 'text-green-800'
               }`}
             >
-              Atlicis nolitava (
+              {t('stockLeft')} (
               {productData.quantity === 1
-                ? `${productData.quantity} gabals`
-                : `${productData.quantity} gabali`}
+                ? `${productData.quantity} ${t('item')}`
+                : `${productData.quantity} ${t('items')}`}
               )
             </p>
           </div>
           <SelectSeparator />
           <div>
-            <p className='font-medium '>Deskripcija</p>
+            <p className='font-medium '>{t('productDescription')}</p>
             <p className='text-muted-foreground'>{productData.description}</p>
           </div>
           <div className='flex flex-col gap-2'>
-            <p className='font-medium'>Kategorijas</p>
+            <p className='font-medium'>{t('categories')}</p>
             <div className='flex gap-2 flex-wrap'>
               {productData.category.map((category) => (
                 <span
                   key={category}
                   className=' py-1 px-3 rounded-full bg-muted text-primary text-xs font-medium'
                 >
-                  {categoryMap[category].label}
+                  {t(categoryMap[category].id)}
                 </span>
               ))}
             </div>
@@ -181,10 +194,11 @@ export const ProductPageInfo = async ({ productData }: ProductProps) => {
         specifications={productData.specifications || null}
         preview={false}
         userReviewId={userReview}
+        locale={locale}
       />
 
-      <div className='mt-5'>
-        <h3 className='text-2xl font-semibold'>Jums varetu ari patikt</h3>
+      <div className='mt-5 space-y-5'>
+        <h3 className='text-2xl font-semibold'>{t('productsYouMayLike')}</h3>
         <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
           {relatedProducts?.map((prod) => (
             <ProductCard key={prod.id} productData={prod} session={session} />

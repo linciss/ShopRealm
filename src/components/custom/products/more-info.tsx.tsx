@@ -6,6 +6,7 @@ import { ReviewSection } from '../reviews/review-section';
 import { ReviewHeader } from '../reviews/review-header';
 import { ReviewDialog } from './review-dialog';
 import { auth } from '../../../../auth';
+import initTranslations from '@/app/i18n';
 
 interface Review {
   id: string;
@@ -23,6 +24,7 @@ interface MoreInfoProps {
   reviews: Review[];
   preview?: boolean;
   userReviewId?: string;
+  locale: string;
 }
 
 export const MoreInfo = async ({
@@ -31,8 +33,10 @@ export const MoreInfo = async ({
   reviews,
   preview = true,
   userReviewId,
+  locale,
 }: MoreInfoProps) => {
   const session = await auth();
+  const { t } = await initTranslations(locale, ['productPage']);
 
   let filteredReviews: Review[];
   let userReviewData: Review | undefined;
@@ -49,6 +53,8 @@ export const MoreInfo = async ({
     userReviewData = undefined;
   }
 
+  const parsedSpecifications: [] = JSON.parse(specifications || '');
+
   return (
     <div className='mt-5'>
       <Tabs defaultValue='details' className=' w-full'>
@@ -57,25 +63,25 @@ export const MoreInfo = async ({
             className='data-[state=active]:shadow-none rounded-none '
             value='details'
           >
-            Produkta detalas
+            {t('productDetails')}
           </TabsTrigger>
           <TabsTrigger
             className='data-[state=active]:shadow-none rounded-none'
             value='specifications'
           >
-            Specifikacijas
+            {t('specs')}
           </TabsTrigger>
           <TabsTrigger
             className=' data-[state=active]:shadow-none rounded-none'
             value='reviews'
           >
-            Atsauksmes ({reviews.length})
+            {t('reviews')} ({reviews.length})
           </TabsTrigger>
         </TabsList>
         <TabsContent value='details' className='w-full space-y-20 '>
           <Card className='mt-5 '>
             <CardHeader>
-              <h3 className='text-xl font-semibold'>Produkta detalas</h3>
+              <h3 className='text-xl font-semibold'>{t('productDetails')}</h3>
             </CardHeader>
             <CardContent>
               <div
@@ -88,13 +94,13 @@ export const MoreInfo = async ({
         <TabsContent value='specifications'>
           <Card className='mt-5'>
             <CardHeader>
-              <h3 className='text-xl font-semibold'>Produkta specifikacija</h3>
+              <h3 className='text-xl font-semibold'>{t('specs')}</h3>
             </CardHeader>
             <CardContent>
-              {specifications && specifications.length > 0 ? (
+              {parsedSpecifications && parsedSpecifications.length > 0 ? (
                 <Table>
                   <TableBody>
-                    {JSON.parse(specifications).map(
+                    {parsedSpecifications.map(
                       (specification: Specification) => (
                         <TableRow
                           key={specification.key}
@@ -110,9 +116,7 @@ export const MoreInfo = async ({
                   </TableBody>
                 </Table>
               ) : (
-                <p className='text-muted-foreground'>
-                  Nav tehniskas specifikacijas
-                </p>
+                <p className='text-muted-foreground'>{t('noSpec')}</p>
               )}
             </CardContent>
           </Card>
@@ -120,7 +124,7 @@ export const MoreInfo = async ({
         <TabsContent value='reviews'>
           <Card className='mt-5 '>
             <CardHeader className='flex flex-row gap-2 items-center'>
-              <ReviewHeader reviews={reviews} />
+              <ReviewHeader reviews={reviews} t={t} />
               {!preview && session?.user.id && (
                 <div className='px-4'>
                   <ReviewDialog

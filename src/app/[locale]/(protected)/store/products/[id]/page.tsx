@@ -7,7 +7,7 @@ import { ProductPreview } from '@/components/custom/shop/products/product-previe
 import { getFullStoreProductData } from '../../../../../../../data/store';
 
 type Props = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; locale: string }>;
 };
 
 // generates metadata for the page based on the product id
@@ -23,7 +23,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ProductPagePreview({ params }: Props) {
-  const { id } = await params;
+  const { id, locale } = await params;
 
   const productData = await getFullStoreProductData(id);
 
@@ -47,7 +47,7 @@ export default async function ProductPagePreview({ params }: Props) {
           <div className='bg-primary/10 text-primary px-4 py-2 text-sm font-medium rounded-t-md'>
             Preces apskatisana - klienti redzes tavui produktu sadi
           </div>
-          <ProductPreview productData={productData} />
+          <ProductPreview locale={locale} productData={productData} />
         </div>
       </div>
     </div>
