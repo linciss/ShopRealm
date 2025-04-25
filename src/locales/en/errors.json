@@ -6,5 +6,9 @@
   "validationError": "Validation error",
   "notBought": "You haven't bought this product",
   "reviewActive": "You have already reviewed this product",
-  "reviewNotFound": "Review not found."
+  "reviewNotFound": "Review not found.",
+  "wrongPassword": "Wrong password",
+  "wrongEmailOrPassword": "Wrong email or password",
+  "alreadyExists": "User already exists",
+  "passwordNotMatch": "Password does not match"
 }

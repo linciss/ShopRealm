@@ -1,5 +1,7 @@
 {
   "reviewSubmitted": "Your review has been submitted successfully.",
   "reviewUpdated": "Your review has been updated successfully.",
-  "reviewDeleted": "Your review has been deleted successfully."
+  "reviewDeleted": "Your review has been deleted successfully.",
+  "signedIn": "You have signed in successfully.",
+  "registered": "Profile created successfully."
 }

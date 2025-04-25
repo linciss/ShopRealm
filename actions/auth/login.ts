@@ -19,7 +19,7 @@ export const login = async (data: z.infer<typeof signInSchema>) => {
     });
 
     if (!user) {
-      return { error: 'Nepareia parole vai epasts!' };
+      return { error: 'wrongPassword' };
     }
 
     // calls credential authorization provider to sign in and calls signIn afterwards to double check
@@ -29,14 +29,14 @@ export const login = async (data: z.infer<typeof signInSchema>) => {
       redirectTo: DEFAULT_SIGNIN_REDIRECT,
     });
 
-    return { success: 'Ielogojies!!' };
+    return { success: 'signedIn' };
   } catch (e) {
     if (e instanceof AuthError) {
       switch (e.type) {
         case 'CredentialsSignin':
-          return { error: 'Nepareia parole vai epasts!' };
+          return { error: 'wrongEmailOrPassword' };
         default:
-          return { error: 'Error!' };
+          return { error: 'validationError' };
       }
     }
     throw e;

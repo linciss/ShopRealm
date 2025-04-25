@@ -18,7 +18,7 @@ export const register = async (data: z.infer<typeof signUpSchema>) => {
 
   if (!validateData.success) {
     return {
-      error: 'Kļūda validējot datus!',
+      error: 'validationError',
     };
   }
 
@@ -31,12 +31,12 @@ export const register = async (data: z.infer<typeof signUpSchema>) => {
 
   //  checks if user already exists
   if (existingUser) {
-    return { error: 'Lietotājs jau eksistē!' };
+    return { error: 'alreadyExists' };
   }
 
   // checks if passwords match
   if (password !== passwordConfirmation) {
-    return { error: 'Paroles nesakrīt!' };
+    return { error: 'passwordNotMatch' };
   }
   // hashes the password using bcrypt
   const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
@@ -69,14 +69,14 @@ export const register = async (data: z.infer<typeof signUpSchema>) => {
       redirectTo: DEFAULT_SIGNIN_REDIRECT,
     });
 
-    return { success: 'Veiksmigi izveidots k0onts!~' };
+    return { success: 'registered' };
   } catch (e) {
     if (e instanceof AuthError) {
       switch (e.type) {
         case 'CredentialsSignin':
-          return { error: 'Nepareia parole vai epasts!' };
+          return { error: 'wrongEmailOrPassword' };
         default:
-          return { error: 'Error!' };
+          return { error: 'error' };
       }
     } else if (e instanceof Error) {
       console.log('Error: ', e.stack);

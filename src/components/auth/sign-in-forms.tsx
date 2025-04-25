@@ -21,6 +21,7 @@ import { login } from '../../../actions/auth/login';
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from 'react-i18next';
 
 export const SignInForms = () => {
   const form = useForm<z.infer<typeof signInSchema>>({
@@ -35,6 +36,7 @@ export const SignInForms = () => {
 
   const { toast } = useToast();
   const router = useRouter();
+  const { t } = useTranslation();
 
   useEffect(() => {
     if (router) {
@@ -47,14 +49,14 @@ export const SignInForms = () => {
       login(data).then((res) => {
         if (res?.error) {
           toast({
-            title: 'Kluda!',
-            description: res.error,
+            title: t('error'),
+            description: t(`errors:${res.error}`),
             variant: 'destructive',
           });
         } else {
           toast({
-            title: 'Ielogojies!',
-            description: res.success,
+            title: t('success'),
+            description: t(`success:${res.success}`),
           });
         }
       });
@@ -63,9 +65,9 @@ export const SignInForms = () => {
 
   return (
     <CardWrapper
-      formType='Pieslēgšanās'
-      label='Pieslēdzies, lai izmantotu visas funkcijas'
-      footerText='Nav konta? Reģistrējies un izmanto visas funkcijas'
+      formType={t('signIn')}
+      label={t('signInDesc')}
+      footerText={t('authFooter')}
       footerUrl='/auth/sign-up'
     >
       <Form {...form}>
@@ -78,7 +80,7 @@ export const SignInForms = () => {
             name='email'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Epasts</FormLabel>
+                <FormLabel>{t('email')}</FormLabel>
                 <FormControl>
                   <Input
                     type='email'
@@ -97,7 +99,7 @@ export const SignInForms = () => {
               name='password'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Parole</FormLabel>
+                  <FormLabel>{t('password')}</FormLabel>
                   <FormControl>
                     <Input
                       type='password'
@@ -111,7 +113,7 @@ export const SignInForms = () => {
               )}
             />
             <Link href='/auth/forgot-password'>
-              <p className='text-primary text-xs'>Aizmirsi paroli?</p>
+              <p className='text-primary text-xs'>{t('forgotPassword')}</p>
             </Link>
           </div>
 
@@ -121,7 +123,7 @@ export const SignInForms = () => {
             disabled={isPending}
             aria-label='Login'
           >
-            Pieslēgties
+            {t('signIn')}
           </Button>
         </form>
       </Form>

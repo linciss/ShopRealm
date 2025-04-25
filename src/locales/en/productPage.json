@@ -86,5 +86,16 @@
   "myStore": "My Store",
   "myFavorites": "My Favorites",
   "myFavoritesDesc": "Your favorite products in one place. You can add or remove products from your favorites list. You can also view the details of each product and add them to your cart. Also if they go on sale you will be notified thorugh email.",
-  "yourFav": "Your favorite products"
+  "yourFav": "Your favorite products",
+  "signIn": "Sign in",
+  "signInDesc": "Sign in to your account to be able to use all the features.",
+  "authFooter": "No account? Create one now!",
+  "email": "Email",
+  "password": "Password",
+  "forgotPassword": "Forgot password?",
+  "registerDesc": "Create an account to be able to use all the features.",
+  "alreadyHaveAccount": "Already have an account? Sign in now!",
+  "name": "Name",
+  "lastName": "Last name",
+  "confirmPassword": "Confirm password"
 }

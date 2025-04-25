@@ -20,6 +20,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
 import { useRouter } from 'next/navigation';
 import { register } from '../../../actions/auth/register';
+import { useTranslation } from 'react-i18next';
 
 export const SignUpForms = () => {
   const form = useForm<z.infer<typeof signUpSchema>>({
@@ -42,19 +43,21 @@ export const SignUpForms = () => {
     router.prefetch('/products');
   }, [router]);
 
+  const { t } = useTranslation();
+
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     startTransition(() => {
       register(data).then((res) => {
         if (res?.error) {
           toast({
-            title: 'Kluda!',
-            description: res.error,
+            title: t('error'),
+            description: t(`errors:${res.error}`),
             variant: 'destructive',
           });
         } else {
           toast({
-            title: 'Ielogojies!',
-            description: res.success,
+            title: t('success'),
+            description: t(`success:${res.success}`),
           });
         }
       });
@@ -63,9 +66,9 @@ export const SignUpForms = () => {
 
   return (
     <CardWrapper
-      formType='Reģistrācija'
-      label='Reģistrējies, lai izmantotu visas funkcijas'
-      footerText='Jau ir konts? Pieslēdzies un izmanto visas funkcijas'
+      formType={t('register')}
+      label={t('registerDesc')}
+      footerText={t('alreadyHaveAccount')}
       footerUrl='/auth/sign-in'
     >
       <Form {...form}>
@@ -79,7 +82,7 @@ export const SignUpForms = () => {
               name='name'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Vārds</FormLabel>
+                  <FormLabel>{t('name')}</FormLabel>
                   <FormControl>
                     <Input type='name' placeholder='John' {...field} required />
                   </FormControl>
@@ -92,7 +95,7 @@ export const SignUpForms = () => {
               name='lastName'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Uzvārds</FormLabel>
+                  <FormLabel>{t('lastName')}</FormLabel>
                   <FormControl>
                     <Input
                       type='lastName'
@@ -111,7 +114,7 @@ export const SignUpForms = () => {
             name='email'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Epasts</FormLabel>
+                <FormLabel>{t('email')}</FormLabel>
                 <FormControl>
                   <Input
                     type='email'
@@ -129,7 +132,7 @@ export const SignUpForms = () => {
             name='password'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Parole</FormLabel>
+                <FormLabel>{t('password')}</FormLabel>
                 <FormControl>
                   <Input
                     type='password'
@@ -147,7 +150,7 @@ export const SignUpForms = () => {
             name='passwordConfirmation'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Parole atkārtoti</FormLabel>
+                <FormLabel>{t('confirmPassword')}</FormLabel>
                 <FormControl>
                   <Input
                     type='password'
@@ -166,7 +169,7 @@ export const SignUpForms = () => {
             disabled={isPending}
             aria-label='Register'
           >
-            Registreties
+            {t('register')}
           </Button>
         </form>
       </Form>

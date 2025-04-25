@@ -43,9 +43,9 @@
 - [ ] Store page
 - [ ] Cart
 - [ ] Checkout
-- [ ] AUth
+- [x] AUth
 - [x] Nav
 - [x] favorite
-- [ ] 
+- [ ] checkout
 
 
