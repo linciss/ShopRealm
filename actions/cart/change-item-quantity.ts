@@ -11,19 +11,19 @@ export const changeItemQuantity = async (
 ) => {
   const session = await auth();
 
-  if (!session?.user.id) return { error: 'Lietotajs nav autorizets!' };
+  if (!session?.user.id) return { error: 'authError' };
 
   try {
     const cart = await getUserCart();
 
-    if (!cart) return { error: 'Kluda ar grozu!' };
+    if (!cart) return { error: 'cartError' };
 
     const product = await prisma.product.findUnique({
       where: { id: productId },
       select: { quantity: true, name: true },
     });
 
-    if (!product) return { error: 'Produkts nav atrasts!' };
+    if (!product) return { error: 'prodNotFound' };
 
     const newQuantity = Math.min(quantity, product.quantity);
 
@@ -35,11 +35,11 @@ export const changeItemQuantity = async (
     });
 
     revalidatePath('/cart');
-    return { success: 'Samainits daudzums!' };
+    return { success: 'quantityChanged' };
   } catch (err) {
     if (err instanceof Error) {
       console.log(err);
     }
-    return { error: 'Kluda validejot datus' };
+    return { error: 'validationError' };
   }
 };

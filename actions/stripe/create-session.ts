@@ -14,7 +14,7 @@ export const createCheckoutSession = async (
 ) => {
   const session = await auth();
 
-  if (!session?.user.id) return { error: 'Leitotajs nav autorizets' };
+  if (!session?.user.id) return { error: 'authError' };
 
   const user = await prisma.user.findUnique({
     where: {
@@ -23,12 +23,12 @@ export const createCheckoutSession = async (
   });
 
   if (!user?.emailVerified) {
-    return { error: 'Lietotajs nav veriricejis epastu' };
+    return { error: 'errorEmail' };
   }
 
   const validateData = shippingInfoSchema.safeParse(data);
 
-  if (validateData.error) return { error: 'Kluda validejot datus!' };
+  if (validateData.error) return { error: 'validationError' };
 
   const { name, lastName, phone, street, city, country, postalCode } =
     validateData.data;
@@ -54,7 +54,7 @@ export const createCheckoutSession = async (
       });
     }
     const cart = await getUserCart();
-    if (!cart) return { error: 'Groza kluda!' };
+    if (!cart) return { error: 'cartError' };
 
     const cartItems = await prisma.cartItem.findMany({
       where: { cartId: cart.id },
@@ -70,7 +70,8 @@ export const createCheckoutSession = async (
         .map((item) => item.product.name)
         .join(', ');
       return {
-        error: `Produkti: ${productNames} ir vairak neko noliktava!`,
+        error: `moreThanInStock`,
+        productNames,
       };
     }
 
@@ -82,7 +83,13 @@ export const createCheckoutSession = async (
           name: item.product.name,
           description: item.product.description || undefined,
         },
-        unit_amount: Math.round(parseFloat(item.product.price) * 100),
+        unit_amount: Math.round(
+          parseFloat(
+            item.product.sale
+              ? item.product.salePrice || item.product.price
+              : item.product.price,
+          ) * 100,
+        ),
       },
     }));
 

@@ -9,12 +9,12 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 export const removeItem = async (productId: string) => {
   const session = await auth();
 
-  if (!session?.user.id) return { error: 'Lietotjas nav autorizets!' };
+  if (!session?.user.id) return { error: 'authError' };
 
   try {
     const cart = await getUserCart();
 
-    if (!cart) return { error: 'Kluda ar grozu!' };
+    if (!cart) return { error: 'cartError' };
 
     await prisma.cartItem.deleteMany({
       where: { cartId: cart.id, productId },
@@ -31,6 +31,8 @@ export const removeItem = async (productId: string) => {
             price: true,
             image: true,
             quantity: true,
+            sale: true,
+            salePrice: true,
           },
         },
       },
@@ -39,16 +41,16 @@ export const removeItem = async (productId: string) => {
     revalidatePath('/cart');
 
     return {
-      success: 'izdzests produkts no groza!',
+      success: 'removed',
       cartItems: updatedCartItems,
     };
   } catch (error) {
     // return prisma error so i dont have to query database to check if product exists
     if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === 'P2025') return { error: 'Nav atrasts produkts!' };
-      return { error: 'Kļūda apstrādājot datus' };
+      if (error.code === 'P2025') return { error: 'prodNotFound!' };
+      return { error: 'validationError' };
     } else {
-      return { error: 'Kļūda apstrādājot datus' };
+      return { error: 'validationError' };
     }
   }
 };

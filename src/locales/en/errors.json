@@ -10,5 +10,7 @@
   "wrongPassword": "Wrong password",
   "wrongEmailOrPassword": "Wrong email or password",
   "alreadyExists": "User already exists",
-  "passwordNotMatch": "Password does not match"
+  "passwordNotMatch": "Password does not match",
+  "cartError": "Cart error",
+  "cantRemove": "You can't remove this product from your cart"
 }

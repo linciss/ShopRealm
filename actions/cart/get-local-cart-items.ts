@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 
 export const getLocalCartProducts = async (productIds: string[]) => {
   try {
-    if (!productIds.length) return { error: 'Kluda!' };
+    if (!productIds.length) return { error: 'error' };
 
     const products = await prisma.product.findMany({
       where: { id: { in: productIds } },
@@ -14,6 +14,8 @@ export const getLocalCartProducts = async (productIds: string[]) => {
         price: true,
         image: true,
         quantity: true,
+        sale: true,
+        salePrice: true,
       },
     });
 
@@ -23,6 +25,6 @@ export const getLocalCartProducts = async (productIds: string[]) => {
     if (err instanceof Error) {
       console.log(err);
     }
-    return { error: 'KLUDA!' };
+    return { error: 'error' };
   }
 };

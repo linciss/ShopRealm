@@ -52,6 +52,8 @@ export const getCartProducts = async () => {
                     name: true,
                     price: true,
                     quantity: true,
+                    sale: true,
+                    salePrice: true,
                   },
                 },
                 quantity: true,

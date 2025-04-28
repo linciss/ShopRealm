@@ -35,6 +35,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip';
+import { useTranslation } from 'react-i18next';
 
 interface User {
   email: string;
@@ -75,17 +76,17 @@ export const CheckoutForm = ({ userInfo }: CheckoutProps) => {
 
   const { toast } = useToast();
 
-  const onSubmit = (data: z.infer<typeof shippingInfoSchema>) => {
-    console.log(data);
+  const { t } = useTranslation();
 
+  const onSubmit = (data: z.infer<typeof shippingInfoSchema>) => {
     startTransition(() => {
       createCheckoutSession(redirectUrl || '', data, saveInfo).then((res) => {
         if (res.url) {
           window.location.href = res.url;
         } else {
           toast({
-            title: 'Kluda!',
-            description: res.error,
+            title: t('error'),
+            description: `${t(res.error || 'error')}, ${res.productNames}`,
             variant: 'destructive',
           });
         }
@@ -98,11 +99,10 @@ export const CheckoutForm = ({ userInfo }: CheckoutProps) => {
       <Card>
         <CardHeader className='flex flex-col space-y-2'>
           <div className='flex flex-row items-center justify-between'>
-            <h2 className='text-2xl font-semibold'>Pasutijuma dati</h2>
-
+            <h2 className='text-2xl font-semibold'>{t('orderDetails')}</h2>
             <div className='flex items-center text-sm text-muted-foreground'>
               <User className='h-4 w-4 mr-2' />
-              <span>Izmantoti profila dati</span>
+              <span>{t('usedProfileData')}</span>
               <Button
                 variant='ghost'
                 size='sm'
@@ -116,7 +116,7 @@ export const CheckoutForm = ({ userInfo }: CheckoutProps) => {
                   });
                 }}
               >
-                Notirit adresi
+                {t('clearAddress')}
               </Button>
             </div>
           </div>
@@ -133,7 +133,7 @@ export const CheckoutForm = ({ userInfo }: CheckoutProps) => {
                   name='name'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Vards</FormLabel>
+                      <FormLabel>{t('name')}</FormLabel>
                       <FormControl>
                         <Input
                           type='text'
@@ -152,7 +152,7 @@ export const CheckoutForm = ({ userInfo }: CheckoutProps) => {
                   name='lastName'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Uzvards</FormLabel>
+                      <FormLabel>{t('lastName')}</FormLabel>
                       <FormControl>
                         <Input
                           type='text'
@@ -168,13 +168,11 @@ export const CheckoutForm = ({ userInfo }: CheckoutProps) => {
               </div>
               <div className='grid grid-cols-2 gap-4'>
                 <FormItem>
-                  <FormLabel>Email</FormLabel>
+                  <FormLabel>{t('email')}</FormLabel>
                   <FormControl>
                     <Input value={userInfo.email} disabled />
                   </FormControl>
-                  <FormDescription>
-                    Ja vēlies pārmainīt epastu, tad dodies uz iestatījumiem
-                  </FormDescription>
+                  <FormDescription>{t('wantChangeEmail')}</FormDescription>
                 </FormItem>
 
                 <FormField
@@ -182,7 +180,7 @@ export const CheckoutForm = ({ userInfo }: CheckoutProps) => {
                   name='phone'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Telefons</FormLabel>
+                      <FormLabel>{t('phone')}</FormLabel>
                       <FormControl>
                         <Input
                           type='phone'
@@ -202,7 +200,7 @@ export const CheckoutForm = ({ userInfo }: CheckoutProps) => {
                   name='street'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Adrese</FormLabel>
+                      <FormLabel>{t('address')}</FormLabel>
                       <FormControl>
                         <Input
                           type='text'
@@ -221,7 +219,7 @@ export const CheckoutForm = ({ userInfo }: CheckoutProps) => {
                   name='city'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Pilseta</FormLabel>
+                      <FormLabel>{t('city')}</FormLabel>
                       <FormControl>
                         <Input
                           type='text'
@@ -241,7 +239,7 @@ export const CheckoutForm = ({ userInfo }: CheckoutProps) => {
                   name='country'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Valsts</FormLabel>
+                      <FormLabel>{t('country')}</FormLabel>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
@@ -270,7 +268,7 @@ export const CheckoutForm = ({ userInfo }: CheckoutProps) => {
                   name='postalCode'
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Pasta kods</FormLabel>
+                      <FormLabel>{t('postalCode')}</FormLabel>
                       <FormControl>
                         <Input
                           type='text'
@@ -294,7 +292,7 @@ export const CheckoutForm = ({ userInfo }: CheckoutProps) => {
                   htmlFor='saveInfo'
                   className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer'
                 >
-                  Saglabat datus
+                  {t('saveData')}
                 </label>
                 <TooltipProvider>
                   <Tooltip>
@@ -303,15 +301,14 @@ export const CheckoutForm = ({ userInfo }: CheckoutProps) => {
                     </TooltipTrigger>
                     <TooltipContent>
                       <p className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer'>
-                        Mes saglabasim jusu pilno adresi, ka ari jusu telefona
-                        numuru musu serveros
+                        {t('saveDataInfo')}
                       </p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
               </div>
               <Button disabled={isPending} onClick={() => {}}>
-                Maksat
+                {t('placeOrder')}
               </Button>
             </form>
           </Form>

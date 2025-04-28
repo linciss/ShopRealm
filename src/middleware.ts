@@ -67,23 +67,35 @@ export default auth(async (req) => {
 
   if (isAuthRoute) {
     if (isLoggedIn) {
-      return NextResponse.redirect(new URL(DEFAULT_SIGNIN_REDIRECT, nextUrl));
+      return (
+        NextResponse.redirect(new URL(DEFAULT_SIGNIN_REDIRECT, nextUrl)) &&
+        i18nRouter(req, i18nConfig)
+      );
     }
     return NextResponse.next() && i18nRouter(req, i18nConfig);
   }
 
   if (!isPublicRoute && !isLoggedIn) {
-    return NextResponse.redirect(new URL('/auth/sign-in', nextUrl));
+    return (
+      NextResponse.redirect(new URL('/auth/sign-in', nextUrl)) &&
+      i18nRouter(req, i18nConfig)
+    );
   }
 
   // cehcks whether the user is a shopper and is trying to access the store route
   if (isStoreRoute && session?.role === 'SHOPPER') {
-    return NextResponse.redirect(new URL('/products', nextUrl));
+    return (
+      NextResponse.redirect(new URL('/products', nextUrl)) &&
+      i18nRouter(req, i18nConfig)
+    );
   }
 
   // checks whether the user is a store and is trying to access the public routes
   if (isShopperRoute && session?.role === 'STORE') {
-    return NextResponse.redirect(new URL('/store', nextUrl));
+    return (
+      NextResponse.redirect(new URL('/store', nextUrl)) &&
+      i18nRouter(req, i18nConfig)
+    );
   }
 
   // cehcks if user has been redirected to fallback site which means that user has no session and deletes their cookies
@@ -91,7 +103,10 @@ export default auth(async (req) => {
     await signOut({
       redirect: false,
     });
-    return NextResponse.redirect(new URL('/auth/sign-in', nextUrl));
+    return (
+      NextResponse.redirect(new URL('/auth/sign-in', nextUrl)) &&
+      i18nRouter(req, i18nConfig)
+    );
   }
 
   return NextResponse.next() && i18nRouter(req, i18nConfig);

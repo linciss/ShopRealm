@@ -13,12 +13,12 @@ interface LocalProducts {
 export const syncCart = async (localProducts: LocalProducts[]) => {
   const session = await auth();
 
-  if (!session?.user.id) return { error: 'Lietotajs nav autorizets!' };
+  if (!session?.user.id) return { error: 'authError' };
 
   try {
     const cart = await getUserCart();
 
-    if (!cart) return { error: 'Kluda!' };
+    if (!cart) return { error: 'cartError' };
 
     for (const item of localProducts) {
       const product = await prisma.product.findUnique({
@@ -62,17 +62,19 @@ export const syncCart = async (localProducts: LocalProducts[]) => {
             price: true,
             image: true,
             quantity: true,
+            sale: true,
+            salePrice: true,
           },
         },
       },
     });
 
     revalidatePath('/cart');
-    return { success: 'Grozs sinhronizets!', cartItems: updatedCartItems };
+    return { success: 'cartSynced', cartItems: updatedCartItems };
   } catch (err) {
     if (err instanceof Error) {
       console.log(err);
     }
-    return { error: 'Kluda apstradajot datus!' };
+    return { error: 'validationError' };
   }
 };

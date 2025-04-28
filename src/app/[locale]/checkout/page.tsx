@@ -5,21 +5,29 @@ import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 import { VerifyEmailBanner } from '@/components/custom/verify-email-banner';
-import { FALLBACK_REDIRECT } from '../../../../routes';
 import { getUserShippingInfo } from '../../../../data/user-data';
+import initTranslations from '@/app/i18n';
 
 interface CheckoutPageProps {
   searchParams: Promise<{ sum: number }>;
+  params: Promise<{ locale: string }>;
 }
 
 export default async function CheckoutPage({
   searchParams,
+  params,
 }: CheckoutPageProps) {
   const user = await getUserShippingInfo();
-
+  const { locale } = await params;
   if (!user) {
-    redirect(FALLBACK_REDIRECT);
+    redirect('/cart');
   }
+
+  const { t } = await initTranslations(locale, [
+    'productPage',
+    'errors',
+    'success',
+  ]);
 
   const subTotal = (await searchParams).sum;
 
@@ -33,11 +41,11 @@ export default async function CheckoutPage({
             <ArrowLeft />
           </Button>
         </Link>
-        <h2 className='text-3xl font-bold'>Pasutisana</h2>
+        <h2 className='text-3xl font-bold'>{t('checkout')}</h2>
       </div>
       <div className='w-full grid grid-cols-1 md:grid-cols-3  gap-6 md:flex-row'>
         <CheckoutForm userInfo={user} />
-        <SumCard subTotal={subTotal} isCheckout={true} />
+        <SumCard subTotal={subTotal} isCheckout={true} t={t} />
       </div>
     </div>
   );

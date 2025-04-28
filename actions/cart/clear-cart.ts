@@ -8,12 +8,12 @@ import { getUserCart } from '../../data/cart';
 export const clearCart = async () => {
   const session = await auth();
 
-  if (!session?.user.id) return { error: 'Lietotajs nav autoriz' };
+  if (!session?.user.id) return { error: 'authError' };
 
   try {
     const cart = await getUserCart();
 
-    if (!cart) return { error: 'Kluda ar grozu!' };
+    if (!cart) return { error: 'cartError' };
 
     const updatedCartItems = await prisma.cartItem.deleteMany({
       where: { cartId: cart.id },
@@ -22,16 +22,16 @@ export const clearCart = async () => {
     revalidatePath('/cart');
 
     return {
-      success: 'Grozs iztirits!',
+      success: 'cleared',
       cartItems: updatedCartItems,
     };
   } catch (error) {
     // return prisma error so i dont have to query database to check if product exists
     if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === 'P2025') return { error: 'Nav atrasts produkts!' };
-      return { error: 'Kļūda apstrādājot datus' };
+      if (error.code === 'P2025') return { error: 'prodNotFound' };
+      return { error: 'validationError' };
     } else {
-      return { error: 'Kļūda apstrādājot datus' };
+      return { error: 'validationError' };
     }
   }
 };

@@ -77,7 +77,11 @@ export const ProductCard = ({
       if (cartItem) {
         cartItem.quantity += 1;
       } else {
-        cart.push({ id: productData.id, quantity: 1 });
+        cart.push({
+          id: productData.id,
+          quantity: 1,
+          price: productData.price,
+        });
       }
 
       localStorage.setItem('addToCart', JSON.stringify(cart));

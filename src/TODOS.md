@@ -34,6 +34,7 @@
 - [x] send email to poeple when a favorite item of theirs go on sale?
 - [ ] remove product from cart if for example its deleted, threw some error gotta look into that
 - [x] sale price implementation
+- [ ] more error handlinmg when ordering item in stripe!
 
 # TRANSLATIONS TODO 
 
@@ -41,11 +42,14 @@
 - [x] reviews
 - [ ] Profile
 - [ ] Store page
-- [ ] Cart
-- [ ] Checkout
+- [x] Cart
+- [x] Checkout
 - [x] AUth
 - [x] Nav
 - [x] favorite
 - [x] checkout success
+- [ ] footer
+- [ ] 
+
 
 

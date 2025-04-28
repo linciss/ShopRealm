@@ -12,6 +12,7 @@ import { CartItem } from './cart-item';
 import { changeItemQuantity } from '../../../../actions/cart/change-item-quantity';
 import { removeItem } from '../../../../actions/cart/remove-item';
 import { clearCart } from '../../../../actions/cart/clear-cart';
+import { useTranslation } from 'react-i18next';
 
 interface CartItem {
   product: {
@@ -20,6 +21,8 @@ interface CartItem {
     price: string;
     image: string | null;
     quantity: number;
+    sale: boolean;
+    salePrice: string | null;
   };
   quantity: number;
 }
@@ -45,6 +48,8 @@ export const CartContent = ({ session, cart }: CartContentProps) => {
   const [isPending, startTransition] = useTransition();
 
   const { toast } = useToast();
+
+  const { t } = useTranslation();
 
   //   Gets product data from backend when user is not logged in
   useEffect(() => {
@@ -90,15 +95,14 @@ export const CartContent = ({ session, cart }: CartContentProps) => {
         syncCart(localCartProducts).then((res) => {
           if (res.error) {
             toast({
-              title: 'Kluda!',
-              description: res.error,
+              title: t('error'),
+              description: t(res.error),
               variant: 'destructive',
             });
           } else {
             toast({
-              title: 'Grozs sinhronizets!',
-              description:
-                'Jusu lokalais grozs tika sinhronizets ar server grozu',
+              title: t('success'),
+              description: t(res.success || 'cartSynced'),
             });
 
             localStorage.setItem('addToCart', '[]');
@@ -108,6 +112,7 @@ export const CartContent = ({ session, cart }: CartContentProps) => {
         });
       });
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session, localCartProducts, toast]);
 
   const updateTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -122,6 +127,7 @@ export const CartContent = ({ session, cart }: CartContentProps) => {
       setCartProducts((prev) =>
         prev.filter((product) => product.product.id !== productId),
       );
+
       return;
     }
 
@@ -129,14 +135,14 @@ export const CartContent = ({ session, cart }: CartContentProps) => {
       removeItem(productId).then((res) => {
         if (res.error) {
           toast({
-            title: 'Kluda!',
-            description: res.error,
+            title: t('error'),
+            description: t(res.error),
             variant: 'destructive',
           });
         } else {
           toast({
-            title: 'Veiksmigi izdzests no groza!',
-            description: res.success,
+            title: t('success'),
+            description: t(res.success || 'removed'),
           });
           setCartProducts(res.cartItems || []);
         }
@@ -190,14 +196,14 @@ export const CartContent = ({ session, cart }: CartContentProps) => {
         changeItemQuantity(productId, quantity).then((res) => {
           if (res.error) {
             toast({
-              title: 'Kļūda!',
-              description: res.error,
+              title: t('error'),
+              description: t(res.error),
               variant: 'destructive',
             });
           } else {
             toast({
-              title: 'Samainits!',
-              description: res.success,
+              title: t('success'),
+              description: t(res.success || 'quantityChanged'),
             });
           }
         });
@@ -216,12 +222,13 @@ export const CartContent = ({ session, cart }: CartContentProps) => {
   const handleClearCart = () => {
     if (!session?.user.id) {
       toast({
-        title: 'Grozs iztirits!',
-        description: 'Jusu lokalais grozs tika iztirits',
+        title: t('success'),
+        description: t('cleared'),
       });
 
       localStorage.setItem('addToCart', '[]');
       setLocalCartProducts([]);
+      setCartProducts([]);
       return;
     }
 
@@ -229,14 +236,14 @@ export const CartContent = ({ session, cart }: CartContentProps) => {
       clearCart().then((res) => {
         if (res.error) {
           toast({
-            title: 'Kļūda!',
-            description: res.error,
+            title: t('error'),
+            description: t(res.error),
             variant: 'destructive',
           });
         } else {
           toast({
-            title: 'Izdzests!',
-            description: res.success,
+            title: t('success'),
+            description: t(res.success || 'cleared'),
           });
           setCartProducts([]);
         }
@@ -247,25 +254,22 @@ export const CartContent = ({ session, cart }: CartContentProps) => {
   return (
     <div className='flex flex-col flex-[2] col-span-2 '>
       <div className='flex justify-between'>
-        {session?.user.id
-          ? cartProducts?.length || 0
-          : localCartProducts.length}{' '}
-        produkt
+        {cartProducts?.length || 0} {t('produc')}
         {(session?.user ? cartProducts?.length : localCartProducts.length) !== 1
-          ? 'i'
-          : 's'}
+          ? t('ts')
+          : t('t')}
         <Button
           variant={'outline'}
-          disabled={isPending || isLoading}
+          disabled={isPending || isLoading || cartProducts?.length === 0}
           onClick={handleClearCart}
         >
           {isPending ? (
             <>
-              <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Apstrada...
+              <Loader2 className='mr-2 h-4 w-4 animate-spin' /> {t('loading')}
             </>
           ) : (
             <>
-              <RefreshCcw className='mr-2' /> Iztirit
+              <RefreshCcw className='mr-2' /> {t('clear')}
             </>
           )}
         </Button>
@@ -273,7 +277,7 @@ export const CartContent = ({ session, cart }: CartContentProps) => {
       {isLoading ? (
         <div className='py-12 flex justify-center items-center'>
           <Loader2 className='h-8 w-8 animate-spin text-primary' />
-          <span className='ml-2 text-muted-foreground'>Ielādē grozu...</span>
+          <span className='ml-2 text-muted-foreground'>{t('loadingCart')}</span>
         </div>
       ) : (
         <div className='space-y-4 mt-4'>

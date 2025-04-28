@@ -3,5 +3,9 @@
   "reviewUpdated": "Your review has been updated successfully.",
   "reviewDeleted": "Your review has been deleted successfully.",
   "signedIn": "You have signed in successfully.",
-  "registered": "Profile created successfully."
+  "registered": "Profile created successfully.",
+  "cartSynced": "Your cart has been synced successfully.",
+  "removed": "Product removed from cart successfully.",
+  "quantityChanged": "Product quantity changed successfully.",
+  "cleared": "Cart cleared successfully."
 }

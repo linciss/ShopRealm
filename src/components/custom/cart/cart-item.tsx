@@ -7,6 +7,8 @@ import { Minus, Plus, Trash2 } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
 import { Session } from 'next-auth';
+import { useTranslation } from 'react-i18next';
+import { formatCurrency } from './../../../lib/format-currency';
 
 interface Product {
   id: string;
@@ -14,6 +16,8 @@ interface Product {
   price: string;
   image: string | null;
   quantity: number;
+  sale: boolean;
+  salePrice: string | null;
 }
 
 interface CartItem {
@@ -39,6 +43,7 @@ export const CartItem = ({
   onChange,
 }: CartItemProps) => {
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const [quantity, setQuantity] = useState<number>(item.quantity || 0);
 
@@ -61,8 +66,8 @@ export const CartItem = ({
         cart.splice(cart.indexOf(cartItem), 1);
       } else {
         toast({
-          title: 'Kluda!',
-          description: 'Nevar nonemt',
+          title: t('error'),
+          description: t('cantRemove'),
           variant: 'destructive',
         });
         return;
@@ -71,8 +76,8 @@ export const CartItem = ({
       localStorage.setItem('addToCart', JSON.stringify(cart));
 
       toast({
-        title: 'Nonemts no groza!',
-        description: 'Nonemts no groza lokali!',
+        title: t('success'),
+        description: t('removed'),
       });
     }
 
@@ -98,7 +103,19 @@ export const CartItem = ({
             <div className='space-y-2'>
               <h3 className='font-semibold text-xl'>{item.product.name}</h3>
               <p className='text-muted-foreground text-sm'>
-                € {item.product.price} par vienu
+                {item.product.sale ? (
+                  <>
+                    <span className='line-through text-sm text-muted-foreground'>
+                      {formatCurrency(item.product.price)}
+                    </span>{' '}
+                    <span className='text-red-500'>
+                      {formatCurrency(item.product.salePrice)}
+                    </span>
+                  </>
+                ) : (
+                  formatCurrency(item.product.price)
+                )}{' '}
+                {t('perItem')}
               </p>
             </div>
             <div className='flex items-center border rounded-md h-9'>
@@ -132,7 +149,7 @@ export const CartItem = ({
               handleItemRemove();
             }}
           >
-            <Trash2 /> Nonemt
+            <Trash2 /> {t('remove')}
           </Button>
         </div>
       </div>

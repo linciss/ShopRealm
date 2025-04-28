@@ -1,6 +1,5 @@
 export const shopperRoutes = [
   '/cart',
-  '/checkout',
   '/products',
   '/sale',
   '/new',
@@ -21,7 +20,7 @@ export const authRoutes = [
 
 export const storeRoutes = ['/store', '/store/product', '/create-store'];
 
-export const privateRoutes = ['/profile', ...storeRoutes];
+export const privateRoutes = ['checkout', '/profile', ...storeRoutes];
 
 export const apiAuthPrefix = '/api/auth';
 
