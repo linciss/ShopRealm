@@ -7,15 +7,22 @@ import { OrderInfo } from '@/components/custom/order-info';
 import { ShippingInfo } from '@/components/custom/shop/orders/shipping-info';
 import { StatusChange } from '@/components/custom/shop/orders/status-change';
 import { DataCard } from '@/components/custom/data-card';
+import initTranslations from '@/app/i18n';
 
 type Props = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ id: string; locale: string }>;
 };
 
 type Status = 'pending' | 'shipped' | 'complete' | 'returned';
 
 export default async function Order({ params }: Props) {
-  const { id } = await params;
+  const { id, locale } = await params;
+
+  const { t } = await initTranslations(locale, [
+    'productPage',
+    'errors',
+    'success',
+  ]);
 
   const order = await getOrderItemById(id);
 
@@ -47,15 +54,17 @@ export default async function Order({ params }: Props) {
             priceAtOrder={order.priceAtOrder}
             quantity={order.quantity}
             total={order.total}
+            t={t}
           />
         </div>
         <div className='col-span-1 space-y-6'>
           <DataCard
-            dataType={'Pasutitaja'}
+            dataType={t('dataTypeShopper')}
             name={order.shippingName}
             lastName={order.shippingLastName}
             phone={order.shippingPhone}
             email={order.shippingEmail}
+            t={t}
           />
           <ShippingInfo
             address={{
@@ -64,6 +73,7 @@ export default async function Order({ params }: Props) {
               country: order.shippingCountry || '',
               postalCode: order.shippingPostalCode || '',
             }}
+            t={t}
           />
         </div>
       </div>

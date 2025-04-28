@@ -166,6 +166,7 @@
   "back": "Back",
   "orderProduct": "Order product",
   "dataTypeStore": "Store",
+  "dataTypeShopper": "Shopper",
   "passwordChanged": "Your password has been changed successfully.",
   "userNotFound": "User not found",
   "wrongOldPassword": "Your old password is wrong",
@@ -179,5 +180,6 @@
   "deleteAccount": "Delete account",
   "deleteAccountDesc": "Are you sure you want to delete your account? This action is irreversible and will delete all your data.",
   "areYouSure": "Are you sure?",
-  "deleteAccountSuccess": "Your account has been deleted successfully."
+  "deleteAccountSuccess": "Your account has been deleted successfully.",
+  "shippingData": "Shipping data"
 }

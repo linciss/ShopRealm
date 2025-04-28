@@ -8,20 +8,21 @@ interface CustomerInfoProps {
     country: string | null;
     postalCode: string | null;
   } | null;
+  t: (value: string) => string;
 }
 
-export const ShippingInfo = ({ address }: CustomerInfoProps) => {
+export const ShippingInfo = ({ address, t }: CustomerInfoProps) => {
   return (
     <Card>
       <CardHeader>
         <h3 className='text-xl font-semibold flex gap-2 items-center'>
           <Truck />
-          Piegades dati
+          {t("shippingData")}
         </h3>
       </CardHeader>
       <CardContent className='flex flex-col gap-1'>
         <p className='text-md font-semibold flex gap-2'>
-          <MapPin /> Piegades adrese
+          <MapPin /> {t("address")}
         </p>
         <p className='text-muted-foreground text-sm'>
           {address?.street} {address?.postalCode}
