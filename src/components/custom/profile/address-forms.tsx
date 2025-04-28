@@ -28,6 +28,7 @@ import { editUserAddress } from '../../../../actions/user/edit-address';
 import { useToast } from '@/hooks/use-toast';
 import { supportedCountries } from '@/lib/utils';
 import { Card } from '@/components/ui/card';
+import { useTranslation } from 'react-i18next';
 
 interface AddressFormsProps {
   userAddress: {
@@ -52,20 +53,21 @@ export const AddressForms = ({ userAddress }: AddressFormsProps) => {
   const [isPending, startTransition] = useTransition();
 
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   function onSubmit(data: z.infer<typeof addressInfoSchema>) {
     startTransition(() => {
       editUserAddress(data).then((res) => {
         if (res?.error) {
           toast({
-            title: 'Kluda!',
-            description: res.error,
+            title: t('error'),
+            description: t(res.error),
             variant: 'destructive',
           });
         } else {
           toast({
-            title: 'Samainits!',
-            description: res.success,
+            title: t('success'),
+            description: t(res.success || 'changedInfo'),
           });
         }
       });
@@ -86,7 +88,7 @@ export const AddressForms = ({ userAddress }: AddressFormsProps) => {
                 name='street'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Iela</FormLabel>
+                    <FormLabel>{t('street')}</FormLabel>
                     <FormControl>
                       <Input placeholder='Zalu iela 13' {...field} />
                     </FormControl>
@@ -99,7 +101,7 @@ export const AddressForms = ({ userAddress }: AddressFormsProps) => {
                 name='city'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Pilseta</FormLabel>
+                    <FormLabel>{t('city')}</FormLabel>
                     <FormControl>
                       <Input placeholder='Liepaja' {...field} />
                     </FormControl>
@@ -114,7 +116,7 @@ export const AddressForms = ({ userAddress }: AddressFormsProps) => {
                 name='country'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Valsts</FormLabel>
+                    <FormLabel>{t('country')}</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
@@ -141,7 +143,7 @@ export const AddressForms = ({ userAddress }: AddressFormsProps) => {
                 name='postalCode'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Pasta kods</FormLabel>
+                    <FormLabel>{t('postalCode')}</FormLabel>
                     <FormControl>
                       <Input placeholder='LV-3401' {...field} />
                     </FormControl>
@@ -158,7 +160,7 @@ export const AddressForms = ({ userAddress }: AddressFormsProps) => {
                 className='flex flex-row items-center'
               >
                 <Pencil className='mr-2 h-4 w-4' />
-                Saglabat Adresi
+                {t('saveData')}
               </Button>
             </div>
           </form>

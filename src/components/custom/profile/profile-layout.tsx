@@ -9,6 +9,7 @@ import { PersonalForms } from './personal-forms';
 import { AddressForms } from './address-forms';
 import { OrderHistory } from './order-history';
 import { Settings } from './settings';
+import { useTranslation } from 'react-i18next';
 
 interface OrderHistory {
   createdAt: Date;
@@ -59,6 +60,7 @@ export const ProfilePage = ({
   emailStatus,
 }: ProfilePageLayoutProps) => {
   const [activeTab, setActiveTab] = useState<string>('profile');
+  const { t } = useTranslation();
 
   return (
     <div className='flex md:flex-row flex-col gap-6 px-2 md:px-4  '>
@@ -70,14 +72,14 @@ export const ProfilePage = ({
               onClick={() => setActiveTab('profile')}
               className='rounded-none rounded-t-xl justify-start gap-3 h-auto py-3'
             >
-              <User /> Profila dati
+              <User /> {t('profileData')}
             </Button>
             <Button
               variant={activeTab === 'orders' ? 'default' : 'outline'}
               onClick={() => setActiveTab('orders')}
               className='rounded-none justify-start gap-3  h-auto py-3'
             >
-              <Box /> Pasutijumi
+              <Box /> {t('orders')}
             </Button>
             <Button
               variant={activeTab === 'settings' ? 'default' : 'outline'}
@@ -85,7 +87,7 @@ export const ProfilePage = ({
               className='rounded-none rounded-b-xl justify-start gap-3  h-auto py-3 '
             >
               <UserCog />
-              Iestatijumi
+              {t('settings')}
             </Button>
           </CardContent>
         </Card>
@@ -94,8 +96,8 @@ export const ProfilePage = ({
         {activeTab === 'profile' && (
           <Tabs defaultValue='profile' className='w-full'>
             <TabsList className='grid w-full grid-cols-2'>
-              <TabsTrigger value='profile'>Profila dati</TabsTrigger>
-              <TabsTrigger value='address'>Adreses dati</TabsTrigger>
+              <TabsTrigger value='profile'>{t('userData')}</TabsTrigger>
+              <TabsTrigger value='address'>{t('addressData')}</TabsTrigger>
             </TabsList>
             <TabsContent value='profile'>
               <PersonalForms userData={userData} />

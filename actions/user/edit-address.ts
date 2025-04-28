@@ -11,10 +11,10 @@ export const editUserAddress = async (
   const validateData = addressInfoSchema.safeParse(data);
   const session = await auth();
 
-  if (!session?.user?.id) return { error: 'Autorizacijas kluda' };
+  if (!session?.user?.id) return { error: 'authError' };
 
   if (!validateData.success) {
-    return { error: 'Kluda mainot datus!' };
+    return { error: 'validationError' };
   }
 
   try {
@@ -34,11 +34,11 @@ export const editUserAddress = async (
       },
     });
 
-    return { success: 'Informacija samainita!' };
+    return { success: 'changedInfo' };
   } catch (error) {
     if (error instanceof Error) {
       console.log('Error: ', error.stack);
     }
-    return { error: 'Kļūda apstrādājot datus' };
+    return { error: 'validationError' };
   }
 };

@@ -9,6 +9,7 @@ interface OrderInfoProps {
   priceAtOrder: number;
   quantity: number;
   total: number;
+  t: (value: string) => string;
 }
 
 export const OrderInfo = ({
@@ -17,12 +18,13 @@ export const OrderInfo = ({
   priceAtOrder,
   quantity,
   total,
+  t,
 }: OrderInfoProps) => {
   return (
     <Card className=''>
       <CardHeader>
         <h2 className='text-xl font-semibold flex gap-2'>
-          <Box /> Pasutijuma produkts
+          <Box /> {t('orderProduct')}
         </h2>
       </CardHeader>
       <CardContent>

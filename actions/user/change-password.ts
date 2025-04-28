@@ -12,10 +12,10 @@ export const changePassword = async (
   const validateData = changeProfilePasswordSchema.safeParse(data);
   const session = await auth();
 
-  if (!session?.user?.id) return { error: 'Autorizacijas kluda' };
+  if (!session?.user?.id) return { error: 'authError' };
 
   if (!validateData.success) {
-    return { error: 'Kluda mainot datus!' };
+    return { error: 'validationError' };
   }
 
   try {
@@ -29,17 +29,16 @@ export const changePassword = async (
       },
     });
 
-    if (!user) return { error: 'Nevar atrast leitotaju' };
+    if (!user) return { error: 'userNotFound' };
 
     const matching = await bcrypt.compare(oldPassword, user?.password);
 
-    if (!matching) return { error: 'Ievadita veca parole nav pareiza' };
+    if (!matching) return { error: 'wrongOldPassword' };
 
     if (newPassword !== newPasswordConfirm)
-      return { error: 'Jaunas paroles nesakrit' };
+      return { error: 'newPasswordDoNotMatch' };
 
-    if (newPassword === oldPassword)
-      return { error: 'Veca parole nevar but vienada ar jauno' };
+    if (newPassword === oldPassword) return { error: 'oldCantBeNew' };
 
     const hashedPassword = await bcrypt.hash(newPassword, 10);
 
@@ -50,11 +49,11 @@ export const changePassword = async (
       },
     });
 
-    return { success: 'Parole samainita!' };
+    return { success: 'passwordChanged' };
   } catch (error) {
     if (error instanceof Error) {
       console.log('Error: ', error.stack);
     }
-    return { error: 'Kļūda apstrādājot datus' };
+    return { error: 'validationError' };
   }
 };

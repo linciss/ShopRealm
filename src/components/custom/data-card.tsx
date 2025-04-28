@@ -7,6 +7,7 @@ interface DataCardProps {
   email: string;
   phone: string;
   lastName?: string;
+  t: (value: string) => string;
 }
 
 export const DataCard = ({
@@ -15,13 +16,14 @@ export const DataCard = ({
   lastName,
   email,
   phone,
+  t,
 }: DataCardProps) => {
   return (
     <Card>
       <CardHeader>
         <h3 className='text-xl font-semibold flex gap-4 items-center'>
-          {dataType === 'Veikala' ? <Store /> : <User />}
-          {dataType} dati
+          {dataType === t('dataTypeStore') ? <Store /> : <User />}
+          {dataType} {t('data')}
         </h3>
       </CardHeader>
       <CardContent className='flex flex-col gap-2'>

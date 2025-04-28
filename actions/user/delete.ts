@@ -8,7 +8,7 @@ import prisma from '@/lib/db';
 export const deleteAccount = async () => {
   const session = await auth();
 
-  if (!session?.user.id) return { error: 'Lietotajs nav autorizets!' };
+  if (!session?.user.id) return { error: 'authError' };
   const userId = session.user.id;
 
   try {
@@ -83,17 +83,17 @@ export const deleteAccount = async () => {
       // in try catch since its gonna throw an error because user does not exist anymore
       await signOut();
     } catch (err) {
-      return { success: 'Izlogots', err };
+      return { success: 'signOut', err };
     }
 
     revalidatePath(`/products`);
-    return { success: 'Veiksmigi izdzesta lietotajs!' };
+    return { success: 'deleteAccountSuccess' };
   } catch (error) {
     // return prisma error so i dont have to query database to check if user exists
     if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === 'P2025') return { error: 'Nav atrasta lietotajs!' };
-      return { error: 'Kļūda apstrādājot datus Prisma' };
+      if (error.code === 'P2025') return { error: 'userNotFound' };
+      return { error: 'validationError' };
     }
-    return { error: 'Kļūda apstrādājot datus' };
+    return { error: 'validationError' };
   }
 };

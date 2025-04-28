@@ -15,6 +15,7 @@ import { formatCurrency } from './../../../lib/format-currency';
 import { useState } from 'react';
 import { OrderDetails } from './order-details';
 import { badgeMap } from '../shop/orders/order-table';
+import { useTranslation } from 'react-i18next';
 
 interface OrderItem {
   id: string;
@@ -48,6 +49,7 @@ interface OrderHistoryProps {
 export const OrderHistory = ({ history }: OrderHistoryProps) => {
   const [isViewingOrderInfo, setIsViewvingOrderInfo] = useState<boolean>(false);
   const [orderItem, setOrderItem] = useState<OrderItem | undefined>();
+  const { t } = useTranslation();
 
   const handleOrderDetails = (value: OrderItem) => {
     setOrderItem(value);
@@ -66,19 +68,21 @@ export const OrderHistory = ({ history }: OrderHistoryProps) => {
     <Card>
       <CardHeader className='sm:p-6 px-2'>
         <CardTitle className='text-2xl  font-semibold leading-none tracking-tight'>
-          Pasutijumu parvaldnieks
+          {t('myOrders')}
         </CardTitle>
       </CardHeader>
       <CardContent className='sm:p-6 px-2'>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Pasutijuma ID</TableHead>
+              <TableHead>{t('orderId')}</TableHead>
               <TableHead className='hidden md:table-cell'>
-                Pasutijuma datums
+                {t('orderDate')}
               </TableHead>
-              <TableHead>Statuss</TableHead>
-              <TableHead className='hidden md:table-cell'>Summa</TableHead>
+              <TableHead>{t('orderStatus')}</TableHead>
+              <TableHead className='hidden md:table-cell'>
+                {t('orderTotal')}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

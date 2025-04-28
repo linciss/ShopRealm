@@ -14,18 +14,20 @@ import { Button } from '@/components/ui/button';
 import { useTransition } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { deleteAccount } from '../../../actions/user/delete';
+import { useTranslation } from 'react-i18next';
 
 export const DeleteAccountDialog = () => {
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
+  const { t } = useTranslation();
   const handleDeleteAccount = () => {
     startTransition(() => {
       deleteAccount().then((res) => {
         if (res.error) {
           toast({
-            title: 'Kluda!',
+            title: t('error'),
             variant: 'destructive',
-            description: res.error,
+            description: t(res.error),
           });
         }
       });
@@ -36,21 +38,18 @@ export const DeleteAccountDialog = () => {
     <AlertDialog>
       <AlertDialogTrigger asChild className='mt-2'>
         <Button variant={'destructive'} disabled={isPending}>
-          Dzest kontu
+          {t('deleteAccount')}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>
-            Vai juss tiesam esat parliecinats?
-          </AlertDialogTitle>
+          <AlertDialogTitle>{t('areYouSure')}</AlertDialogTitle>
           <AlertDialogDescription>
-            So darbību nevar atsaukt. Tas neatgriezeniski dzesis jusu kontu un
-            nomes savus datus no musu serveriem.
+            {t('deleteAccountDesc')}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Atcelt</AlertDialogCancel>
+          <AlertDialogCancel>{t('cancel')}</AlertDialogCancel>
           <AlertDialogAction asChild>
             <Button
               onClick={() => {
@@ -59,7 +58,7 @@ export const DeleteAccountDialog = () => {
               disabled={isPending}
               variant={'destructive'}
             >
-              Dzest!
+              {t('deleteAccount')}
             </Button>
           </AlertDialogAction>
         </AlertDialogFooter>

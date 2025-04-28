@@ -18,6 +18,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { useTransition } from 'react';
 import { changePassword } from '../../../../../actions/user/change-password';
+import { useTranslation } from 'react-i18next';
 
 export const ChangePassword = () => {
   const form = useForm<z.infer<typeof changeProfilePasswordSchema>>({
@@ -30,6 +31,7 @@ export const ChangePassword = () => {
   });
 
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const [isPending, startTransition] = useTransition();
   const onSubmit = (data: z.infer<typeof changeProfilePasswordSchema>) => {
@@ -38,13 +40,13 @@ export const ChangePassword = () => {
         if (res.error) {
           toast({
             variant: 'destructive',
-            title: 'Kluda!',
-            description: res.error,
+            title: t('error'),
+            description: t(res.error),
           });
         } else {
           toast({
-            title: 'Samainits!',
-            description: res.success,
+            title: t('success'),
+            description: t(res.success || 'passwordChanged'),
           });
           form.reset({
             oldPassword: '',
@@ -60,7 +62,7 @@ export const ChangePassword = () => {
     <CardWrapper
       cardHeader={
         <>
-          <h2 className='text-2xl font-semibold'>Paroles maiņa</h2>
+          <h2 className='text-2xl font-semibold'>{t('passwordChange')}</h2>
         </>
       }
       cardContent={
@@ -71,7 +73,7 @@ export const ChangePassword = () => {
               name='oldPassword'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Vecā parole</FormLabel>
+                  <FormLabel>{t('oldPassword')}</FormLabel>
                   <FormControl>
                     <Input type='password' placeholder='********' {...field} />
                   </FormControl>
@@ -85,7 +87,7 @@ export const ChangePassword = () => {
               name='newPassword'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Jaunā parole</FormLabel>
+                  <FormLabel>{t('newPassword')}</FormLabel>
                   <FormControl>
                     <Input type='password' placeholder='********' {...field} />
                   </FormControl>
@@ -99,7 +101,7 @@ export const ChangePassword = () => {
               name='newPasswordConfirm'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Jaunā parole atkārtoti</FormLabel>
+                  <FormLabel>{t('confirmNewPassword')}</FormLabel>
                   <FormControl>
                     <Input type='password' placeholder='********' {...field} />
                   </FormControl>
@@ -109,7 +111,7 @@ export const ChangePassword = () => {
               )}
             />
             <Button type='submit' disabled={isPending}>
-              Mainīt
+              {t('passwordChange')}
             </Button>
           </form>
         </Form>

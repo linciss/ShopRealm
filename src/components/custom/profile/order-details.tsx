@@ -1,9 +1,11 @@
+'use client';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft } from 'lucide-react';
 
 import { DataCard } from '../data-card';
 import { OrderInfo } from '../order-info';
 import { badgeMap } from '../shop/orders/order-table';
+import { useTranslation } from 'react-i18next';
 
 interface OrderItem {
   id: string;
@@ -34,6 +36,8 @@ export const OrderDetails = ({
   orderItem,
   backCallback,
 }: OrderDetailsProps) => {
+  const { t } = useTranslation();
+
   if (!orderItem) return null;
 
   return (
@@ -45,7 +49,7 @@ export const OrderDetails = ({
           }}
           variant={'ghost'}
         >
-          <ArrowLeft /> Atpakal
+          <ArrowLeft /> {t('back')}
         </Button>
         {badgeMap(orderItem.status || '')}
       </div>
@@ -57,15 +61,17 @@ export const OrderDetails = ({
             priceAtOrder={orderItem.priceAtOrder}
             quantity={orderItem.quantity}
             total={orderItem.total}
+            t={t}
           />
         </div>
 
         <div className='col-span-1'>
           <DataCard
-            dataType='Veikala'
+            dataType={t('dataTypeStore')}
             name={orderItem.store.name}
             email={orderItem.store.user.email}
             phone={orderItem.store.storePhone}
+            t={t}
           />
         </div>
       </div>

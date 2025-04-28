@@ -9,6 +9,7 @@ interface ProfileBannerProps {
   phone: string;
   country?: string;
   createdAt: Date;
+  t: (value: string) => string;
 }
 
 export const ProfileBanner = ({
@@ -18,6 +19,7 @@ export const ProfileBanner = ({
   phone,
   country,
   createdAt,
+  t,
 }: ProfileBannerProps) => {
   return (
     <div className='w-full bg-muted'>
@@ -28,7 +30,7 @@ export const ProfileBanner = ({
               {name} {lastName}
             </h1>
             <p className='text-sm text-muted-foreground'>
-              Pievienojas {new Date(createdAt).toLocaleDateString()}
+              {t('joined')} {new Date(createdAt).toLocaleDateString()}
             </p>
           </div>
           <div className='flex flex-row gap-4'>
@@ -48,7 +50,7 @@ export const ProfileBanner = ({
           </div>
         </div>
         <SignOutButton>
-          <Button variant={'outline'}>Izlogoties</Button>
+          <Button variant={'outline'}>{t('signOut')}</Button>
         </SignOutButton>
       </div>
     </div>

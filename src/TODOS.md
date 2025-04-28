@@ -35,12 +35,13 @@
 - [ ] remove product from cart if for example its deleted, threw some error gotta look into that
 - [x] sale price implementation
 - [ ] more error handlinmg when ordering item in stripe!
+- [ ] mayb remove email change bcs too lazy to implement
 
 # TRANSLATIONS TODO 
 
 - [x] product page 
 - [x] reviews
-- [ ] Profile
+- [x] Profile
 - [ ] Store page
 - [x] Cart
 - [x] Checkout
@@ -49,7 +50,7 @@
 - [x] favorite
 - [x] checkout success
 - [ ] footer
-- [ ] 
+- [ ] verifacit0on banner
 
 
 

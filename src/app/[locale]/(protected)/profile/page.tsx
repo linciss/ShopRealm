@@ -6,8 +6,13 @@ import {
 import { getOrderHsitory } from '../../../../../data/orders';
 import { ProfileBanner } from '@/components/custom/profile/profile-banner';
 import { ProfilePage } from '@/components/custom/profile/profile-layout';
+import initTranslations from '@/app/i18n';
 
-export default async function Profile() {
+interface ProfileProps {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function Profile({ params }: ProfileProps) {
   const userData = await getUserData();
 
   const userAddress = await getUserAddress();
@@ -18,6 +23,10 @@ export default async function Profile() {
 
   if (!userData || !userAddress || !emailStatus) return null;
 
+  const { locale } = await params;
+
+  const { t } = await initTranslations(locale, ['productPage']);
+
   return (
     <div className=''>
       <ProfileBanner
@@ -27,6 +36,7 @@ export default async function Profile() {
         phone={userData.phone || ''}
         createdAt={userData.createdAt}
         country={userAddress.country || ''}
+        t={t}
       />
       <div className=' max-w-7xl mx-auto py-10 container !px-0'>
         <ProfilePage

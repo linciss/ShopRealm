@@ -11,13 +11,13 @@ export const editUserProfile = async (
   const validateData = personalInfoSchema.safeParse(data);
   const session = await auth();
 
-  if (!session?.user?.id) return { error: 'Kluda!' };
+  if (!session?.user?.id) return { error: 'authError' };
 
   try {
     const userId = session?.user.id;
 
     if (!validateData.success) {
-      return { error: 'Kluda mainot datus!' };
+      return { error: 'validationError' };
     }
 
     const { name, lastName, phone } = validateData.data;
@@ -31,11 +31,11 @@ export const editUserProfile = async (
       },
     });
 
-    return { success: 'Informacija samainita!' };
+    return { success: 'changedInfo' };
   } catch (error) {
     if (error instanceof Error) {
       console.log('Error: ', error.stack);
     }
-    return { error: 'Kļūda apstrādājot datus' };
+    return { error: 'validationError' };
   }
 };

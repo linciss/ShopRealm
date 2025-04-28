@@ -21,6 +21,7 @@ import { useTransition } from 'react';
 import { editUserProfile } from '../../../../actions/user/edit-user';
 import { useToast } from '@/hooks/use-toast';
 import { Card } from '@/components/ui/card';
+import { useTranslation } from 'react-i18next';
 
 interface PersonalFormsProps {
   userData: {
@@ -44,20 +45,21 @@ export const PersonalForms = ({ userData }: PersonalFormsProps) => {
   const [isPending, startTransition] = useTransition();
 
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   function onSubmit(data: z.infer<typeof personalInfoSchema>) {
     startTransition(() => {
       editUserProfile(data).then((res) => {
         if (res?.error) {
           toast({
-            title: 'Kluda!',
-            description: res.error,
+            title: t('error'),
+            description: t(res.error),
             variant: 'destructive',
           });
         } else {
           toast({
-            title: 'Samainits!',
-            description: res.success,
+            title: t('success'),
+            description: t(res.success || 'changedInfo'),
           });
         }
       });
@@ -78,7 +80,7 @@ export const PersonalForms = ({ userData }: PersonalFormsProps) => {
                 name='name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Vards</FormLabel>
+                    <FormLabel>{t('name')}</FormLabel>
                     <FormControl>
                       <Input placeholder='John' {...field} />
                     </FormControl>
@@ -92,7 +94,7 @@ export const PersonalForms = ({ userData }: PersonalFormsProps) => {
                 name='lastName'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Uzvards</FormLabel>
+                    <FormLabel>{t('lastName')}</FormLabel>
                     <FormControl>
                       <Input placeholder='Doe' {...field} />
                     </FormControl>
@@ -102,13 +104,11 @@ export const PersonalForms = ({ userData }: PersonalFormsProps) => {
               />
             </div>
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>{t('email')}</FormLabel>
               <FormControl>
                 <Input value={userData.email} disabled />
               </FormControl>
-              <FormDescription>
-                Ja vēlies pārmainīt epastu, tad dodies uz iestatījumiem
-              </FormDescription>
+              <FormDescription>{t('wantChangeEmail')}</FormDescription>
             </FormItem>
 
             <FormField
@@ -116,7 +116,7 @@ export const PersonalForms = ({ userData }: PersonalFormsProps) => {
               name='phone'
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Telefona nr.</FormLabel>
+                  <FormLabel>{t('phone')}</FormLabel>
                   <FormControl>
                     <Input placeholder='22446688' {...field} />
                   </FormControl>
@@ -132,7 +132,7 @@ export const PersonalForms = ({ userData }: PersonalFormsProps) => {
                 className='flex flex-row items-center'
               >
                 <Pencil className='mr-2 h-4 w-4' />
-                Saglabat datus
+                {t('saveProfileData')}
               </Button>
             </div>
           </form>
