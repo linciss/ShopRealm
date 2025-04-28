@@ -4,11 +4,9 @@ export const signInSchema = z
   .object({
     email: z
       .string()
-      .email({ message: 'Lūdzu ievadiet pareizu epastu' })
-      .min(1, { message: 'Lūdzu ievadiet epastu' }),
-    password: z
-      .string()
-      .min(8, { message: 'Parolei jābūt vismaz 8 simbolus garai' }),
+      .email({ message: 'invalidEmail' })
+      .min(1, { message: 'enterEmail' }),
+    password: z.string().min(8, { message: 'min8Chars' }),
   })
   .superRefine(({ password }, validate) => {
     // checks for the appropriate password strength
@@ -27,30 +25,21 @@ export const signInSchema = z
       validate.addIssue({
         code: 'custom',
         path: ['password'],
-        message:
-          'Parole ir par vāju. Parolei jāsatur vismaz viens lielais burts, viens mazais burts, viens cipars un viens speciālais simbols.',
+        message: 'tooWeakPassword',
       });
     }
   });
 
 export const signUpSchema = z
   .object({
-    name: z
-      .string()
-      .min(1, { message: 'Vārdam jābūt vismaz 1 simbolam garam' }),
-    lastName: z
-      .string()
-      .min(1, { message: 'Uzvārdam jābūt vismaz 1 simbolam garam' }),
-    email: z.string().email({ message: 'Lūdzu ievadiet pareizu epastu' }),
-    password: z
-      .string()
-      .min(8, { message: 'Parolei jābūt vismaz 8 simbolus garai' }),
-    passwordConfirmation: z
-      .string()
-      .min(8, { message: 'Parolei jābūt vismaz 8 simbolus garai' }),
+    name: z.string().min(1, { message: 'name' }),
+    lastName: z.string().min(1, { message: 'lastName' }),
+    email: z.string().email({ message: 'invalidEmail' }),
+    password: z.string().min(8, { message: 'min8Chars' }),
+    passwordConfirmation: z.string().min(8, { message: 'min8Chars' }),
   })
   .refine((data) => data.password === data.passwordConfirmation, {
-    message: 'Paroles nesakrit',
+    message: 'passNotMatch',
     path: ['password'],
   })
   .superRefine(({ password }, validate) => {
@@ -70,43 +59,34 @@ export const signUpSchema = z
       validate.addIssue({
         code: 'custom',
         path: ['password'],
-        message:
-          'Parole ir par vāju. Parolei jāsatur vismaz 8 simboli Parolei jāsatur vismaz viens lielais burts, viens mazais burts, viens cipars, viens speciālais simbols.',
+        message: 'tooWeakPassword',
       });
     }
   });
 
 export const personalInfoSchema = z.object({
-  name: z.string().min(1, { message: 'Vārdam jābūt vismaz 1 simbolam garam' }),
-  lastName: z
-    .string()
-    .min(1, { message: 'Uzvārdam jābūt vismaz 1 simbolam garam' }),
-  phone: z
-    .string()
-    .min(8, { message: 'Talruna numuram jabut pareizam' })
-    .max(8, { message: 'Talruna numuram jabut pareizam' }),
+  name: z.string().min(1, { message: 'name' }),
+  lastName: z.string().min(1, { message: 'lastName' }),
+  phone: z.string().min(8, { message: 'phone' }).max(8, { message: 'phone' }),
 });
 
 export const addressInfoSchema = z.object({
-  street: z.string().min(1, { message: 'Adreseu jabut pareizai!' }),
-  city: z.string().min(1, { message: 'Ievadi pareizu pisletu!' }),
-  country: z.string().min(1, { message: 'Izvelies valsti!' }),
-  postalCode: z.string().min(1, { message: 'Ieraksti pareizu kodu!' }),
+  street: z.string().min(1, { message: 'address' }),
+  city: z.string().min(1, { message: 'city' }),
+  country: z.string().min(1, { message: 'country' }),
+  postalCode: z.string().min(1, { message: 'postalCode' }),
 });
 
 export const storeSchema = z.object({
   name: z
     .string()
-    .min(3, { message: 'Nosaukumam jābūt vismaz 3 simboliem garam' })
+    .min(3, { message: 'shopName' })
     .refine((value) => /^[a-zA-Z]+[-'s]?[a-zA-Z ]+$/.test(value ?? '')),
-  description: z.string().min(10, { message: 'Jabut noraditam descriptionam' }),
-  phone: z
-    .string()
-    .min(8, { message: 'Talruna numuram jabut pareizam' })
-    .max(8, { message: 'Talruna numuram jabut pareizam' }),
+  description: z.string().min(10, { message: 'shopDesc' }),
+  phone: z.string().min(8, { message: 'phone' }).max(8, { message: 'phone' }),
 });
 
-const MAX_FILE_SIZE = 5 * 1024 * 1024;
+const MAX_FILE_SIZE = 1 * 1024 * 1024;
 const ACCEPTED_IMAGE_TYPES = [
   'image/jpeg',
   'image/jpg',
@@ -118,12 +98,12 @@ export const productSchema = z
   .object({
     name: z
       .string()
-      .min(3, { message: 'Nosakumuma jabut normala,' })
-      .max(30, { message: ' nevar p[asrsniegt 30 burtus' })
+      .min(3, { message: 'productName' })
+      .max(30, { message: '30letters' })
       .refine((value) => /^[a-zA-Z0-9_.\- ]*$/.test(value ?? ''), {
-        message: 'jabut normalam',
+        message: 'letters',
       }),
-    description: z.string().min(20, { message: 'Ievadi produkta aprakstu' }),
+    description: z.string().min(20, { message: 'prodDesc' }),
     price: z
       .number()
       .refine(
@@ -131,25 +111,23 @@ export const productSchema = z
           !isNaN(Number.parseFloat(val.toString())) &&
           Number.parseFloat(val.toString()) >= 0,
         {
-          message: 'Vajag cenu!',
+          message: 'price',
         },
       ),
-    category: z
-      .array(z.string())
-      .min(1, { message: 'Jbaut vismaz 1 kategorijai' }),
+    category: z.array(z.string()).min(1, { message: 'category' }),
     image: z
       .union([
         z
           .instanceof(File)
           .refine((file) => file?.size <= MAX_FILE_SIZE, {
-            message: `Maksimalais izmers ir 5MB`,
+            message: `maxSize`,
           })
           .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file?.type), {
-            message: 'Tiaki .jpg, .jpeg, .png and .webp foramtus var.',
+            message: 'formats',
           }),
         z.string().min(1),
       ])
-      .refine((value) => !!value, { message: 'Vajag bildi!' }),
+      .refine((value) => !!value, { message: 'image' }),
     quantity: z
       .number()
       .refine(
@@ -157,11 +135,11 @@ export const productSchema = z
           !isNaN(Number.parseInt(val.toString())) &&
           Number.parseInt(val.toString()) >= 0,
         {
-          message: 'Vajag daduzumui',
+          message: 'quantity',
         },
       ),
     isActive: z.boolean(),
-    details: z.string().min(5, { message: 'Dzilak paskaidro par savu preci' }),
+    details: z.string().min(5, { message: 'productDetails' }),
     specifications: z
       .array(
         z.object({
@@ -178,18 +156,18 @@ export const productSchema = z
           !isNaN(Number.parseFloat(val.toString())) &&
           Number.parseFloat(val.toString()) >= 0,
         {
-          message: 'Vajag izpardosanas cenu!',
+          message: 'salePrice',
         },
       )
       .optional(),
   })
   .superRefine(({ salePrice, price, sale }, validate) => {
     // checks if price is smaller than sale price
-    if (sale && salePrice !== undefined && salePrice <= price) {
+    if (sale && salePrice !== undefined && salePrice >= price) {
       validate.addIssue({
         code: 'custom',
         path: ['salePrice'],
-        message: 'Izpardosanas cenai jabut viarak par parasto cenu!',
+        message: 'salePrice',
       });
     }
   });
@@ -203,36 +181,30 @@ export const reviewSchema = z.object({
         Number.parseInt(val.toString()) >= 1 &&
         Number.parseInt(val.toString()) <= 5,
       {
-        message: 'Atsaukmes reitingam jabut no 1 lidz 5',
+        message: 'rating',
       },
     ),
-  comment: z.string().min(10, { message: 'Jabut vismaz 10 simboliem garam' }),
+  comment: z.string().min(10, { message: 'ratingDesc' }),
 });
 
 export const shippingInfoSchema = personalInfoSchema.merge(addressInfoSchema);
 
 export const changePasswordSchema = z.object({
-  newPassword: z
-    .string()
-    .min(8, { message: 'Parolei jābūt vismaz 8 simbolus garai' }),
-  newPasswordConfirm: z
-    .string()
-    .min(8, { message: 'Parolei jābūt vismaz 8 simbolus garai' }),
+  newPassword: z.string().min(8, { message: 'min8Chars' }),
+  newPasswordConfirm: z.string().min(8, { message: 'min8Chars' }),
 });
 
 // change password for users who have access to their account
 export const changeProfilePasswordSchema = changePasswordSchema
   .extend({
-    oldPassword: z
-      .string()
-      .min(8, { message: 'Parolei jābūt vismaz 8 simbolus garai' }),
+    oldPassword: z.string().min(8, { message: 'min8Chars' }),
   })
   .refine((data) => data.newPassword === data.newPasswordConfirm, {
-    message: 'Jaunas paroles nesakrit',
+    message: 'doNotMatch',
     path: ['newPassword'],
   })
   .refine((data) => data.oldPassword !== data.newPassword, {
-    message: 'Veca parole nevar but vienada ar jauno',
+    message: 'cantBeSame',
     path: ['newPassword'],
   })
   .superRefine(({ newPassword, newPasswordConfirm, oldPassword }, validate) => {
@@ -253,8 +225,7 @@ export const changeProfilePasswordSchema = changePasswordSchema
         validate.addIssue({
           code: 'custom',
           path,
-          message:
-            'Parole ir par vāju. Parolei jāsatur vismaz viens lielais burts, viens mazais burts, viens cipars, viens speciālais simbols.',
+          message: 'tooWeakPassword',
         });
       }
     };
