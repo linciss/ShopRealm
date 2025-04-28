@@ -52,6 +52,20 @@ export default auth(async (req) => {
   const pathname = req.nextUrl.pathname;
   const pathnameWithoutLocale = pathname.replace(/^\/[a-z]{2}(?=\/|$)/, '');
 
+  const localeMatch = pathname.match(/^\/([a-z]{2})(?=\/|$)/);
+  const locale = localeMatch ? localeMatch[1] : null;
+
+  console.log(locale);
+  const validLocales = i18nConfig.locales || ['en'];
+
+  // locale fallback
+  if (locale && !validLocales.includes(locale)) {
+    const defaultLocale = i18nConfig.defaultLocale || 'en';
+    return NextResponse.redirect(
+      new URL(`/${defaultLocale}${pathnameWithoutLocale}`, req.url),
+    );
+  }
+
   const isApiAuthRoute = pathnameWithoutLocale.startsWith(apiAuthPrefix);
   const isPublicRoute =
     publicRoutes.includes(pathnameWithoutLocale) ||
