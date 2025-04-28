@@ -43,6 +43,13 @@
 - [x] reviews
 - [x] Profile
 - [ ] Store page
+	- [x] config
+	- [x] dashboard
+	- [ ] orders 50%
+	- [ ] analytics
+	- [ ] settings
+	- [x] preview
+
 - [x] Cart
 - [x] Checkout
 - [x] AUth

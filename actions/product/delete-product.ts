@@ -9,12 +9,12 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 export const deleteProduct = async (productId: string) => {
   const session = await auth();
 
-  if (!session?.user.id) return { error: 'Kluda!' };
+  if (!session?.user.id) return { error: 'authError' };
 
   try {
     const storeId = await getStoreId();
 
-    if (!storeId) return { error: 'Kluda' };
+    if (!storeId) return { error: 'storeError' };
 
     // prisma transaction/bachquery since i also want to delete cart items completely forgot lol
     await prisma.$transaction(async (tx) => {
@@ -28,16 +28,16 @@ export const deleteProduct = async (productId: string) => {
     });
 
     revalidatePath('/store/products');
-    return { success: 'izdzest produkts!~' };
+    return { success: 'productDeleted' };
   } catch (error) {
     // return prisma error so i dont have to query database to check if product exists
     if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === 'P2025') return { error: 'Nav atrasts produkts!' };
+      if (error.code === 'P2025') return { error: 'prodNotFound' };
       console.log(error);
-      return { error: 'Kļūda apstrādājot datus prisma' };
+      return { error: 'validationError' };
     } else {
       console.log(error);
-      return { error: 'Kļūda apstrādājot datus' };
+      return { error: 'validationError' };
     }
   }
 };

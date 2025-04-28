@@ -156,7 +156,7 @@ export const productSchema = z
           !isNaN(Number.parseFloat(val.toString())) &&
           Number.parseFloat(val.toString()) >= 0,
         {
-          message: 'salePrice',
+          message: 'salePriceError',
         },
       )
       .optional(),
@@ -167,7 +167,7 @@ export const productSchema = z
       validate.addIssue({
         code: 'custom',
         path: ['salePrice'],
-        message: 'salePrice',
+        message: 'salePriceError',
       });
     }
   });

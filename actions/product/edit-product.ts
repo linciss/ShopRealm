@@ -18,11 +18,11 @@ export const editProduct = async (
 
   //   console.log(data);
 
-  if (!session?.user.id) return { error: 'Nav autorizēts lietotājs' };
+  if (!session?.user.id) return { error: 'authError' };
 
   const validateData = productSchema.safeParse(data);
 
-  if (!validateData.success) return { error: 'Validācijas kļūda!' };
+  if (!validateData.success) return { error: 'validationError' };
 
   const {
     name,
@@ -74,7 +74,7 @@ export const editProduct = async (
 
     const storeId = (await getStoreId()) as string;
 
-    if (!storeId) return { error: 'Nav veikals atrasts' };
+    if (!storeId) return { error: 'storeError' };
 
     const isStoreProduct = await prisma?.store.findUnique({
       where: { userId },
@@ -87,15 +87,18 @@ export const editProduct = async (
       },
     });
 
-    if (!isStoreProduct) return { error: 'Nav jsuu produkts' };
+    if (!isStoreProduct) return { error: 'notYourProduct' };
 
     const UUID = nanoid(6);
     const itemSlug = `${slugify(name).toLowerCase()}-${UUID}`;
     const priceDecimals = price.toFixed(2);
     const salePriceDecimals = salePrice?.toFixed(2);
 
-    if (sale && salePrice !== undefined && salePrice >= price) {
-      return { error: 'salePrice' };
+    if (
+      (sale && salePrice !== undefined && salePrice >= price) ||
+      (sale && salePrice !== undefined && salePrice < 1)
+    ) {
+      return { error: 'salePriceError' };
     }
 
     const stringifiedSpec = JSON.stringify(specifications);
@@ -147,17 +150,17 @@ export const editProduct = async (
       const uniqueEmails = [...new Set(emails)];
 
       if (uniqueEmails.length === 0) {
-        return { success: 'Produkts veiksmīgi redigets!' };
+        return { success: 'edited' };
       }
 
       await sendSaleEmail(productId, uniqueEmails);
     }
 
-    return { success: 'Produkts veiksmīgi redigets!' };
+    return { success: 'edited' };
   } catch (error) {
     if (error instanceof Error) {
       console.log('Error: ', error.stack);
     }
-    return { error: 'Kļūda apstrādājot datus' };
+    return { error: 'validationError' };
   }
 };

@@ -29,6 +29,7 @@ import { redirect } from 'next/navigation';
 import { useToast } from '@/hooks/use-toast';
 import { Textarea } from '@/components/ui/textarea';
 import { editProduct } from '../../../../../actions/product/edit-product';
+import { useTranslation } from 'react-i18next';
 
 interface Product {
   id: string;
@@ -63,6 +64,7 @@ const convertToBase64 = (file: File) => {
 
 export const ProductForm = ({ productData }: ProductDataProps) => {
   const [isPending, startTransition] = useTransition();
+  const { t } = useTranslation();
 
   const [imagePreview, setImagePreview] = useState<string | null>(
     productData?.image || null,
@@ -122,14 +124,14 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
           editProduct(finalData, productData.id).then((res) => {
             if (res?.error) {
               toast({
-                title: 'Kluda redigejot!',
-                description: res.error,
+                title: t('error'),
+                description: t(res.error),
                 variant: 'destructive',
               });
             } else {
               toast({
-                title: 'Redigets!',
-                description: res.success,
+                title: t('success'),
+                description: t(res.success || 'edited'),
                 variant: 'default',
               });
               redirect('/store/products');
@@ -141,15 +143,14 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
         createProduct(finalData).then((res) => {
           if (res?.error) {
             toast({
-              title: 'Kluda veidojot!',
-              description: res.error,
+              title: t('error'),
+              description: t(res.error),
               variant: 'destructive',
             });
           } else {
             toast({
-              title: 'Izveidots!',
-              description: res.success,
-              variant: 'default',
+              title: t('success'),
+              description: t(res.success || 'created'),
             });
             redirect('/store/products');
           }
@@ -172,10 +173,10 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
               <Card className='w-full p-8 text-start space-y-4'>
                 <CardTitle className='flex flex-col gap-2'>
                   <h2 className='text-2xl font-semibold leading-none tracking-tight'>
-                    Produkta informacija
+                    {t('productInfo')}
                   </h2>
                   <p className='text-sm font-normal text-muted-foreground'>
-                    Aizpildi visus laukus, lai izveidotu savu produktu.
+                    {t('fillAllFields')}
                   </p>
                 </CardTitle>
                 <CardContent className='p-0 text-start space-y-4'>
@@ -184,13 +185,10 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                     name='name'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Preces Nosaukums</FormLabel>
+                        <FormLabel>{t('productName')}</FormLabel>
                         <FormControl>
                           <Input placeholder='Iphone 14 Pro' {...field} />
                         </FormControl>
-                        <FormDescription>
-                          Sis vards radisies klietniem
-                        </FormDescription>
                         <FormMessage />
                       </FormItem>
                     )}
@@ -202,14 +200,10 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                       <FormItem>
                         <FormLabel>Preces arpaksts</FormLabel>
                         <FormControl>
-                          <Textarea
-                            placeholder='Mazs apraksts par preci.......'
-                            {...field}
-                          />
+                          <Textarea {...field} />
                         </FormControl>
                         <FormDescription>
-                          Sis arpaksts radisies, kad kads mekles tavu produktu,
-                          ka ari produktu lapa
+                          {t('productDescriptionDesc')}
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -220,12 +214,11 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                     name='details'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Preces detaļas</FormLabel>
+                        <FormLabel>{t('productDetails')}</FormLabel>
                         <FormControl>
                           <RichTextEditor
                             value={field.value}
                             onChange={field.onChange}
-                            placeholder='Ievadiet produkta detalas...'
                             disabled={isPending}
                           />
                         </FormControl>
@@ -240,7 +233,7 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                         name='price'
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Cena</FormLabel>
+                            <FormLabel>{t('price')}</FormLabel>
                             <FormControl>
                               <div className='relative'>
                                 <span className='absolute left-3 top-0 bottom-0  translate-y-[20%]'>
@@ -271,7 +264,7 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                         name='quantity'
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Daudzums</FormLabel>
+                            <FormLabel>{t('quantity')}</FormLabel>
                             <FormControl>
                               <Input
                                 prefix='$'
@@ -298,10 +291,10 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                       <FormItem className='flex flex-row items-center justify-between rounded-lg border p-4'>
                         <div className='space-y-0.5'>
                           <FormLabel className='text-base'>
-                            Produkta redamiba
+                            {t('productVisibility')}
                           </FormLabel>
                           <FormDescription>
-                            Paradi vai paslep so produktu no pircejiem
+                            {t('productVisibilityDesc')}
                           </FormDescription>
                         </div>
                         <FormControl>
@@ -320,10 +313,10 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                       <FormItem className='flex flex-row items-center justify-between rounded-lg border p-4'>
                         <div className='space-y-0.5'>
                           <FormLabel className='text-base'>
-                            Produkta izpardosana
+                            {t('productSale')}
                           </FormLabel>
                           <FormDescription>
-                            Uzliec produktu uz izpardosanu
+                            {t('productSaleDesc')}
                           </FormDescription>
                         </div>
                         <FormControl>
@@ -340,7 +333,7 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                     name='salePrice'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Izpardosnas cena</FormLabel>
+                        <FormLabel>{t('salePrice')}</FormLabel>
                         <FormControl>
                           <div className='relative'>
                             <span className='absolute left-3 top-0 bottom-0  translate-y-[20%]'>
@@ -373,10 +366,10 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                 <Card className='w-full p-8 text-start space-y-4'>
                   <CardTitle className='flex flex-col gap-2'>
                     <h2 className='text-2xl font-semibold leading-none tracking-tight'>
-                      Produkta bilde
+                      {t('image')}
                     </h2>
                     <p className='text-sm font-normal text-muted-foreground'>
-                      Paradi ka izstas tavs produkts
+                      {t('imageDesc')}
                     </p>
                   </CardTitle>
                   <CardContent className='p-0 text-start space-y-4'>
@@ -388,7 +381,7 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                         field: { value, onChange, ...fieldProps },
                       }) => (
                         <FormItem>
-                          <FormLabel>Bilde</FormLabel>
+                          <FormLabel>{t('image')}</FormLabel>
                           <FormControl>
                             <div className='space-y-4'>
                               <div
@@ -432,11 +425,11 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                                         htmlFor='image-upload'
                                         className='font-medium text-primary hover:underline cursor-pointer'
                                       >
-                                        Spied lai pievienotu
+                                        {t('pressToUpload')}
                                       </label>{' '}
                                     </div>
                                     <p className='text-xs text-muted-foreground mt-1'>
-                                      JPG, PNG or WebP (maksimali 5MB)
+                                      {t('uploadInfo')}
                                     </p>
                                   </>
                                 )}
@@ -460,10 +453,10 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                 <Card className='w-full p-8 text-start space-y-4 h-full'>
                   <CardTitle className='flex flex-col gap-2'>
                     <h2 className='text-2xl font-semibold leading-none tracking-tight'>
-                      Produkta specifikacijas
+                      {t('specifications')}
                     </h2>
                     <p className='text-sm font-normal text-muted-foreground'>
-                      iedod specifikacijas savam produktam
+                      {t('specificationsDesc')}
                     </p>
                   </CardTitle>
                   <CardContent className='p-0 text-start space-y-4'>
@@ -480,13 +473,10 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                                     index !== 0 ? 'sr-only' : undefined
                                   }
                                 >
-                                  specifikacijas nosaukums
+                                  {t('specName')}
                                 </FormLabel>
                                 <FormControl>
-                                  <Input
-                                    placeholder='Smagums, Dimensija, Baterija...'
-                                    {...field}
-                                  />
+                                  <Input {...field} />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -502,7 +492,7 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                                     index !== 0 ? 'sr-only' : undefined
                                   }
                                 >
-                                  Specifikacijas vertiba
+                                  {t('specValue')}
                                 </FormLabel>
                                 <FormControl>
                                   <Input
@@ -533,7 +523,7 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                         onClick={() => append({ key: '', value: '' })}
                       >
                         <Plus className='mr-2 h-4 w-4' />
-                        Pievienot specifikaciju
+                        {t('addSpec')}
                       </Button>
                     </div>
                   </CardContent>
@@ -542,10 +532,10 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                 <Card className='w-full p-8 text-start space-y-4 h-full'>
                   <CardTitle className='flex flex-col gap-2'>
                     <h2 className='text-2xl font-semibold leading-none tracking-tight'>
-                      Produkta katoegirjas
+                      {t('category')}
                     </h2>
                     <p className='text-sm font-normal text-muted-foreground'>
-                      Iedsod kateogriju produktam
+                      {t('categoryDesc')}
                     </p>
                   </CardTitle>
                   <CardContent className='p-0 text-start space-y-4'>
@@ -556,10 +546,10 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                         <FormItem className='space-y-1'>
                           <div className='mb-4'>
                             <FormLabel className='text-lg font-semibold leading-none tracking-tight'>
-                              Kategorijas
+                              {t('categories')}
                             </FormLabel>
                             <FormDescription>
-                              Izvelies vismaz vienu kategoriju
+                              {t('categoryError')}
                             </FormDescription>
                           </div>
                           {items.map((item) => (
@@ -591,7 +581,7 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                                       />
                                     </FormControl>
                                     <FormLabel className='text-sm font-normal'>
-                                      {item.label}
+                                      {t(item.id)}
                                     </FormLabel>
                                   </FormItem>
                                 );
@@ -608,15 +598,15 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
             </div>
             <div className='self-end space-x-4'>
               <Link href={'/store/products'}>
-                <Button variant={'outline'}>Atcelt</Button>
+                <Button variant={'outline'}>{t('cancel')}</Button>
               </Link>
 
               <Button type='submit' className='' disabled={isPending}>
                 {isPending
-                  ? 'Veidošana...'
+                  ? t('processing')
                   : productData?.id
-                    ? 'Rediģēt'
-                    : 'Izveidot'}
+                    ? t('edit')
+                    : t('create')}
               </Button>
             </div>
           </form>

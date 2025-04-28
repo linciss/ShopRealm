@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { ForwardRefExoticComponent, RefAttributes } from 'react';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 
 interface StoreNavigationProps {
   storeName: string;
@@ -28,17 +29,19 @@ interface Route {
 export function StoreNavigation({ storeName }: StoreNavigationProps) {
   const pathname = usePathname();
 
+  const { t } = useTranslation();
+
   const routes: Route[] = [
     {
       href: '/store',
       icon: LayoutDashboard,
-      label: 'Panelis',
+      label: t('panel'),
       active: pathname === '/store',
     },
     {
       href: '/store/products',
       icon: Package,
-      label: 'Produkti',
+      label: t('productHeading'),
       active:
         pathname === '/store/products' ||
         pathname.startsWith('/store/products/'),
@@ -46,7 +49,7 @@ export function StoreNavigation({ storeName }: StoreNavigationProps) {
     {
       href: '/store/orders',
       icon: ShoppingCart,
-      label: 'Pasutijumni',
+      label: t('orders'),
       active:
         pathname === '/store/orders' || pathname.startsWith('/store/orders/'),
     },

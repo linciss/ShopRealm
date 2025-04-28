@@ -5,6 +5,7 @@ import { calculateAverageRating, categoryMap } from '@/lib/utils';
 import { MoreInfo } from '../../products/more-info.tsx';
 import { ReviewStars } from '../../review-stars';
 import { formatCurrency } from './../../../../lib/format-currency';
+import initTranslations from '@/app/i18n';
 
 interface ProductProps {
   productData:
@@ -38,8 +39,14 @@ interface ProductProps {
     | undefined;
   locale: string;
 }
-export const ProductPreview = ({ productData, locale }: ProductProps) => {
+export const ProductPreview = async ({ productData, locale }: ProductProps) => {
   if (!productData) return;
+
+  const { t } = await initTranslations(locale || 'en', [
+    'productPage',
+    'errors',
+    'success',
+  ]);
 
   return (
     <div className=' px-1 md:px-4 py-8'>
@@ -62,7 +69,7 @@ export const ProductPreview = ({ productData, locale }: ProductProps) => {
                 averageReview={calculateAverageRating(productData.reviews)}
               />
               <p className='text-sm text-muted-foreground'>
-                ({productData.reviews.length} atsauksmes)
+                ({productData.reviews.length} {t('reviews')})
               </p>
             </div>
           </div>
@@ -83,31 +90,31 @@ export const ProductPreview = ({ productData, locale }: ProductProps) => {
             )}
 
             <p
-              className={`text-sm  ${
-                productData.quantity < 5 ? 'text-red-600' : 'text-green-700'
+              className={`text-sm ${
+                productData.quantity < 5 ? 'text-red-600' : 'text-green-800'
               }`}
             >
-              Atlicis nolitava (
+              {t('stockLeft')} (
               {productData.quantity === 1
-                ? `${productData.quantity} gabals`
-                : `${productData.quantity} gabali`}
+                ? `${productData.quantity} ${t('item')}`
+                : `${productData.quantity} ${t('items')}`}
               )
             </p>
           </div>
           <SelectSeparator />
           <div>
-            <p className='font-medium '>Deskripcija</p>
+            <p className='font-medium '>{t('productDescription')}</p>
             <p className='text-muted-foreground'>{productData.description}</p>
           </div>
           <div className='flex flex-col gap-2'>
-            <p className='font-medium'>Kategorijas</p>
+            <p className='font-medium'>{t('categories')}</p>
             <div className='flex gap-2 flex-wrap'>
               {productData.category.map((category) => (
                 <span
                   key={category}
                   className=' py-1 px-3 rounded-full bg-muted text-primary text-xs font-medium'
                 >
-                  {categoryMap[category].label}
+                  {t(categoryMap[category].id)}
                 </span>
               ))}
             </div>

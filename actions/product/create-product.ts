@@ -12,11 +12,11 @@ import { revalidatePath } from 'next/cache';
 export const createProduct = async (data: z.infer<typeof productSchema>) => {
   const session = await auth();
 
-  if (!session?.user.id) return { error: 'Nav autorizēts lietotājs' };
+  if (!session?.user.id) return { error: 'authError' };
 
   const validateData = productSchema.safeParse(data);
 
-  if (!validateData.success) return { error: 'Validācijas kļūda!' };
+  if (!validateData.success) return { error: 'validationError' };
 
   const {
     name,
@@ -32,7 +32,7 @@ export const createProduct = async (data: z.infer<typeof productSchema>) => {
     salePrice,
   } = validateData.data;
 
-  if (price < 1) return { error: 'Preces cenai jabut vismaz 1 eur' };
+  if (price < 1) return { error: 'priceError' };
 
   const sanitizedDetails = DOMPurify.sanitize(details, {
     ALLOWED_TAGS: [
@@ -68,15 +68,18 @@ export const createProduct = async (data: z.infer<typeof productSchema>) => {
   try {
     const storeId = (await getStoreId()) as string;
 
-    if (!storeId) return { error: 'Nav veikals atrasts' };
+    if (!storeId) return { error: 'storeError' };
 
     const UUID = nanoid(6);
     const itemSlug = `${slugify(name).toLowerCase()}-${UUID}`;
     const priceDecimals = price.toFixed(2);
     const salePriceDecimals = salePrice?.toFixed(2);
 
-    if (sale && salePrice !== undefined && salePrice <= price) {
-      return { error: 'Izpardosanas cenai jabut viarak par parasto cenu!' };
+    if (
+      (sale && salePrice !== undefined && salePrice >= price) ||
+      (sale && salePrice !== undefined && salePrice < 1)
+    ) {
+      return { error: 'salePriceError' };
     }
 
     const stringifiedSpec = JSON.stringify(specifications);
@@ -102,7 +105,8 @@ export const createProduct = async (data: z.infer<typeof productSchema>) => {
     revalidatePath('/store/products');
     revalidatePath(`/product/${itemSlug}`);
     revalidatePath('/');
-    return { success: 'Produkts veiksmīgi izveidots!' };
+
+    return { success: 'created' };
   } catch (error) {
     if (error instanceof Error) {
       console.log('Error: ', error.stack);

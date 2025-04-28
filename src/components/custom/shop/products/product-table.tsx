@@ -23,6 +23,7 @@ import { useState, useTransition } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';
 import { formatCurrency } from './../../../../lib/format-currency';
+import { useTranslation } from 'react-i18next';
 
 interface Product {
   id: string;
@@ -44,19 +45,21 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
   );
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
+  const { t } = useTranslation();
+
   const handleDelete = async (productId: string) => {
     startTransition(() => {
       deleteProduct(productId).then((res) => {
         if (res?.error) {
           toast({
-            title: 'Kluda!',
-            description: res.error,
+            title: t('error'),
+            description: t(res.error),
             variant: 'destructive',
           });
         } else {
           toast({
-            title: 'Izdzests!',
-            description: res.success,
+            title: t('success'),
+            description: t(res.success || 'productDeleted'),
             variant: 'default',
           });
           setProducts((prev) => prev?.filter((prod) => prod.id !== productId));
@@ -69,19 +72,23 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
     <Card>
       <CardHeader className='sm:p-6 px-2'>
         <CardTitle className='text-2xl  font-semibold leading-none tracking-tight'>
-          Produktu parvaldnieks
+          {t('productManager')}
         </CardTitle>
       </CardHeader>
       <CardContent className='sm:p-6 px-2'>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className='sm:table-cell hidden'>Bilde</TableHead>
-              <TableHead>Nosaukums</TableHead>
-              <TableHead>Cena</TableHead>
-              <TableHead>Daudzums</TableHead>
-              <TableHead className='sm:table-cell hidden'>Statuss</TableHead>
-              <TableHead>akcvijas</TableHead>
+              <TableHead className='sm:table-cell hidden'>
+                {t('image')}
+              </TableHead>
+              <TableHead>{t('name')}</TableHead>
+              <TableHead>{t('price')}</TableHead>
+              <TableHead className='sm:table-cell hidden'>
+                {t('quantity')}
+              </TableHead>
+              <TableHead>{t('status')}</TableHead>
+              <TableHead>{t('actions')}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -102,21 +109,23 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
                   </TableCell>
                   <TableCell>{product.name}</TableCell>
                   <TableCell>{formatCurrency(product.price)}</TableCell>
-                  <TableCell>{product.quantity}</TableCell>
                   <TableCell className='sm:table-cell hidden'>
+                    {product.quantity}
+                  </TableCell>
+                  <TableCell>
                     {product.isActive &&
                     product.quantity < 5 &&
                     product.quantity > 0 ? (
                       <p className='w-fit text-sm px-3 rounded-full border-orange-500 bg-orange-100 text-orange-500'>
-                        Zems daudzums
+                        {t('lowQuantity')}
                       </p>
                     ) : product.isActive && product.quantity > 0 ? (
                       <p className='w-fit text-sm px-3 rounded-full border-green-700 bg-green-100 text-green-700'>
-                        Aktivs
+                        {t('active')}
                       </p>
                     ) : (
                       <p className='w-fit text-sm px-3 rounded-full border-red-500 bg-red-100 text-red-500'>
-                        Neaktivs
+                        {t('inactive')}
                       </p>
                     )}
                   </TableCell>
@@ -126,7 +135,7 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
                         <EllipsisIcon />
                       </DropdownMenuTrigger>
                       <DropdownMenuContent>
-                        <DropdownMenuLabel>Akcijas</DropdownMenuLabel>
+                        <DropdownMenuLabel>{t('actions')}</DropdownMenuLabel>
                         <DropdownMenuSeparator />
                         <DropdownMenuItem>
                           <Link
@@ -135,7 +144,7 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
                             className='flex items-center gap-1'
                           >
                             <Eye height={16} width={16} />
-                            Paradit produktu lapu
+                            {t('showProductPage')}
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem>
@@ -145,7 +154,7 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
                             className='flex items-center gap-1 '
                           >
                             <Pencil height={16} width={16} />
-                            Rediget
+                            {t('editProduct')}
                           </Link>
                         </DropdownMenuItem>
                         <DropdownMenuItem
@@ -156,7 +165,7 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
                           }}
                         >
                           <Trash />
-                          Dzest
+                          {t('deleteProduct')}
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
