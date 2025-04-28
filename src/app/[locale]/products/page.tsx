@@ -53,7 +53,6 @@ export default async function Products({
   const totalPages = Math.ceil(totalProducts / LIMIT);
 
   const locale = (await params).locale;
-  console.log(locale);
   const { t } = await initTranslations(locale, ['productPage']);
 
   return (

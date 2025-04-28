@@ -95,7 +95,6 @@ export default auth(async (req) => {
     return NextResponse.redirect(new URL('/products', nextUrl));
   }
 
-  console.log(isShopperRoute, session?.role === 'STORE', session?.role);
   // checks whether the user is a store and is trying to access the public routes
   if (isShopperRoute && session?.role === 'STORE') {
     return NextResponse.redirect(new URL('/store', nextUrl));

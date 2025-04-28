@@ -117,8 +117,6 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
         image: (imgString as string) || data.image,
       };
 
-      console.log(finalData);
-
       startTransition(() => {
         if (productData?.id) {
           editProduct(finalData, productData.id).then((res) => {
