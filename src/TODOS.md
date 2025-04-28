@@ -51,6 +51,7 @@
 - [x] checkout success
 - [ ] footer
 - [ ] verifacit0on banner
+- [x] validations
 
 
 

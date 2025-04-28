@@ -47,15 +47,12 @@ export default auth(async (req) => {
 
   const isLoggedIn = !!req.auth;
 
-  console.log(nextUrl.pathname);
-
   const pathname = req.nextUrl.pathname;
   const pathnameWithoutLocale = pathname.replace(/^\/[a-z]{2}(?=\/|$)/, '');
 
   const localeMatch = pathname.match(/^\/([a-z]{2})(?=\/|$)/);
   const locale = localeMatch ? localeMatch[1] : null;
 
-  console.log(locale);
   const validLocales = i18nConfig.locales || ['en'];
 
   // locale fallback
@@ -90,26 +87,18 @@ export default auth(async (req) => {
   }
 
   if (!isPublicRoute && !isLoggedIn) {
-    return (
-      NextResponse.redirect(new URL('/auth/sign-in', nextUrl)) &&
-      i18nRouter(req, i18nConfig)
-    );
+    return NextResponse.redirect(new URL('/auth/sign-in', nextUrl));
   }
 
   // cehcks whether the user is a shopper and is trying to access the store route
   if (isStoreRoute && session?.role === 'SHOPPER') {
-    return (
-      NextResponse.redirect(new URL('/products', nextUrl)) &&
-      i18nRouter(req, i18nConfig)
-    );
+    return NextResponse.redirect(new URL('/products', nextUrl));
   }
 
+  console.log(isShopperRoute, session?.role === 'STORE', session?.role);
   // checks whether the user is a store and is trying to access the public routes
   if (isShopperRoute && session?.role === 'STORE') {
-    return (
-      NextResponse.redirect(new URL('/store', nextUrl)) &&
-      i18nRouter(req, i18nConfig)
-    );
+    return NextResponse.redirect(new URL('/store', nextUrl));
   }
 
   // cehcks if user has been redirected to fallback site which means that user has no session and deletes their cookies
@@ -117,10 +106,7 @@ export default auth(async (req) => {
     await signOut({
       redirect: false,
     });
-    return (
-      NextResponse.redirect(new URL('/auth/sign-in', nextUrl)) &&
-      i18nRouter(req, i18nConfig)
-    );
+    return NextResponse.redirect(new URL('/auth/sign-in', nextUrl));
   }
 
   return NextResponse.next() && i18nRouter(req, i18nConfig);

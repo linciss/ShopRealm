@@ -94,8 +94,8 @@ export const editProduct = async (
     const priceDecimals = price.toFixed(2);
     const salePriceDecimals = salePrice?.toFixed(2);
 
-    if (sale && salePrice !== undefined && salePrice <= price) {
-      return { error: 'Izpardosanas cenai jabut viarak par parasto cenu!' };
+    if (sale && salePrice !== undefined && salePrice >= price) {
+      return { error: 'salePrice' };
     }
 
     const stringifiedSpec = JSON.stringify(specifications);
