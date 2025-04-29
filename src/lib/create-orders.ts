@@ -51,8 +51,17 @@ export const createOrdersFromSession = async (session: any) => {
             productId: item.productId,
             storeId: item.product.storeId,
             quantity: item.quantity,
-            priceAtOrder: parseFloat(item.product.price),
-            total: parseFloat(item.product.price) * item.quantity,
+            priceAtOrder: parseFloat(
+              item.product.sale
+                ? item.product.salePrice || item.product.price
+                : item.product.price,
+            ),
+            total:
+              parseFloat(
+                item.product.sale
+                  ? item.product.salePrice || item.product.price
+                  : item.product.price,
+              ) * item.quantity,
             status: 'pending',
             escrowStatus: 'holding',
             transferScheduledFor: transferScheduleDate,
