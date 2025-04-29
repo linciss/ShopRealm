@@ -45,7 +45,7 @@
 - [ ] Store page
 	- [x] config
 	- [x] dashboard
-	- [ ] orders 50%
+	- [x] orders 50%
 	- [ ] analytics
 	- [ ] settings
 	- [x] preview

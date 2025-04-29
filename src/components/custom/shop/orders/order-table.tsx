@@ -11,37 +11,38 @@ import {
 } from '@/components/ui/table';
 import Link from 'next/link';
 import { statusMap } from './../../../../lib/utils';
+import { formatCurrency } from './../../../../lib/format-currency';
 
-export const badgeMap = (status: string) => {
+export const badgeMap = (status: string, t: (value: string) => string) => {
   switch (status) {
     case 'pending':
       return (
         <p className='w-fit text-sm px-3 rounded-full border-blue-500 bg-blue-100 text-blue-500'>
-          {statusMap[status].label}
+          {t(status)}
         </p>
       );
     case 'shipped':
       return (
         <p className='w-fit text-sm px-3 rounded-full border-purple-500 bg-purple-100 text-purple-500'>
-          {statusMap[status].label}
+          {t(status)}
         </p>
       );
     case 'complete':
       return (
         <p className='w-fit text-sm px-3 rounded-full border-green-500 bg-green-100 text-green-700'>
-          {statusMap[status].label}
+          {t(status)}
         </p>
       );
     case 'returned':
       return (
         <p className='w-fit text-sm px-3 rounded-full border-red-500 bg-red-100 text-red-500'>
-          {statusMap[status].label}
+          {t(status)}
         </p>
       );
     default:
       return (
         <p className='w-fit text-sm px-3 rounded-full border-red-500 bg-red-100 text-red-500'>
-          {statusMap[status].label}
+          {t('canceled')}
         </p>
       );
   }
@@ -60,26 +61,29 @@ interface OrderTableProps {
         total: number;
       }[]
     | undefined;
+  t: (value: string) => string;
 }
 
-export const OrderTable = ({ orders }: OrderTableProps) => {
+export const OrderTable = ({ orders, t }: OrderTableProps) => {
   return (
     <Card>
       <CardHeader className='sm:p-6 px-2'>
         <CardTitle className='text-2xl  font-semibold leading-none tracking-tight'>
-          Pasutijumu parvaldnieks
+          {t('orderManager')}
         </CardTitle>
       </CardHeader>
       <CardContent className='sm:p-6 px-2'>
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead>Pasutijuma ID</TableHead>
+              <TableHead>{t('orderId')}</TableHead>
               <TableHead className='hidden md:table-cell'>
-                Pasutijuma datums
+                {t('orderDate')}
               </TableHead>
-              <TableHead>Statuss</TableHead>
-              <TableHead className='hidden md:table-cell'>Summa</TableHead>
+              <TableHead>{t('orderStatus')}</TableHead>
+              <TableHead className='hidden md:table-cell'>
+                {t('total')}
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -95,9 +99,9 @@ export const OrderTable = ({ orders }: OrderTableProps) => {
                 <TableCell className='hidden md:table-cell'>
                   {new Date(order.order.createdAt).toLocaleDateString()}
                 </TableCell>
-                <TableCell>{badgeMap(statusMap[order.status].id)}</TableCell>
+                <TableCell>{badgeMap(statusMap[order.status].id, t)}</TableCell>
                 <TableCell className='hidden md:table-cell'>
-                  {order.total}
+                  {formatCurrency(order.total)}
                 </TableCell>
               </TableRow>
             ))}

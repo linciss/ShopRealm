@@ -1,11 +1,23 @@
-import { CalendarClock, Clock, CreditCard, ShoppingBag } from 'lucide-react';
+import {
+  CalendarClock,
+  Clock,
+  CreditCard,
+  Loader2,
+  ShoppingBag,
+} from 'lucide-react';
 import { getOrders } from '../../../../../../data/orders';
 import { StatCard } from '@/components/custom/shop/stat-card';
 import { formatCurrency } from '@/lib/format-currency';
 import { OrderTable } from '@/components/custom/shop/orders/order-table';
+import initTranslations from '@/app/i18n';
 
-export default async function Products() {
+interface OrderProps {
+  params: Promise<{ locale: string }>;
+}
+
+export default async function Orders({ params }: OrderProps) {
   const orders = await getOrders();
+  const { locale } = await params;
 
   const completedOrdersTotal =
     orders
@@ -33,37 +45,45 @@ export default async function Products() {
       );
     }) || [];
 
+  const { t } = await initTranslations(locale, ['productPage']);
+
   return (
     <div className='space-y-4 '>
       <div className='flex flex-col gap-4'>
-        <h1 className=' font-bold text-3xl '>Pasutijumi</h1>
+        <h1 className=' font-bold text-3xl '>{t('orders')}</h1>
         <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
           <StatCard
-            name={'Visi pasutijumi'}
+            name={t('allOrders')}
             value={orders?.length}
             icon={<ShoppingBag />}
           />
           <StatCard
-            name={'Apstiprinati ieankumi'}
+            name={t('completedIncome')}
             value={formatCurrency(completedOrdersTotal)}
             icon={<CreditCard />}
-            description='Pabeigti pasutijumi'
+            description={t('completedOrders')}
           />
           <StatCard
-            name={'Gaidosie ieankumi'}
+            name={t('pendingIncome')}
             value={formatCurrency(pendingOrdersTotal)}
             icon={<Clock />}
-            description='Gaida apstradi'
+            description={t('waitingCompletion')}
           />
           <StatCard
-            name={'Pasutijumu skaits šomēnes'}
+            name={t('thisMonth')}
             value={currentMonthOrders.length}
             icon={<CalendarClock />}
           />
         </div>
       </div>
       <div className=''>
-        {orders ? <OrderTable orders={orders} /> : <div>loading....</div>}
+        {orders ? (
+          <OrderTable orders={orders} t={t} />
+        ) : (
+          <div className='animate-spin'>
+            <Loader2 />
+          </div>
+        )}
       </div>
     </div>
   );

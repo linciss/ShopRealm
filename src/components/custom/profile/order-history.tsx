@@ -103,7 +103,7 @@ export const OrderHistory = ({ history }: OrderHistoryProps) => {
                     {new Date(order.createdAt).toLocaleDateString()}
                   </TableCell>
 
-                  <TableCell>{badgeMap(item.status)}</TableCell>
+                  <TableCell>{badgeMap(item.status, t)}</TableCell>
                   <TableCell className='hidden md:table-cell'>
                     {formatCurrency(item.total)}
                   </TableCell>

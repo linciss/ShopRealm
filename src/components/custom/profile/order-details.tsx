@@ -51,7 +51,7 @@ export const OrderDetails = ({
         >
           <ArrowLeft /> {t('back')}
         </Button>
-        {badgeMap(orderItem.status || '')}
+        {badgeMap(orderItem.status || '', t)}
       </div>
       <div className='grid md:grid-cols-3 grid-cols-2 gap-5'>
         <div className='col-span-2'>

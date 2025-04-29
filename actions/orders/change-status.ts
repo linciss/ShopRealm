@@ -14,11 +14,11 @@ export const changeOrderStatus = async (
 ) => {
   const session = await auth();
 
-  if (!session?.user.id) return { error: 'Lietotjas nav autorizets!' };
+  if (!session?.user.id) return { error: 'authError' };
 
   const validStatuses = ['pending', 'shipped', 'complete', 'returned'];
   if (!validStatuses.includes(status)) {
-    return { error: 'Nav pareizs statuss' };
+    return { error: 'wrongStatus' };
   }
 
   try {
@@ -29,11 +29,11 @@ export const changeOrderStatus = async (
     });
 
     if (existingOrderItem?.status === 'complete' && status !== 'returned') {
-      return { error: 'Pabeigtus pasutijumus nevar mainit!' };
+      return { error: 'completedCantBeChanged' };
     }
 
     if (existingOrderItem?.status === 'returned') {
-      return { error: 'Pasutijums jau ir atgriezts!' };
+      return { error: 'orderReturned' };
     }
 
     const complete = status === 'complete';
@@ -53,14 +53,14 @@ export const changeOrderStatus = async (
     });
 
     revalidatePath(`/store/orders/${orderItemId}`);
-    return { success: 'Nomaits statuss!' };
+    return { success: 'statusChanged' };
   } catch (err) {
     if (err instanceof Error) {
       console.log(err);
     } else if (err instanceof PrismaClientKnownRequestError) {
-      if (err.code === 'P2025') return { error: 'Nav atrasts pasutijums!' };
-      return { error: 'Kļūda apstrādājot datus' };
+      if (err.code === 'P2025') return { error: 'orderNotFound' };
+      return { error: 'validationError' };
     }
-    return { error: ' Kluda validejot datus!' };
+    return { error: 'validationError' };
   }
 };

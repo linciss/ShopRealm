@@ -38,7 +38,7 @@ export default async function Order({ params }: Props) {
             </Button>
           </Link>
           <h1 className='text-xl  font-bold md:text-2xl sm:text-xl'>
-            Pasutijums {order.id}
+            {t('order')} {order.id}
           </h1>
         </div>
         <StatusChange

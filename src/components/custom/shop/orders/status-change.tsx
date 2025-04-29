@@ -14,6 +14,7 @@ import { statusMap } from '@/lib/utils';
 import { useState, useTransition } from 'react';
 import { changeOrderStatus } from '../../../../../actions/orders/change-status';
 import { badgeMap } from './order-table';
+import { useTranslation } from 'react-i18next';
 
 type Status = 'pending' | 'shipped' | 'complete' | 'returned';
 
@@ -33,6 +34,7 @@ export const StatusChange = ({
   };
 
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const [isPending, startTransition] = useTransition();
 
@@ -41,14 +43,14 @@ export const StatusChange = ({
       changeOrderStatus(orderItemId, status).then((res) => {
         if (res.error) {
           toast({
-            title: 'Kluda!',
-            description: res.error,
+            title: t('error'),
+            description: t(res.error),
             variant: 'destructive',
           });
         } else {
           toast({
-            title: 'Samainits!',
-            description: res.success,
+            title: t('success'),
+            description: t(res.success || 'statusChanged'),
           });
         }
       });
@@ -59,23 +61,23 @@ export const StatusChange = ({
 
   return (
     <div className='flex gap-2 items-center flex-row'>
-      <p className='text-sm'>Statuss:</p>
-      {badgeMap(mappedStatus.id)}
+      <p className='text-sm'>{t('status')}:</p>
+      {badgeMap(mappedStatus.id, t)}
       <Select
         value={status}
         onValueChange={handleStatusChange}
         disabled={isPending}
       >
         <SelectTrigger className='w-[200px]' aria-label='Status change'>
-          <SelectValue placeholder='Izvēlēties statusu' />
+          <SelectValue placeholder={t('chooseStatus')} />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Statuss</SelectLabel>
-            <SelectItem value='pending'>Gaida</SelectItem>
-            <SelectItem value='shipped'>Izsūtīts</SelectItem>
-            <SelectItem value='complete'>Pabeigts</SelectItem>
-            <SelectItem value='returned'>Atgriezts</SelectItem>
+            <SelectLabel>{t('status')}</SelectLabel>
+            <SelectItem value='pending'>{t('pending')}</SelectItem>
+            <SelectItem value='shipped'>{t('shipped')}</SelectItem>
+            <SelectItem value='complete'>{t('complete')}</SelectItem>
+            <SelectItem value='returned'>{t('returned')}</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>
@@ -85,7 +87,7 @@ export const StatusChange = ({
         }}
         disabled={isPending}
       >
-        Mainit statusu
+        {t('changeStatus')}
       </Button>
     </div>
   );
