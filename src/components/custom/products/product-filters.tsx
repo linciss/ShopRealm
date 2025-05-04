@@ -227,7 +227,7 @@ export const ProductFilters = ({
                     id={category.id}
                     aria-label={`Category-${category.label}`}
                   />
-                  <Label htmlFor={category.id}>
+                  <Label htmlFor={category.id} className='cursor-pointer'>
                     {t(category.id) || t('clear')}
                   </Label>
                 </div>

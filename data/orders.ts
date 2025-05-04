@@ -2,37 +2,135 @@ import prisma from '@/lib/db';
 import { auth } from '../auth';
 import { getStoreId } from './store';
 
-export const getOrders = async () => {
-  const session = await auth();
+interface OrderFilterProps {
+  status?: string;
+  dateRange?: string;
+  sort?: string;
+}
 
-  if (!session?.user.id) return;
+export const getOrders = async ({
+  status,
+  dateRange,
+  sort,
+}: OrderFilterProps) => {
+  const storeId = await getStoreId();
 
-  try {
-    const storeId = await getStoreId();
-
-    const order = await prisma.orderItem.findMany({
-      where: { storeId },
-      select: {
-        id: true,
-        order: {
-          select: {
-            createdAt: true,
-          },
+  const allOrders = await prisma.orderItem.findMany({
+    where: { storeId },
+    select: {
+      id: true,
+      order: {
+        select: {
+          createdAt: true,
         },
-        status: true,
-        quantity: true,
-        priceAtOrder: true,
-        total: true,
       },
-    });
+      status: true,
+      quantity: true,
+      priceAtOrder: true,
+      total: true,
+    },
+  });
 
-    return order;
-  } catch (err) {
-    if (err instanceof Error) {
-      console.log(err);
+  let filteredOrders = [...allOrders];
+
+  if (status) {
+    switch (status) {
+      case 'pending':
+        filteredOrders = filteredOrders.filter(
+          (order) => order.status === 'pending',
+        );
+        break;
+      case 'shipped':
+        filteredOrders = filteredOrders.filter(
+          (order) => order.status === 'shipped',
+        );
+        break;
+      case 'complete':
+        filteredOrders = filteredOrders.filter(
+          (order) => order.status === 'complete',
+        );
+        break;
+      case 'returned':
+        filteredOrders = filteredOrders.filter(
+          (order) => order.status === 'returned',
+        );
+        break;
+      default:
+        break;
     }
-    return;
   }
+
+  if (dateRange) {
+    switch (dateRange) {
+      case 'today':
+        filteredOrders = filteredOrders.filter((order) => {
+          const orderDate = new Date(order.order.createdAt);
+          const today = new Date();
+          return (
+            orderDate.getDate() === today.getDate() &&
+            orderDate.getMonth() === today.getMonth() &&
+            orderDate.getFullYear() === today.getFullYear()
+          );
+        });
+        break;
+      case 'last-7-days':
+        filteredOrders = filteredOrders.filter((order) => {
+          const orderDate = new Date(order.order.createdAt);
+          const today = new Date();
+          const last7Days = new Date(today.setDate(today.getDate() - 7));
+          return orderDate >= last7Days;
+        });
+        break;
+      case 'last-30-days':
+        filteredOrders = filteredOrders.filter((order) => {
+          const orderDate = new Date(order.order.createdAt);
+          const today = new Date();
+          const last30Days = new Date(today.setDate(today.getDate() - 30));
+          return orderDate >= last30Days;
+        });
+        break;
+      case 'thisYear':
+        filteredOrders = filteredOrders.filter((order) => {
+          const orderDate = new Date(order.order.createdAt);
+          const today = new Date();
+          return orderDate.getFullYear() === today.getFullYear();
+        });
+      default:
+        break;
+    }
+  }
+
+  if (sort) {
+    switch (sort) {
+      case 'newest':
+        filteredOrders.sort(
+          (a, b) =>
+            new Date(b.order.createdAt).valueOf() -
+            new Date(a.order.createdAt).valueOf(),
+        );
+        break;
+      case 'oldest':
+        filteredOrders.sort(
+          (a, b) =>
+            new Date(a.order.createdAt).valueOf() -
+            new Date(b.order.createdAt).valueOf(),
+        );
+        break;
+      case 'highest-value':
+        filteredOrders.sort((a, b) => b.total - a.total);
+        break;
+      case 'lowest-value':
+        filteredOrders.sort((a, b) => a.total - b.total);
+        break;
+      default:
+        break;
+    }
+  }
+
+  return {
+    filteredOrders,
+    allOrders,
+  };
 };
 
 export const getOrderItemById = async (orderId: string) => {

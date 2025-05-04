@@ -11,7 +11,7 @@ interface ProductsQueryOptions {
   limit: number;
 }
 
-export async function getProducts({
+export const getProducts = async ({
   page,
   search,
   category,
@@ -19,7 +19,7 @@ export async function getProducts({
   maxPrice,
   sort,
   limit,
-}: ProductsQueryOptions) {
+}: ProductsQueryOptions) => {
   const allProducts = await prisma.product.findMany({
     where: {
       isActive: true,
@@ -109,7 +109,7 @@ export async function getProducts({
     products: paginatedProducts,
     totalProducts,
   };
-}
+};
 
 export const getProduct = async (id: string) => {
   try {

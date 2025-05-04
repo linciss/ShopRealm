@@ -29,10 +29,10 @@
 - [x] echckout page 
 - [ ] new order system? where user has 14 days  to confirm after shipped and then when user confirms then only make the order as complete (gonna need another cron) adn then start the escrow holding funds logic
 - [ ] redesign the store craete card
-- [ ] order filters
+- [x] order filters
 - [ ] makea  seperate registration for stores? so tehy dont have to mess with the user stuff?
 - [x] send email to poeple when a favorite item of theirs go on sale?
-- [ ] remove product from cart if for example its deleted, threw some error gotta look into that
+- [x] remove product from cart if for example its deleted, threw some error gotta look into that
 - [x] sale price implementation
 - [ ] more error handlinmg when ordering item in stripe!
 - [ ] mayb remove email change bcs too lazy to implement

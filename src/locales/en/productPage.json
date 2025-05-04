@@ -269,5 +269,17 @@
   "recentReviews": "Recent reviews",
   "recentReviewsDesc": "Your most recent reviews.",
   "noReviews": "No reviews :(",
-  "rating": "Rating"
+  "rating": "Rating",
+  "thisYear": "This year",
+  "last-30-days": "Last 30 days",
+  "last-7-days": "Last 7 days",
+  "today": "Today",
+  "highest-value": "Highest value",
+  "lowest-value": "Lowest value",
+  "searchByStatus": "Search by status",
+  "orderFilter": "Order filter",
+  "orderFilterDesc": "Filter your orders",
+  "sortBy": "Sort by",
+  "dateRange": "Date range",
+  "clearFilters": "Clear filters"
 }

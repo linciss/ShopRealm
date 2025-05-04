@@ -10,23 +10,35 @@ import { StatCard } from '@/components/custom/shop/stat-card';
 import { formatCurrency } from '@/lib/format-currency';
 import { OrderTable } from '@/components/custom/shop/orders/order-table';
 import initTranslations from '@/app/i18n';
+import { OrderFilter } from '@/components/custom/shop/orders/order-filter';
 
 interface OrderProps {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{
+    status?: string;
+    dateRange?: string;
+    sort?: string;
+  }>;
 }
 
-export default async function Orders({ params }: OrderProps) {
-  const orders = await getOrders();
+export default async function Orders({ params, searchParams }: OrderProps) {
+  const { status, dateRange, sort } = await searchParams;
+
+  const { filteredOrders, allOrders } = await getOrders({
+    status,
+    dateRange,
+    sort,
+  });
   const { locale } = await params;
 
   const completedOrdersTotal =
-    orders
+    allOrders
       ?.filter((order) => order.status === 'complete')
       .reduce((sum, order) => sum + order.priceAtOrder * order.quantity, 0) ||
     0;
 
   const pendingOrdersTotal =
-    orders
+    allOrders
       ?.filter(
         (order) => order.status === 'pending' || order.status === 'shipped',
       )
@@ -34,7 +46,7 @@ export default async function Orders({ params }: OrderProps) {
     0;
 
   const currentMonthOrders =
-    orders?.filter((order) => {
+    allOrders?.filter((order) => {
       const orderDate = new Date(order.order.createdAt);
 
       const now = new Date();
@@ -54,7 +66,7 @@ export default async function Orders({ params }: OrderProps) {
         <div className='grid gap-4 md:grid-cols-2 lg:grid-cols-4'>
           <StatCard
             name={t('allOrders')}
-            value={orders?.length}
+            value={allOrders?.length}
             icon={<ShoppingBag />}
           />
           <StatCard
@@ -77,8 +89,17 @@ export default async function Orders({ params }: OrderProps) {
         </div>
       </div>
       <div className=''>
-        {orders ? (
-          <OrderTable orders={orders} t={t} />
+        {filteredOrders ? (
+          <div className='grid md:grid-cols-3 grid-cols-1 gap-6'>
+            <div className='md:col-span-2'>
+              <OrderTable orders={filteredOrders} t={t} />
+            </div>
+            <OrderFilter
+              sort={sort || ''}
+              selectedStatus={status || ''}
+              dateRange={dateRange || ''}
+            />
+          </div>
         ) : (
           <div className='animate-spin'>
             <Loader2 />

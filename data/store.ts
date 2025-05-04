@@ -335,6 +335,9 @@ export const getAllDashboardStats = async () => {
 
     const allOrderItems = await prisma.orderItem.findMany({
       where: { storeId: id },
+      include: {
+        order: true,
+      },
     });
 
     const currentDate = new Date();
@@ -417,6 +420,7 @@ export const getAllDashboardStats = async () => {
       productCount,
       attentionItems,
       recentReviews,
+      allOrderItems,
     };
   } catch (err) {
     if (err instanceof Error) {

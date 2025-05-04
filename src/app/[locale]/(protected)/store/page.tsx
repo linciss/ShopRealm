@@ -3,7 +3,6 @@ import { StatCard } from '@/components/custom/shop/stat-card';
 import { Button } from '@/components/ui/button';
 import { CalendarClock, CreditCard, Plus, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
-import { getOrders } from '../../../../../data/orders';
 import { formatCurrency } from '@/lib/format-currency';
 import { getAllDashboardStats } from '../../../../../data/store';
 import { OrdersChart } from '@/components/custom/orders-chart';
@@ -20,16 +19,16 @@ export default async function Store({ params }: StoreProps) {
   const { locale } = await params;
   const { t } = await initTranslations(locale, ['productPage']);
 
-  const orders = await getOrders();
+  const data = await getAllDashboardStats();
 
   const completedOrdersTotal =
-    orders
+    data?.allOrderItems
       ?.filter((order) => order.status === 'complete')
       .reduce((sum, order) => sum + order.priceAtOrder * order.quantity, 0) ||
     0;
 
   const currentMonthOrders =
-    orders?.filter((order) => {
+    data?.allOrderItems.filter((order) => {
       const orderDate = new Date(order.order.createdAt);
 
       const now = new Date();
@@ -39,8 +38,6 @@ export default async function Store({ params }: StoreProps) {
         orderDate.getFullYear() === now.getFullYear()
       );
     }) || [];
-
-  const data = await getAllDashboardStats();
 
   const days: Record<string, number> = {};
 
@@ -80,7 +77,7 @@ export default async function Store({ params }: StoreProps) {
         />
         <StatCard
           name={t('allOrders')}
-          value={orders?.length}
+          value={data?.allOrderItems.length}
           icon={<ShoppingBag />}
         />
         <StatCard
