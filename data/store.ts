@@ -303,3 +303,125 @@ export const getStoreDataById = async (storeId: string) => {
     return;
   }
 };
+
+export const getAllDashboardStats = async () => {
+  const session = await auth();
+  if (!session?.user.id) return;
+
+  try {
+    const id = await getStoreId();
+
+    if (!id) return;
+
+    const store = await prisma.store.findUnique({
+      where: { id },
+      select: {
+        products: {
+          include: {
+            reviews: {
+              include: {
+                user: {
+                  select: {
+                    name: true,
+                    lastName: true,
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    const allOrderItems = await prisma.orderItem.findMany({
+      where: { storeId: id },
+    });
+
+    const currentDate = new Date();
+    const lastWeekDate = new Date(
+      currentDate.getTime() - 7 * 24 * 60 * 60 * 1000,
+    );
+
+    // get order this week for a chart and recent order section
+    const orderThisWeek = allOrderItems.filter(
+      (order) =>
+        order.createdAt >= lastWeekDate && order.createdAt <= currentDate,
+    );
+
+    const salesCount: Record<string, number> = {};
+
+    allOrderItems.forEach((order) => {
+      salesCount[order.productId] = (salesCount[order.productId] || 0) + 1;
+    });
+
+    const topProductIds = Object.entries(salesCount)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 3)
+      .map(([productId]) => productId);
+
+    // top 3 selling products
+    const topSelling = store?.products
+      .filter((product) => topProductIds.includes(product.id))
+      .map((product) => {
+        return {
+          id: product.id,
+          name: product.name,
+          image: product.image,
+          price: product.price,
+          sold: salesCount[product.id],
+        };
+      })
+      .sort((a, b) => b.sold - a.sold);
+
+    // store product count
+    const productCount = store?.products.length;
+
+    // items that need attention aka the quantity is less than 5
+    const attentionItems = store?.products
+      .filter((product) => product.quantity < 5)
+      .map((product) => {
+        return {
+          id: product.id,
+          name: product.name,
+          image: product.image,
+          quantity: product.quantity,
+        };
+      });
+
+    const allReviews =
+      store?.products.flatMap((product) =>
+        product.reviews.map((review) => ({
+          ...review,
+          productName: product.name,
+        })),
+      ) || [];
+
+    const recentReviews = allReviews
+      .sort(
+        (a, b) =>
+          new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf(),
+      )
+      .slice(0, 5)
+      .map((review) => {
+        return {
+          id: review.id,
+          rating: review.rating,
+          productName: review.productName,
+          userName: review.user.name + ' ' + review.user.lastName,
+        };
+      });
+
+    return {
+      orderThisWeek,
+      topSelling,
+      productCount,
+      attentionItems,
+      recentReviews,
+    };
+  } catch (err) {
+    if (err instanceof Error) {
+      console.log(err);
+    }
+    return;
+  }
+};

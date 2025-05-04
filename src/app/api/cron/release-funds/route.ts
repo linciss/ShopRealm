@@ -40,7 +40,15 @@ export async function GET(request: NextRequest) {
     // calculates all the logic
     const results = await Promise.allSettled(
       itemsToRelease.map(async (item) => {
-        if (!item.store.stripeAccountId) return null;
+        if (!item.store.stripeAccountId)
+          // TODO: CHANGE THE RETURN STATEMENT BECAUSE IM TESTING RN
+          // return null
+          return await prisma.orderItem.update({
+            where: { id: item.id },
+            data: {
+              escrowStatus: 'released',
+            },
+          });
 
         // calculates the fee
         const platformFeePercentage = 0.1;

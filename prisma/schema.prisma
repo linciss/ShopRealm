@@ -161,6 +161,7 @@ model OrderItem {
   shippingCity          String
   shippingCountry       String
   shippingPostalCode    String
+  createdAt             DateTime        @default(now())  
 }
 
 model Review {
