@@ -331,5 +331,6 @@
   "stripeConnected": "Stripe account connected!",
   "viewStripeDashboard": "View stripe dashboard",
   "failedToCreate": "Failed to create stripe link",
-  "failedToCreateAccount": "Failed to create stripe account"
+  "failedToCreateAccount": "Failed to create stripe account",
+  "street": "Street"
 }

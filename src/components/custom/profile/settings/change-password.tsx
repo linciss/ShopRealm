@@ -19,6 +19,7 @@ import { useToast } from '@/hooks/use-toast';
 import { useTransition } from 'react';
 import { changePassword } from '../../../../../actions/user/change-password';
 import { useTranslation } from 'react-i18next';
+import { CardTitle } from '@/components/ui/card';
 
 export const ChangePassword = () => {
   const form = useForm<z.infer<typeof changeProfilePasswordSchema>>({
@@ -62,7 +63,7 @@ export const ChangePassword = () => {
     <CardWrapper
       cardHeader={
         <>
-          <h2 className='text-2xl font-semibold'>{t('passwordChange')}</h2>
+          <CardTitle>{t('passwordChange')}</CardTitle>
         </>
       }
       cardContent={

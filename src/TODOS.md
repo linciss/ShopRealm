@@ -37,7 +37,7 @@
 - [ ] more error handlinmg when ordering item in stripe!
 - [x] mayb remove email change bcs too lazy to implement
 - [ ] cant rememebr password page 
-- [ ] consistent cards
+- [x] consistent cards
 
 
 # TRANSLATIONS TODO 
