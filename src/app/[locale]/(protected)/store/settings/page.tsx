@@ -5,6 +5,7 @@ import { getStoreData } from '../../../../../../data/store';
 import { redirect } from 'next/navigation';
 import { FALLBACK_REDIRECT } from '../../../../../../routes';
 import { ActiveForms } from '@/components/custom/shop/settings/active-forms';
+import { Payments } from '@/components/custom/shop/settings/payments';
 
 interface SettingsProps {
   params: Promise<{ locale: string }>;
@@ -47,7 +48,9 @@ export default async function Settings({ params }: SettingsProps) {
             <ActiveForms activeValue={store.active} />
           </div>
         </TabsContent>
-        <TabsContent value='payment' className='space-y-4'></TabsContent>
+        <TabsContent value='payment' className='space-y-4'>
+          <Payments t={t} stripeAccountId={store.stripeAccountId} />
+        </TabsContent>
         <TabsContent value='dangerZone' className='space-y-4'></TabsContent>
       </Tabs>
     </div>

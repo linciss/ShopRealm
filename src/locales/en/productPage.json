@@ -316,5 +316,20 @@
   "createYourStore": "Create your store",
   "createYourStoreDesc": "Create your store to be able to sell your products.",
   "general": "General",
-  "payment": "Payment"
+  "payment": "Payment",
+  "paymentSettings": "Payment settings",
+  "paymentSettingsDesc": "Connect your Stripe account to receive payments from customers.",
+  "connStripe": "Connect your Stripe account",
+  "connStripeDesc": "You need to connect your Stripe account to receive payments from customers.",
+  "goToDashboard": "Go to Stripe Dashboard",
+  "stripeId": "Stripe Connect Account ID",
+  "stripeIdDesc": "Enter your Stripe Connect account ID to receive payments directly to your Stripe account.",
+  "savePayment": "Save payment settings",
+  "paymentSettingsSaved": "Payment settings saved successfully.",
+  "paymentSettingsError": "Payment settings error",
+  "cantFindStripe": "Can't find Stripe account",
+  "stripeConnected": "Stripe account connected!",
+  "viewStripeDashboard": "View stripe dashboard",
+  "failedToCreate": "Failed to create stripe link",
+  "failedToCreateAccount": "Failed to create stripe account"
 }
