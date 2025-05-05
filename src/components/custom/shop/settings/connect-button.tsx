@@ -21,7 +21,7 @@ export const ConnectButton = () => {
   };
 
   return (
-    <Button onClick={handleConnect} disabled={isPending} className='w-10'>
+    <Button onClick={handleConnect} disabled={isPending}>
       {t('connectWithStripe')}
     </Button>
   );

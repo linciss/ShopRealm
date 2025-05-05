@@ -10,10 +10,15 @@ import { DangerZone } from '@/components/custom/shop/settings/danger-zone';
 
 interface SettingsProps {
   params: Promise<{ locale: string }>;
+  searchParams: Promise<{ tab: string }>;
 }
 
-export default async function Settings({ params }: SettingsProps) {
+export default async function Settings({
+  params,
+  searchParams,
+}: SettingsProps) {
   const { locale } = await params;
+  const { tab } = await searchParams;
 
   const { t } = await initTranslations(locale, ['productPage']);
 
@@ -26,7 +31,7 @@ export default async function Settings({ params }: SettingsProps) {
       <div className='flex flex-col gap-4'>
         <h1 className=' font-bold text-3xl '>{t('settings')}</h1>
       </div>
-      <Tabs defaultValue='general' className='space-y-4'>
+      <Tabs defaultValue={tab || 'general'} className='space-y-4'>
         <TabsList>
           <TabsTrigger value='general'>{t('general')}</TabsTrigger>
           <TabsTrigger value='payment'>{t('payment')}</TabsTrigger>

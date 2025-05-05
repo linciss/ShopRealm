@@ -45,7 +45,10 @@ export const getStoreName = async () => {
 
     if (!storeData) return;
 
-    return storeData?.name as string;
+    return {
+      name: storeData.name,
+      isStripeConnected: storeData.stripeAccountId ? true : false,
+    };
   } catch (error) {
     if (error instanceof Error) {
       console.log('Error: ', error.stack);

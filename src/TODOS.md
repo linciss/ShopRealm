@@ -60,7 +60,7 @@
 - [x] favorite
 - [x] checkout success
 - [ ] footer
-- [ ] verifacit0on banner
+- [x] verifacit0on banner
 - [x] validations
 
 

@@ -340,5 +340,10 @@
   "badToken": "Bad or expired token, couldn't verify email address please close this page and try again.",
   "verified": "Email address verified successfully please close this page.",
   "sentTo": "Verification link sent to your email",
-  "notVerified": "Email address not verified"
+  "notVerified": "Email address not verified",
+  "connectWithStripe": "Connect with Stripe",
+  "setupPayments": "Set up payments",
+  "connectYour": "Connect your Stripe account to receive payments for ",
+  "yourStoreIsReady": "Your store is ready, but customers won't be able to complete purchases until payment is set up.",
+  "remindMeLater": "Remind me later"
 }
