@@ -70,10 +70,8 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
 
   return (
     <Card>
-      <CardHeader className='sm:p-6 px-2'>
-        <CardTitle className='text-2xl  font-semibold leading-none tracking-tight'>
-          {t('productManager')}
-        </CardTitle>
+      <CardHeader className='sm:p-6 px-2 !pb-0'>
+        <CardTitle className=''>{t('productManager')}</CardTitle>
       </CardHeader>
       <CardContent className='sm:p-6 px-2'>
         <Table>

@@ -18,8 +18,8 @@
 - [x] pagination (50%)
 - [x] Wishlist page
 - [x] show address info in cart page So if user doesnt have their address setup they could just set it up there
-- [ ] Stores need to set up their stripe aka give their account info
-- [ ] store settings page breh
+- [x] Stores need to set up their stripe aka give their account info
+- [x] store settings page breh
 - [x] analytics
 - [x] increment view stats when viewing a product, maybe like also store views?
 - [x] vague analytics for products aka views | how many in favorites | cart?
@@ -28,7 +28,7 @@
 - [ ] about us 
 - [x] echckout page 
 - [ ] new order system? where user has 14 days  to confirm after shipped and then when user confirms then only make the order as complete (gonna need another cron) adn then start the escrow holding funds logic
-- [ ] redesign the store craete card
+- [x] redesign the store craete card
 - [x] order filters
 - [ ] makea  seperate registration for stores? so tehy dont have to mess with the user stuff?
 - [x] send email to poeple when a favorite item of theirs go on sale?
@@ -37,6 +37,8 @@
 - [ ] more error handlinmg when ordering item in stripe!
 - [x] mayb remove email change bcs too lazy to implement
 - [ ] cant rememebr password page 
+- [ ] consistent cards
+
 
 # TRANSLATIONS TODO 
 

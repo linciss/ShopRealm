@@ -1,5 +1,5 @@
 import { Mail, Phone, Store, User } from 'lucide-react';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface DataCardProps {
   dataType: string;
@@ -21,13 +21,17 @@ export const DataCard = ({
   return (
     <Card>
       <CardHeader>
-        <h3 className='text-xl font-semibold flex gap-4 items-center'>
-          {dataType === t('dataTypeStore') ? <Store /> : <User />}
+        <CardTitle className='flex gap-2 items-center'>
+          {dataType === t('dataTypeStore') ? (
+            <Store className='h-[17px] w-[17px]' />
+          ) : (
+            <User className='h-[17px] w-[17px]' />
+          )}
           {dataType} {t('data')}
-        </h3>
+        </CardTitle>
       </CardHeader>
       <CardContent className='flex flex-col gap-2'>
-        <p className='text-md font-semibold'>
+        <p className='text-sm font-semibold'>
           {name} {lastName}
         </p>
         <a

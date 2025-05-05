@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Box } from 'lucide-react';
 import Image from 'next/image';
 import { formatCurrency } from '../../lib/format-currency';
@@ -23,9 +23,9 @@ export const OrderInfo = ({
   return (
     <Card className=''>
       <CardHeader>
-        <h2 className='text-xl font-semibold flex gap-2'>
+        <CardTitle className='flex gap-2 items-center'>
           <Box /> {t('orderProduct')}
-        </h2>
+        </CardTitle>
       </CardHeader>
       <CardContent>
         <div className='flex md:flex-row flex-col items-center'>

@@ -14,7 +14,7 @@ export const PersonalInformation = async ({
     <div className='mt-2 w-full border-primary'>
       <Card className='p-1  shadow-lg'>
         <CardHeader>
-          <CardTitle className='text-xl'>{cardTitle}</CardTitle>
+          <CardTitle>{cardTitle}</CardTitle>
         </CardHeader>
         <CardContent>{children}</CardContent>
       </Card>

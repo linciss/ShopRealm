@@ -1,5 +1,11 @@
 'use client';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Switch } from '@/components/ui/switch';
 import { useState, useTransition } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -39,20 +45,16 @@ export const ActiveForms = ({ activeValue }: ActiveFormsProps) => {
   return (
     <Card>
       <CardHeader>
-        <h2 className='font-semibold flex flex-row gap-3 items-center text-2xl '>
-          {t('storeStatus')}
-        </h2>
-        <p className='text-sm font-normal text-muted-foreground'>
-          {t('storeStatusDesc')}
-        </p>
+        <CardTitle>{t('storeStatus')}</CardTitle>
+        <CardDescription>{t('storeStatusDesc')}</CardDescription>
       </CardHeader>
       <CardContent className=''>
         <div className='flex flex-row items-center justify-between'>
           <div>
-            <h3 className='font-semibold flex flex-row gap-3 items-center text-lg '>
+            <h3 className='font-semibold flex flex-row gap-3 items-center text-sm '>
               {t('storeActive')}
             </h3>
-            <p className='text-sm font-normal text-muted-foreground'>
+            <p className='text-xs font-normal text-muted-foreground'>
               {t('storeActiveDesc')}
             </p>
           </div>

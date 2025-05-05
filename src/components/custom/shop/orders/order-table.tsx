@@ -67,10 +67,8 @@ interface OrderTableProps {
 export const OrderTable = ({ orders, t }: OrderTableProps) => {
   return (
     <Card>
-      <CardHeader className='sm:p-6 px-2'>
-        <CardTitle className='text-2xl  font-semibold leading-none tracking-tight'>
-          {t('orderManager')}
-        </CardTitle>
+      <CardHeader className='sm:p-6 px-2 !pb-0'>
+        <CardTitle className=''>{t('orderManager')}</CardTitle>
       </CardHeader>
       <CardContent className='sm:p-6 px-2'>
         <Table>

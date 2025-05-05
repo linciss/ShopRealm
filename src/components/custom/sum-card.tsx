@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { formatCurrency } from '@/lib/format-currency';
 import { Button } from '../ui/button';
@@ -37,7 +37,7 @@ export const SumCard = ({
   return (
     <Card className='flex-1 md:col-span-1 h-fit sticky top-20'>
       <CardHeader>
-        <h4 className='text-xl font-semibold'>{t('orderSummary')}</h4>
+        <CardTitle>{t('orderSummary')}</CardTitle>
       </CardHeader>
       <CardContent className='space-y-4'>
         <div className='text flex justify-between'>

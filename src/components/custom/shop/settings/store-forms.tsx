@@ -4,7 +4,7 @@
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Pencil, Store } from 'lucide-react';
 import {
   Form,
@@ -75,21 +75,22 @@ export const StoreForms = ({ storeInfo }: UserProps) => {
   };
 
   return (
-    <Card className='w-full p-8 text-start'>
-      <CardTitle className='flex flex-col gap-2'>
-        <h2 className='font-semibold flex flex-row gap-3 items-center text-2xl'>
-          <Store />
+    <Card className=''>
+      <CardHeader>
+        <CardTitle className='flex items-center  gap-2'>
+          <Store className='h-[17px] w[[17px]' />
           {t('storeInfo')}
-        </h2>
+        </CardTitle>
         <p className='text-sm font-normal text-muted-foreground'>
           {t('storeInfoDesc')}
         </p>
-      </CardTitle>
-      <CardContent className='p-0 text-start'>
+      </CardHeader>
+
+      <CardContent className=''>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className='flex flex-col space-y-3 mt-4'
+            className='flex flex-col space-y-3'
           >
             <FormField
               control={form.control}

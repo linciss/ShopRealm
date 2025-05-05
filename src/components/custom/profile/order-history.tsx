@@ -67,9 +67,7 @@ export const OrderHistory = ({ history }: OrderHistoryProps) => {
   return (
     <Card>
       <CardHeader className='sm:p-6 px-2'>
-        <CardTitle className='text-2xl  font-semibold leading-none tracking-tight'>
-          {t('myOrders')}
-        </CardTitle>
+        <CardTitle className=''>{t('myOrders')}</CardTitle>
       </CardHeader>
       <CardContent className='sm:p-6 px-2'>
         <Table>

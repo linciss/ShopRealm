@@ -1,4 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { CreditCard } from 'lucide-react';
 import { PaymentsForms } from './payments-forms';
 
@@ -12,15 +18,11 @@ export const Payments = ({ t, stripeAccountId }: PaymentsProps) => {
     <div>
       <Card>
         <CardHeader>
-          <CardTitle className='flex flex-col gap-2'>
-            <h2 className='font-semibold flex flex-row gap-3 items-center text-2xl'>
-              <CreditCard />
-              {t('paymentSettings')}
-            </h2>
-            <p className='text-sm font-normal text-muted-foreground'>
-              {t('paymentSettingsDesc')}
-            </p>
+          <CardTitle className='flex gap-2 items-center'>
+            <CreditCard className='h-[17px] w[[17px]' />
+            {t('paymentSettings')}
           </CardTitle>
+          <CardDescription>{t('paymentSettingsDesc')}</CardDescription>
         </CardHeader>
         <CardContent>
           <PaymentsForms stripeAccountId={stripeAccountId} />

@@ -6,6 +6,7 @@ import { redirect } from 'next/navigation';
 import { FALLBACK_REDIRECT } from '../../../../../../routes';
 import { ActiveForms } from '@/components/custom/shop/settings/active-forms';
 import { Payments } from '@/components/custom/shop/settings/payments';
+import { DangerZone } from '@/components/custom/shop/settings/danger-zone';
 
 interface SettingsProps {
   params: Promise<{ locale: string }>;
@@ -51,7 +52,9 @@ export default async function Settings({ params }: SettingsProps) {
         <TabsContent value='payment' className='space-y-4'>
           <Payments t={t} stripeAccountId={store.stripeAccountId} />
         </TabsContent>
-        <TabsContent value='dangerZone' className='space-y-4'></TabsContent>
+        <TabsContent value='dangerZone' className='space-y-4'>
+          <DangerZone />
+        </TabsContent>
       </Tabs>
     </div>
   );

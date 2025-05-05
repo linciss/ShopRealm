@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Info, User } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -99,7 +99,7 @@ export const CheckoutForm = ({ userInfo }: CheckoutProps) => {
       <Card>
         <CardHeader className='flex flex-col space-y-2'>
           <div className='flex flex-row items-center justify-between'>
-            <h2 className='text-2xl font-semibold'>{t('orderDetails')}</h2>
+            <CardTitle>{t('orderDetails')}</CardTitle>
             <div className='flex items-center text-sm text-muted-foreground'>
               <User className='h-4 w-4 mr-2' />
               <span>{t('usedProfileData')}</span>

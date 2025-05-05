@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Separator } from '@/components/ui/separator';
@@ -81,7 +81,7 @@ export const MoreInfo = async ({
         <TabsContent value='details' className='w-full space-y-20 '>
           <Card className='mt-5 '>
             <CardHeader>
-              <h3 className='text-xl font-semibold'>{t('productDetails')}</h3>
+              <CardTitle>{t('productDetails')}</CardTitle>
             </CardHeader>
             <CardContent>
               <div
@@ -94,7 +94,7 @@ export const MoreInfo = async ({
         <TabsContent value='specifications'>
           <Card className='mt-5'>
             <CardHeader>
-              <h3 className='text-xl font-semibold'>{t('specs')}</h3>
+              <CardTitle>{t('specs')}</CardTitle>
             </CardHeader>
             <CardContent>
               {parsedSpecifications && parsedSpecifications.length > 0 ? (
