@@ -30,10 +30,17 @@ export const requestVerification = async () => {
 };
 
 export const verifyUserEmail = async (token: string) => {
+  const session = await auth();
   try {
     const verifiedToken = await verifyToken(token);
 
     if (!verifiedToken) {
+      return {
+        error: 'badToken',
+      };
+    }
+
+    if (verifiedToken.email !== session?.user?.email) {
       return {
         error: 'badToken',
       };
