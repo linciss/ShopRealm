@@ -7,6 +7,7 @@ import {
   LayoutDashboard,
   LucideProps,
   Package,
+  Settings,
   ShoppingCart,
   Store,
 } from 'lucide-react';
@@ -61,6 +62,14 @@ export function StoreNavigation({ storeName }: StoreNavigationProps) {
       active:
         pathname === '/store/analytics' ||
         pathname.startsWith('/store/analytics/'),
+    },
+    {
+      href: '/store/settings',
+      icon: Settings,
+      label: t('settings'),
+      active:
+        pathname === '/store/settings' ||
+        pathname.startsWith('/store/settings/'),
     },
   ];
 

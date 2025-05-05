@@ -6,15 +6,16 @@ import { storeSchema } from '../../schemas';
 import { checkHasStore } from '../../data/store';
 import { auth } from '../../auth';
 import { slugify } from '@/lib/utils';
+import { revalidatePath } from 'next/cache';
 
 export const editUserStore = async (data: z.infer<typeof storeSchema>) => {
   const session = await auth();
   const validateData = storeSchema.safeParse(data);
 
-  if (!session?.user.id) return { error: 'Kluda!' };
+  if (!session?.user.id) return { error: 'authError' };
 
   if (!validateData.success) {
-    return { error: 'Kluda mainot datus!' };
+    return { error: 'validationError' };
   }
   try {
     const userId = session?.user?.id;
@@ -40,7 +41,7 @@ export const editUserStore = async (data: z.infer<typeof storeSchema>) => {
           hasStore: true,
         },
       });
-      return { success: 'Informacija samainita!' };
+      return { success1: 'storeCreated' };
     }
 
     await prisma.store.update({
@@ -53,11 +54,13 @@ export const editUserStore = async (data: z.infer<typeof storeSchema>) => {
       },
     });
 
-    return { success: 'Informacija samainita!' };
+    revalidatePath('/store');
+
+    return { success: 'changedInfo' };
   } catch (error) {
     if (error instanceof Error) {
       console.log('Error: ', error.stack);
     }
-    return { error: 'Kļūda apstrādājot datus' };
+    return { error: 'validationError' };
   }
 };

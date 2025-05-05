@@ -1,12 +1,12 @@
 
 - [ ]  Store owner cant buy/access their products? (IDK YET IF NEEDED)
-- [ ] Probs the fallback nav but its an edge case so will see
+- [x] Probs the fallback nav but its an edge case so will see
 - [x] Maybe redesign the order page bcs of consistancy
 - [x] Restrict users from buying if they dont have address && phone
 - [x] Remove every item  from cart button 
 - [ ] Obv the pages ..... category/sale and so on
 - [x] Change password
-- [ ] Change email
+- [x] Change email
 - [x] Emailing (?)
 - [x] Verify email
 - [x] Shop page!!!
@@ -20,7 +20,7 @@
 - [x] show address info in cart page So if user doesnt have their address setup they could just set it up there
 - [ ] Stores need to set up their stripe aka give their account info
 - [ ] store settings page breh
-- [ ] analytics
+- [x] analytics
 - [x] increment view stats when viewing a product, maybe like also store views?
 - [x] vague analytics for products aka views | how many in favorites | cart?
 - [x] Translation with i18
@@ -35,7 +35,8 @@
 - [x] remove product from cart if for example its deleted, threw some error gotta look into that
 - [x] sale price implementation
 - [ ] more error handlinmg when ordering item in stripe!
-- [ ] mayb remove email change bcs too lazy to implement
+- [x] mayb remove email change bcs too lazy to implement
+- [ ] cant rememebr password page 
 
 # TRANSLATIONS TODO 
 

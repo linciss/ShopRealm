@@ -74,7 +74,7 @@ export const getStoreData = async () => {
     if (error instanceof Error) {
       console.log('Error: ', error.stack);
     }
-    return { error: 'Kļūda apstrādājot datus' };
+    return;
   }
 };
 

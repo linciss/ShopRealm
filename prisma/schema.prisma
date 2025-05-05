@@ -58,6 +58,8 @@ model Store {
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   stripeAccountId   String?
+  active      Boolean         @default(true)
+  
 }
 
 model Product {
