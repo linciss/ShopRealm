@@ -67,12 +67,12 @@ export default async function Orders({ params, searchParams }: OrderProps) {
           <StatCard
             name={t('allOrders')}
             value={allOrders?.length}
-            icon={<ShoppingBag />}
+            icon={<ShoppingBag className='h-[16px] w-[16px]' />}
           />
           <StatCard
             name={t('completedIncome')}
             value={formatCurrency(completedOrdersTotal)}
-            icon={<CreditCard />}
+            icon={<CreditCard className='h-[16px] w-[16px]' />}
             description={t('completedOrders')}
           />
           <StatCard
@@ -84,7 +84,7 @@ export default async function Orders({ params, searchParams }: OrderProps) {
           <StatCard
             name={t('thisMonth')}
             value={currentMonthOrders.length}
-            icon={<CalendarClock />}
+            icon={<CalendarClock className='h-[16px] w-[16px]' />}
           />
         </div>
       </div>

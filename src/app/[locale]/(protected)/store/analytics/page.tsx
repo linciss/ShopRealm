@@ -2,6 +2,9 @@ import {
   CalendarClock,
   ChartNoAxesCombinedIcon,
   CreditCard,
+  MousePointerClick,
+  ShoppingBag,
+  User,
 } from 'lucide-react';
 import { StatCard } from '@/components/custom/shop/stat-card';
 import initTranslations from '@/app/i18n';
@@ -21,7 +24,7 @@ export default async function Analytics({ params }: AnalyticsProps) {
   const {
     totalRevenue = 0,
     conversionRate = 0,
-    avgOrderValue = 0,
+    pendingRevenue = 0,
     totalOrders = 0,
     totalCustomers = 0,
     revenuePerDay = {},
@@ -37,32 +40,32 @@ export default async function Analytics({ params }: AnalyticsProps) {
           <StatCard
             name={t('totalRevenue')}
             value={formatCurrency(totalRevenue)}
-            icon={<CreditCard />}
+            icon={<CreditCard className='h-[16px] w-[16px]' />}
           />
           <StatCard
             name={t('convRate')}
             value={`${parseFloat(conversionRate.toFixed(2))}%`}
-            icon={<ChartNoAxesCombinedIcon />}
+            icon={<ChartNoAxesCombinedIcon className='h-[16px] w-[16px]' />}
           />
           <StatCard
-            name={t('avgOrderValue')}
-            value={formatCurrency(avgOrderValue)}
-            icon={<CalendarClock />}
+            name={t('pendingRevenue')}
+            value={formatCurrency(pendingRevenue)}
+            icon={<CalendarClock className='h-[16px] w-[16px]' />}
           />
           <StatCard
             name={t('allOrders')}
             value={totalOrders}
-            icon={<CalendarClock />}
+            icon={<ShoppingBag className='h-[16px] w-[16px]' />}
           />
           <StatCard
             name={t('totalCustomers')}
             value={totalCustomers}
-            icon={<CalendarClock />}
+            icon={<User className='h-[16px] w-[16px]' />}
           />
           <StatCard
             name={t('totalInteractions')}
             value={totalViews}
-            icon={<CalendarClock />}
+            icon={<MousePointerClick className='h-[16px] w-[16px]' />}
           />
         </div>
       </div>

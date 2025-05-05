@@ -1,5 +1,5 @@
 
-- [ ]  Store owner cant buy/access their products? (IDK YET IF NEEDED)
+- [x]  Store owner cant buy/access their products? (IDK YET IF NEEDED)
 - [x] Probs the fallback nav but its an edge case so will see
 - [x] Maybe redesign the order page bcs of consistancy
 - [x] Restrict users from buying if they dont have address && phone
@@ -45,12 +45,12 @@
 - [x] product page 
 - [x] reviews
 - [x] Profile
-- [ ] Store page
+- [x] Store page
 	- [x] config
 	- [x] dashboard
 	- [x] orders 50%
 	- [x] analytics
-	- [ ] settings
+	- [x] settings
 	- [x] preview
 
 - [x] Cart

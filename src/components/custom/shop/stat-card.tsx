@@ -17,7 +17,7 @@ export const StatCard = async ({
   return (
     <Card className='rounded-lg'>
       <CardHeader className='pb-3'>
-        <span className='text-sm flex justify-between'>
+        <span className='text-sm flex justify-between items-center'>
           <span>{name}</span> {icon}
         </span>
       </CardHeader>

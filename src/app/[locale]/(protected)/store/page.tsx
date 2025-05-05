@@ -73,23 +73,23 @@ export default async function Store({ params }: StoreProps) {
         <StatCard
           name={t('allProducts')}
           value={data?.productCount}
-          icon={<ShoppingBag />}
+          icon={<ShoppingBag className='h-[16px] w-[16px]' />}
         />
         <StatCard
           name={t('allOrders')}
           value={data?.allOrderItems.length}
-          icon={<ShoppingBag />}
+          icon={<ShoppingBag className='h-[16px] w-[16px]' />}
         />
         <StatCard
           name={t('completedIncome')}
           value={formatCurrency(completedOrdersTotal)}
-          icon={<CreditCard />}
+          icon={<CreditCard className='h-[16px] w-[16px]' />}
         />
 
         <StatCard
           name={t('thisMonth')}
           value={currentMonthOrders.length}
-          icon={<CalendarClock />}
+          icon={<CalendarClock className='h-[16px] w-[16px]' />}
         />
       </div>
       <div className='grid md:grid-cols-3 grid-cols-1 gap-6'>

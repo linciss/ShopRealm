@@ -461,10 +461,12 @@ export const getAnalytics = async () => {
     });
 
     // 1st stat toatl revenue
-    const totalRevenue = orders.reduce(
-      (accumulator, currVal) => accumulator + currVal.total,
-      0,
-    );
+    const totalRevenue = orders
+      .filter(
+        (order) =>
+          order.status === 'complete' || order.escrowStatus === 'released',
+      )
+      .reduce((accumulator, currVal) => accumulator + currVal.total, 0);
 
     const totalViews =
       store?.products.reduce(
@@ -476,9 +478,12 @@ export const getAnalytics = async () => {
     const conversionRate = (orders.length / totalViews) * 100 || 0;
 
     // 3rd stat avg order value
-    const avgOrderValue =
-      orders.reduce((accumulator, currVal) => accumulator + currVal.total, 0) /
-      orders.length;
+    const pendingRevenue =
+      orders
+        .filter(
+          (order) => order.status !== 'complete' && order.status !== 'refunded',
+        )
+        .reduce((accumulator, currVal) => accumulator + currVal.total, 0) || 0;
 
     const totalOrders = orders.length;
 
@@ -553,7 +558,7 @@ export const getAnalytics = async () => {
     return {
       totalRevenue,
       conversionRate,
-      avgOrderValue,
+      pendingRevenue,
       totalOrders,
       totalCustomers: Object.keys(totalCustomers).length,
       totalViews,
