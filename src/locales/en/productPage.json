@@ -345,5 +345,7 @@
   "setupPayments": "Set up payments",
   "connectYour": "Connect your Stripe account to receive payments for ",
   "yourStoreIsReady": "Your store is ready, but customers won't be able to complete purchases until payment is set up.",
-  "remindMeLater": "Remind me later"
+  "remindMeLater": "Remind me later",
+  "deleteStoreDesc": "Are you sure you want to delete your store? This action is irreversible and will delete all your data.",
+  "deleteStore": "Delete store"
 }

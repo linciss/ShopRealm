@@ -1,11 +1,20 @@
-import { Card, CardHeader, CardTitle } from '@/components/ui/card';
+'use client';
+import { useTranslation } from 'react-i18next';
+import { CardDescription, CardTitle } from '@/components/ui/card';
+import { CardWrapper } from '../../profile/settings/card-wrapper';
+import { DeleteAccountDialog } from '../../delete-account-dialog';
 
 export const DangerZone = () => {
+  const { t } = useTranslation();
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle></CardTitle>
-      </CardHeader>
-    </Card>
+    <CardWrapper
+      cardHeader={<CardTitle>{t('dangerZone')}</CardTitle>}
+      cardContent={
+        <>
+          <CardDescription>{t('deleteStoreDesc')}</CardDescription>
+          <DeleteAccountDialog store={true} />
+        </>
+      }
+    />
   );
 };

@@ -15,22 +15,38 @@ import { useTransition } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { deleteAccount } from '../../../actions/user/delete';
 import { useTranslation } from 'react-i18next';
+import { deleteStore } from '../../../actions/store/delete-store';
 
-export const DeleteAccountDialog = () => {
+interface DeleteAccountDialog {
+  store?: boolean;
+}
+export const DeleteAccountDialog = ({ store = false }: DeleteAccountDialog) => {
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
   const { t } = useTranslation();
   const handleDeleteAccount = () => {
     startTransition(() => {
-      deleteAccount().then((res) => {
-        if (res.error) {
-          toast({
-            title: t('error'),
-            variant: 'destructive',
-            description: t(res.error),
-          });
-        }
-      });
+      if (store) {
+        deleteStore().then((res) => {
+          if (res.error) {
+            toast({
+              title: t('error'),
+              variant: 'destructive',
+              description: t(res.error),
+            });
+          }
+        });
+      } else {
+        deleteAccount().then((res) => {
+          if (res.error) {
+            toast({
+              title: t('error'),
+              variant: 'destructive',
+              description: t(res.error),
+            });
+          }
+        });
+      }
     });
   };
 
@@ -38,14 +54,14 @@ export const DeleteAccountDialog = () => {
     <AlertDialog>
       <AlertDialogTrigger asChild className='mt-2'>
         <Button variant={'destructive'} disabled={isPending}>
-          {t('deleteAccount')}
+          {t(store ? 'deleteStore' : 'deleteAccount')}
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{t('areYouSure')}</AlertDialogTitle>
           <AlertDialogDescription>
-            {t('deleteAccountDesc')}
+            {t(store ? 'deleteStoreDesc' : 'deleteAccountDesc')}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -58,7 +74,7 @@ export const DeleteAccountDialog = () => {
               disabled={isPending}
               variant={'destructive'}
             >
-              {t('deleteAccount')}
+              {t(store ? 'deleteStore' : 'deleteAccount')}
             </Button>
           </AlertDialogAction>
         </AlertDialogFooter>
