@@ -31,7 +31,7 @@ export default async function CheckoutPage({
 
   const subTotal = (await searchParams).sum;
 
-  if (!user.emailVerified) return <VerifyEmailBanner />;
+  if (!user.emailVerified) return <VerifyEmailBanner t={t} />;
 
   return (
     <div className='container max-w-7xl mx-auto py-8'>
