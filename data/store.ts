@@ -366,12 +366,16 @@ export const getAllDashboardStats = async () => {
     const topSelling = store?.products
       .filter((product) => topProductIds.includes(product.id))
       .map((product) => {
+        const unitsSold = allOrderItems
+          .filter((order) => order.productId === product.id)
+          .reduce((acc, curr) => acc + curr.quantity, 0);
+
         return {
           id: product.id,
           name: product.name,
           image: product.image,
           price: product.price,
-          sold: salesCount[product.id],
+          sold: unitsSold,
         };
       })
       .sort((a, b) => b.sold - a.sold);
@@ -421,6 +425,137 @@ export const getAllDashboardStats = async () => {
       attentionItems,
       recentReviews,
       allOrderItems,
+    };
+  } catch (err) {
+    if (err instanceof Error) {
+      console.log(err);
+    }
+    return;
+  }
+};
+
+export const getAnalytics = async () => {
+  const session = await auth();
+  if (!session?.user.id) return;
+
+  try {
+    const id = await getStoreId();
+
+    if (!id) return;
+
+    const store = await prisma.store.findUnique({
+      where: { id },
+      include: {
+        products: true,
+      },
+    });
+
+    const orders = await prisma.orderItem.findMany({
+      where: { storeId: id },
+      include: {
+        order: true,
+      },
+    });
+
+    // 1st stat toatl revenue
+    const totalRevenue = orders.reduce(
+      (accumulator, currVal) => accumulator + currVal.total,
+      0,
+    );
+
+    const totalViews =
+      store?.products.reduce(
+        (accumulator, currVal) => accumulator + currVal.views,
+        0,
+      ) || 0;
+
+    // 2nd stat conversion erate
+    const conversionRate = (orders.length / totalViews) * 100 || 0;
+
+    // 3rd stat avg order value
+    const avgOrderValue =
+      orders.reduce((accumulator, currVal) => accumulator + currVal.total, 0) /
+      orders.length;
+
+    const totalOrders = orders.length;
+
+    const totalCustomers: Record<string, number> = {};
+
+    orders.forEach((order) => {
+      totalCustomers[order.order.userId] =
+        (totalCustomers[order.order.userId] || 0) + 1;
+    });
+
+    const revenuePerDay: Record<string, number> = {};
+
+    // gets orders past 30 days so cna calculate monthly revenue
+    const ordersPerMonth = orders.filter((order) => {
+      const orderDate = new Date(order.createdAt);
+      const today = new Date();
+      return (
+        orderDate.getTime() >= today.getTime() - 30 * 24 * 60 * 60 * 1000 &&
+        orderDate.getTime() <= today.getTime()
+      );
+    });
+
+    ordersPerMonth.forEach((order) => {
+      const dayIndex = new Date(order.createdAt).toISOString().split('T')[0];
+
+      revenuePerDay[dayIndex] = (revenuePerDay[dayIndex] || 0) + order.total;
+    });
+
+    const salesCount: Record<string, number> = {};
+
+    orders.forEach((order) => {
+      salesCount[order.productId] = (salesCount[order.productId] || 0) + 1;
+    });
+
+    const topProductIds = Object.entries(salesCount)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 5)
+      .map(([productId]) => productId);
+
+    // top 5 selling products
+    const topSelling = store?.products
+      .filter((product) => topProductIds.includes(product.id))
+      .map((product) => {
+        const convRate =
+          (orders.filter((order) => order.productId === product.id).length /
+            product.views) *
+            100 || 0;
+
+        const unitsSold = orders
+          .filter((order) => order.productId === product.id)
+          .reduce((acc, curr) => acc + curr.quantity, 0);
+
+        const revenue = orders
+          .filter((order) => order.productId === product.id)
+          .reduce((acc, curr) => acc + curr.total, 0);
+
+        return {
+          id: product.id,
+          name: product.name,
+          image: product.image,
+          price: product.sale
+            ? product.salePrice || product.price
+            : product.price,
+          sold: unitsSold,
+          views: product.views,
+          convRate,
+          revenue,
+        };
+      })
+      .sort((a, b) => b.revenue - a.revenue);
+
+    return {
+      totalRevenue,
+      conversionRate,
+      avgOrderValue,
+      totalOrders,
+      totalCustomers: Object.keys(totalCustomers).length,
+      totalViews,
+      revenuePerDay,
+      topSelling,
     };
   } catch (err) {
     if (err instanceof Error) {

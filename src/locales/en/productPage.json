@@ -281,5 +281,22 @@
   "orderFilterDesc": "Filter your orders",
   "sortBy": "Sort by",
   "dateRange": "Date range",
-  "clearFilters": "Clear filters"
+  "clearFilters": "Clear filters",
+  "analytics": "Analytics",
+  "totalRevenue": "Total revenue",
+  "totalRevenueDesc": "Total revenue from all your orders.",
+  "convRate": "Conversion rate",
+  "convRateDesc": "Conversion rate is the percentage of visitors who make a purchase.",
+  "avgOrderValue": "Average order value",
+  "avgOrderValueDesc": "Average order value is the average amount of money spent per order.",
+  "allOrdersDesc": "All orders from all your products.",
+  "totalCustomers": "Total customers",
+  "totalCustomersDesc": "Total unique customers who have bought from you.",
+  "totalInteractions": "Total interactions",
+  "totalInteractionsDesc": "Total interactions with your products.",
+  "revenueChart": "Revenue chart",
+  "revenueChartDesc": "Revenue chart shows your revenue over a period of a month",
+  "revenue": "Revenue",
+  "views": "Views",
+  "unitsSold": "Units sold"
 }

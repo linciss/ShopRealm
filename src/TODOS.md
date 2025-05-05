@@ -46,7 +46,7 @@
 	- [x] config
 	- [x] dashboard
 	- [x] orders 50%
-	- [ ] analytics
+	- [x] analytics
 	- [ ] settings
 	- [x] preview
 

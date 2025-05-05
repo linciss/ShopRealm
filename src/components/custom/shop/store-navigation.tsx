@@ -3,6 +3,7 @@
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import {
+  ChartLine,
   LayoutDashboard,
   LucideProps,
   Package,
@@ -52,6 +53,14 @@ export function StoreNavigation({ storeName }: StoreNavigationProps) {
       label: t('orders'),
       active:
         pathname === '/store/orders' || pathname.startsWith('/store/orders/'),
+    },
+    {
+      href: '/store/analytics',
+      icon: ChartLine,
+      label: t('analytics'),
+      active:
+        pathname === '/store/analytics' ||
+        pathname.startsWith('/store/analytics/'),
     },
   ];
 
