@@ -7,25 +7,25 @@ import { sendVerifyEmail } from '../emailing/email';
 export const requestVerification = async () => {
   const session = await auth();
 
-  if (!session?.user.id) return { error: 'Lietotajs nav autorizejsies!' };
+  if (!session?.user.id) return { error: 'authError' };
 
   try {
     const email = session.user.email;
 
-    if (!email) return { error: 'Lietotajs nav autorizejsies!' };
+    if (!email) return { error: 'authError' };
 
     const token = await generateToken(email);
 
     await sendVerifyEmail(token, email);
 
     return {
-      success: `Jums uz epastu: ${email} ir nosutits epasta verifikacijas links!`,
+      email,
     };
   } catch (err) {
     if (err instanceof Error) {
       console.error('Nevareja verificet:', err);
     }
-    return { error: 'Nevareja verificet. Varat aizvert so lapu' };
+    return { error: 'cantVerify' };
   }
 };
 
@@ -35,7 +35,7 @@ export const verifyUserEmail = async (token: string) => {
 
     if (!verifiedToken) {
       return {
-        error: 'Nepareizs vai izbeidzies tokens. Varat aizvert so lapu',
+        error: 'badToken',
       };
     }
 
@@ -52,11 +52,11 @@ export const verifyUserEmail = async (token: string) => {
       },
     });
 
-    return { success: 'Veriifkacija izdevusies. Varat aizvert so lapu!' };
+    return { success: 'verified' };
   } catch (err) {
     if (err instanceof Error) {
       console.error('Nevareja verificet:', err);
     }
-    return { error: 'Nevareja verificet. Varat aizvert so lapu' };
+    return { error: 'cantVerify' };
   }
 };

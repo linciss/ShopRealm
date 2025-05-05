@@ -332,5 +332,12 @@
   "viewStripeDashboard": "View stripe dashboard",
   "failedToCreate": "Failed to create stripe link",
   "failedToCreateAccount": "Failed to create stripe account",
-  "street": "Street"
+  "street": "Street",
+  "pleaseVerify": "Please verify your email address",
+  "pleaseVerifyDesc": "Please verify your email address to be able to make purchases.",
+  "sendVerification": "Send verification email",
+  "cantVerify": "Can't verify your email address please close this page and try again.",
+  "badToken": "Bad or expired token, couldn't verify email address please close this page and try again.",
+  "verified": "Email address verified successfully please close this page.",
+  "sentTo": "Verification link sent to your email"
 }

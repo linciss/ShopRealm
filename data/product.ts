@@ -23,6 +23,9 @@ export const getProducts = async ({
   const allProducts = await prisma.product.findMany({
     where: {
       isActive: true,
+      store: {
+        active: true,
+      },
     },
     select: {
       id: true,
@@ -116,6 +119,9 @@ export const getProduct = async (id: string) => {
     const product = await prisma.product.findUnique({
       where: {
         id: id,
+        store: {
+          active: true,
+        },
       },
       select: {
         id: true,
@@ -178,6 +184,9 @@ export const getRelatedProducts = async (
           not: productId,
         },
         isActive: true,
+        store: {
+          active: true,
+        },
       },
       select: {
         id: true,

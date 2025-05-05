@@ -37,8 +37,8 @@ export default async function CartPage({ params }: CartPageProps) {
 
   return (
     <>
-      {session?.user.id && !emailVerified && <VerifyEmailBanner />}
       <div className='container max-w-7xl mx-auto py-8'>
+        {session?.user.id && !emailVerified && <VerifyEmailBanner t={t} />}
         <div className=''>
           <h2 className='text-3xl font-bold'>{t('cart')}</h2>
         </div>

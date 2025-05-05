@@ -3,10 +3,12 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { useTransition } from 'react';
 import { requestVerification } from '../../../../../actions/user/verify-email';
+import { useTranslation } from 'react-i18next';
 
 export const VerifyEmailButton = () => {
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
+  const { t } = useTranslation();
 
   const handleRequestVerification = () => {
     startTransition(() => {
@@ -14,13 +16,13 @@ export const VerifyEmailButton = () => {
         if (res.error) {
           toast({
             variant: 'destructive',
-            title: 'Kluda!',
-            description: res.error,
+            title: t('error'),
+            description: t(res.error),
           });
         } else {
           toast({
-            title: 'Pieprasits!',
-            description: res.success,
+            title: t('success'),
+            description: `${t('sentTo')}: ${res.email}`,
           });
         }
       });
@@ -29,7 +31,7 @@ export const VerifyEmailButton = () => {
 
   return (
     <Button disabled={isPending} onClick={handleRequestVerification}>
-      Sutit verifikaciju
+      {t('sendVerification')}
     </Button>
   );
 };

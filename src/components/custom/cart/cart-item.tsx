@@ -108,7 +108,7 @@ export const CartItem = ({
                     <span className='line-through text-sm text-muted-foreground'>
                       {formatCurrency(item.product.price)}
                     </span>{' '}
-                    <span className='text-red-500'>
+                    <span className='text-red-800'>
                       {formatCurrency(item.product.salePrice)}
                     </span>
                   </>
@@ -121,6 +121,7 @@ export const CartItem = ({
             <div className='flex items-center border rounded-md h-9'>
               <Button
                 variant={'ghost'}
+                aria-label='Remove quantity'
                 onClick={() => {
                   setQuantity(quantity - 1);
                   onChange(item.product.id, quantity - 1);
@@ -132,6 +133,7 @@ export const CartItem = ({
               <div className='w-6 text-center'>{quantity}</div>
               <Button
                 variant={'ghost'}
+                aria-label='Append quantity'
                 onClick={() => {
                   setQuantity(quantity + 1);
                   onChange(item.product.id, quantity + 1);
@@ -144,7 +146,7 @@ export const CartItem = ({
           </div>
           <Button
             variant={'ghost'}
-            className='  text-red-500 border-red-500 hover:text-red-500 hover:border-red-500'
+            className='  text-red-800 border-red-800 hover:text-red-800 hover:border-red-800'
             onClick={() => {
               handleItemRemove();
             }}
