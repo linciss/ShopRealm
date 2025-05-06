@@ -7,12 +7,6 @@ import { Metadata } from 'next';
 import { getProducts } from '../../../../data/product';
 import initTranslations from '@/app/i18n';
 
-export const metadata: Metadata = {
-  title: 'Products',
-  description:
-    'Shop Realm is a place where you can shop for anything you want. From electronics to clothes, we have it all.',
-};
-
 interface ProductsPageProps {
   searchParams: Promise<{
     page?: string;
@@ -23,6 +17,18 @@ interface ProductsPageProps {
     sort?: string;
   }>;
   params: Promise<{ locale: string }>;
+}
+
+export async function generateMetadata({
+  params,
+}: ProductsPageProps): Promise<Metadata> {
+  const { locale } = await params;
+  const { t } = await initTranslations(locale, ['productPage']);
+
+  return {
+    title: t('saleHeading'),
+    description: t('saleHeadingDesc'),
+  };
 }
 
 const LIMIT = 20;

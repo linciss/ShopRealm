@@ -10,6 +10,7 @@ interface ProductsQueryOptions {
   sort?: string;
   limit: number;
   sale?: boolean;
+  justDropped?: boolean;
 }
 
 export const getProducts = async ({
@@ -21,6 +22,7 @@ export const getProducts = async ({
   sort,
   limit,
   sale = false,
+  justDropped = false,
 }: ProductsQueryOptions) => {
   const allProducts = await prisma.product.findMany({
     where: {
@@ -30,6 +32,11 @@ export const getProducts = async ({
       },
       ...(sale && {
         sale: true,
+      }),
+      ...(justDropped && {
+        createdAt: {
+          gte: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+        },
       }),
     },
     select: {

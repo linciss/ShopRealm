@@ -357,5 +357,9 @@
   "allRightsReserved": "All rights reserved",
   "sellOn": "Sell on Shop Sphere",
   "about": "About us",
-  "saleHeading": "Products on sale"
+  "saleHeading": "Products on sale",
+  "saleHeadingDesc": "Products that are on sale. Don't miss out on the best deals.",
+  "newHeading": "Just dropped",
+  "newHeadingDesc": "New products that are added to the store. Don't miss out on the latest products.",
+  "productHeadingDesc": "Products that are available. Don't miss out on the best products."
 }
