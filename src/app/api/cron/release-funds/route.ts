@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
     authHeader !== `Bearer ${process.env.CRON_SECRET}`
   ) {
     return NextResponse.json(
-      { error: 'Nav autorizacija!' },
+      { error: 'No auth' },
       {
         status: 401,
       },
@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
         if (!item.store.stripeAccountId) return null;
 
         // calculates the fee
-        const platformFeePercentage = 0.1;
+        const platformFeePercentage = 0.2;
         const platformFee = item.total * platformFeePercentage;
         const storeAmount = item.total - platformFee;
 

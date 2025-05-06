@@ -28,11 +28,13 @@ export const NavigationBar = async ({ locale }: NavigationBarProps) => {
           <Link href='/products' className='mr-6 flex items-center space-x-2'>
             <span className='text-xl font-bold'>Shop Realm</span>
           </Link>
-          <NavigationMenu>
-            <NavigationMenuList>
-              <NavigationShopper locale={locale} />
-            </NavigationMenuList>
-          </NavigationMenu>
+          {session?.user.role !== 'STORE' && (
+            <NavigationMenu>
+              <NavigationMenuList>
+                <NavigationShopper locale={locale} />
+              </NavigationMenuList>
+            </NavigationMenu>
+          )}
         </div>
         <div className='flex flex-1 items-center md:justify-end space-x-4 justify-between'>
           <div className='flex flex-1 items-center  space-x-4 '>
@@ -55,12 +57,14 @@ export const NavigationBar = async ({ locale }: NavigationBarProps) => {
               <RoleSwitcher session={session} />
             </div>
 
-            <Link href='/cart' prefetch={true} aria-label='Cart page'>
-              <Button variant='ghost' size='icon' aria-label='Cart page'>
-                <ShoppingCart className='h-5 w-5' />
-                <span className='sr-only'>Cart</span>
-              </Button>
-            </Link>
+            {session?.user.role !== 'STORE' && (
+              <Link href='/cart' prefetch={false} aria-label='Cart page'>
+                <Button variant='ghost' size='icon' aria-label='Cart page'>
+                  <ShoppingCart className='h-5 w-5' />
+                  <span className='sr-only'>Cart</span>
+                </Button>
+              </Link>
+            )}
 
             <NavigationAuth session={session || null} locale={locale} />
             <ThemeToggle />
