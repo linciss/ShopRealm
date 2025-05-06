@@ -24,7 +24,7 @@ export default async function RootLayout({
     >
       <NavigationBar locale={locale} />
       {children}
-      <Footer />
+      <Footer locale={locale} />
     </TranslationsProvider>
   );
 }

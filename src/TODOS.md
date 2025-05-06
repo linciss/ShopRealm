@@ -38,6 +38,7 @@
 - [x] mayb remove email change bcs too lazy to implement
 - [ ] cant rememebr password page 
 - [x] consistent cards
+- [ ] maybe make a recommendation system for products?? for example track the products they view check keywords or categories and show more of what they are looking for?
 
 
 # TRANSLATIONS TODO 
@@ -59,7 +60,7 @@
 - [x] Nav
 - [x] favorite
 - [x] checkout success
-- [ ] footer
+- [x] footer
 - [x] verifacit0on banner
 - [x] validations
 

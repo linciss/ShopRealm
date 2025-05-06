@@ -348,5 +348,13 @@
   "remindMeLater": "Remind me later",
   "deleteStoreDesc": "Are you sure you want to delete your store? This action is irreversible and will delete all your data.",
   "deleteStore": "Delete store",
-  "pendingRevenue": "Pending revenue"
+  "pendingRevenue": "Pending revenue",
+  "footer": "Footer",
+  "makesBetter": "Makes e-commerce better",
+  "solutions": "Solutions",
+  "help": "Help",
+  "company": "Company",
+  "allRightsReserved": "All rights reserved",
+  "sellOn": "Sell on Shop Sphere",
+  "about": "About us"
 }
