@@ -41,12 +41,14 @@ interface ProductCardProps {
   productData: Product;
   favoriteItems?: Favorite[] | undefined;
   session?: Session | null;
+  origin?: string;
 }
 
 export const ProductCard = ({
   productData,
   favoriteItems,
   session,
+  origin,
 }: ProductCardProps) => {
   // checks if item is favorite
   const isFav =
@@ -142,7 +144,13 @@ export const ProductCard = ({
     <Card className='overflow-hidden group'>
       <div className='aspect-square relative overflow-hidden '>
         <Link
-          href={productData.quantity > 0 ? `/products/${productData.id}` : ''}
+          href={
+            productData.quantity > 0
+              ? origin
+                ? `/products/${productData.id}?origin=${origin}`
+                : `/products/${productData.id}`
+              : ''
+          }
           prefetch={false}
         >
           <Image
@@ -194,7 +202,13 @@ export const ProductCard = ({
 
       <CardContent className='px-2 py-4'>
         <Link
-          href={productData.quantity > 0 ? `/products/${productData.id}` : ''}
+          href={
+            productData.quantity > 0
+              ? origin
+                ? `/products/${productData.id}?origin=${origin}`
+                : `/products/${productData.id}`
+              : ''
+          }
           prefetch={false}
         >
           <p className='text-sm truncate'>{productData.name}</p>

@@ -53,11 +53,13 @@ interface ProductProps {
       }
     | undefined;
   locale: string;
+  origin?: string;
 }
 
 export const ProductPageInfo = async ({
   productData,
   locale,
+  origin,
 }: ProductProps) => {
   if (!productData) return;
 
@@ -82,8 +84,8 @@ export const ProductPageInfo = async ({
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
-              <BreadcrumbLink href='/products'>
-                {t('productHeading')}
+              <BreadcrumbLink href={origin ? `/${origin}` : '/products'}>
+                {t(origin ? origin : 'productHeading')}
               </BreadcrumbLink>
             </BreadcrumbItem>
             <BreadcrumbSeparator />

@@ -4,7 +4,7 @@ export const shopperRoutes = [
   '/sale',
   '/new',
   '/categories',
-  '/category/electronics',
+  '/categories/electronics',
   '/store/[id]',
   '/products/[id]',
   '/category/',

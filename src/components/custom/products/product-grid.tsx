@@ -18,9 +18,10 @@ interface Product {
 
 interface ProductGridProps {
   products: Product[];
+  origin?: string;
 }
 
-export const ProductGrid = async ({ products }: ProductGridProps) => {
+export const ProductGrid = async ({ products, origin }: ProductGridProps) => {
   const session = await auth();
   const favoriteItems = await getFavoriteItems();
 
@@ -32,6 +33,7 @@ export const ProductGrid = async ({ products }: ProductGridProps) => {
           productData={prod}
           favoriteItems={favoriteItems}
           session={session || null}
+          origin={origin}
         />
       ))}
     </div>
