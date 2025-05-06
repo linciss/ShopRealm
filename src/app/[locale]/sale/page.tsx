@@ -59,7 +59,7 @@ export default async function Products({
 
   return (
     <div className=' mx-auto px-4 py-8 container'>
-      <h1 className='text-3xl font-bold mb-6'>{t('productHeading')}</h1>
+      <h1 className='text-3xl font-bold mb-6'>{t('saleHeading')}</h1>
       <div className='flex  gap-10 md:flex-row flex-col'>
         <div className='w-full md:w-64 shrink-0'>
           <ProductFilters

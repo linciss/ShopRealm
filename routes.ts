@@ -3,11 +3,8 @@ export const shopperRoutes = [
   '/products',
   '/sale',
   '/new',
-  '/categories',
-  '/categories/electronics',
   '/store/[id]',
   '/products/[id]',
-  '/category/',
 ];
 
 export const publicRoutes = ['/', '/about-us', ...shopperRoutes];

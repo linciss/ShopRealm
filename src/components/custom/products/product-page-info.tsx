@@ -90,7 +90,9 @@ export const ProductPageInfo = async ({
             </BreadcrumbItem>
             <BreadcrumbSeparator />
             <BreadcrumbItem>
-              <BreadcrumbLink href={`/category/${productData.category[0]}`}>
+              <BreadcrumbLink
+                href={`/products?category=${productData.category[0]}`}
+              >
                 {t(categoryMap[productData.category[0]].id)}
               </BreadcrumbLink>
             </BreadcrumbItem>

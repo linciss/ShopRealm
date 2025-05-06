@@ -8,7 +8,7 @@ import { Separator } from '@/components/ui/separator';
 import { Slider } from '@/components/ui/slider';
 import { ChevronDown, ChevronUp, Search, X } from 'lucide-react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useState, useTransition } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import { useTranslation } from 'react-i18next';
 
 const categories = [
@@ -20,15 +20,15 @@ const categories = [
     id: 'electronics',
     label: 'Elektronika',
   },
-  { id: 'clothing', label: 'Apgerbs' },
-  { id: 'home', label: 'Majas un virtuve' },
-  { id: 'beauty', label: 'Veseliba un skaistums' },
-  { id: 'sports', label: 'Sports un atputa' },
-  { id: 'toys', label: 'Rotaļlietas un spēles' },
-  { id: 'books', label: 'Gramatas un mediji' },
-  { id: 'health', label: 'Veseliba un labklajiba' },
-  { id: 'automotive', label: 'Auto un motocikli' },
-  { id: 'jewelry', label: 'Rotaslietas un aksesuari' },
+  { id: 'clothing' },
+  { id: 'home' },
+  { id: 'beauty' },
+  { id: 'sports' },
+  { id: 'toys' },
+  { id: 'books' },
+  { id: 'health' },
+  { id: 'automotive' },
+  { id: 'jewelry' },
 ];
 
 interface ProductFilterProps {
@@ -56,6 +56,15 @@ export const ProductFilters = ({
     maxPrice || 10000,
   ]);
   const [category, setCategory] = useState<string>(selectedCategory);
+
+  useEffect(() => {
+    const urlCategory = searchParams.get('category') || '';
+
+    if (urlCategory !== category) {
+      setCategory(urlCategory);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchParams]);
 
   const { t } = useTranslation();
 

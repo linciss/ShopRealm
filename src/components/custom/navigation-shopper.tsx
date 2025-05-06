@@ -105,17 +105,17 @@ const catgeories: RouteProps[] = [
   },
   {
     label: 'electronics',
-    href: '/products/category/electronics',
+    href: '/products?category=electronics',
     description: 'electronicsDesc',
   },
   {
     label: 'toys',
-    href: '/products/category/toys',
+    href: '/products?category=toys',
     description: 'toysDesc',
   },
   {
     label: 'home',
-    href: '/products/category/home',
+    href: '/products?category=home',
     description: 'homeDesc',
   },
 ];
@@ -128,9 +128,5 @@ const shopperLinks: RouteProps[] = [
   {
     label: 'new',
     href: '/new',
-  },
-  {
-    label: 'categories',
-    href: '/categories',
   },
 ];

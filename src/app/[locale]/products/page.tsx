@@ -55,6 +55,8 @@ export default async function Products({
   const locale = (await params).locale;
   const { t } = await initTranslations(locale, ['productPage']);
 
+  console.log(category);
+
   return (
     <div className=' mx-auto px-4 py-8 container'>
       <h1 className='text-3xl font-bold mb-6'>{t('productHeading')}</h1>
