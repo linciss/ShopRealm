@@ -7,6 +7,7 @@ import { getOrderHsitory } from '../../../../../data/orders';
 import { ProfileBanner } from '@/components/custom/profile/profile-banner';
 import { ProfilePage } from '@/components/custom/profile/profile-layout';
 import initTranslations from '@/app/i18n';
+import { auth } from '../../../../../auth';
 
 interface ProfileProps {
   params: Promise<{ locale: string }>;
@@ -14,6 +15,8 @@ interface ProfileProps {
 
 export default async function Profile({ params }: ProfileProps) {
   const userData = await getUserData();
+
+  const session = await auth();
 
   const userAddress = await getUserAddress();
 
@@ -44,6 +47,7 @@ export default async function Profile({ params }: ProfileProps) {
           userAddress={userAddress}
           orderHistory={orderHistory}
           emailStatus={emailStatus}
+          session={session}
         />
       </div>
     </div>

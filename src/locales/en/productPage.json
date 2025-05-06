@@ -361,5 +361,7 @@
   "saleHeadingDesc": "Products that are on sale. Don't miss out on the best deals.",
   "newHeading": "Just dropped",
   "newHeadingDesc": "New products that are added to the store. Don't miss out on the latest products.",
-  "productHeadingDesc": "Products that are available. Don't miss out on the best products."
+  "productHeadingDesc": "Products that are available. Don't miss out on the best products.",
+  "roleChange": "Change your role",
+  "currRole": "Your current role"
 }

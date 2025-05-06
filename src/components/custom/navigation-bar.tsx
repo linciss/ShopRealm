@@ -8,7 +8,6 @@ import {
 import { auth } from '../../../auth';
 import { ShoppingCart } from 'lucide-react';
 import { NavigationShopper } from './navigation-shopper';
-import RoleSwitcher from './role-switcher';
 import { ThemeToggle } from './theme-toggle';
 import { MobileMenu } from './mobile-menu';
 import { NavigationAuth } from './navigation-dropdown';
@@ -49,14 +48,6 @@ export const NavigationBar = async ({ locale }: NavigationBarProps) => {
           </div>
 
           <div className='flex flex-1 items-center justify-end  space-x-4  '>
-            <div
-              className={`md:block ${
-                session?.user.role === 'STORE' ? '' : 'hidden'
-              }`}
-            >
-              <RoleSwitcher session={session} />
-            </div>
-
             {session?.user.role !== 'STORE' && (
               <Link href='/cart' prefetch={false} aria-label='Cart page'>
                 <Button variant='ghost' size='icon' aria-label='Cart page'>

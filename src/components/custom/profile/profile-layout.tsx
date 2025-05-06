@@ -10,6 +10,7 @@ import { AddressForms } from './address-forms';
 import { OrderHistory } from './order-history';
 import { Settings } from './settings';
 import { useTranslation } from 'react-i18next';
+import { Session } from 'next-auth';
 
 interface OrderHistory {
   createdAt: Date;
@@ -51,6 +52,7 @@ interface ProfilePageLayoutProps {
     email: string;
     emailVerified: boolean;
   };
+  session: Session | null;
 }
 
 export const ProfilePage = ({
@@ -58,6 +60,7 @@ export const ProfilePage = ({
   userAddress,
   orderHistory,
   emailStatus,
+  session,
 }: ProfilePageLayoutProps) => {
   const [activeTab, setActiveTab] = useState<string>('profile');
   const { t } = useTranslation();
@@ -108,7 +111,9 @@ export const ProfilePage = ({
           </Tabs>
         )}
         {activeTab === 'orders' && <OrderHistory history={orderHistory} />}
-        {activeTab === 'settings' && <Settings emailStatus={emailStatus} />}
+        {activeTab === 'settings' && (
+          <Settings emailStatus={emailStatus} session={session} />
+        )}
       </div>
     </div>
   );

@@ -4,7 +4,7 @@
 - [x] Maybe redesign the order page bcs of consistancy
 - [x] Restrict users from buying if they dont have address && phone
 - [x] Remove every item  from cart button 
-- [ ] Obv the pages ..... category/sale and so on
+- [x] Obv the pages ..... category/sale and so on
 - [x] Change password
 - [x] Change email
 - [x] Emailing (?)
@@ -24,7 +24,7 @@
 - [x] increment view stats when viewing a product, maybe like also store views?
 - [x] vague analytics for products aka views | how many in favorites | cart?
 - [x] Translation with i18
-- [ ] Mkae the nav more responsive 
+- [x] Mkae the nav more responsive 
 - [ ] about us 
 - [x] echckout page 
 - [ ] new order system? where user has 14 days  to confirm after shipped and then when user confirms then only make the order as complete (gonna need another cron) adn then start the escrow holding funds logic
