@@ -25,7 +25,7 @@
 - [x] vague analytics for products aka views | how many in favorites | cart?
 - [x] Translation with i18
 - [x] Mkae the nav more responsive 
-- [ ] about us 
+- [x] about us 
 - [x] echckout page 
 - [ ] new order system? where user has 14 days  to confirm after shipped and then when user confirms then only make the order as complete (gonna need another cron) adn then start the escrow holding funds logic
 - [x] redesign the store craete card
@@ -39,6 +39,7 @@
 - [ ] cant rememebr password page 
 - [x] consistent cards
 - [ ] maybe make a recommendation system for products?? for example track the products they view check keywords or categories and show more of what they are looking for?
+- [ ] another create store card so user can create a store and then only show change role? so no unnecessary role switching is needed since admins gonna approve of stores
 
 
 # TRANSLATIONS TODO 

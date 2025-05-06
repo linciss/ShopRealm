@@ -6,7 +6,7 @@ const navigation = {
     { name: 'productHeading', href: '/products' },
     { name: 'sellOn', href: '/create-shop?direct=true' },
   ],
-  company: [{ name: 'about', href: '#' }],
+  company: [{ name: 'about', href: '/about' }],
 };
 
 interface FooterProps {
