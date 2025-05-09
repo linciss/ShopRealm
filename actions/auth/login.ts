@@ -8,7 +8,10 @@ import prisma from '@/lib/db';
 import { DEFAULT_SIGNIN_REDIRECT } from '../../routes';
 
 // login server action
-export const login = async (data: z.infer<typeof signInSchema>) => {
+export const login = async (
+  data: z.infer<typeof signInSchema>,
+  redirect: boolean,
+) => {
   const { email, password } = data;
 
   try {
@@ -26,7 +29,7 @@ export const login = async (data: z.infer<typeof signInSchema>) => {
     await signIn('credentials', {
       email: emailToLower,
       password,
-      redirectTo: DEFAULT_SIGNIN_REDIRECT,
+      redirectTo: redirect ? '/create-store' : DEFAULT_SIGNIN_REDIRECT,
     });
 
     return { success: 'signedIn' };

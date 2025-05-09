@@ -5,6 +5,7 @@ export const shopperRoutes = [
   '/new',
   '/store/[id]',
   '/products/[id]',
+  '/about',
 ];
 
 export const publicRoutes = ['/', '/about-us', ...shopperRoutes];

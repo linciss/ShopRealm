@@ -1,10 +1,18 @@
 import initTranslations from '@/app/i18n';
 import { StoreForms } from '@/components/custom/shop/settings/store-forms';
 import { getUserData } from '../../../../../data/user-data';
+import { Metadata } from 'next';
 
 interface StoreCreateProps {
   params: Promise<{ locale: string }>;
 }
+
+export const metadata: Metadata = {
+  title: 'Create store',
+  description:
+    'Create your store to be able to sell your products. You can create your store in a few simple steps. Admins will review your store and approve it. After that you can start selling your products.',
+};
+
 export default async function StoreCreate({ params }: StoreCreateProps) {
   const { locale } = await params;
 

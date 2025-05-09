@@ -87,6 +87,11 @@ export default auth(async (req) => {
   }
 
   if (!isPublicRoute && !isLoggedIn) {
+    if (pathnameWithoutLocale === '/create-store') {
+      return NextResponse.redirect(
+        new URL('/auth/sign-in?redirect=true', nextUrl),
+      );
+    }
     return NextResponse.redirect(new URL('/auth/sign-in', nextUrl));
   }
 

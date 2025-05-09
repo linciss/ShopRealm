@@ -54,8 +54,6 @@ export default function RoleSwitcher({ session, approved }: RoleSwitcherProps) {
   let cardHeader;
   let cardContent;
 
-  console.log(session.user.hasStore, approved);
-
   if (session.user.hasStore && approved) {
     cardHeader = (
       <>

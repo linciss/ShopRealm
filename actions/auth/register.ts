@@ -13,7 +13,10 @@ import { signUpSchema } from '../../schemas';
 const SALT_ROUNDS = 10;
 
 // register server action that creates a new user in the db
-export const register = async (data: z.infer<typeof signUpSchema>) => {
+export const register = async (
+  data: z.infer<typeof signUpSchema>,
+  redirect: boolean,
+) => {
   const validateData = signUpSchema.safeParse(data);
 
   if (!validateData.success) {
@@ -66,7 +69,7 @@ export const register = async (data: z.infer<typeof signUpSchema>) => {
     await signIn('credentials', {
       email,
       password,
-      redirectTo: DEFAULT_SIGNIN_REDIRECT,
+      redirectTo: redirect ? '/create-store' : DEFAULT_SIGNIN_REDIRECT,
     });
 
     return { success: 'registered' };

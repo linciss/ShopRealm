@@ -20,7 +20,7 @@ import { login } from '../../../actions/auth/login';
 
 import Link from 'next/link';
 import { useToast } from '@/hooks/use-toast';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 
 export const SignInForms = () => {
@@ -33,6 +33,7 @@ export const SignInForms = () => {
   });
 
   const [isPending, startTransition] = useTransition();
+  const searchParams = useSearchParams();
 
   const { toast } = useToast();
   const router = useRouter();
@@ -44,9 +45,11 @@ export const SignInForms = () => {
     }
   }, [router]);
 
+  const redirect = searchParams.get('redirect') ? true : false;
+
   const onSubmit = (data: z.infer<typeof signInSchema>) => {
     startTransition(() => {
-      login(data).then((res) => {
+      login(data, redirect).then((res) => {
         if (res?.error) {
           toast({
             title: t('error'),
@@ -68,7 +71,7 @@ export const SignInForms = () => {
       formType={t('signIn')}
       label={t('signInDesc')}
       footerText={t('authFooter')}
-      footerUrl='/auth/sign-up'
+      footerUrl={`/auth/sign-up${redirect ? '?redirect=true' : null}`}
     >
       <Form {...form}>
         <form

@@ -18,7 +18,7 @@ import { Button } from '../ui/button';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useToast } from '@/hooks/use-toast';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { register } from '../../../actions/auth/register';
 import { useTranslation } from 'react-i18next';
 
@@ -33,6 +33,7 @@ export const SignUpForms = () => {
       passwordConfirmation: '',
     },
   });
+  const searchParams = useSearchParams();
 
   const [isPending, startTransition] = useTransition();
   const { toast } = useToast();
@@ -43,11 +44,13 @@ export const SignUpForms = () => {
     router.prefetch('/products');
   }, [router]);
 
+  const redirect = searchParams.get('redirect') ? true : false;
+
   const { t } = useTranslation();
 
   const onSubmit = async (data: z.infer<typeof signUpSchema>) => {
     startTransition(() => {
-      register(data).then((res) => {
+      register(data, redirect).then((res) => {
         if (res?.error) {
           toast({
             title: t('error'),
@@ -69,7 +72,7 @@ export const SignUpForms = () => {
       formType={t('register')}
       label={t('registerDesc')}
       footerText={t('alreadyHaveAccount')}
-      footerUrl='/auth/sign-in'
+      footerUrl={`/auth/sign-in${redirect ? '?redirect=true' : null}`}
     >
       <Form {...form}>
         <form

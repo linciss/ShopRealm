@@ -36,7 +36,6 @@ export default async function Profile({ params }: ProfileProps) {
     approved = await hasBeenApproved();
   }
 
-  console.log(approved);
   return (
     <div className=''>
       <ProfileBanner
