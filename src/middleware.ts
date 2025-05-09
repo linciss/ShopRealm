@@ -73,7 +73,6 @@ export default auth(async (req) => {
   const isFallbackRoute = FALLBACK_REDIRECT === pathnameWithoutLocale;
 
   if (isApiAuthRoute) {
-    console.log('asdasd');
     return NextResponse.next();
   }
 

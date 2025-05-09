@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Users, ShieldCheck, Zap, Heart, Globe, BarChart4 } from 'lucide-react';
 import initTranslations from '@/app/i18n';
+import { aboutUsData } from '../../../../data/store';
 
 interface AboutProps {
   params: Promise<{ locale: string }>;
@@ -10,6 +11,7 @@ interface AboutProps {
 export default async function AboutPage({ params }: AboutProps) {
   const { locale } = await params;
   const { t } = await initTranslations(locale, ['productPage']);
+  const data = await aboutUsData();
 
   return (
     <div className='container mx-auto px-4 py-12'>
@@ -101,17 +103,17 @@ export default async function AboutPage({ params }: AboutProps) {
         <div className='grid gap-6 sm:grid-cols-1 lg:grid-cols-3'>
           {[
             {
-              value: '10K+',
+              value: data?.openStores,
               label: 'Active Stores',
               icon: <Globe className='h-6 w-6' />,
             },
             {
-              value: '1M+',
+              value: data?.totalProducts,
               label: 'Products Listed',
               icon: <BarChart4 className='h-6 w-6' />,
             },
             {
-              value: '5M+',
+              value: data?.totalCustomers,
               label: 'Happy Customers',
               icon: <Users className='h-6 w-6' />,
             },
@@ -146,7 +148,9 @@ export default async function AboutPage({ params }: AboutProps) {
               {/* TODO: INSERT THE LOCATION MAP ?? */}
               <h3 className='mb-4 text-lg font-semibold'>{t('contact')}</h3>
               <ul className='space-y-2 text-muted-foreground'>
-                <li>shoprealm@linards.me</li>
+                <li>
+                  <a href='mailto:shoprealm@linards.me'>shoprealm@linards.me</a>
+                </li>
                 <li>+371 22446688</li>
                 <li>Ventspils iela 51</li>
                 <li>Liepaja, Latvija</li>

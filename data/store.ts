@@ -572,3 +572,30 @@ export const getAnalytics = async () => {
     return;
   }
 };
+
+export const aboutUsData = async () => {
+  const session = await auth();
+  if (!session?.user.id) return;
+
+  const openStores = await prisma.store.count({});
+  const totalProducts = await prisma.product.count();
+  const totalCustomers = await prisma.user.count({
+    where: {
+      hasStore: false,
+    },
+  });
+
+  return {
+    openStores,
+    totalProducts,
+    totalCustomers,
+  };
+
+  try {
+  } catch (err) {
+    if (err instanceof Error) {
+      console.log(err);
+    }
+    return;
+  }
+};
