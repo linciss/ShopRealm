@@ -10,7 +10,7 @@ interface ProductsQueryOptions {
   sort?: string;
   limit: number;
   sale?: boolean;
-  justDropped?: boolean;
+  featured?: boolean;
 }
 
 export const getProducts = async ({
@@ -22,7 +22,7 @@ export const getProducts = async ({
   sort,
   limit,
   sale = false,
-  justDropped = false,
+  featured = false,
 }: ProductsQueryOptions) => {
   const allProducts = await prisma.product.findMany({
     where: {
@@ -33,10 +33,8 @@ export const getProducts = async ({
       ...(sale && {
         sale: true,
       }),
-      ...(justDropped && {
-        createdAt: {
-          gte: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
-        },
+      ...(featured && {
+        featured: true,
       }),
     },
     select: {
@@ -55,8 +53,14 @@ export const getProducts = async ({
       quantity: true,
       sale: true,
       salePrice: true,
+      featured: true,
+      store: {
+        select: { name: true },
+      },
     },
   });
+
+  console.log(allProducts);
 
   let filteredProducts = [...allProducts];
 

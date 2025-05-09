@@ -85,7 +85,8 @@ model Product {
   favoriteItems   FavoriteItem[]
   views           Int        @default(0)
   sale            Boolean    @default(false)
-  salePrice       String?     
+  salePrice       String?
+  featured         Boolean    @default(false)
 }
 
 model CartItem {

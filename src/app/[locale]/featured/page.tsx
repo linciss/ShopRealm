@@ -45,7 +45,7 @@ export default async function Products({
   const minPrice = Number(sp.minPrice) || undefined;
   const maxPrice = Number(sp.maxPrice) || undefined;
   const sort = sp.sort || '';
-  const justDropped = true;
+  const featured = true;
 
   const { products, totalProducts } = await getProducts({
     page,
@@ -55,7 +55,7 @@ export default async function Products({
     maxPrice,
     sort,
     limit: LIMIT,
-    justDropped,
+    featured,
   });
 
   const totalPages = Math.ceil(totalProducts / LIMIT);
@@ -65,7 +65,7 @@ export default async function Products({
 
   return (
     <div className=' mx-auto px-4 py-8 container'>
-      <h1 className='text-3xl font-bold mb-6'>{t('newHeading')}</h1>
+      <h1 className='text-3xl font-bold mb-6'>{t('featuredHeading')}</h1>
       <div className='flex  gap-10 md:flex-row flex-col'>
         <div className='w-full md:w-64 shrink-0'>
           <ProductFilters
@@ -85,7 +85,7 @@ export default async function Products({
             <ProductSoter sort={sort} />
           </div>
 
-          <ProductGrid products={products} origin={'new'} />
+          <ProductGrid products={products} origin={'featured'} />
         </div>
       </div>
       <ProductPagination currentPage={page} totalPages={totalPages} />

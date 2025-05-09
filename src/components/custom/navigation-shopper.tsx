@@ -126,7 +126,7 @@ const shopperLinks: RouteProps[] = [
     href: '/sale',
   },
   {
-    label: 'new',
-    href: '/new',
+    label: 'featured',
+    href: '/featured',
   },
 ];
