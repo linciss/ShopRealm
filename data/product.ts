@@ -60,8 +60,6 @@ export const getProducts = async ({
     },
   });
 
-  console.log(allProducts);
-
   let filteredProducts = [...allProducts];
 
   if (search) {

@@ -55,6 +55,7 @@ export const editUserStore = async (data: z.infer<typeof storeSchema>) => {
     });
 
     revalidatePath('/store');
+    revalidatePath('/profile');
 
     return { success: 'changedInfo' };
   } catch (error) {

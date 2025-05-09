@@ -59,6 +59,7 @@ model Store {
   updatedAt     DateTime        @updatedAt
   stripeAccountId   String?
   active      Boolean         @default(true)
+  approved     Boolean         @default(false)
   
 }
 

@@ -10,14 +10,15 @@ interface SettingsProps {
     emailVerified: boolean;
   };
   session: Session | null;
+  approved?: boolean | null;
 }
 
-export const Settings = ({ emailStatus, session }: SettingsProps) => {
+export const Settings = ({ emailStatus, session, approved }: SettingsProps) => {
   return (
     <div className='space-y-6'>
       <EmailVerification emailStatus={emailStatus} />
-      <RoleSwitcher session={session} />
       <ChangePassword />
+      <RoleSwitcher session={session} approved={approved} />
       <AccountDelete />
     </div>
   );

@@ -13,9 +13,11 @@ export default async function StoreCreate({ params }: StoreCreateProps) {
 
   return (
     <div className='py-10'>
-      <div className='flex flex-col mx-auto text-center gap-3 justify-center container max-w-3xl'>
-        <h1 className='text-4xl font-semibold'>{t('createYourStore')}</h1>
-        <p className='text-base font-normal text-muted-foreground'>
+      <div className='flex flex-col mx-auto gap-3 justify-center container max-w-3xl'>
+        <h1 className='text-4xl font-semibold text-center'>
+          {t('createYourStore')}
+        </h1>
+        <p className='text-base font-normal text-muted-foreground text-center'>
           {t('createStoreDesc')}
         </p>
         <StoreForms storeInfo={{ phone: userData?.phone || '' }} />

@@ -576,22 +576,42 @@ export const getAnalytics = async () => {
 export const aboutUsData = async () => {
   const session = await auth();
   if (!session?.user.id) return;
-
-  const openStores = await prisma.store.count({});
-  const totalProducts = await prisma.product.count();
-  const totalCustomers = await prisma.user.count({
-    where: {
-      hasStore: false,
-    },
-  });
-
-  return {
-    openStores,
-    totalProducts,
-    totalCustomers,
-  };
-
   try {
+    const openStores = await prisma.store.count({});
+    const totalProducts = await prisma.product.count();
+    const totalCustomers = await prisma.user.count({
+      where: {
+        hasStore: false,
+      },
+    });
+
+    return {
+      openStores,
+      totalProducts,
+      totalCustomers,
+    };
+  } catch (err) {
+    if (err instanceof Error) {
+      console.log(err);
+    }
+    return;
+  }
+};
+
+export const hasBeenApproved = async () => {
+  const session = await auth();
+  if (!session?.user.id) return;
+  try {
+    const userId = session.user.id;
+
+    const store = await prisma.store.findUnique({
+      where: { userId: userId },
+      select: {
+        approved: true,
+      },
+    });
+
+    return store?.approved;
   } catch (err) {
     if (err instanceof Error) {
       console.log(err);

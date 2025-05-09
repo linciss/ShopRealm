@@ -8,6 +8,7 @@ import { ProfileBanner } from '@/components/custom/profile/profile-banner';
 import { ProfilePage } from '@/components/custom/profile/profile-layout';
 import initTranslations from '@/app/i18n';
 import { auth } from '../../../../../auth';
+import { hasBeenApproved } from '../../../../../data/store';
 
 interface ProfileProps {
   params: Promise<{ locale: string }>;
@@ -15,6 +16,7 @@ interface ProfileProps {
 
 export default async function Profile({ params }: ProfileProps) {
   const userData = await getUserData();
+  let approved = null;
 
   const session = await auth();
 
@@ -30,6 +32,11 @@ export default async function Profile({ params }: ProfileProps) {
 
   const { t } = await initTranslations(locale, ['productPage']);
 
+  if (session?.user.hasStore) {
+    approved = await hasBeenApproved();
+  }
+
+  console.log(approved);
   return (
     <div className=''>
       <ProfileBanner
@@ -48,6 +55,7 @@ export default async function Profile({ params }: ProfileProps) {
           orderHistory={orderHistory}
           emailStatus={emailStatus}
           session={session}
+          approved={approved}
         />
       </div>
     </div>

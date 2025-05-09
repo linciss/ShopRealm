@@ -397,5 +397,12 @@
   "shopByCategory": "Shop by category",
   "discover": "Discover Amazing Products on",
   "find": "Find exactly what you're looking for from thousands of products across all categories",
-  "searchFor": "Search for products..."
+  "searchFor": "Search for products...",
+  "createStore": "Create your store",
+  "createStoreDesc": "Create your store to be able to sell your products. You can create your store in a few simple steps. Admins will review your store and approve it. After that you can start selling your products.",
+  "createStoreAction": "Create your store now",
+  "noStoreFound": "No store found!",
+  "storeNotApproved": "Store is not approved by by admins yet!",
+  "waitingForApproval": "Waiting for approval",
+  "waitingForApprovalDesc": "Your store is waiting for approval from admins. You will be notified by email when your store is approved."
 }

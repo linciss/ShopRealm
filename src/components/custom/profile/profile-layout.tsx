@@ -53,6 +53,7 @@ interface ProfilePageLayoutProps {
     emailVerified: boolean;
   };
   session: Session | null;
+  approved?: boolean | null;
 }
 
 export const ProfilePage = ({
@@ -61,6 +62,7 @@ export const ProfilePage = ({
   orderHistory,
   emailStatus,
   session,
+  approved,
 }: ProfilePageLayoutProps) => {
   const [activeTab, setActiveTab] = useState<string>('profile');
   const { t } = useTranslation();
@@ -112,7 +114,11 @@ export const ProfilePage = ({
         )}
         {activeTab === 'orders' && <OrderHistory history={orderHistory} />}
         {activeTab === 'settings' && (
-          <Settings emailStatus={emailStatus} session={session} />
+          <Settings
+            emailStatus={emailStatus}
+            session={session}
+            approved={approved}
+          />
         )}
       </div>
     </div>
