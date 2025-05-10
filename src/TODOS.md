@@ -34,14 +34,14 @@
 - [x] send email to poeple when a favorite item of theirs go on sale?
 - [x] remove product from cart if for example its deleted, threw some error gotta look into that
 - [x] sale price implementation
-- [ ] more error handlinmg when ordering item in stripe!
+- [x] more error handlinmg when ordering item in stripe!
 - [x] mayb remove email change bcs too lazy to implement
 - [x] cant rememebr password page 
 - [x] consistent cards
 - [ ] maybe make a recommendation system for products?? for example track the products they view check keywords or categories and show more of what they are looking for?
 - [x] another create store card so user can create a store and then only show change role? so no unnecessary role switching is needed since admins gonna approve of stores
 - [x] translate emails
-- [ ] confirm pass when deelting account!
+- [x] confirm pass when deelting account!
 - [x] fix about us stats not showing (just remove if !session) 
 - [x] /featured in routes 
 - [ ] somehow figure out how notify user when login or smthn toast 

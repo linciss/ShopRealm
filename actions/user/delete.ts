@@ -4,14 +4,38 @@ import { revalidatePath } from 'next/cache';
 import { auth, signOut } from '../../auth';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import prisma from '@/lib/db';
+import { z } from 'zod';
+import { deleteConfirmationSchema } from '../../schemas';
+import bcrypt from 'bcryptjs';
 
-export const deleteAccount = async () => {
+export const deleteAccount = async (
+  data: z.infer<typeof deleteConfirmationSchema>,
+) => {
   const session = await auth();
 
   if (!session?.user.id) return { error: 'authError' };
   const userId = session.user.id;
 
+  const validateData = deleteConfirmationSchema.safeParse(data);
+
+  if (!validateData.success) {
+    return {
+      error: 'validationError',
+    };
+  }
+
+  const { password } = validateData.data;
+
   try {
+    const user = await prisma.user.findUnique({
+      where: { id: userId },
+      select: { id: true, password: true },
+    });
+    if (!user) return { error: 'userNotFound' };
+    const matching = await bcrypt.compare(password, user.password);
+
+    if (!matching) return { error: 'invalidPassword' };
+
     //  make a transaction/bach query since if 1 fails its gonna fail all the queries so deletions can happen if an error throws up
     await prisma.$transaction(async (tx) => {
       await tx.review.deleteMany({

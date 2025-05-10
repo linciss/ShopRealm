@@ -292,8 +292,8 @@
   "allOrdersDesc": "All orders from all your products.",
   "totalCustomers": "Total customers",
   "totalCustomersDesc": "Total unique customers who have bought from you.",
-  "totalInteractions": "Total interactions",
-  "totalInteractionsDesc": "Total interactions with your products.",
+  "totalInteractions": "Total views",
+  "totalInteractionsDesc": "Total views with your products.",
   "revenueChart": "Revenue chart",
   "revenueChartDesc": "Revenue chart shows your revenue over a period of a month",
   "revenue": "Revenue",
@@ -412,5 +412,8 @@
   "resetEmailSent": "Reset password email sent to your email address. Please check your email.",
   "passwordReset": "Password reset",
   "passwordResetDesc": "Enter your new password. You will be signed in automatically after resetting the password.",
-  "resetPassword": "Reset password"
+  "resetPassword": "Reset password",
+  "errorWithSession": "Error with Stripe session, please try again",
+  "passwordConfirm": "Please enter your password before proceeding",
+  "invalidPassword": "Invalid password"
 }

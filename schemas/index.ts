@@ -268,3 +268,32 @@ export const createPasswordSchema = changePasswordSchema
 export const forgotPasswordSchema = z.object({
   email: z.string().email({ message: 'invalidEmail' }),
 });
+
+export const deleteConfirmationSchema = z
+  .object({
+    password: z.string().min(8, { message: 'min8Chars' }),
+  })
+  .superRefine(({ password }, validate) => {
+    // checks for the appropriate password strength
+    const checkStrength = (password: string, path: string[]) => {
+      const containsLowerCase = /[a-z]/.test(password);
+      const containsUpperCase = /[A-Z]/.test(password);
+      const containsSpecialCharacter =
+        /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password);
+      const containsNumber = /[0-9]/.test(password);
+
+      if (
+        !containsLowerCase ||
+        !containsUpperCase ||
+        !containsSpecialCharacter ||
+        !containsNumber
+      ) {
+        validate.addIssue({
+          code: 'custom',
+          path,
+          message: 'tooWeakPassword',
+        });
+      }
+    };
+    checkStrength(password, ['password']);
+  });
