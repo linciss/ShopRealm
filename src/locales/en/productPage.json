@@ -404,5 +404,13 @@
   "noStoreFound": "No store found!",
   "storeNotApproved": "Store is not approved by by admins yet!",
   "waitingForApproval": "Waiting for approval",
-  "waitingForApprovalDesc": "Your store is waiting for approval from admins. You will be notified by email when your store is approved."
+  "waitingForApprovalDesc": "Your store is waiting for approval from admins. You will be notified by email when your store is approved.",
+  "sendToken": "Send reset password token to email!",
+  "forgotPass": "Forgot password",
+  "forgotPassDesc": "Enter your email address to reset your password. You will receive an email with a link to reset your password.",
+  "cantGenerateToken": "Can't generate token",
+  "resetEmailSent": "Reset password email sent to your email address. Please check your email.",
+  "passwordReset": "Password reset",
+  "passwordResetDesc": "Enter your new password. You will be signed in automatically after resetting the password.",
+  "resetPassword": "Reset password"
 }
