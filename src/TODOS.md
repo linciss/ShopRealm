@@ -30,16 +30,20 @@
 - [ ] new order system? where user has 14 days  to confirm after shipped and then when user confirms then only make the order as complete (gonna need another cron) adn then start the escrow holding funds logic
 - [x] redesign the store craete card
 - [x] order filters
-- [ ] makea  seperate registration for stores? so tehy dont have to mess with the user stuff?
+- [x] makea  seperate registration for stores? so tehy dont have to mess with the user stuff?
 - [x] send email to poeple when a favorite item of theirs go on sale?
 - [x] remove product from cart if for example its deleted, threw some error gotta look into that
 - [x] sale price implementation
 - [ ] more error handlinmg when ordering item in stripe!
 - [x] mayb remove email change bcs too lazy to implement
-- [ ] cant rememebr password page 
+- [x] cant rememebr password page 
 - [x] consistent cards
 - [ ] maybe make a recommendation system for products?? for example track the products they view check keywords or categories and show more of what they are looking for?
-- [ ] another create store card so user can create a store and then only show change role? so no unnecessary role switching is needed since admins gonna approve of stores
+- [x] another create store card so user can create a store and then only show change role? so no unnecessary role switching is needed since admins gonna approve of stores
+- [ ] translate emails
+- [ ] confirm pass when deelting account!
+- [x] fix about us stats not showing (just remove if !session) 
+- [x] /featured in routes 
 
 
 # TRANSLATIONS TODO 

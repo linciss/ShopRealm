@@ -55,8 +55,7 @@ export const SumCard = ({
           <>
             <Link
               href={`/checkout?sum=${subTotal}`}
-              prefetch={true}
-              className='w-full'
+              className={`w-full ${!canProceed ? 'cursor-not-allowed pointer-events-none' : ''}`}
               aria-disabled={!canProceed}
             >
               <Button className='w-full mt-2' disabled={!canProceed}>

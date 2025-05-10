@@ -48,7 +48,9 @@ export default async function CartPage({ params }: CartPageProps) {
             <SumCard
               subTotal={subTotal || 0}
               t={t}
-              canProceed={cartProducts && cartProducts?.length > 0}
+              canProceed={
+                cartProducts && cartProducts?.length > 0 && emailVerified
+              }
               isGuest={!session?.user?.id}
             />
           </div>
