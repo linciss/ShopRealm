@@ -6,14 +6,14 @@ interface EmailLink {
 }
 
 export const ResetPassword = async ({ confirmLink, locale }: EmailLink) => {
-  const { t } = await initTranslations(locale, ['productPage']);
+  const { t } = await initTranslations(locale, ['email']);
   return (
     <div>
       <h1>Shop Realm</h1>
       <div>
-        <h2>{t('forgotPassDesc')}</h2>
-        <p>ResetPassword</p>
-        <a href={confirmLink}>Verificēt e-pastu</a>
+        <h2>{t('email:resetPassword')}</h2>
+        <p>{t('email:resetPasswordText')}</p>
+        <a href={confirmLink}>{t('resetPassword')}</a>
       </div>
     </div>
   );
