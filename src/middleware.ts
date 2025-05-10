@@ -101,7 +101,10 @@ export default auth(async (req) => {
   }
 
   // checks whether the user is a store and is trying to access the public routes
-  if (isShopperRoute && session?.role === 'STORE') {
+  if (
+    (isShopperRoute && session?.role === 'STORE') ||
+    (session?.role === 'STORE' && pathnameWithoutLocale === '/')
+  ) {
     return NextResponse.redirect(new URL('/store', nextUrl));
   }
 
