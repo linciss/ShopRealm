@@ -120,6 +120,12 @@ export const createCheckoutSession = async (
         city,
         country,
         postalCode,
+        productData: JSON.stringify(
+          cartItems.map((item) => ({
+            id: item.product.id,
+            quantity: item.quantity,
+          })),
+        ),
       },
     });
 
@@ -128,6 +134,6 @@ export const createCheckoutSession = async (
     if (err instanceof Error) {
       console.error(err);
     }
-    return { error: 'Kluda ar stripe sesiju!' };
+    return { error: 'errorWithSession' };
   }
 };
