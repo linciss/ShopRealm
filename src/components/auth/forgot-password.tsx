@@ -14,7 +14,6 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useTransition } from 'react';
 
 import { useToast } from '@/hooks/use-toast';

@@ -71,7 +71,7 @@ export const SignInForms = () => {
       formType={t('signIn')}
       label={t('signInDesc')}
       footerText={t('authFooter')}
-      footerUrl={`/auth/sign-up${redirect ? '?redirect=true' : null}`}
+      footerUrl={`/auth/sign-up${redirect ? '?redirect=true' : ''}`}
     >
       <Form {...form}>
         <form

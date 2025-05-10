@@ -40,10 +40,12 @@
 - [x] consistent cards
 - [ ] maybe make a recommendation system for products?? for example track the products they view check keywords or categories and show more of what they are looking for?
 - [x] another create store card so user can create a store and then only show change role? so no unnecessary role switching is needed since admins gonna approve of stores
-- [ ] translate emails
+- [x] translate emails
 - [ ] confirm pass when deelting account!
 - [x] fix about us stats not showing (just remove if !session) 
 - [x] /featured in routes 
+- [ ] somehow figure out how notify user when login or smthn toast 
+- [ ] progress bar
 
 
 # TRANSLATIONS TODO 
