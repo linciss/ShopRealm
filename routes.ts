@@ -6,6 +6,7 @@ export const shopperRoutes = [
   '/store/[id]',
   '/products/[id]',
   '/about',
+  '/featured',
 ];
 
 export const publicRoutes = ['/', '/about-us', ...shopperRoutes];
@@ -14,6 +15,7 @@ export const authRoutes = [
   '/auth/sign-in',
   '/auth/sign-up',
   '/auth/forgot-password',
+  '/auth/reset-password',
 ];
 
 export const storeRoutes = ['/store', '/store/product'];

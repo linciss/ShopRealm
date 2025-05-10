@@ -12,7 +12,15 @@ export const login = async (
   data: z.infer<typeof signInSchema>,
   redirect: boolean,
 ) => {
-  const { email, password } = data;
+  const validateData = signInSchema.safeParse(data);
+
+  if (!validateData.success) {
+    return {
+      error: 'validationError',
+    };
+  }
+
+  const { email, password } = validateData.data;
 
   try {
     const emailToLower = email.toLowerCase();

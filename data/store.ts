@@ -574,8 +574,6 @@ export const getAnalytics = async () => {
 };
 
 export const aboutUsData = async () => {
-  const session = await auth();
-  if (!session?.user.id) return;
   try {
     const openStores = await prisma.store.count({});
     const totalProducts = await prisma.product.count();
