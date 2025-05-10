@@ -116,7 +116,9 @@ export const SignInForms = () => {
               )}
             />
             <Link href='/auth/forgot-password'>
-              <p className='text-primary text-xs'>{t('forgotPassword')}</p>
+              <p className='text-primary text-xs text-start hover:underline '>
+                {t('forgotPassword')}
+              </p>
             </Link>
           </div>
 
