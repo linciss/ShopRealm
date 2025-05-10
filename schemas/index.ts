@@ -234,3 +234,37 @@ export const changeProfilePasswordSchema = changePasswordSchema
     checkStrength(newPassword, ['newPassword']);
     checkStrength(newPasswordConfirm, ['newPasswordConfirm']);
   });
+
+export const createPasswordSchema = changePasswordSchema
+  .refine((data) => data.newPassword === data.newPasswordConfirm, {
+    message: 'doNotMatch',
+    path: ['newPassword'],
+  })
+  .superRefine(({ newPassword, newPasswordConfirm }, validate) => {
+    // checks for the appropriate password strength
+    const checkStrength = (password: string, path: string[]) => {
+      const containsLowerCase = /[a-z]/.test(password);
+      const containsUpperCase = /[A-Z]/.test(password);
+      const containsSpecialCharacter =
+        /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password);
+      const containsNumber = /[0-9]/.test(password);
+
+      if (
+        !containsLowerCase ||
+        !containsUpperCase ||
+        !containsSpecialCharacter ||
+        !containsNumber
+      ) {
+        validate.addIssue({
+          code: 'custom',
+          path,
+          message: 'tooWeakPassword',
+        });
+      }
+    };
+    checkStrength(newPassword, ['newPassword']);
+    checkStrength(newPasswordConfirm, ['newPasswordConfirm']);
+  });
+export const forgotPasswordSchema = z.object({
+  email: z.string().email({ message: 'invalidEmail' }),
+});

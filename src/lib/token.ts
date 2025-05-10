@@ -39,3 +39,46 @@ export const verifyToken = async (token: string) => {
 
   return verificationToken;
 };
+
+export const generateResetPasswordToken = async (email: string) => {
+  await prisma.passwordResetToken.deleteMany({
+    where: {
+      email: email,
+    },
+  });
+
+  const token = uuidv4();
+  const expires = new Date(Date.now() + 900 * 1000);
+
+  await prisma.passwordResetToken.create({
+    data: {
+      email,
+      expires,
+      token,
+    },
+  });
+
+  return token;
+};
+
+export const verifyResetPasswordToken = async (token: string) => {
+  const passwordResetToken = await prisma.passwordResetToken.findUnique({
+    where: { token },
+  });
+
+  if (!passwordResetToken) return null;
+
+  if (new Date() > passwordResetToken.expires) {
+    await prisma.passwordResetToken.deleteMany({
+      where: { id: passwordResetToken.id },
+    });
+    return null;
+  } else if (passwordResetToken.used) {
+    await prisma.passwordResetToken.deleteMany({
+      where: { id: passwordResetToken.id },
+    });
+    return null;
+  }
+
+  return passwordResetToken;
+};
