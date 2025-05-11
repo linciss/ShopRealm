@@ -45,7 +45,10 @@
 - [x] fix about us stats not showing (just remove if !session) 
 - [x] /featured in routes 
 - [ ] somehow figure out how notify user when login or smthn toast 
-- [ ] progress bar
+- [ ] when  syncing cart remove the excess product quantity
+- [ ] when sorting and filtering check for sale price 
+- [ ] in product page maybe make the category thingies actualy buttons so users can select category there?
+- [ ] edit store owner button maybe 
 
 
 # TRANSLATIONS TODO 
