@@ -36,50 +36,72 @@ export const getStores = async ({ page, search }: QueryOptions) => {
   if (!session?.user.id) return;
   if (!session.user.admin) return;
 
-  const skip = page ? (page - 1) * 10 : 0;
-
   try {
-    const stores = await prisma.store.findMany({
-      include: {
-        products: true,
-        user: {
-          select: {
-            name: true,
-            lastName: true,
-            email: true,
-          },
-        },
+    const searchCondition = search
+      ? {
+          OR: [
+            { name: { contains: search, mode: 'insensitive' as const } },
+            {
+              user: {
+                name: { contains: search, mode: 'insensitive' as const },
+              },
+            },
+            {
+              user: {
+                lastName: { contains: search, mode: 'insensitive' as const },
+              },
+            },
+            {
+              user: {
+                email: { contains: search, mode: 'insensitive' as const },
+              },
+            },
+          ],
+        }
+      : {};
+
+    const totalStores = await prisma.store.count({
+      where: {
+        approved: true,
+        ...searchCondition,
       },
-      skip: skip,
-      take: 10,
     });
 
-    let filteredStores = [...stores.filter((store) => store.approved === true)];
-    const pendingStores = [
-      ...stores.filter((store) => store.approved === false),
-    ];
+    const paginatedStores = await prisma.store.findMany({
+      where: {
+        approved: true,
+        ...searchCondition,
+      },
+      include: {
+        products: {
+          where: { deleted: false },
+          select: { id: true },
+        },
+        user: {
+          select: { name: true, lastName: true, email: true },
+        },
+      },
+      skip: (page - 1) * 10,
+      take: 10,
+      orderBy: { createdAt: 'desc' },
+    });
 
-    if (search) {
-      const searchLower = search.toLowerCase();
-
-      filteredStores = filteredStores.filter(
-        (store) =>
-          store.name.toLowerCase().includes(searchLower) ||
-          store.user.name.toLowerCase().includes(searchLower) ||
-          store.user.lastName.toLowerCase().includes(searchLower) ||
-          store.user.email.toLowerCase().includes(searchLower) ||
-          (
-            store.user.name.toLowerCase() +
-            ' ' +
-            store.user.lastName.toLowerCase()
-          ).includes(searchLower),
-      );
-    }
-
-    const totalStores = filteredStores.length;
-    const startIndex = (page - 1) * 10;
-    const paginatedStores = filteredStores.slice(startIndex, startIndex + 10);
-    const totalPendingStores = pendingStores.length;
+    const pendingStores = await prisma.store.findMany({
+      where: {
+        approved: false,
+        ...searchCondition,
+      },
+      include: {
+        products: {
+          where: { deleted: false },
+          select: { id: true },
+        },
+        user: {
+          select: { name: true, lastName: true, email: true },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
 
     return {
       stores: paginatedStores.map((store) => ({
@@ -91,7 +113,7 @@ export const getStores = async ({ page, search }: QueryOptions) => {
         active: store.active,
         createdAt: store.createdAt,
       })),
-      totalStores: totalStores,
+      totalStores,
       pendingStores: pendingStores.map((store) => ({
         id: store.id,
         name: store.name,
@@ -101,7 +123,6 @@ export const getStores = async ({ page, search }: QueryOptions) => {
         active: store.active,
         createdAt: store.createdAt,
       })),
-      totalPendingStores,
     };
   } catch (error) {
     if (error instanceof Error) {
@@ -147,7 +168,25 @@ export const getUserData = async ({ page, search }: QueryOptions) => {
   if (!session.user.admin) return;
 
   try {
-    const users = await prisma.user.findMany({
+    const searchCondition = search
+      ? {
+          OR: [
+            { name: { contains: search, mode: 'insensitive' as const } },
+            { lastName: { contains: search, mode: 'insensitive' as const } },
+            { email: { contains: search, mode: 'insensitive' as const } },
+          ],
+        }
+      : {};
+
+    const userConditions = {
+      adminPrivileges: false,
+      ...searchCondition,
+    };
+
+    const totalUsers = await prisma.user.count({ where: userConditions });
+
+    const paginatedUsers = await prisma.user.findMany({
+      where: userConditions,
       select: {
         id: true,
         name: true,
@@ -158,39 +197,37 @@ export const getUserData = async ({ page, search }: QueryOptions) => {
         createdAt: true,
         emailVerified: true,
         store: {
-          select: {
-            id: true,
-          },
+          select: { id: true },
+        },
+      },
+      skip: (page - 1) * 10,
+      take: 10,
+      orderBy: { createdAt: 'desc' },
+    });
+
+    const adminConditions = {
+      adminPrivileges: true,
+      ...searchCondition,
+    };
+
+    const admins = await prisma.user.findMany({
+      where: adminConditions,
+      select: {
+        id: true,
+        name: true,
+        lastName: true,
+        email: true,
+        role: true,
+        hasStore: true,
+        createdAt: true,
+        store: {
+          select: { id: true },
         },
         adminPrivileges: true,
         adminLevel: true,
       },
+      orderBy: { createdAt: 'desc' },
     });
-
-    const admins = users.filter((user) => user.adminPrivileges === true);
-    let filteredUsers = [
-      ...users.filter((user) => user.adminPrivileges !== true),
-    ];
-
-    if (search) {
-      const searchLower = search.toLowerCase();
-
-      filteredUsers = filteredUsers.filter(
-        (user) =>
-          user.name.toLowerCase().includes(searchLower) ||
-          user.lastName.toLowerCase().includes(searchLower) ||
-          user.email.toLowerCase().includes(searchLower) ||
-          (
-            user.name.toLowerCase() +
-            ' ' +
-            user.lastName.toLowerCase()
-          ).includes(searchLower),
-      );
-    }
-
-    const totalUsers = filteredUsers.length;
-    const startIndex = (page - 1) * 10;
-    const paginatedUsers = filteredUsers.slice(startIndex, startIndex + 10);
 
     return {
       users: paginatedUsers.map((user) => ({
@@ -246,6 +283,92 @@ export const getUserDataById = async (id: string) => {
     });
 
     return user;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error: ', error.stack);
+    }
+    return;
+  }
+};
+
+export const getProducts = async ({ page, search }: QueryOptions) => {
+  const session = await auth();
+
+  if (!session?.user.id) return;
+  if (!session.user.admin) return;
+
+  try {
+    const searchCondition = search
+      ? {
+          OR: [
+            { name: { contains: search, mode: 'insensitive' as const } },
+            {
+              store: {
+                name: { contains: search, mode: 'insensitive' as const },
+              },
+            },
+          ],
+        }
+      : {};
+
+    const paginatedProducts = await prisma.product.findMany({
+      where: { ...searchCondition, deleted: false },
+      include: {
+        store: {
+          select: {
+            name: true,
+          },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+      skip: (page - 1) * 10,
+      take: 10,
+    });
+
+    const totalProducts = await prisma.product.count({
+      where: {
+        deleted: false,
+      },
+    });
+
+    return {
+      products: paginatedProducts.map((product) => ({
+        id: product.id,
+        name: product.name,
+        store: product.store.name,
+        stock: product.quantity,
+        price: product.price,
+        createdAt: product.createdAt,
+        image: product.image,
+        active: product.isActive,
+        sale: product.sale,
+        salePrice: product.salePrice,
+      })),
+      totalProducts,
+    };
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error: ', error.stack);
+    }
+    return;
+  }
+};
+
+export const getProductById = async (id: string) => {
+  const session = await auth();
+
+  if (!session?.user.id) return;
+  if (!session.user.admin) return;
+
+  try {
+    const product = await prisma.product.findUnique({
+      where: {
+        id: id,
+        deleted: false,
+      },
+    });
+
+    return product;
   } catch (error) {
     if (error instanceof Error) {
       console.log('Error: ', error.stack);
