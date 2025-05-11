@@ -4,14 +4,14 @@ import { StoresTable } from '@/components/custom/admin/stores-table';
 
 interface StoreProps {
   params: Promise<{ locale: string }>;
-  searchParams: Promise<{ page: number }>;
+  searchParams: Promise<{ page: number; search: string }>;
 }
 
 export default async function Admin({ params, searchParams }: StoreProps) {
   const { locale } = await params;
-  const { page } = await searchParams;
+  const { page, search } = await searchParams;
   const { t } = await initTranslations(locale, ['productPage']);
-  const data = await getStores(page);
+  const data = await getStores({ page: page || 1, search });
 
   const pageCount = Math.ceil((data?.totalStores || 1) / 10);
 

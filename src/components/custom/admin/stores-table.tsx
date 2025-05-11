@@ -27,6 +27,7 @@ import { EllipsisIcon, Eye, Pencil } from 'lucide-react';
 import { DeleteStore } from './delete-store';
 import { Separator } from '@/components/ui/separator';
 import { Pagination } from './pagination';
+import { TableSearch } from '../table-search';
 
 interface OrderTableProps {
   stores:
@@ -51,6 +52,7 @@ export const StoresTable = ({ stores, t, pageCount }: OrderTableProps) => {
         <CardTitle className=''>{t('stores')}</CardTitle>
       </CardHeader>
       <CardContent className='sm:p-6 px-2'>
+        <TableSearch fields={['storeOwner', 'email', 'storeName']} />
         <Table>
           <TableHeader>
             <TableRow>

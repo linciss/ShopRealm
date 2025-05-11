@@ -1,6 +1,11 @@
 import prisma from '@/lib/db';
 import { auth } from '../auth';
 
+interface QueryOptions {
+  page: number;
+  search?: string;
+}
+
 export const getDashboardData = async () => {
   const session = await auth();
 
@@ -25,7 +30,7 @@ export const getDashboardData = async () => {
   }
 };
 
-export const getStores = async (page: number) => {
+export const getStores = async ({ page, search }: QueryOptions) => {
   const session = await auth();
 
   if (!session?.user.id) return;
@@ -49,8 +54,28 @@ export const getStores = async (page: number) => {
       take: 10,
     });
 
+    let filteredStores = [...stores];
+
+    if (search) {
+      const searchLower = search.toLowerCase();
+      console.log(searchLower);
+
+      filteredStores = filteredStores.filter(
+        (store) =>
+          store.name.toLowerCase().includes(searchLower) ||
+          store.user.name.toLowerCase().includes(searchLower) ||
+          store.user.lastName.toLowerCase().includes(searchLower) ||
+          store.user.email.toLowerCase().includes(searchLower) ||
+          (
+            store.user.name.toLowerCase() +
+            ' ' +
+            store.user.lastName.toLowerCase()
+          ).includes(searchLower),
+      );
+    }
+
     return {
-      stores: stores.map((store) => ({
+      stores: filteredStores.map((store) => ({
         id: store.id,
         name: store.name,
         owner: store.user.name + ' ' + store.user.lastName,
@@ -90,6 +115,75 @@ export const getStoreDataById = async (id: string) => {
     });
 
     return store;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error: ', error.stack);
+    }
+    return;
+  }
+};
+
+export const getUserData = async ({ page, search }: QueryOptions) => {
+  const session = await auth();
+
+  if (!session?.user.id) return;
+  if (!session.user.admin) return;
+
+  try {
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        lastName: true,
+        email: true,
+        role: true,
+        hasStore: true,
+        createdAt: true,
+        emailVerified: true,
+        store: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+
+    let filteredUsers = [...users];
+
+    if (search) {
+      const searchLower = search.toLowerCase();
+
+      console.log(searchLower);
+      filteredUsers = filteredUsers.filter(
+        (user) =>
+          user.name.toLowerCase().includes(searchLower) ||
+          user.lastName.toLowerCase().includes(searchLower) ||
+          user.email.toLowerCase().includes(searchLower) ||
+          (
+            user.name.toLowerCase() +
+            ' ' +
+            user.lastName.toLowerCase()
+          ).includes(searchLower),
+      );
+    }
+
+    const totalUsers = filteredUsers.length;
+    const startIndex = (page - 1) * 10;
+    const paginatedUsers = filteredUsers.slice(startIndex, startIndex + 10);
+
+    return {
+      users: paginatedUsers.map((user) => ({
+        id: user.id,
+        name: user.name + ' ' + user.lastName,
+        email: user.email,
+        role: user.role,
+        verified: user.emailVerified,
+        createdAt: user.createdAt,
+        hasStore: user.hasStore,
+        storeId: user.store ? user.store.id : null,
+      })),
+      totalUsers,
+    };
   } catch (error) {
     if (error instanceof Error) {
       console.log('Error: ', error.stack);
