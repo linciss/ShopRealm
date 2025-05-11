@@ -1,6 +1,7 @@
 import authConfig from '../auth.config';
 import NextAuth from 'next-auth';
 import {
+  adminRoutes,
   apiAuthPrefix,
   authRoutes,
   FALLBACK_REDIRECT,
@@ -43,6 +44,7 @@ export default auth(async (req) => {
     id: token?.sub,
     hasStore: token?.hasStore,
     role: token?.role,
+    admin: token?.admin,
   };
 
   const isLoggedIn = !!req.auth;
@@ -71,6 +73,7 @@ export default auth(async (req) => {
   const isStoreRoute = storeRoutes.includes(pathnameWithoutLocale);
   const isShopperRoute = shopperRoutes.includes(pathnameWithoutLocale);
   const isFallbackRoute = FALLBACK_REDIRECT === pathnameWithoutLocale;
+  const isAdminRoute = adminRoutes.includes(pathnameWithoutLocale);
 
   if (isApiAuthRoute) {
     return NextResponse.next();
@@ -86,6 +89,10 @@ export default auth(async (req) => {
     return NextResponse.next() && i18nRouter(req, i18nConfig);
   }
 
+  if (isAdminRoute && !session?.admin) {
+    return NextResponse.redirect(new URL('/products', nextUrl));
+  }
+
   if (!isPublicRoute && !isLoggedIn) {
     if (pathnameWithoutLocale === '/create-store') {
       return NextResponse.redirect(
@@ -96,14 +103,16 @@ export default auth(async (req) => {
   }
 
   // cehcks whether the user is a shopper and is trying to access the store route
-  if (isStoreRoute && session?.role === 'SHOPPER') {
+  if (isStoreRoute && session?.role === 'SHOPPER' && !session.admin) {
     return NextResponse.redirect(new URL('/products', nextUrl));
   }
 
   // checks whether the user is a store and is trying to access the public routes
   if (
     (isShopperRoute && session?.role === 'STORE') ||
-    (session?.role === 'STORE' && pathnameWithoutLocale === '/')
+    (session?.role === 'STORE' &&
+      pathnameWithoutLocale === '/' &&
+      !session.admin)
   ) {
     return NextResponse.redirect(new URL('/store', nextUrl));
   }

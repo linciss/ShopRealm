@@ -31,6 +31,7 @@ model User {
   reviews       Review[]
   favoriteList  FavoriteList?
   emailVerified Boolean         @default(false)
+  adminPrivileges Boolean       @default(false)
 }
 
 

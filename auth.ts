@@ -6,7 +6,11 @@ import { getUserById } from './data/user';
 
 declare module 'next-auth' {
   interface Session {
-    user: { role?: string; hasStore?: boolean } & DefaultSession['user'];
+    user: {
+      role?: string;
+      hasStore?: boolean;
+      admin?: boolean;
+    } & DefaultSession['user'];
   }
 }
 
@@ -33,6 +37,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           session.user.id = token.sub;
           session.user.role = token.role as string;
           session.user.hasStore = token.hasStore as boolean;
+          session.user.admin = token.admin as boolean;
         } catch (error) {
           console.error('Error verifying user session:', error);
         }
@@ -49,6 +54,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       }
       token.hasStore = user.hasStore;
       token.role = user.role;
+      token.admin = user.adminPrivileges === true;
 
       token.updatedAt = Date.now();
 
