@@ -33,6 +33,8 @@ interface Product {
   image?: string | null;
   isActive: boolean;
   slug: string;
+  sale: boolean;
+  salePrice: string | null;
 }
 
 interface ProductListProps {
@@ -106,7 +108,13 @@ export const ProductTable = ({ initialProducts }: ProductListProps) => {
                     />
                   </TableCell>
                   <TableCell>{product.name}</TableCell>
-                  <TableCell>{formatCurrency(product.price)}</TableCell>
+                  <TableCell>
+                    {formatCurrency(
+                      product.sale
+                        ? product.salePrice || product.price
+                        : product.price,
+                    )}
+                  </TableCell>
                   <TableCell className='sm:table-cell hidden'>
                     {product.quantity}
                   </TableCell>

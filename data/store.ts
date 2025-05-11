@@ -125,6 +125,8 @@ export const getProducts = async () => {
             price: true,
             quantity: true,
             slug: true,
+            sale: true,
+            salePrice: true,
           },
         },
       },
