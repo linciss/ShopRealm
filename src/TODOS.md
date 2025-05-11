@@ -47,9 +47,9 @@
 - [x] somehow figure out how notify user when login or smthn toast 
 - [x] when  syncing cart remove the excess product quantity
 - [ ] when sorting and filtering check for sale price 
-- [ ] in product page maybe make the category thingies actualy buttons so users can select category there?
+- [x] in product page maybe make the category thingies actualy buttons so users can select category there?
 - [x] edit store owner button maybe 
-- [ ] add teh table search to all tables\
+- [x] add teh table search to all tables\
 - [ ] locale switch
 - [ ] analyutics error 
 - [ ] highlight featured

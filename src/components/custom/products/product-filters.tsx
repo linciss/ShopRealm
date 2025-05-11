@@ -91,7 +91,7 @@ export const ProductFilters = ({
   const applyFilters = () => {
     startTransition(() => {
       const queryString = createQueryString({
-        search: searchValue || '',
+        search: searchValue || null,
         minPrice: priceRange[0] || null,
         maxPrice: priceRange[1] || null,
       });
