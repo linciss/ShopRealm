@@ -13,10 +13,11 @@ import { useToast } from '@/hooks/use-toast';
 import { changeStatus } from '../../../../../actions/store/change-status';
 
 interface ActiveFormsProps {
+  id?: string;
   activeValue: boolean;
 }
 
-export const ActiveForms = ({ activeValue }: ActiveFormsProps) => {
+export const ActiveForms = ({ activeValue, id }: ActiveFormsProps) => {
   const { t } = useTranslation();
   const [active, setActive] = useState(activeValue);
   const [isPending, startTransition] = useTransition();
@@ -25,7 +26,7 @@ export const ActiveForms = ({ activeValue }: ActiveFormsProps) => {
   const handleStatusChange = () => {
     setActive(!active);
     startTransition(() => {
-      changeStatus(!active).then((res) => {
+      changeStatus(!active, id).then((res) => {
         if (res?.error) {
           toast({
             title: t('error'),

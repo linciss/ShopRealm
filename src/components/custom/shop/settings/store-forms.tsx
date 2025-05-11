@@ -18,7 +18,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useTransition } from 'react';
-import { redirect } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { editUserStore } from '../../../../../actions/store/edit-store';
 import { storeSchema } from '../../../../../schemas';
 import { useTranslation } from 'react-i18next';
@@ -26,6 +26,7 @@ import { useToast } from '@/hooks/use-toast';
 
 interface UserProps {
   storeInfo: {
+    id?: string;
     phone: string | null | undefined;
     name?: string;
     description?: string;
@@ -44,32 +45,39 @@ export const StoreForms = ({ storeInfo }: UserProps) => {
 
   const { t } = useTranslation();
   const { toast } = useToast();
+  const router = useRouter();
 
   const [isPending, startTransition] = useTransition();
 
   const onSubmit = async (data: z.infer<typeof storeSchema>) => {
     startTransition(() => {
-      editUserStore(data).then((res) => {
+      editUserStore(data, storeInfo.id).then((res) => {
         if (res?.error) {
           toast({
             title: t('error'),
             description: t(res.error),
             variant: 'destructive',
           });
+          return;
         } else if (res.success1) {
           toast({
             title: t('success'),
             description: t(res.success1 || 'storeCreated'),
           });
           setTimeout(() => {
-            redirect('/store');
-          }, 1000);
+            const redirectUrl = !storeInfo.id ? '/store' : '/admin/store';
+            router.push(redirectUrl);
+          }, 2000);
         } else {
           toast({
             title: t('success'),
             description: t(res.success || 'changedInfo'),
           });
         }
+        setTimeout(() => {
+          const redirectUrl = !storeInfo.id ? '/store' : '/admin/store';
+          router.push(redirectUrl);
+        }, 2000);
       });
     });
   };
@@ -134,7 +142,7 @@ export const StoreForms = ({ storeInfo }: UserProps) => {
               )}
             />
 
-            <div className='max-w-10'>
+            <div className='flex justify-end'>
               <Button
                 disabled={isPending}
                 type='submit'
