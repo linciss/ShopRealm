@@ -36,6 +36,7 @@ export const getProducts = async ({
       ...(featured && {
         featured: true,
       }),
+      deleted: false,
     },
     select: {
       id: true,
@@ -136,6 +137,7 @@ export const getProduct = async (id: string) => {
         store: {
           active: true,
         },
+        deleted: false,
       },
       select: {
         id: true,
@@ -201,6 +203,7 @@ export const getRelatedProducts = async (
         store: {
           active: true,
         },
+        deleted: false,
       },
       select: {
         id: true,

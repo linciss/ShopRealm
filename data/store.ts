@@ -117,6 +117,9 @@ export const getProducts = async () => {
       where: { userId },
       select: {
         products: {
+          where: {
+            deleted: false,
+          },
           select: {
             id: true,
             name: true,
@@ -158,6 +161,7 @@ export const getFullStoreProductData = async (productId: string) => {
         products: {
           where: {
             id: productId,
+            deleted: false,
           },
           select: {
             id: true,
@@ -220,6 +224,7 @@ export const getStoreProductData = async (productId: string) => {
         products: {
           where: {
             id: productId,
+            deleted: false,
           },
           select: {
             id: true,
@@ -283,6 +288,9 @@ export const getStoreDataById = async (storeId: string) => {
         name: true,
         description: true,
         products: {
+          where: {
+            deleted: false,
+          },
           select: {
             id: true,
             name: true,
@@ -322,6 +330,9 @@ export const getAllDashboardStats = async () => {
       where: { id },
       select: {
         products: {
+          where: {
+            deleted: false,
+          },
           include: {
             reviews: {
               include: {
@@ -451,7 +462,11 @@ export const getAnalytics = async () => {
     const store = await prisma.store.findUnique({
       where: { id },
       include: {
-        products: true,
+        products: {
+          where: {
+            deleted: false,
+          },
+        },
       },
     });
 
@@ -578,7 +593,9 @@ export const getAnalytics = async () => {
 export const aboutUsData = async () => {
   try {
     const openStores = await prisma.store.count({});
-    const totalProducts = await prisma.product.count();
+    const totalProducts = await prisma.product.count({
+      where: { deleted: false },
+    });
     const totalCustomers = await prisma.user.count({
       where: {
         hasStore: false,

@@ -54,6 +54,7 @@ interface Product {
 
 interface ProductDataProps {
   productData?: Product | null;
+  admin?: boolean;
 }
 
 const convertToBase64 = (file: File) => {
@@ -68,14 +69,16 @@ const convertToBase64 = (file: File) => {
   return;
 };
 
-export const ProductForm = ({ productData }: ProductDataProps) => {
+export const ProductForm = ({
+  productData,
+  admin = false,
+}: ProductDataProps) => {
   const [isPending, startTransition] = useTransition();
   const { t } = useTranslation();
 
   const [imagePreview, setImagePreview] = useState<string | null>(
     productData?.image || null,
   );
-
   const form = useForm<z.infer<typeof productSchema>>({
     resolver: zodResolver(productSchema),
     defaultValues: {
@@ -138,7 +141,11 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                 description: t(res.success || 'edited'),
                 variant: 'default',
               });
-              redirect('/store/products');
+              if (!admin) {
+                redirect('/store/products');
+              } else {
+                redirect('/admin/products');
+              }
             }
           });
           return;

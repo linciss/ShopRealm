@@ -47,7 +47,7 @@ export default async function ProductEdit({ params }: Props) {
           </Button>
         </Link>
         <h1 className='text-3xl  font-bold md:text-2xl sm:text-xl'>
-          {t('newProduct')}
+          {t('editProduct')}
         </h1>
         <div className='space-x-2 flex-nowrap flex flex-row'></div>
       </div>

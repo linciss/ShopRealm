@@ -74,20 +74,29 @@ export const editProduct = async (
 
     const storeId = (await getStoreId()) as string;
 
-    if (!storeId) return { error: 'storeError' };
+    if (!storeId && !session.user.admin) return { error: 'storeError' };
 
-    const isStoreProduct = await prisma?.store.findUnique({
-      where: { userId },
-      select: {
-        products: {
-          where: {
-            id: productId,
+    if (!session.user.admin) {
+      const isStoreProduct = await prisma.store.findUnique({
+        where: { userId },
+        select: {
+          products: {
+            where: { id: productId },
           },
         },
-      },
+      });
+
+      if (!isStoreProduct?.products.length) {
+        return { error: 'notYourProduct' };
+      }
+    }
+
+    const existingProduct = await prisma.product.findUnique({
+      where: { id: productId },
+      select: { sale: true },
     });
 
-    if (!isStoreProduct) return { error: 'notYourProduct' };
+    if (!existingProduct) return { error: 'productNotFound' };
 
     const UUID = nanoid(6);
     const itemSlug = `${slugify(name).toLowerCase()}-${UUID}`;
@@ -127,7 +136,7 @@ export const editProduct = async (
     revalidatePath('/');
 
     // send email to users who have this product in their favorites
-    if (!isStoreProduct.products[0].sale && sale) {
+    if (!existingProduct.sale && sale) {
       const favoriteListsUsers = await prisma.favoriteItem.findMany({
         where: { productId },
         select: {
