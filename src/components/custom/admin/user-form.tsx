@@ -33,11 +33,9 @@ import {
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/hooks/use-toast';
 import { useTransition } from 'react';
-import {
-  createUser,
-  editUser,
-} from '../../../../actions/user/user-configure-admin';
+
 import { useRouter } from 'next/navigation';
+import { createUser, editUser } from '../../../../actions/admin/user-configure';
 
 type AdminLevel = 'SUPER_ADMIN' | 'ADMIN';
 

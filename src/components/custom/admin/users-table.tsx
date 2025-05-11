@@ -134,7 +134,7 @@ export const UsersTable = async ({
                         <Link
                           href={`/admin/users/configurator/${user?.id}`}
                           prefetch={false}
-                          className='flex items-center gap-1 '
+                          className='flex items-center gap-2'
                         >
                           <Pencil height={16} width={16} />
                           {t('editUser')}
@@ -146,7 +146,7 @@ export const UsersTable = async ({
                             <Link
                               href={`/store/${user?.storeId}`}
                               prefetch={false}
-                              className='flex items-center gap-1'
+                              className='flex items-center gap-2'
                             >
                               <Eye height={16} width={16} />
                               {t('showStorePage')}
