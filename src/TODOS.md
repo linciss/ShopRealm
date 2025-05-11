@@ -12,7 +12,7 @@
 - [x] Shop page!!!
 - [ ] Rework doc
 - [x] Search bar
-- [ ] ALL ADMIN SIDE
+- [x] ALL ADMIN SIDE
 - [x] product filtering
 - [x] product sorting
 - [x] pagination (50%)
@@ -44,7 +44,7 @@
 - [x] confirm pass when deelting account!
 - [x] fix about us stats not showing (just remove if !session) 
 - [x] /featured in routes 
-- [ ] somehow figure out how notify user when login or smthn toast 
+- [x] somehow figure out how notify user when login or smthn toast 
 - [x] when  syncing cart remove the excess product quantity
 - [ ] when sorting and filtering check for sale price 
 - [ ] in product page maybe make the category thingies actualy buttons so users can select category there?
@@ -52,6 +52,7 @@
 - [ ] add teh table search to all tables\
 - [ ] locale switch
 - [ ] analyutics error 
+- [ ] highlight featured
 
 
 # TRANSLATIONS TODO 

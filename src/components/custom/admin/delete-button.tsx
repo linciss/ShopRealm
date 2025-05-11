@@ -6,6 +6,7 @@ import { useTransition } from 'react';
 import { useTranslation } from 'react-i18next';
 import { deleteUser } from '../../../../actions/admin/delete-user';
 import { deleteStore } from '../../../../actions/admin/delete-store';
+import { deleteProduct } from '../../../../actions/admin/delete-product';
 
 interface DeleteStoreProps {
   id: string;
@@ -45,6 +46,21 @@ export const DeleteButton = ({ id, type }: DeleteStoreProps) => {
             toast({
               title: t('success'),
               description: t(res.success || 'storeDeleted'),
+            });
+          }
+        });
+      } else {
+        deleteProduct(id).then((res) => {
+          if (res.error) {
+            toast({
+              title: t('error'),
+              description: t(res.error),
+              variant: 'destructive',
+            });
+          } else {
+            toast({
+              title: t('success'),
+              description: t(res.success || 'productDeleted'),
             });
           }
         });

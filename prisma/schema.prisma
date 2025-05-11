@@ -94,6 +94,7 @@ model Product {
   sale            Boolean    @default(false)
   salePrice       String?
   featured         Boolean    @default(false)
+  deleted         Boolean    @default(false)
 }
 
 model CartItem {

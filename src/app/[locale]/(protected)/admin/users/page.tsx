@@ -6,12 +6,12 @@ import Link from 'next/link';
 import { Plus } from 'lucide-react';
 import { auth } from '../../../../../../auth';
 
-interface StoreProps {
+interface UserProps {
   params: Promise<{ locale: string }>;
   searchParams: Promise<{ page: number; search: string }>;
 }
 
-export default async function Admin({ params, searchParams }: StoreProps) {
+export default async function Admin({ params, searchParams }: UserProps) {
   const { locale } = await params;
   const session = await auth();
   const { page, search } = await searchParams;

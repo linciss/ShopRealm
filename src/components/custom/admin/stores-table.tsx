@@ -138,9 +138,11 @@ export const StoresTable = ({
           </TableBody>
         </Table>
       </CardContent>
-      <CardFooter className='flex flex-row items-center gap-1 justify-end'>
-        <Pagination pageCount={pageCount} />
-      </CardFooter>
+      {!pending && (
+        <CardFooter className='flex flex-row items-center gap-1 justify-end'>
+          <Pagination pageCount={pageCount} />
+        </CardFooter>
+      )}
     </Card>
   );
 };

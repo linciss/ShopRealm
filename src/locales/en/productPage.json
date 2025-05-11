@@ -460,5 +460,13 @@
   "userDeleted": "User deleted successfully.",
   "cannotDeleteYourself": "You cannot delete yourself",
   "cannotDeleteAdmin": "You cannot delete an admin",
-  "deleteUser": "Delete user"
+  "deleteUser": "Delete user",
+  "disapproved": "Disapproved store successfully.",
+  "approved": "Approved store successfully.",
+  "alreadyApproved": "Store already approved",
+  "pendingStores": "Pending stores",
+  "approve": "Approve store",
+  "disapprove": "Disapprove store",
+  "stock": "Stock",
+  "showProduct": "Show product page"
 }
