@@ -31,6 +31,7 @@ export const deleteStore = async (
       select: { id: true, password: true },
     });
     if (!user) return { error: 'userNotFound' };
+
     const matching = await bcrypt.compare(password, user.password);
 
     if (!matching) return { error: 'invalidPassword' };
@@ -52,6 +53,7 @@ export const deleteStore = async (
         where: { id: session?.user.id },
         data: {
           hasStore: false,
+          role: 'SHOPPER',
         },
       });
     });

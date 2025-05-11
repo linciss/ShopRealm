@@ -10,6 +10,7 @@ declare module 'next-auth' {
       role?: string;
       hasStore?: boolean;
       admin?: boolean;
+      adminLevel?: string;
     } & DefaultSession['user'];
   }
 }
@@ -37,7 +38,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           session.user.id = token.sub;
           session.user.role = token.role as string;
           session.user.hasStore = token.hasStore as boolean;
-          session.user.admin = token.admin as boolean;
+          if (token.admin) {
+            session.user.adminLevel = token.adminLevel as string;
+            session.user.admin = token.admin as boolean;
+          }
         } catch (error) {
           console.error('Error verifying user session:', error);
         }
@@ -52,9 +56,13 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         token.sub = undefined;
         return token;
       }
+
       token.hasStore = user.hasStore;
       token.role = user.role;
-      token.admin = user.adminPrivileges === true;
+      if (user.adminPrivileges) {
+        token.admin = user.adminPrivileges === true;
+        token.adminLevel = user.adminLevel;
+      }
 
       token.updatedAt = Date.now();
 
