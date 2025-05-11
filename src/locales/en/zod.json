@@ -29,5 +29,6 @@
   "rating": "Please enter a rating between 1 and 5",
   "ratingDesc": "Please enter a rating description that is at least 10 characters long",
   "doNotMatch": "Password and confirm password do not match",
-  "cantBeSame": "New password and old password cannot be the same"
+  "cantBeSame": "New password and old password cannot be the same",
+  "adminLevel": "Please enter an administrator level for the user if you wish to promote them to an administrator"
 }

@@ -58,7 +58,6 @@ export const getStores = async ({ page, search }: QueryOptions) => {
 
     if (search) {
       const searchLower = search.toLowerCase();
-      console.log(searchLower);
 
       filteredStores = filteredStores.filter(
         (store) =>
@@ -145,15 +144,19 @@ export const getUserData = async ({ page, search }: QueryOptions) => {
             id: true,
           },
         },
+        adminPrivileges: true,
+        adminLevel: true,
       },
     });
 
-    let filteredUsers = [...users];
+    const admins = users.filter((user) => user.adminPrivileges === true);
+    let filteredUsers = [
+      ...users.filter((user) => user.adminPrivileges !== true),
+    ];
 
     if (search) {
       const searchLower = search.toLowerCase();
 
-      console.log(searchLower);
       filteredUsers = filteredUsers.filter(
         (user) =>
           user.name.toLowerCase().includes(searchLower) ||
@@ -183,7 +186,48 @@ export const getUserData = async ({ page, search }: QueryOptions) => {
         storeId: user.store ? user.store.id : null,
       })),
       totalUsers,
+      admins: admins.map((user) => ({
+        id: user.id,
+        name: user.name + ' ' + user.lastName,
+        email: user.email,
+        createdAt: user.createdAt,
+        hasStore: user.hasStore,
+        adminLevel: user.adminLevel,
+        storeId: user.store ? user.store.id : null,
+        adminPrivileges: user.adminPrivileges,
+      })),
     };
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error: ', error.stack);
+    }
+    return;
+  }
+};
+
+export const getUserDataById = async (id: string) => {
+  const session = await auth();
+
+  if (!session?.user.id) return;
+  if (!session.user.admin) return;
+
+  try {
+    const user = await prisma.user.findUnique({
+      where: {
+        id: id,
+      },
+      select: {
+        id: true,
+        name: true,
+        lastName: true,
+        email: true,
+        adminPrivileges: true,
+        adminLevel: true,
+        phone: true,
+      },
+    });
+
+    return user;
   } catch (error) {
     if (error instanceof Error) {
       console.log('Error: ', error.stack);
