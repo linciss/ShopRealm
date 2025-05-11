@@ -3,7 +3,7 @@ import initTranslations from '../i18n';
 import TranslationsProvider from '@/components/translation/translations-prover';
 import Footer from '@/components/custom/footer';
 
-const i18nNamespaces = ['productPage', 'errors', 'success', 'zod'];
+const i18nNamespaces = ['productPage', 'errors', 'success', 'zod', 'email'];
 
 export default async function RootLayout({
   children,
