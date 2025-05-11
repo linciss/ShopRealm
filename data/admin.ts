@@ -54,7 +54,10 @@ export const getStores = async ({ page, search }: QueryOptions) => {
       take: 10,
     });
 
-    let filteredStores = [...stores];
+    let filteredStores = [...stores.filter((store) => store.approved === true)];
+    const pendingStores = [
+      ...stores.filter((store) => store.approved === false),
+    ];
 
     if (search) {
       const searchLower = search.toLowerCase();
@@ -73,8 +76,13 @@ export const getStores = async ({ page, search }: QueryOptions) => {
       );
     }
 
+    const totalStores = filteredStores.length;
+    const startIndex = (page - 1) * 10;
+    const paginatedStores = filteredStores.slice(startIndex, startIndex + 10);
+    const totalPendingStores = pendingStores.length;
+
     return {
-      stores: filteredStores.map((store) => ({
+      stores: paginatedStores.map((store) => ({
         id: store.id,
         name: store.name,
         owner: store.user.name + ' ' + store.user.lastName,
@@ -83,7 +91,17 @@ export const getStores = async ({ page, search }: QueryOptions) => {
         active: store.active,
         createdAt: store.createdAt,
       })),
-      totalStores: await prisma.store.count(),
+      totalStores: totalStores,
+      pendingStores: pendingStores.map((store) => ({
+        id: store.id,
+        name: store.name,
+        owner: store.user.name + ' ' + store.user.lastName,
+        email: store.user.email,
+        products: store.products.length,
+        active: store.active,
+        createdAt: store.createdAt,
+      })),
+      totalPendingStores,
     };
   } catch (error) {
     if (error instanceof Error) {

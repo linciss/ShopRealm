@@ -28,6 +28,7 @@ import { Separator } from '@/components/ui/separator';
 import { Pagination } from './pagination';
 import { TableSearch } from '../table-search';
 import { DeleteButton } from './delete-button';
+import { ApproveActions } from './approve-actions';
 
 interface OrderTableProps {
   stores:
@@ -43,13 +44,21 @@ interface OrderTableProps {
     | undefined;
   t: (value: string) => string;
   pageCount: number;
+  pending?: boolean;
 }
 
-export const StoresTable = ({ stores, t, pageCount }: OrderTableProps) => {
+export const StoresTable = ({
+  stores,
+  t,
+  pageCount,
+  pending,
+}: OrderTableProps) => {
   return (
     <Card>
       <CardHeader className='sm:p-6 px-2 !pb-0'>
-        <CardTitle className=''>{t('stores')}</CardTitle>
+        <CardTitle className=''>
+          {!pending ? t('stores') : t('pendingStores')}
+        </CardTitle>
       </CardHeader>
       <CardContent className='sm:p-6 px-2'>
         <TableSearch fields={['storeOwner', 'email', 'storeName']} />
@@ -60,7 +69,9 @@ export const StoresTable = ({ stores, t, pageCount }: OrderTableProps) => {
               <TableHead>{t('storeOwner')}</TableHead>
               <TableHead>{t('storeEmail')}</TableHead>
               <TableHead>{t('products')}</TableHead>
-              <TableHead>{t('status')}</TableHead>
+              <TableHead className='hidden md:table-cell'>
+                {t('status')}
+              </TableHead>
               <TableHead className='hidden md:table-cell'>
                 {t('createdAt')}
               </TableHead>
@@ -74,7 +85,9 @@ export const StoresTable = ({ stores, t, pageCount }: OrderTableProps) => {
                 <TableCell>{store.owner}</TableCell>
                 <TableCell>{store.email}</TableCell>
                 <TableCell>{store.products}</TableCell>
-                <TableCell>{store.active ? 'Active' : 'Inactive'}</TableCell>
+                <TableCell className='hidden md:table-cell'>
+                  {store.active ? 'Active' : 'Inactive'}
+                </TableCell>
                 <TableCell className='hidden md:table-cell'>
                   {new Date(store.createdAt).toLocaleDateString()}
                 </TableCell>
@@ -86,27 +99,36 @@ export const StoresTable = ({ stores, t, pageCount }: OrderTableProps) => {
                     <DropdownMenuContent>
                       <DropdownMenuLabel>{t('actions')}</DropdownMenuLabel>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem>
-                        <Link
-                          href={`/store/${store.id}`}
-                          prefetch={false}
-                          className='flex items-center gap-1'
-                        >
-                          <Eye height={16} width={16} />
-                          {t('showStorePage')}
-                        </Link>
-                      </DropdownMenuItem>
-                      <DropdownMenuItem>
-                        <Link
-                          href={`/admin/stores/${store.id}`}
-                          prefetch={false}
-                          className='flex items-center gap-1 '
-                        >
-                          <Pencil height={16} width={16} />
-                          {t('editStore')}
-                        </Link>
-                      </DropdownMenuItem>
+                      {!pending && (
+                        <>
+                          <DropdownMenuItem>
+                            <Link
+                              href={`/store/${store.id}`}
+                              prefetch={false}
+                              className='flex items-center gap-2'
+                            >
+                              <Eye height={16} width={16} />
+                              {t('showStorePage')}
+                            </Link>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>
+                            <Link
+                              href={`/admin/stores/${store.id}`}
+                              prefetch={false}
+                              className='flex items-center gap-2 '
+                            >
+                              <Pencil height={16} width={16} />
+                              {t('editStore')}
+                            </Link>
+                          </DropdownMenuItem>
+                        </>
+                      )}
                       <Separator className='my-2' />
+                      {pending && (
+                        <>
+                          <ApproveActions id={store.id} />
+                        </>
+                      )}
                       <DeleteButton id={store.id} type='store' />
                     </DropdownMenuContent>
                   </DropdownMenu>

@@ -22,6 +22,12 @@ export default async function Admin({ params, searchParams }: StoreProps) {
       </div>
 
       <StoresTable stores={data?.stores} t={t} pageCount={pageCount} />
+      <StoresTable
+        stores={data?.pendingStores}
+        t={t}
+        pageCount={(data?.totalPendingStores || 1) / 10}
+        pending={true}
+      />
     </div>
   );
 }
