@@ -93,7 +93,6 @@ export const getStores = async ({ page, search }: QueryOptions) => {
     const pendingStores = await prisma.store.findMany({
       where: {
         approved: false,
-        ...searchCondition,
       },
       include: {
         products: {
