@@ -1,5 +1,30 @@
 import { z } from 'zod';
 
+const checkPasswordStrength = (
+  password: string,
+  path: string[],
+  validate: z.RefinementCtx,
+) => {
+  const containsLowerCase = /[a-z]/.test(password);
+  const containsUpperCase = /[A-Z]/.test(password);
+  const containsSpecialCharacter =
+    /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password);
+  const containsNumber = /[0-9]/.test(password);
+
+  if (
+    !containsLowerCase ||
+    !containsUpperCase ||
+    !containsSpecialCharacter ||
+    !containsNumber
+  ) {
+    validate.addIssue({
+      code: 'custom',
+      path,
+      message: 'tooWeakPassword',
+    });
+  }
+};
+
 export const signInSchema = z
   .object({
     email: z
@@ -9,25 +34,7 @@ export const signInSchema = z
     password: z.string().min(8, { message: 'min8Chars' }),
   })
   .superRefine(({ password }, validate) => {
-    // checks for the appropriate password strength
-    const containsLowerCase = /[a-z]/.test(password);
-    const containsUpperCase = /[A-Z]/.test(password);
-    const containsSpecialCharacter =
-      /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password);
-    const containsNumber = /[0-9]/.test(password);
-
-    if (
-      !containsLowerCase ||
-      !containsUpperCase ||
-      !containsSpecialCharacter ||
-      !containsNumber
-    ) {
-      validate.addIssue({
-        code: 'custom',
-        path: ['password'],
-        message: 'tooWeakPassword',
-      });
-    }
+    checkPasswordStrength(password, ['password'], validate);
   });
 
 export const signUpSchema = z
@@ -43,25 +50,7 @@ export const signUpSchema = z
     path: ['password'],
   })
   .superRefine(({ password }, validate) => {
-    // checks for the appropriate password strength
-    const containsLowerCase = /[a-z]/.test(password);
-    const containsUpperCase = /[A-Z]/.test(password);
-    const containsSpecialCharacter =
-      /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password);
-    const containsNumber = /[0-9]/.test(password);
-
-    if (
-      !containsLowerCase ||
-      !containsUpperCase ||
-      !containsSpecialCharacter ||
-      !containsNumber
-    ) {
-      validate.addIssue({
-        code: 'custom',
-        path: ['password'],
-        message: 'tooWeakPassword',
-      });
-    }
+    checkPasswordStrength(password, ['password'], validate);
   });
 
 export const personalInfoSchema = z.object({
@@ -208,31 +197,9 @@ export const changeProfilePasswordSchema = changePasswordSchema
     path: ['newPassword'],
   })
   .superRefine(({ newPassword, newPasswordConfirm, oldPassword }, validate) => {
-    // checks for the appropriate password strength
-    const checkStrength = (password: string, path: string[]) => {
-      const containsLowerCase = /[a-z]/.test(password);
-      const containsUpperCase = /[A-Z]/.test(password);
-      const containsSpecialCharacter =
-        /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password);
-      const containsNumber = /[0-9]/.test(password);
-
-      if (
-        !containsLowerCase ||
-        !containsUpperCase ||
-        !containsSpecialCharacter ||
-        !containsNumber
-      ) {
-        validate.addIssue({
-          code: 'custom',
-          path,
-          message: 'tooWeakPassword',
-        });
-      }
-    };
-
-    checkStrength(oldPassword, ['oldPassword']);
-    checkStrength(newPassword, ['newPassword']);
-    checkStrength(newPasswordConfirm, ['newPasswordConfirm']);
+    checkPasswordStrength(oldPassword, ['oldPassword'], validate);
+    checkPasswordStrength(newPassword, ['newPassword'], validate);
+    checkPasswordStrength(newPasswordConfirm, ['newPasswordConfirm'], validate);
   });
 
 export const createPasswordSchema = changePasswordSchema
@@ -241,29 +208,8 @@ export const createPasswordSchema = changePasswordSchema
     path: ['newPassword'],
   })
   .superRefine(({ newPassword, newPasswordConfirm }, validate) => {
-    // checks for the appropriate password strength
-    const checkStrength = (password: string, path: string[]) => {
-      const containsLowerCase = /[a-z]/.test(password);
-      const containsUpperCase = /[A-Z]/.test(password);
-      const containsSpecialCharacter =
-        /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password);
-      const containsNumber = /[0-9]/.test(password);
-
-      if (
-        !containsLowerCase ||
-        !containsUpperCase ||
-        !containsSpecialCharacter ||
-        !containsNumber
-      ) {
-        validate.addIssue({
-          code: 'custom',
-          path,
-          message: 'tooWeakPassword',
-        });
-      }
-    };
-    checkStrength(newPassword, ['newPassword']);
-    checkStrength(newPasswordConfirm, ['newPasswordConfirm']);
+    checkPasswordStrength(newPassword, ['newPassword'], validate);
+    checkPasswordStrength(newPasswordConfirm, ['newPasswordConfirm'], validate);
   });
 export const forgotPasswordSchema = z.object({
   email: z.string().email({ message: 'invalidEmail' }),
@@ -274,26 +220,48 @@ export const deleteConfirmationSchema = z
     password: z.string().min(8, { message: 'min8Chars' }),
   })
   .superRefine(({ password }, validate) => {
-    // checks for the appropriate password strength
-    const checkStrength = (password: string, path: string[]) => {
-      const containsLowerCase = /[a-z]/.test(password);
-      const containsUpperCase = /[A-Z]/.test(password);
-      const containsSpecialCharacter =
-        /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/.test(password);
-      const containsNumber = /[0-9]/.test(password);
+    checkPasswordStrength(password, ['password'], validate);
+  });
 
-      if (
-        !containsLowerCase ||
-        !containsUpperCase ||
-        !containsSpecialCharacter ||
-        !containsNumber
-      ) {
-        validate.addIssue({
-          code: 'custom',
-          path,
-          message: 'tooWeakPassword',
-        });
-      }
-    };
-    checkStrength(password, ['password']);
+export const userBaseSchema = z.object({
+  name: z.string().min(1, { message: 'name' }),
+  lastName: z.string().min(1, { message: 'lastName' }),
+  phone: z.string().optional(),
+  adminPrivileges: z.boolean().optional().default(false),
+  adminLevel: z
+    .enum(['SUPER_ADMIN', 'ADMIN'], { message: 'adminLevel' })
+    .optional(),
+});
+
+export const userCreateSchema = userBaseSchema
+  .extend({
+    password: z.string().min(8, { message: 'min8Chars' }),
+    passwordConfirm: z.string().min(8, { message: 'min8Chars' }),
+    email: z.string().email({ message: 'invalidEmail' }),
+  })
+  .refine((data) => data.password === data.passwordConfirm, {
+    message: 'doNotMatch',
+    path: ['passwordConfirm'],
+  })
+  .superRefine(({ password, passwordConfirm }, validate) => {
+    checkPasswordStrength(password, ['password'], validate);
+    checkPasswordStrength(passwordConfirm, ['passwordConfirm'], validate);
+  });
+
+export const userEditSchema = userBaseSchema
+  .extend({
+    password: z.string().min(8, { message: 'min8Chars' }).optional(),
+    passwordConfirm: z.string().min(8, { message: 'min8Chars' }).optional(),
+  })
+  .refine((data) => data.password === data.passwordConfirm, {
+    message: 'doNotMatch',
+    path: ['passwordConfirm'],
+  })
+  .superRefine(({ password, passwordConfirm }, validate) => {
+    if (password) {
+      checkPasswordStrength(password, ['password'], validate);
+    }
+    if (passwordConfirm) {
+      checkPasswordStrength(passwordConfirm, ['passwordConfirm'], validate);
+    }
   });

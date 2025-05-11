@@ -7,9 +7,13 @@ generator client {
 }
 
 enum Role {
-  ADMIN
   SHOPPER
   STORE
+}
+
+enum AdminLevel {
+  SUPER_ADMIN
+  ADMIN
 }
 
 model User {
@@ -31,7 +35,8 @@ model User {
   reviews       Review[]
   favoriteList  FavoriteList?
   emailVerified Boolean         @default(false)
-  adminPrivileges Boolean       @default(false)
+  adminPrivileges Boolean?      @default(false)
+  adminLevel    AdminLevel?     @default(ADMIN)
 }
 
 
