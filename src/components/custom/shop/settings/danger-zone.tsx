@@ -8,10 +8,14 @@ export const DangerZone = () => {
   const { t } = useTranslation();
   return (
     <CardWrapper
-      cardHeader={<CardTitle>{t('dangerZone')}</CardTitle>}
+      cardHeader={
+        <>
+          <CardTitle>{t('dangerZone')}</CardTitle>
+          <CardDescription>{t('deleteStoreDesc')}</CardDescription>
+        </>
+      }
       cardContent={
         <>
-          <CardDescription>{t('deleteStoreDesc')}</CardDescription>
           <DeleteAccountDialog store={true} />
         </>
       }

@@ -79,7 +79,7 @@ export const DeleteAccountDialog = ({ store = false }: DeleteAccountDialog) => {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger asChild className='mt-2'>
+      <AlertDialogTrigger asChild>
         <Button variant={'destructive'} disabled={isPending}>
           {t(store ? 'deleteStore' : 'deleteAccount')}
         </Button>

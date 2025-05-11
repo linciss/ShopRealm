@@ -23,7 +23,7 @@ export const syncCart = async (localProducts: LocalProducts[]) => {
     for (const item of localProducts) {
       const product = await prisma.product.findUnique({
         where: { id: item.id },
-        select: { id: true, price: true },
+        select: { id: true, price: true, quantity: true },
       });
 
       if (!product) continue;
@@ -36,16 +36,22 @@ export const syncCart = async (localProducts: LocalProducts[]) => {
       });
 
       if (existingItem) {
+        // validate so dont exceed the max quantity
+        const validatedQuantity = Math.min(
+          existingItem.quantity + item.quantity,
+          product.quantity,
+        );
         await prisma.cartItem.update({
           where: { id: existingItem.id },
-          data: { quantity: existingItem.quantity + item.quantity },
+          data: { quantity: validatedQuantity },
         });
       } else {
+        const validatedQuantity = Math.min(item.quantity, product.quantity);
         await prisma.cartItem.create({
           data: {
             cartId: cart.id,
             productId: item.id,
-            quantity: item.quantity,
+            quantity: validatedQuantity,
           },
         });
       }

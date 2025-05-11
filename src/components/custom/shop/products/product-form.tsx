@@ -3,7 +3,13 @@
 import { useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Card, CardContent, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -168,16 +174,12 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
             className='flex flex-col gap-4'
           >
             <div className='grid grid-cols-1 gap-4 lg:grid-cols-2'>
-              <Card className='w-full p-8 text-start space-y-4'>
-                <CardTitle className='flex flex-col gap-2'>
-                  <h2 className='text-2xl font-semibold leading-none tracking-tight'>
-                    {t('productInfo')}
-                  </h2>
-                  <p className='text-sm font-normal text-muted-foreground'>
-                    {t('fillAllFields')}
-                  </p>
-                </CardTitle>
-                <CardContent className='p-0 text-start space-y-4'>
+              <Card className='w-full'>
+                <CardHeader>
+                  <CardTitle>{t('productInfo')}</CardTitle>
+                  <CardDescription>{t('fillAllFields')}</CardDescription>
+                </CardHeader>
+                <CardContent className='space-y-4'>
                   <FormField
                     control={form.control}
                     name='name'
@@ -196,7 +198,7 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                     name='description'
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Preces arpaksts</FormLabel>
+                        <FormLabel>{t('productDescription')}</FormLabel>
                         <FormControl>
                           <Textarea {...field} />
                         </FormControl>
@@ -361,16 +363,13 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
               <div className='flex flex-col w-full gap-4'>
                 {/* 2nd CARD */}
 
-                <Card className='w-full p-8 text-start space-y-4'>
-                  <CardTitle className='flex flex-col gap-2'>
-                    <h2 className='text-2xl font-semibold leading-none tracking-tight'>
-                      {t('image')}
-                    </h2>
-                    <p className='text-sm font-normal text-muted-foreground'>
-                      {t('imageDesc')}
-                    </p>
-                  </CardTitle>
-                  <CardContent className='p-0 text-start space-y-4'>
+                <Card className='w-full'>
+                  <CardHeader>
+                    <CardTitle> {t('image')}</CardTitle>
+                    <CardDescription>{t('imageDesc')}</CardDescription>
+                  </CardHeader>
+
+                  <CardContent className='space-y-4'>
                     <FormField
                       control={form.control}
                       name='image'
@@ -448,16 +447,13 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                     />
                   </CardContent>
                 </Card>
-                <Card className='w-full p-8 text-start space-y-4 h-full'>
-                  <CardTitle className='flex flex-col gap-2'>
-                    <h2 className='text-2xl font-semibold leading-none tracking-tight'>
-                      {t('specifications')}
-                    </h2>
-                    <p className='text-sm font-normal text-muted-foreground'>
-                      {t('specificationsDesc')}
-                    </p>
-                  </CardTitle>
-                  <CardContent className='p-0 text-start space-y-4'>
+                <Card className='w-full h-full'>
+                  <CardHeader>
+                    <CardTitle>{t('specifications')}</CardTitle>
+                    <CardDescription>{t('specificationsDesc')}</CardDescription>
+                  </CardHeader>
+
+                  <CardContent className='space-y-4'>
                     <div className='space-y-4'>
                       {fields.map((field, index) => (
                         <div key={field.id} className='flex items-end gap-2'>
@@ -527,29 +523,18 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
                   </CardContent>
                 </Card>
 
-                <Card className='w-full p-8 text-start space-y-4 h-full'>
-                  <CardTitle className='flex flex-col gap-2'>
-                    <h2 className='text-2xl font-semibold leading-none tracking-tight'>
-                      {t('category')}
-                    </h2>
-                    <p className='text-sm font-normal text-muted-foreground'>
-                      {t('categoryDesc')}
-                    </p>
-                  </CardTitle>
-                  <CardContent className='p-0 text-start space-y-4'>
+                <Card className='w-full h-full'>
+                  <CardHeader>
+                    <CardTitle>{t('category')}</CardTitle>
+                    <CardDescription>{t('categoryDesc')}</CardDescription>
+                  </CardHeader>
+
+                  <CardContent className='space-y-4'>
                     <FormField
                       control={form.control}
                       name='category'
                       render={() => (
                         <FormItem className='space-y-1'>
-                          <div className='mb-4'>
-                            <FormLabel className='text-lg font-semibold leading-none tracking-tight'>
-                              {t('categories')}
-                            </FormLabel>
-                            <FormDescription>
-                              {t('categoryError')}
-                            </FormDescription>
-                          </div>
                           {items.map((item) => (
                             <FormField
                               key={item.id}
@@ -617,42 +602,32 @@ export const ProductForm = ({ productData }: ProductDataProps) => {
 const items = [
   {
     id: 'electronics',
-    label: 'Elektronika',
   },
   {
     id: 'clothing',
-    label: 'Apgerbs',
   },
   {
     id: 'home',
-    label: 'Majas un virtuve',
   },
   {
     id: 'beauty',
-    label: 'Veseliba un skaistums',
   },
   {
     id: 'sports',
-    label: 'Sports un atputa',
   },
   {
     id: 'toys',
-    label: 'Rotaļlietas un spēles',
   },
   {
     id: 'books',
-    label: 'Gramatas un mediji',
   },
   {
     id: 'health',
-    label: 'Veseliba un labklajiba',
   },
   {
     id: 'automotive',
-    label: 'Auto un motocikli',
   },
   {
     id: 'jewelry',
-    label: 'Rotaslietas un aksesuari',
   },
 ];

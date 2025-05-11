@@ -35,7 +35,7 @@ export default async function StoreCreate({ params }: StoreCreateProps) {
             <ArrowLeft />
           </Button>
         </Link>
-        <h1 className='text-3xl font-bold'>{t('editUserStore')}</h1>
+        <h1 className='text-3xl font-bold'>{t('storeConfigurator')}</h1>
       </div>
 
       <div className='grid lg:grid-cols-3 grid-cols-1 gap-6'>
