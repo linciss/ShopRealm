@@ -24,10 +24,10 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { EllipsisIcon, Eye, Pencil } from 'lucide-react';
-import { DeleteStore } from './delete-store';
 import { Separator } from '@/components/ui/separator';
 import { Pagination } from './pagination';
 import { TableSearch } from '../table-search';
+import { DeleteButton } from './delete-button';
 
 interface OrderTableProps {
   stores:
@@ -107,7 +107,7 @@ export const StoresTable = ({ stores, t, pageCount }: OrderTableProps) => {
                         </Link>
                       </DropdownMenuItem>
                       <Separator className='my-2' />
-                      <DeleteStore storeId={store.id} />
+                      <DeleteButton id={store.id} type='store' />
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>
