@@ -61,7 +61,9 @@ export const StoresTable = ({
         </CardTitle>
       </CardHeader>
       <CardContent className='sm:p-6 px-2'>
-        <TableSearch fields={['storeOwner', 'email', 'storeName']} />
+        {!pending && (
+          <TableSearch fields={['storeOwner', 'email', 'storeName']} />
+        )}
         <Table>
           <TableHeader>
             <TableRow>

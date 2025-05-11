@@ -32,7 +32,6 @@ export const approveStore = async (id: string, approve: boolean) => {
     }
 
     if (approve) {
-      console.log('approve', approve);
       await prisma.store.update({
         where: { id },
         data: {

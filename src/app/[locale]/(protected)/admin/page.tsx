@@ -1,7 +1,8 @@
 import initTranslations from '@/app/i18n';
-import { getDashboardData } from '../../../../../data/admin';
+import { getDashboardData, getPendingStores } from '../../../../../data/admin';
 import { StatCard } from '@/components/custom/shop/stat-card';
 import { Package, Store, User } from 'lucide-react';
+import { StoresTable } from '@/components/custom/admin/stores-table';
 
 interface StoreProps {
   params: Promise<{ locale: string }>;
@@ -12,6 +13,7 @@ export default async function Admin({ params }: StoreProps) {
   const { t } = await initTranslations(locale, ['productPage']);
 
   const data = await getDashboardData();
+  const pendingStores = await getPendingStores();
 
   return (
     <div className='space-y-4'>
@@ -35,15 +37,7 @@ export default async function Admin({ params }: StoreProps) {
           icon={<Package className='h-[16px] w-[16px]' />}
         />
       </div>
-      <div className='grid md:grid-cols-3 grid-cols-1 gap-6'>
-        <div className='md:col-span-2'>{/* <OrdersChart days={days} /> */}</div>
-        {/* <RecentOrders recentOrders={recentOrders || []} t={t} /> */}
-      </div>
-      <div className='grid grid-cols-1 md:grid-cols-3 gap-6'>
-        {/* <TopProducts topProducts={data?.topSelling || []} t={t} />
-        <InventoryStatus attentionItems={data?.attentionItems || []} t={t} />
-        <RecentReviews recentReviews={data?.recentReviews || []} t={t} /> */}
-      </div>
+      <StoresTable stores={pendingStores} t={t} pageCount={0} pending={true} />
     </div>
   );
 }

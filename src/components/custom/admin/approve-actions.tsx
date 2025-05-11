@@ -17,7 +17,6 @@ export const ApproveActions = ({ id }: ApproveActionsProps) => {
 
   const handleApproveStore = (approve: boolean) => {
     startTransition(() => {
-      console.log(approve);
       approveStore(id, approve).then((res) => {
         if (res.error) {
           toast({

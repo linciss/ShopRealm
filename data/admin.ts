@@ -15,7 +15,11 @@ export const getDashboardData = async () => {
   try {
     const totalUsers = await prisma.user.count();
     const totalStores = await prisma.store.count();
-    const totalProducts = await prisma.product.count();
+    const totalProducts = await prisma.product.count({
+      where: {
+        deleted: false,
+      },
+    });
 
     return {
       totalUsers,
@@ -369,6 +373,46 @@ export const getProductById = async (id: string) => {
     });
 
     return product;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error: ', error.stack);
+    }
+    return;
+  }
+};
+
+export const getPendingStores = async () => {
+  const session = await auth();
+
+  if (!session?.user.id) return;
+  if (!session.user.admin) return;
+
+  try {
+    const pendingStores = await prisma.store.findMany({
+      where: {
+        approved: false,
+      },
+      include: {
+        user: {
+          select: { name: true, lastName: true, email: true },
+        },
+        products: {
+          where: { deleted: false },
+          select: { id: true },
+        },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+
+    return pendingStores.map((store) => ({
+      id: store.id,
+      name: store.name,
+      owner: store.user.name + ' ' + store.user.lastName,
+      email: store.user.email,
+      products: store.products.length,
+      active: store.active,
+      createdAt: store.createdAt,
+    }));
   } catch (error) {
     if (error instanceof Error) {
       console.log('Error: ', error.stack);
