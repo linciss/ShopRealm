@@ -306,6 +306,7 @@ export const getStoreDataById = async (storeId: string) => {
             quantity: true,
             sale: true,
             salePrice: true,
+            featured: true,
           },
         },
       },

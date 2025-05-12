@@ -469,5 +469,8 @@
   "disapprove": "Disapprove store",
   "stock": "Stock",
   "showProduct": "Show product page",
-  "deletedUser": "Deleted User"
+  "deletedUser": "Deleted User",
+  "featuredChanged": "Product featured status changed successfully.",
+  "addFeature": "Add to featured",
+  "removeFeature": "Remove from featured"
 }

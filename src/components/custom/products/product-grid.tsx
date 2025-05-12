@@ -14,6 +14,7 @@ interface Product {
   quantity: number;
   sale: boolean;
   salePrice: string | null;
+  featured: boolean;
 }
 
 interface ProductGridProps {

@@ -307,6 +307,7 @@ export const getRelatedProducts = async (productId: string) => {
         category: true,
         sale: true,
         salePrice: true,
+        featured: true,
         reviews: { select: { rating: true } },
         quantity: true,
       },

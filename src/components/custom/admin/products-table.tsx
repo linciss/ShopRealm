@@ -30,6 +30,7 @@ import { Pagination } from './pagination';
 import { TableSearch } from '../table-search';
 import Image from 'next/image';
 import { formatCurrency } from '@/lib/format-currency';
+import { FeaturedButton } from './featured-button';
 
 interface ProductsProps {
   products?:
@@ -44,6 +45,7 @@ interface ProductsProps {
         active: boolean;
         sale: boolean;
         salePrice: string | null;
+        featured: boolean;
       }[]
     | undefined;
   t: (value: string) => string;
@@ -75,7 +77,7 @@ export const ProductsTable = async ({
               <TableHead>{t('price')}</TableHead>
               <TableHead>{t('store')}</TableHead>
               <TableHead className='hidden md:table-cell'>
-                {t('stock')}
+                {t('featured')}
               </TableHead>
               <TableHead className='hidden md:table-cell'>
                 {t('createdAt')}
@@ -108,7 +110,7 @@ export const ProductsTable = async ({
                 </TableCell>
                 <TableCell>{product.store}</TableCell>
                 <TableCell className='hidden md:table-cell'>
-                  {product.stock}
+                  {product.featured ? '✅' : '❌'}
                 </TableCell>
                 <TableCell className='hidden md:table-cell'>
                   {new Date(product.createdAt).toLocaleDateString()}
@@ -146,6 +148,10 @@ export const ProductsTable = async ({
                       </DropdownMenuItem>
 
                       <Separator className='my-2' />
+                      <FeaturedButton
+                        productId={product.id}
+                        featured={product.featured}
+                      />
                       <DeleteButton id={product.id} type='product' />
                     </DropdownMenuContent>
                   </DropdownMenu>

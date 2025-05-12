@@ -96,7 +96,7 @@ export const editProduct = async (
       select: { sale: true },
     });
 
-    if (!existingProduct) return { error: 'productNotFound' };
+    if (!existingProduct) return { error: 'prodNotFound' };
 
     const UUID = nanoid(6);
     const itemSlug = `${slugify(name).toLowerCase()}-${UUID}`;
