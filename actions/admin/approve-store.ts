@@ -8,8 +8,7 @@ import { revalidatePath } from 'next/cache';
 export const approveStore = async (id: string, approve: boolean) => {
   const session = await auth();
 
-  if (!session?.user.id) return { error: 'authError' };
-  if (!session.user.admin) return { error: 'authError' };
+  if (!session?.user.admin) return { error: 'authError' };
 
   if (typeof approve !== 'boolean') {
     return { error: 'validationError' };

@@ -10,8 +10,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 export const createUser = async (data: z.infer<typeof userCreateSchema>) => {
   const session = await auth();
 
-  if (!session?.user.id) return { error: 'authError' };
-  if (!session.user.admin) return { error: 'authError' };
+  if (!session?.user.admin) return { error: 'authError' };
   if (session.user.adminLevel !== 'SUPER_ADMIN') return { error: 'authError' };
 
   const validateData = userCreateSchema.safeParse(data);
@@ -93,8 +92,7 @@ export const editUser = async (
 ) => {
   const session = await auth();
 
-  if (!session?.user.id) return { error: 'authError' };
-  if (!session.user.admin) return { error: 'authError' };
+  if (!session?.user.admin) return { error: 'authError' };
 
   const validateData = userEditSchema.safeParse(data);
 

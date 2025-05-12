@@ -7,8 +7,7 @@ import { revalidatePath } from 'next/cache';
 
 export const deleteStore = async (id: string) => {
   const session = await auth();
-  if (!session?.user.id) return { error: 'authError' };
-  if (!session.user.admin) return { error: 'authError' };
+  if (!session?.user.admin) return { error: 'authError' };
   try {
     const store = await prisma.store.findUnique({
       where: { id },

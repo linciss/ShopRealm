@@ -8,8 +8,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 export const deleteProduct = async (id: string) => {
   const session = await auth();
 
-  if (!session?.user.id) return { error: 'authError' };
-  if (!session.user.admin) return { error: 'authError' };
+  if (!session?.user.admin) return { error: 'authError' };
 
   try {
     const ordersWithProduct = await prisma.orderItem.findFirst({
