@@ -50,7 +50,7 @@
 - [x] in product page maybe make the category thingies actualy buttons so users can select category there?
 - [x] edit store owner button maybe 
 - [x] add teh table search to all tables\
-- [ ] locale switch
+- [x] locale switch
 - [x] analyutics error 
 - [x] highlight featured
 - [x] adminbs can add to featured

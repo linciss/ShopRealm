@@ -482,5 +482,13 @@
   "shipping": "Shipping",
   "inspectOrder": "Inspect order",
   "why": "Why it's featured",
-  "whyDesc": "This product has been selected as a featured item due to its exceptional quality, outstanding customer reviews, and consistent performance. Our curators personally verify all featured products."
+  "whyDesc": "This product has been selected as a featured item due to its exceptional quality, outstanding customer reviews, and consistent performance. Our curators personally verify all featured products.",
+  "localeInfo": "Changing your language will translate the interface but not user-generated content.",
+  "changeLocale": "Language settings",
+  "changeLocaleDesc": "Choose your preferred language for the platform",
+  "languages": "Languages",
+  "selectLanguage": "Select language",
+  "en": "English",
+  "lv": "Latvian",
+  "fr": "French"
 }
