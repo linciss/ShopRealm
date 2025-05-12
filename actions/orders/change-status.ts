@@ -25,8 +25,15 @@ export const changeOrderStatus = async (
     const storeId = await getStoreId();
 
     const existingOrderItem = await prisma.orderItem.findFirst({
-      where: { id: orderItemId, storeId },
+      where: { id: orderItemId },
     });
+
+    if (
+      !existingOrderItem ||
+      (existingOrderItem.storeId !== storeId && !session.user.admin)
+    ) {
+      return { error: 'orderNotFound' };
+    }
 
     if (existingOrderItem?.status === 'complete' && status !== 'returned') {
       return { error: 'completedCantBeChanged' };
@@ -41,7 +48,7 @@ export const changeOrderStatus = async (
     transferScheduleDate.setDate(transferScheduleDate.getDate() + 14);
 
     await prisma.orderItem.update({
-      where: { id: orderItemId, storeId },
+      where: { id: orderItemId },
       data: {
         status: status,
         ...(complete

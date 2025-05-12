@@ -9,8 +9,7 @@ interface QueryOptions {
 export const getDashboardData = async () => {
   const session = await auth();
 
-  if (!session?.user.id) return;
-  if (!session.user.admin) return;
+  if (!session?.user.admin) return;
 
   try {
     const totalUsers = await prisma.user.count();
@@ -37,8 +36,7 @@ export const getDashboardData = async () => {
 export const getStores = async ({ page, search }: QueryOptions) => {
   const session = await auth();
 
-  if (!session?.user.id) return;
-  if (!session.user.admin) return;
+  if (!session?.user.admin) return;
 
   try {
     const searchCondition = search
@@ -138,8 +136,7 @@ export const getStores = async ({ page, search }: QueryOptions) => {
 export const getStoreDataById = async (id: string) => {
   const session = await auth();
 
-  if (!session?.user.id) return;
-  if (!session.user.admin) return;
+  if (!session?.user.admin) return;
 
   try {
     const store = await prisma.store.findUnique({
@@ -167,8 +164,7 @@ export const getStoreDataById = async (id: string) => {
 export const getUserData = async ({ page, search }: QueryOptions) => {
   const session = await auth();
 
-  if (!session?.user.id) return;
-  if (!session.user.admin) return;
+  if (!session?.user.admin) return;
 
   try {
     const searchCondition = search
@@ -266,8 +262,7 @@ export const getUserData = async ({ page, search }: QueryOptions) => {
 export const getUserDataById = async (id: string) => {
   const session = await auth();
 
-  if (!session?.user.id) return;
-  if (!session.user.admin) return;
+  if (!session?.user.admin) return;
 
   try {
     const user = await prisma.user.findUnique({
@@ -297,8 +292,7 @@ export const getUserDataById = async (id: string) => {
 export const getProducts = async ({ page, search }: QueryOptions) => {
   const session = await auth();
 
-  if (!session?.user.id) return;
-  if (!session.user.admin) return;
+  if (!session?.user.admin) return;
 
   try {
     const searchCondition = search
@@ -384,8 +378,7 @@ export const getProductById = async (id: string) => {
 export const getPendingStores = async () => {
   const session = await auth();
 
-  if (!session?.user.id) return;
-  if (!session.user.admin) return;
+  if (!session?.user.admin) return;
 
   try {
     const pendingStores = await prisma.store.findMany({
@@ -416,6 +409,126 @@ export const getPendingStores = async () => {
   } catch (error) {
     if (error instanceof Error) {
       console.log('Error: ', error.stack);
+    }
+    return;
+  }
+};
+
+export const getOrders = async ({ page, search }: QueryOptions) => {
+  const session = await auth();
+
+  if (!session?.user.admin) return;
+
+  try {
+    const searchCondition = search
+      ? {
+          OR: [
+            { id: { contains: search, mode: 'insensitive' as const } },
+            {
+              user: {
+                name: { contains: search, mode: 'insensitive' as const },
+              },
+            },
+            {
+              user: {
+                lastName: { contains: search, mode: 'insensitive' as const },
+              },
+            },
+          ],
+        }
+      : {};
+
+    const paginatedOrders = await prisma.orderItem.findMany({
+      where: { ...searchCondition },
+      include: {
+        order: {
+          select: {
+            user: {
+              select: {
+                name: true,
+                lastName: true,
+                email: true,
+              },
+            },
+          },
+        },
+        store: {
+          select: {
+            name: true,
+          },
+        },
+      },
+
+      orderBy: { createdAt: 'desc' },
+      skip: (page - 1) * 10,
+      take: 10,
+    });
+
+    const totalOrders = await prisma.order.count();
+
+    return {
+      orders: paginatedOrders.map((order) => ({
+        id: order.id,
+        user: order.order.user.name + ' ' + order.order.user.lastName,
+        storeId: order.storeId,
+        storeName: order.store.name,
+        email: order.order.user.email,
+        status: order.status,
+        totalPrice: order.total,
+        createdAt: order.createdAt,
+        escrowStatus: order.escrowStatus,
+      })),
+      totalOrders,
+    };
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error:', error.stack);
+    }
+    return;
+  }
+};
+
+export const getOrderById = async (id: string) => {
+  const session = await auth();
+
+  if (!session?.user.admin) return;
+
+  try {
+    const order = await prisma.orderItem.findFirst({
+      where: { id },
+      select: {
+        id: true,
+        product: {
+          select: {
+            name: true,
+            image: true,
+          },
+        },
+        order: {
+          select: {
+            paymentStatus: true,
+            createdAt: true,
+          },
+        },
+        status: true,
+        quantity: true,
+        priceAtOrder: true,
+        total: true,
+        shippingName: true,
+        shippingLastName: true,
+        shippingEmail: true,
+        shippingPhone: true,
+        shippingStreet: true,
+        shippingCity: true,
+        shippingCountry: true,
+        shippingPostalCode: true,
+      },
+    });
+
+    return order;
+  } catch (error) {
+    if (error instanceof Error) {
+      console.log('Error:', error.stack);
     }
     return;
   }

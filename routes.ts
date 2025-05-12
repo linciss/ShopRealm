@@ -42,4 +42,5 @@ export const adminRoutes = [
   '/admin/stores',
   '/admin/users',
   '/admin/products',
+  '/admin/orders',
 ];

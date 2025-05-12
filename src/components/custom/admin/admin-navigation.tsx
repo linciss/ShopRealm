@@ -60,6 +60,13 @@ export function AdminNavigation({ userName }: StoreNavigationProps) {
         pathname === '/admin/products' ||
         pathname.startsWith('/admin/products/'),
     },
+    {
+      href: '/admin/orders',
+      icon: Package,
+      label: t('orders'),
+      active:
+        pathname === '/admin/orders' || pathname.startsWith('/admin/orders/'),
+    },
   ];
 
   return (
