@@ -6,6 +6,7 @@ import { ProductPagination } from '@/components/custom/products/product-paginati
 import { Metadata } from 'next';
 import { getProducts } from '../../../../data/product';
 import initTranslations from '@/app/i18n';
+import { auth } from '../../../../auth';
 
 interface ProductsPageProps {
   searchParams: Promise<{
@@ -38,6 +39,7 @@ export default async function Products({
   params,
 }: ProductsPageProps) {
   const sp = await searchParams;
+  const session = await auth();
 
   const page = Number(sp.page) || 1;
   const search = sp.search || '';
@@ -54,6 +56,7 @@ export default async function Products({
     maxPrice,
     sort,
     limit: LIMIT,
+    session: session?.user.id ? session : null,
   });
 
   const totalPages = Math.ceil(totalProducts / LIMIT);

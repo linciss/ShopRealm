@@ -37,6 +37,7 @@ model User {
   emailVerified Boolean         @default(false)
   adminPrivileges Boolean?      @default(false)
   adminLevel    AdminLevel?     @default(ADMIN)
+  userInterests UserInterest?
 }
 
 
@@ -46,7 +47,7 @@ model Address {
   city          String?
   country       String?
   postalCode    String?
-  user          User            @relation(fields: [userId], references: [id])
+  user          User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String          @db.ObjectId @unique
 }
 
@@ -99,7 +100,7 @@ model Product {
 
 model CartItem {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
-  cart          Cart            @relation(fields: [cartId], references: [id])
+  cart          Cart            @relation(fields: [cartId], references: [id], onDelete: Cascade)
   cartId        String          @db.ObjectId
   product       Product         @relation(fields: [productId], references: [id])
   productId     String          @db.ObjectId
@@ -126,7 +127,7 @@ model FavoriteList {
 
 model FavoriteItem{
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
-  favoriteList  FavoriteList    @relation(fields: [favoriteListId], references: [id])
+  favoriteList  FavoriteList    @relation(fields: [favoriteListId], references: [id], onDelete: Cascade)
   favoriteListId  String        @db.ObjectId
   product         Product       @relation(fields: [productId], references: [id])
   productId       String        @db.ObjectId
@@ -201,4 +202,12 @@ model PasswordResetToken {
   token     String   @unique
   expires   DateTime
   used      Boolean  @default(false)
+}
+
+model UserInterest {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String    @db.ObjectId @unique
+  interests Json     
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }

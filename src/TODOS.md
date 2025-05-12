@@ -38,7 +38,7 @@
 - [x] mayb remove email change bcs too lazy to implement
 - [x] cant rememebr password page 
 - [x] consistent cards
-- [ ] maybe make a recommendation system for products?? for example track the products they view check keywords or categories and show more of what they are looking for?
+- [x] maybe make a recommendation system for products?? for example track the products they view check keywords or categories and show more of what they are looking for?
 - [x] another create store card so user can create a store and then only show change role? so no unnecessary role switching is needed since admins gonna approve of stores
 - [x] translate emails
 - [x] confirm pass when deelting account!
@@ -53,6 +53,7 @@
 - [ ] locale switch
 - [ ] analyutics error 
 - [ ] highlight featured
+- [ ] adminbs can add to featured
 
 
 # TRANSLATIONS TODO 
