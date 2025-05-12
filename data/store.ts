@@ -185,6 +185,7 @@ export const getFullStoreProductData = async (productId: string) => {
                 user: {
                   select: {
                     name: true,
+                    id: true,
                   },
                 },
               },

@@ -39,6 +39,7 @@ interface ProductProps {
           comment: string;
           user: {
             name: string;
+            id: string;
           };
           createdAt: Date;
         }[];
@@ -67,10 +68,7 @@ export const ProductPageInfo = async ({
 
   const isFav = await isItemFavorite(productData.id);
   const userReview = await getUserReview(productData.id);
-  const relatedProducts = await getRelatedProducts(
-    productData.category,
-    productData.id,
-  );
+  const relatedProducts = await getRelatedProducts(productData.id);
 
   const { t } = await initTranslations(locale || 'en', [
     'productPage',

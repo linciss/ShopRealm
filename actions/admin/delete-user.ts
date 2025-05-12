@@ -7,8 +7,7 @@ import { revalidatePath } from 'next/cache';
 
 export const deleteUser = async (id: string) => {
   const session = await auth();
-  if (!session?.user.id) return { error: 'authError' };
-  if (!session.user.admin) return { error: 'authError' };
+  if (!session?.user.admin) return { error: 'authError' };
 
   if (session.user.id === id) {
     return { error: 'cannotDeleteYourself' };
@@ -24,8 +23,12 @@ export const deleteUser = async (id: string) => {
     }
 
     await prisma.$transaction(async (tx) => {
-      await tx.review.deleteMany({
+      await tx.review.updateMany({
         where: { userId: id },
+
+        data: {
+          userId: 'deleted-user',
+        },
       });
 
       const cart = await tx.cart.findUnique({
@@ -34,10 +37,6 @@ export const deleteUser = async (id: string) => {
       });
 
       if (cart) {
-        await tx.cartItem.deleteMany({
-          where: { cartId: cart.id },
-        });
-
         await tx.cart.delete({
           where: { id: cart.id },
         });
@@ -49,10 +48,6 @@ export const deleteUser = async (id: string) => {
       });
 
       if (favoriteList) {
-        await tx.favoriteItem.deleteMany({
-          where: { favoriteListId: favoriteList.id },
-        });
-
         await tx.favoriteList.delete({
           where: { id: favoriteList.id },
         });
@@ -78,10 +73,6 @@ export const deleteUser = async (id: string) => {
         data: {
           userId: 'deleted-user',
         },
-      });
-
-      await tx.address.delete({
-        where: { userId: id },
       });
 
       await tx.user.delete({

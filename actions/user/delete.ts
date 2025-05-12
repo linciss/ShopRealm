@@ -38,20 +38,18 @@ export const deleteAccount = async (
 
     //  make a transaction/bach query since if 1 fails its gonna fail all the queries so deletions can happen if an error throws up
     await prisma.$transaction(async (tx) => {
-      await tx.review.deleteMany({
+      await tx.review.updateMany({
         where: { userId },
+        data: {
+          userId: 'deleted-user',
+        },
       });
-
       const cart = await tx.cart.findUnique({
         where: { userId },
         select: { id: true },
       });
 
       if (cart) {
-        await tx.cartItem.deleteMany({
-          where: { cartId: cart.id },
-        });
-
         await tx.cart.delete({
           where: { id: cart.id },
         });
@@ -63,10 +61,6 @@ export const deleteAccount = async (
       });
 
       if (favoriteList) {
-        await tx.favoriteItem.deleteMany({
-          where: { favoriteListId: favoriteList.id },
-        });
-
         await tx.favoriteList.delete({
           where: { id: favoriteList.id },
         });
@@ -92,10 +86,6 @@ export const deleteAccount = async (
         data: {
           userId: 'deleted-user',
         },
-      });
-
-      await tx.address.delete({
-        where: { userId },
       });
 
       await tx.user.delete({

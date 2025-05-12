@@ -28,6 +28,7 @@ interface ProductProps {
           comment: string;
           user: {
             name: string;
+            id: string;
           };
           createdAt: Date;
         }[];

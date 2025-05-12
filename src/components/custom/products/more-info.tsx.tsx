@@ -14,6 +14,7 @@ interface Review {
   comment: string;
   user: {
     name: string;
+    id: string;
   };
   createdAt: Date;
 }

@@ -18,6 +18,7 @@ interface Review {
   comment: string;
   user: {
     name: string;
+    id: string;
   };
   createdAt: Date;
 }
@@ -68,7 +69,11 @@ export const ReviewSection = ({
       {reviews.slice(0 + pageSkip, 3 + pageSkip).map((review) => (
         <div className='flex flex-col' key={review.id}>
           <div className='flex flex-row items-center justify-between'>
-            <div className='font-medium text-lg'>{review.user.name}</div>
+            <div className='font-medium text-lg'>
+              {review.user.id === 'deleted-user'
+                ? t('deletedUser')
+                : review.user.name}
+            </div>
             <div className='text-sm text-muted-foreground'>
               {new Date(review.createdAt).toLocaleDateString()}
             </div>
