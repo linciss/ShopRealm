@@ -4,7 +4,7 @@ import Link from 'next/link';
 const navigation = {
   solutions: [
     { name: 'productHeading', href: '/products' },
-    { name: 'sellOn', href: '/create-shop?direct=true' },
+    { name: 'sellOn', href: '/create-store?direct=true' },
   ],
   company: [{ name: 'about', href: '/about' }],
 };

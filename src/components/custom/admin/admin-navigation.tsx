@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import {
   LayoutDashboard,
@@ -28,6 +28,7 @@ interface Route {
 
 export function AdminNavigation({ userName }: StoreNavigationProps) {
   const pathname = usePathname();
+  const params = useParams<{ locale: string }>();
 
   const { t } = useTranslation();
 
@@ -36,36 +37,60 @@ export function AdminNavigation({ userName }: StoreNavigationProps) {
       href: '/admin',
       icon: LayoutDashboard,
       label: t('adminPanel'),
-      active: pathname === '/admin',
+      active:
+        pathname ===
+        (params.locale === 'en' ? '' : `/${params.locale}`) + '/admin',
     },
     {
       href: '/admin/stores',
       icon: Store,
       label: t('stores'),
       active:
-        pathname === '/admin/stores' || pathname.startsWith('/admin/stores/'),
+        pathname ===
+          (params.locale === 'en' ? '' : `/${params.locale}`) +
+            '/admin/stores' ||
+        pathname.startsWith(
+          (params.locale === 'en' ? '' : `/${params.locale}`) +
+            '/admin/stores/',
+        ),
     },
     {
       href: '/admin/users',
       icon: User,
       label: t('users'),
       active:
-        pathname === '/admin/users' || pathname.startsWith('/admin/users/'),
+        pathname ===
+          (params.locale === 'en' ? '' : `/${params.locale}`) +
+            '/admin/users' ||
+        pathname.startsWith(
+          (params.locale === 'en' ? '' : `/${params.locale}`) + '/admin/users/',
+        ),
     },
     {
       href: '/admin/products',
       icon: Package,
       label: t('products'),
       active:
-        pathname === '/admin/products' ||
-        pathname.startsWith('/admin/products/'),
+        pathname ===
+          (params.locale === 'en' ? '' : `/${params.locale}`) +
+            +'/admin/products' ||
+        pathname.startsWith(
+          (params.locale === 'en' ? '' : `/${params.locale}`) +
+            '/admin/products/',
+        ),
     },
     {
       href: '/admin/orders',
       icon: Package,
       label: t('orders'),
       active:
-        pathname === '/admin/orders' || pathname.startsWith('/admin/orders/'),
+        pathname ===
+          (params.locale === 'en' ? '' : `/${params.locale}`) +
+            '/admin/orders' ||
+        pathname.startsWith(
+          (params.locale === 'en' ? '' : `/${params.locale}`) +
+            '/admin/orders/',
+        ),
     },
   ];
 

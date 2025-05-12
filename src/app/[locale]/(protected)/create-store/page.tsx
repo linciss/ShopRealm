@@ -8,7 +8,7 @@ interface StoreCreateProps {
 }
 
 export const metadata: Metadata = {
-  title: 'Create store',
+  title: 'Shop Realm',
   description:
     'Create your store to be able to sell your products. You can create your store in a few simple steps. Admins will review your store and approve it. After that you can start selling your products.',
 };

@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
+import { useParams, usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import {
   ChartLine,
@@ -30,6 +30,7 @@ interface Route {
 
 export function StoreNavigation({ storeName }: StoreNavigationProps) {
   const pathname = usePathname();
+  const params = useParams<{ locale: string }>();
 
   const { t } = useTranslation();
 
@@ -38,38 +39,60 @@ export function StoreNavigation({ storeName }: StoreNavigationProps) {
       href: '/store',
       icon: LayoutDashboard,
       label: t('panel'),
-      active: pathname === '/store',
+      active:
+        pathname ===
+        (params.locale === 'en' ? '' : `/${params.locale}`) + '/store',
     },
     {
       href: '/store/products',
       icon: Package,
       label: t('productHeading'),
       active:
-        pathname === '/store/products' ||
-        pathname.startsWith('/store/products/'),
+        pathname ===
+          (params.locale === 'en' ? '' : `/${params.locale}`) +
+            '/store/products' ||
+        pathname.startsWith(
+          (params.locale === 'en' ? '' : `/${params.locale}`) +
+            '/store/products',
+        ),
     },
     {
       href: '/store/orders',
       icon: ShoppingCart,
       label: t('orders'),
       active:
-        pathname === '/store/orders' || pathname.startsWith('/store/orders/'),
+        pathname ===
+          (params.locale === 'en' ? '' : `/${params.locale}`) +
+            '/store/orders' ||
+        pathname.startsWith(
+          (params.locale === 'en' ? '' : `/${params.locale}`) + '/store/orders',
+        ),
     },
     {
       href: '/store/analytics',
       icon: ChartLine,
       label: t('analytics'),
       active:
-        pathname === '/store/analytics' ||
-        pathname.startsWith('/store/analytics/'),
+        pathname ===
+          (params.locale === 'en' ? '' : `/${params.locale}`) +
+            '/store/analytics' ||
+        pathname.startsWith(
+          (params.locale === 'en' ? '' : `/${params.locale}`) +
+            '/store/analytics',
+        ),
     },
     {
       href: '/store/settings',
       icon: Settings,
       label: t('settings'),
       active:
-        pathname === '/store/settings' ||
-        pathname.startsWith('/store/settings/'),
+        pathname ===
+          (params.locale === 'en' ? '' : `/${params.locale}`) +
+            '/store/settings' ||
+        pathname.startsWith(
+          (params.locale === 'en' ? '' : `/${params.locale}`) +
+            '/store/settings',
+        ),
     },
   ];
 
