@@ -1,5 +1,11 @@
 {
-  "reviewSubmitted": "Your review has been submitted successfully.",
-  "reviewUpdated": "Your review has been updated successfully.",
-  "reviewDeleted": "Your review has been deleted successfully."
+  "reviewSubmitted": "Votre avis a été soumis avec succès.",
+  "reviewUpdated": "Votre avis a été mis à jour avec succès.",
+  "reviewDeleted": "Votre avis a été supprimé avec succès.",
+  "signedIn": "Vous vous êtes connecté avec succès.",
+  "registered": "Profil créé avec succès.",
+  "cartSynced": "Votre panier a été synchronisé avec succès.",
+  "removed": "Produit retiré du panier avec succès.",
+  "quantityChanged": "Quantité du produit modifiée avec succès.",
+  "cleared": "Panier vidé avec succès."
 }

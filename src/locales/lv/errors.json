@@ -1,4 +1,16 @@
 {
-  "authError": "Authentication error",
-  "1item": "Must have atleast 1 quantity!"
+  "authError": "Autentifikācijas kļūda",
+  "1item": "Jābūt vismaz 1 vienībai!",
+  "prodNotFound": "Produkts nav atrasts",
+  "prodNotAvailable": "Produkts nav pieejams",
+  "validationError": "Validācijas kļūda",
+  "notBought": "Jūs neesat iegādājies šo produktu",
+  "reviewActive": "Jūs jau esat novērtējis šo produktu",
+  "reviewNotFound": "Atsauksme nav atrasta.",
+  "wrongPassword": "Nepareiza parole",
+  "wrongEmailOrPassword": "Nepareizs e-pasts vai parole",
+  "alreadyExists": "Lietotājs jau eksistē",
+  "passwordNotMatch": "Paroles nesakrīt",
+  "cartError": "Grozs kļūda",
+  "cantRemove": "Jūs nevarat izņemt šo produktu no sava groza"
 }

@@ -1,5 +1,11 @@
 {
-  "reviewSubmitted": "Your review has been submitted successfully.",
-  "reviewUpdated": "Your review has been updated successfully.",
-  "reviewDeleted": "Your review has been deleted successfully."
+  "reviewSubmitted": "Jūsu atsauksme ir veiksmīgi iesniegta.",
+  "reviewUpdated": "Jūsu atsauksme ir veiksmīgi atjaunināta.",
+  "reviewDeleted": "Jūsu atsauksme ir veiksmīgi dzēsta.",
+  "signedIn": "Jūs esat veiksmīgi pieteicies.",
+  "registered": "Profils veiksmīgi izveidots.",
+  "cartSynced": "Jūsu grozs ir veiksmīgi sinhronizēts.",
+  "removed": "Produkts veiksmīgi noņemts no groza.",
+  "quantityChanged": "Produkta daudzums veiksmīgi mainīts.",
+  "cleared": "Grozs veiksmīgi iztukšots."
 }
