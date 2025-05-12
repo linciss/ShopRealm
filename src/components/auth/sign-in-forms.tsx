@@ -76,7 +76,7 @@ export const SignInForms = () => {
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className='flex flex-col space-y-6 mt-4'
+          className='flex flex-col space-y-4 mt-4'
         >
           <FormField
             control={form.control}

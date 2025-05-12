@@ -11,6 +11,7 @@ import { NavigationShopper } from './navigation-shopper';
 import { ThemeToggle } from './theme-toggle';
 import { MobileMenu } from './mobile-menu';
 import { NavigationAuth } from './navigation-dropdown';
+import { NavSearch } from './nav-search';
 
 interface NavigationBarProps {
   locale: string;
@@ -35,7 +36,9 @@ export const NavigationBar = async ({ locale }: NavigationBarProps) => {
             </NavigationMenu>
           )}
         </div>
-        <div className='flex flex-1 items-center md:justify-end space-x-4 justify-between'>
+        {session?.user.role !== 'STORE' && <NavSearch />}
+
+        <div className='flex flex-1 md:flex-grow-0 items-center md:justify-end space-x-4 justify-between'>
           <div className='flex flex-1 items-center  space-x-4 '>
             <MobileMenu locale={locale} />
 
@@ -47,7 +50,7 @@ export const NavigationBar = async ({ locale }: NavigationBarProps) => {
             </Link>
           </div>
 
-          <div className='flex flex-1 items-center justify-end  space-x-4  '>
+          <div className='flex flex-1  items-center justify-end  space-x-4  '>
             {session?.user.role !== 'STORE' && (
               <Link href='/cart' prefetch={false} aria-label='Cart page'>
                 <Button variant='ghost' size='icon' aria-label='Cart page'>

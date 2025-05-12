@@ -1,16 +1,11 @@
 {
-  "authError": "Erreur d'authentification",
-  "1item": "Vous devez avoir au moins 1 quantité !",
-  "prodNotFound": "Produit introuvable",
-  "prodNotAvailable": "Produit non disponible",
-  "validationError": "Erreur de validation",
-  "notBought": "Vous n'avez pas acheté ce produit",
-  "reviewActive": "Vous avez déjà évalué ce produit",
-  "reviewNotFound": "Avis introuvable.",
-  "wrongPassword": "Mot de passe incorrect",
-  "wrongEmailOrPassword": "E-mail ou mot de passe incorrect",
-  "alreadyExists": "L'utilisateur existe déjà",
-  "passwordNotMatch": "Le mot de passe ne correspond pas",
-  "cartError": "Erreur de panier",
-  "cantRemove": "Vous ne pouvez pas retirer ce produit de votre panier"
+  "favOnSale": "Votre article préféré est en promotion !",
+  "toVisit": "Pour visiter la page du produit, veuillez cliquer sur le lien ci-dessous :",
+  "visitProduct": "Voir le produit",
+  "resetPassword": "Réinitialiser le mot de passe",
+  "resetPasswordText": "Vous recevez cet e-mail car vous avez demandé la réinitialisation de votre mot de passe. Pour le réinitialiser, veuillez cliquer sur le lien ci-dessous :",
+  "verifyEmail": "Vérifiez votre adresse e-mail",
+  "verifyEmailText": "Vous recevez cet e-mail car vous avez demandé à vérifier votre adresse e-mail. Pour ce faire, veuillez cliquer sur le lien ci-dessous :",
+  "productOnSale": "Produit en promotion !",
+  "sent": "E-mail envoyé !"
 }

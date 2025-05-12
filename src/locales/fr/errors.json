@@ -7,7 +7,7 @@
   "notBought": "Vous n'avez pas acheté ce produit",
   "reviewActive": "Vous avez déjà évalué ce produit",
   "reviewNotFound": "Avis introuvable.",
-  "wrongPassword": "Mot de passe incorrect",
+  "wrongPassword": "Mot de passe incorrect ou e-mail!",
   "wrongEmailOrPassword": "E-mail ou mot de passe incorrect",
   "alreadyExists": "L'utilisateur existe déjà",
   "passwordNotMatch": "Le mot de passe ne correspond pas",

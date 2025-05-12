@@ -18,7 +18,7 @@ export const CardWrapper = ({
   footerUrl,
 }: CardWrapperProps) => {
   return (
-    <Card className='md:max-w-[400px] shadow-md'>
+    <Card className='md:max-w-[450px] shadow-md'>
       <CardHeader className='text-center'>
         <Header formType={formType} label={label} />
       </CardHeader>

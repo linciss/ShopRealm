@@ -36,7 +36,7 @@ model User {
   favoriteList  FavoriteList?
   emailVerified Boolean         @default(false)
   adminPrivileges Boolean?      @default(false)
-  adminLevel    AdminLevel?     @default(ADMIN)
+  adminLevel    AdminLevel?
   userInterests UserInterest?
 }
 

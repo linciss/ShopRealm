@@ -130,7 +130,8 @@ export const ProductsTable = async ({
                             prefetch={false}
                             className='flex items-center gap-2'
                           >
-                            <Pencil height={16} width={16} />
+                            <Eye height={16} width={16} />
+
                             {t('showProduct')}
                           </Link>
                         </DropdownMenuItem>
@@ -142,7 +143,7 @@ export const ProductsTable = async ({
                           prefetch={false}
                           className='flex items-center gap-2'
                         >
-                          <Eye height={16} width={16} />
+                          <Pencil height={16} width={16} />
                           {t('editProduct')}
                         </Link>
                       </DropdownMenuItem>

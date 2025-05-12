@@ -7,7 +7,7 @@
   "notBought": "Jūs neesat iegādājies šo produktu",
   "reviewActive": "Jūs jau esat novērtējis šo produktu",
   "reviewNotFound": "Atsauksme nav atrasta.",
-  "wrongPassword": "Nepareiza parole",
+  "wrongPassword": "Nepareizs e-pasts vai parole",
   "wrongEmailOrPassword": "Nepareizs e-pasts vai parole",
   "alreadyExists": "Lietotājs jau eksistē",
   "passwordNotMatch": "Paroles nesakrīt",

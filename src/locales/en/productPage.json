@@ -118,7 +118,7 @@
   "notBought": "You haven't bought this product",
   "reviewActive": "You have already reviewed this product",
   "reviewNotFound": "Review not found.",
-  "wrongPassword": "Wrong password",
+  "wrongPassword": "Wrong email or password",
   "wrongEmailOrPassword": "Wrong email or password",
   "alreadyExists": "User already exists",
   "passwordNotMatch": "Password does not match",
@@ -491,5 +491,6 @@
   "en": "English",
   "lv": "Latvian",
   "fr": "French",
-  "featuredHeading": "Featured products"
+  "featuredHeading": "Featured products",
+  "searchForProducts": "Search for products"
 }

@@ -145,6 +145,7 @@ export const ProductFilters = ({
                 }
               }}
             />
+
             {searchValue && (
               <Button
                 className='absolute right-2.5 top-2.5 h-4 w-4 text-muted-foreground hover:bg-transparent'
@@ -167,6 +168,7 @@ export const ProductFilters = ({
           </div>
         </div>
         <Separator />
+
         <div className='space-y-2'>
           <div>
             <h3 className='font-medium mb-4'>{t('sum')}</h3>
