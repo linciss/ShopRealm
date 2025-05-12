@@ -344,7 +344,7 @@
   "connectWithStripe": "Connect with Stripe",
   "setupPayments": "Set up payments",
   "connectYour": "Connect your Stripe account to receive payments for ",
-  "yourStoreIsReady": "Your store is ready, but customers won't be able to complete purchases until payment is set up.",
+  "yourStoreIsReady": "Your store is ready, but you won't be able to access funds until payment is set up.",
   "remindMeLater": "Remind me later",
   "deleteStoreDesc": "Are you sure you want to delete your store? This action is irreversible and will delete all your data.",
   "deleteStore": "Delete store",
@@ -472,5 +472,13 @@
   "deletedUser": "Deleted User",
   "featuredChanged": "Product featured status changed successfully.",
   "addFeature": "Add to featured",
-  "removeFeature": "Remove from featured"
+  "removeFeature": "Remove from featured",
+  "freeShipping": "Free shipping",
+  "freeShippingDesc": "Free shipping on us!",
+  "30dayReturns": "30-day returns",
+  "30dayReturnsDesc": "Hassle-free returns",
+  "secureCheckout": "Secure checkout",
+  "secureCheckoutDesc": "Safe & protected checkout",
+  "shipping": "Shipping",
+  "inspectOrder": "Inspect order"
 }

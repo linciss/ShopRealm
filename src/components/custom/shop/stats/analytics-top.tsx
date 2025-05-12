@@ -87,7 +87,11 @@ export const TopProducts = ({ t, topSelling }: TopProductsProps) => {
                 );
               })
             ) : (
-              <p className='text-muted-foreground'>{t('noTopProducts')}</p>
+              <TableRow>
+                <TableCell>
+                  <p className='text-muted-foreground'>{t('noTopProducts')}</p>
+                </TableCell>
+              </TableRow>
             )}
           </TableBody>
         </Table>
