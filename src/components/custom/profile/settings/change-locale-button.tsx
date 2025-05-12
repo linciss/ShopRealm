@@ -1,70 +1,45 @@
 'use client';
 
-import { CardDescription } from '@/components/ui/card';
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
 import { useParams, usePathname, useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 
-const locales = [
-  {
-    value: 'en',
-  },
-  {
-    value: 'lv',
-  },
-  {
-    value: 'fr',
-  },
-];
+interface ChangeLocaleButtonProps {
+  localeChange: string;
+}
 
-export const ChangeLocaleButton = () => {
+export const ChangeLocaleButton = ({
+  localeChange,
+}: ChangeLocaleButtonProps) => {
   const params = useParams<{ locale: string }>();
   const { t } = useTranslation();
   const router = useRouter();
   const pathname = usePathname();
 
-  const handleChangeLocale = (value: string) => {
+  const handleChangeLocale = () => {
     const split = pathname.split('/');
 
-    if (split.length == 2) {
-      router.push(`/${value}/${pathname}`);
+    console.log(pathname.slice(0));
+    console.log(split);
+
+    // dont allow to change to current
+    if (localeChange === params.locale) return;
+
+    // checks if not in /
+    if (split.length == 2 && pathname.slice(1) !== params.locale) {
+      router.push(`/${localeChange}/${split[1]}`);
+    } else if (pathname.slice(1) === params.locale) {
+      router.push(`/${localeChange}/${split[0]}`);
     } else {
-      router.push(`/${value}/${split[2]}`);
+      router.push(`/${localeChange}/${split[2]}`);
     }
   };
 
   return (
     <>
-      <Select
-        onValueChange={handleChangeLocale}
-        defaultValue={params.locale || 'en'}
-      >
-        <SelectTrigger>
-          <SelectValue
-            defaultValue={params.locale || 'en'}
-            placeholder={t('selectLanguage')}
-          />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectGroup>
-            <SelectLabel>{t('languages')}</SelectLabel>
-            {locales.map((locale) => (
-              <SelectItem key={locale.value} value={locale.value}>
-                {t(locale.value)}
-              </SelectItem>
-            ))}
-          </SelectGroup>
-        </SelectContent>
-      </Select>
-      <CardDescription className='mt-1'>{t('localeInfo')}</CardDescription>
+      <Button className='!p-0' variant={'link'} onClick={handleChangeLocale}>
+        {t(localeChange)}
+      </Button>
     </>
   );
 };

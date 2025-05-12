@@ -1,5 +1,6 @@
 import initTranslations from '@/app/i18n';
 import Link from 'next/link';
+import { ChangeLocaleButton } from './profile/settings/change-locale-button';
 
 const navigation = {
   solutions: [
@@ -12,6 +13,19 @@ const navigation = {
 interface FooterProps {
   locale: string;
 }
+
+const locales = [
+  {
+    value: 'en',
+  },
+  {
+    value: 'lv',
+  },
+  {
+    value: 'fr',
+  },
+];
+
 export default async function Footer({ locale }: FooterProps) {
   const { t } = await initTranslations(locale || 'en', [
     'productPage',
@@ -32,7 +46,7 @@ export default async function Footer({ locale }: FooterProps) {
             </h3>
             <p className='text-sm text-muted-foreground'>{t('makesBetter')}</p>
           </div>
-          <div className='mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0'>
+          <div className='mt-16 grid grid-cols-3 gap-8 xl:col-span-2 xl:mt-0'>
             <div className='md:grid md:grid-cols-2 md:gap-8'>
               <div>
                 <h3 className='text-sm font-semibold text-card-foreground'>
@@ -66,6 +80,20 @@ export default async function Footer({ locale }: FooterProps) {
                       >
                         {t(item.name)}
                       </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <div className='md:grid md:grid-cols-1 md:gap-8'>
+              <div>
+                <h3 className='text-sm font-semibold text-card-foreground'>
+                  {t('changeLocale')}
+                </h3>
+                <ul role='list' className='mt-4 space-y-1'>
+                  {locales.map((locale) => (
+                    <li key={locale.value}>
+                      <ChangeLocaleButton localeChange={locale.value} />
                     </li>
                   ))}
                 </ul>
