@@ -244,6 +244,7 @@ export const getProduct = async (id: string) => {
         },
         category: true,
         createdAt: true,
+        featured: true,
         reviews: {
           select: {
             id: true,

@@ -6,11 +6,13 @@ import { MoreInfo } from '../../products/more-info.tsx';
 import { ReviewStars } from '../../review-stars';
 import { formatCurrency } from './../../../../lib/format-currency';
 import initTranslations from '@/app/i18n';
+import { Star } from 'lucide-react';
 
 interface ProductProps {
   productData:
     | {
         image: string | null;
+        featured: boolean;
         id: string;
         name: string;
         createdAt: Date;
@@ -65,6 +67,18 @@ export const ProductPreview = async ({ productData, locale }: ProductProps) => {
         <div className='flex flex-col gap-5 px-4'>
           <div className='flex flex-col gap-2'>
             <h1 className='text-3xl font-semibold '>{productData.name}</h1>
+            {productData.featured && (
+              <>
+                <div className=' items-center bg-amber-100 border border-[#f59e0b] text-amber-800 px-2 py-1 rounded-full z-20 text-xs flex flex-row gap-1 w-fit'>
+                  <Star fill='#f59e0b' className='h-3 w-3' strokeWidth={0} />
+                  {t('featured')}
+                </div>
+                <div className='text-sm bg-amber-100 border border-[#f59e0b] text-amber-800 p-2 rounded-lg'>
+                  <span className='font-semibold'>{t('why')}</span>:{' '}
+                  {t('whyDesc')}
+                </div>
+              </>
+            )}
             <div className='flex flex-row items-center gap-1'>
               <ReviewStars
                 averageReview={calculateAverageRating(productData.reviews)}

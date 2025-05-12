@@ -158,7 +158,7 @@ export const ProductCard = ({
           prefetch={false}
         >
           {productData.featured && (
-            <div className=' tracking-tighter items-center absolute top-2 left-2 bg-amber-100 border border-[#f59e0b] text-[#f59e0b] px-2 py-1 rounded-full z-20 text-xs flex flex-row gap-1'>
+            <div className=' tracking-tight items-center absolute top-2 left-2 bg-amber-100 border border-[#f59e0b] text-amber-800 px-2 py-1 rounded-full z-20 text-xs flex flex-row gap-1'>
               <Star fill='#f59e0b' className='h-3 w-3' strokeWidth={0} />
               {t('featured')}
             </div>

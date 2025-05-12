@@ -480,5 +480,7 @@
   "secureCheckout": "Secure checkout",
   "secureCheckoutDesc": "Safe & protected checkout",
   "shipping": "Shipping",
-  "inspectOrder": "Inspect order"
+  "inspectOrder": "Inspect order",
+  "why": "Why it's featured",
+  "whyDesc": "This product has been selected as a featured item due to its exceptional quality, outstanding customer reviews, and consistent performance. Our curators personally verify all featured products."
 }

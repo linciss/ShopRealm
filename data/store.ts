@@ -176,6 +176,7 @@ export const getFullStoreProductData = async (productId: string) => {
             category: true,
             createdAt: true,
             updatedAt: true,
+            featured: true,
             reviews: {
               select: {
                 id: true,
