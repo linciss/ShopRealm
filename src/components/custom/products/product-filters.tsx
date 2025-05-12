@@ -183,8 +183,9 @@ export const ProductFilters = ({
             />
             <div className='flex items-center justify-between'>
               <div className='flex items-center'>
-                <span className='text-sm text-muted-foreground mr-2'>€</span>
-                <label htmlFor='min' />
+                <label htmlFor='min'>
+                  <span className='text-sm text-muted-foreground mr-2'>€</span>
+                </label>
 
                 <Input
                   id='min'
@@ -200,8 +201,9 @@ export const ProductFilters = ({
                 />
               </div>
               <div className='flex items-center'>
-                <span className='text-sm text-muted-foreground mr-2'>€</span>
-                <label htmlFor='max' />
+                <label htmlFor='max'>
+                  <span className='text-sm text-muted-foreground mr-2'>€</span>
+                </label>
                 <Input
                   id='max'
                   type='number'

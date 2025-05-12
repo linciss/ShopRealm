@@ -46,14 +46,14 @@
 - [x] /featured in routes 
 - [x] somehow figure out how notify user when login or smthn toast 
 - [x] when  syncing cart remove the excess product quantity
-- [ ] when sorting and filtering check for sale price 
+- [x] when sorting and filtering check for sale price 
 - [x] in product page maybe make the category thingies actualy buttons so users can select category there?
 - [x] edit store owner button maybe 
 - [x] add teh table search to all tables\
 - [ ] locale switch
 - [ ] analyutics error 
-- [ ] highlight featured
-- [ ] adminbs can add to featured
+- [x] highlight featured
+- [x] adminbs can add to featured
 
 
 # TRANSLATIONS TODO 

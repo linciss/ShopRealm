@@ -5,7 +5,7 @@ import { ReviewStars } from './review-stars';
 import { calculateAverageRating } from '@/lib/utils';
 import Link from 'next/link';
 import { Button } from '../ui/button';
-import { Heart, ShoppingCart } from 'lucide-react';
+import { Heart, ShoppingCart, Star } from 'lucide-react';
 import { useState, useTransition } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { addItemToCart } from '../../../actions/cart/add-item-to-cart';
@@ -26,6 +26,7 @@ interface Product {
   quantity: number;
   sale: boolean;
   salePrice: string | null;
+  featured: boolean;
 }
 
 interface CartItem {
@@ -51,6 +52,7 @@ export const ProductCard = ({
   origin,
 }: ProductCardProps) => {
   // checks if item is favorite
+
   const isFav =
     favoriteItems?.some((fav) => fav.productId === productData.id) || false;
 
@@ -141,7 +143,9 @@ export const ProductCard = ({
   };
 
   return (
-    <Card className='overflow-hidden group'>
+    <Card
+      className={`overflow-hidden group ${productData.featured ? 'border-[#f59e0b] ' : ''}`}
+    >
       <div className='aspect-square relative overflow-hidden '>
         <Link
           href={
@@ -153,6 +157,12 @@ export const ProductCard = ({
           }
           prefetch={false}
         >
+          {productData.featured && (
+            <div className=' tracking-tighter items-center absolute top-2 left-2 bg-amber-100 border border-[#f59e0b] text-[#f59e0b] px-2 py-1 rounded-full z-20 text-xs flex flex-row gap-1'>
+              <Star fill='#f59e0b' className='h-3 w-3' strokeWidth={0} />
+              {t('featured')}
+            </div>
+          )}
           <Image
             src={productData.image || ''}
             fill
@@ -230,7 +240,7 @@ export const ProductCard = ({
               <p className='text-sm text-muted-foreground line-through '>
                 {formatCurrency(productData.price)}
               </p>
-              <p className='text-md font-semibold text-red-500'>
+              <p className='text-md font-semibold text-red-800'>
                 {formatCurrency(productData.salePrice)}
               </p>
             </div>
