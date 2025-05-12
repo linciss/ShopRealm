@@ -35,7 +35,11 @@ export const changeOrderStatus = async (
       return { error: 'orderNotFound' };
     }
 
-    if (existingOrderItem?.status === 'complete' && status !== 'returned') {
+    if (
+      existingOrderItem?.status === 'complete' &&
+      status !== 'returned' &&
+      !session.user.admin
+    ) {
       return { error: 'completedCantBeChanged' };
     }
 
