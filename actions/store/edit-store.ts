@@ -33,6 +33,19 @@ export const editUserStore = async (
     });
 
     if (existingStore.length > 0) {
+      const nameConflict = existingStore.some((store) => store.name === name);
+      const phoneConflict = existingStore.some(
+        (store) => store.storePhone === phone,
+      );
+
+      if (nameConflict && phoneConflict) {
+        return { error: 'nameAndPhone' };
+      } else if (nameConflict) {
+        return { error: 'storeExists' };
+      } else if (phoneConflict) {
+        return { error: 'phoneExists' };
+      }
+
       return { error: 'storeExists' };
     }
 
