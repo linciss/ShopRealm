@@ -9,7 +9,15 @@ export const shopperRoutes = [
   '/featured',
 ];
 
-export const publicRoutes = ['/', '/about-us', ...shopperRoutes];
+export const publicRoutes = [
+  '/',
+  '/about-us',
+  ...shopperRoutes,
+  '/lv',
+  '/en',
+  '/fr',
+  '',
+];
 
 export const authRoutes = [
   '/auth/sign-in',
