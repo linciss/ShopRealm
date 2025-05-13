@@ -9,6 +9,7 @@ import DOMPurify from 'isomorphic-dompurify';
 import { slugify } from '@/lib/utils';
 import { revalidatePath } from 'next/cache';
 import { sendSaleEmail } from '../emailing/email';
+import { optimizedImage } from '@/lib/imageUtils';
 
 export const editProduct = async (
   data: z.infer<typeof productSchema>,
@@ -110,6 +111,8 @@ export const editProduct = async (
       return { error: 'salePriceError' };
     }
 
+    const optimizedBuffer = await optimizedImage(image);
+
     const stringifiedSpec = JSON.stringify(specifications);
 
     await prisma.product.update({
@@ -122,7 +125,7 @@ export const editProduct = async (
         category,
         isActive: checkIfActive,
         slug: itemSlug,
-        image: image as string,
+        image: optimizedBuffer as string,
         details: sanitizedDetails,
         specifications: stringifiedSpec,
         sale,

@@ -59,6 +59,7 @@
     "react-i18next": "^15.5.1",
     "recharts": "^2.15.3",
     "resend": "^4.3.0",
+    "sharp": "^0.34.1",
     "stripe": "^18.0.0",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",

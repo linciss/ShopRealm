@@ -6,8 +6,9 @@ import { getStoreId } from '../../data/store';
 import { z } from 'zod';
 import { productSchema } from '../../schemas';
 import DOMPurify from 'isomorphic-dompurify';
-import { slugify } from '@/lib/utils';
 import { revalidatePath } from 'next/cache';
+import { slugify } from '@/lib/utils';
+import { optimizedImage } from '@/lib/imageUtils';
 
 export const createProduct = async (data: z.infer<typeof productSchema>) => {
   const session = await auth();
@@ -74,6 +75,8 @@ export const createProduct = async (data: z.infer<typeof productSchema>) => {
     const itemSlug = `${slugify(name).toLowerCase()}-${UUID}`;
     const priceDecimals = price.toFixed(2);
     const salePriceDecimals = salePrice?.toFixed(2);
+    console.log(image);
+    const optimizedBuffer = await optimizedImage(image);
 
     if (
       (sale && salePrice !== undefined && salePrice >= price) ||
@@ -94,7 +97,7 @@ export const createProduct = async (data: z.infer<typeof productSchema>) => {
         isActive: checkIfActive,
         storeId,
         slug: itemSlug,
-        image: image as string,
+        image: optimizedBuffer as string,
         details: sanitizedDetails,
         specifications: stringifiedSpec,
         sale,

@@ -215,7 +215,7 @@
   "prodImage": "Image du produit",
   "imageDesc": "Montrez votre produit sous son meilleur jour. Choisissez une bonne image pour votre produit. Vous ne pouvez choisir qu'une seule image.",
   "pressToUpload": "Appuyez pour télécharger",
-  "uploadInfo": "Format JPG, JPEG, PNG ou WEBP. Taille maximale 2Mo.",
+  "uploadInfo": "Format JPG, JPEG, PNG ou WEBP. Taille maximale 100Ko.",
   "specifications": "Spécifications du produit",
   "specificationsDesc": "Les spécifications du produit fournissent plus d'informations sur le produit comme les dimensions, le poids, etc. Vous pouvez en ajouter autant que vous le souhaitez. Vous pouvez également les modifier ou les supprimer plus tard.",
   "specName": "Nom de la spécification",
@@ -492,5 +492,6 @@
   "lv": "Letton",
   "fr": "Français",
   "featuredHeading": "Produits en vedette",
-  "searchForProducts": "Rechercher des produits"
+  "searchForProducts": "Rechercher des produits",
+  "phoneExists": "Le numéro de téléphone existe déjà"
 }
