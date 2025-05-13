@@ -25,6 +25,17 @@ export const editUserStore = async (
 
     const { name, description, phone } = validateData.data;
 
+    const existingStore = await prisma.store.findMany({
+      where: {
+        OR: [{ name: name }, { storePhone: phone }],
+        AND: id ? { id: { not: id } } : undefined,
+      },
+    });
+
+    if (existingStore.length > 0) {
+      return { error: 'storeExists' };
+    }
+
     if (id && session.user.admin) {
       await prisma.store.update({
         where: { id },

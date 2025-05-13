@@ -22,6 +22,19 @@ export const editUserProfile = async (
 
     const { name, lastName, phone } = validateData.data;
 
+    const exisitingUser = await prisma.user.findMany({
+      where: {
+        phone,
+        id: {
+          not: userId,
+        },
+      },
+    });
+
+    if (exisitingUser.length > 0) {
+      return { error: 'phoneExists' };
+    }
+
     await prisma.user.update({
       where: { id: userId },
       data: {
