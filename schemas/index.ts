@@ -75,7 +75,7 @@ export const storeSchema = z.object({
   phone: z.string().min(8, { message: 'phone' }).max(8, { message: 'phone' }),
 });
 
-const MAX_FILE_SIZE = 1 * 1024 * 1024;
+const MAX_FILE_SIZE = 350 * 1024;
 const ACCEPTED_IMAGE_TYPES = [
   'image/jpeg',
   'image/jpg',
@@ -88,10 +88,7 @@ export const productSchema = z
     name: z
       .string()
       .min(3, { message: 'productName' })
-      .max(30, { message: '30letters' })
-      .refine((value) => /^[a-zA-Z0-9_.\- ]*$/.test(value ?? ''), {
-        message: 'letters',
-      }),
+      .max(50, { message: '30letters' }),
     description: z.string().min(20, { message: 'prodDesc' }),
     price: z
       .number()

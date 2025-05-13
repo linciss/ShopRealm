@@ -7,6 +7,7 @@ import { Metadata } from 'next';
 import { getProducts } from '../../../../data/product';
 import initTranslations from '@/app/i18n';
 import { auth } from '../../../../auth';
+import { cache } from 'react';
 
 interface ProductsPageProps {
   searchParams: Promise<{
@@ -34,11 +35,8 @@ export async function generateMetadata({
 
 const LIMIT = 20;
 
-export default async function Products({
-  searchParams,
-  params,
-}: ProductsPageProps) {
-  const sp = await searchParams;
+const getProductData = cache(async (params: ProductsPageProps) => {
+  const sp = await params.searchParams;
   const session = await auth();
 
   const page = Number(sp.page) || 1;
@@ -48,7 +46,7 @@ export default async function Products({
   const maxPrice = Number(sp.maxPrice) || undefined;
   const sort = sp.sort || '';
 
-  const { products, totalProducts } = await getProducts({
+  return getProducts({
     page,
     search,
     category,
@@ -57,6 +55,25 @@ export default async function Products({
     sort,
     limit: LIMIT,
     session: session?.user.id ? session : null,
+  });
+});
+
+export default async function Products({
+  searchParams,
+  params,
+}: ProductsPageProps) {
+  const sp = await searchParams;
+
+  const page = Number(sp.page) || 1;
+  const search = sp.search || '';
+  const category = sp.category || '';
+  const minPrice = Number(sp.minPrice) || undefined;
+  const maxPrice = Number(sp.maxPrice) || undefined;
+  const sort = sp.sort || '';
+
+  const { products, totalProducts } = await getProductData({
+    searchParams,
+    params,
   });
 
   const totalPages = Math.ceil(totalProducts / LIMIT);

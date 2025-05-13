@@ -54,6 +54,8 @@
 - [x] analyutics error 
 - [x] highlight featured
 - [x] adminbs can add to featured
+- [x] lazy load iamges from products which are related
+- [x] see if maybe can oiptimize images more maybe put suspense?
 
 
 # TRANSLATIONS TODO 

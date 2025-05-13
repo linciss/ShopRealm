@@ -127,11 +127,13 @@ export const AddToCart = ({
               setQuantity(quantity - 1);
             }}
             disabled={quantity === 1}
+            aria-label='Decrease quantity'
           >
             <Minus />
           </Button>
           <div className='w-12 text-center'>{quantity}</div>
           <Button
+            aria-label='Increase quantity'
             disabled={quantity === maxQuantity}
             variant={'ghost'}
             onClick={() => {
@@ -143,6 +145,7 @@ export const AddToCart = ({
         </div>
         <Button
           className='flex-1'
+          aria-label='Add to cart'
           onClick={() => {
             handleAddToCart();
           }}
@@ -155,6 +158,7 @@ export const AddToCart = ({
         <Button
           className='flex-1'
           variant={'outline'}
+          aria-label='Add to favorites'
           onClick={() => {
             handleAddToFavorites();
           }}
@@ -164,6 +168,7 @@ export const AddToCart = ({
         </Button>
         <Button
           variant={'outline'}
+          aria-label='Share product'
           onClick={() => {
             // LATER ADD SHARES????
             navigator.clipboard.writeText(url || '');

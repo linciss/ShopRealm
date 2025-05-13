@@ -73,7 +73,7 @@ export function AdminNavigation({ userName }: StoreNavigationProps) {
       active:
         pathname ===
           (params.locale === 'en' ? '' : `/${params.locale}`) +
-            +'/admin/products' ||
+            '/admin/products' ||
         pathname.startsWith(
           (params.locale === 'en' ? '' : `/${params.locale}`) +
             '/admin/products/',

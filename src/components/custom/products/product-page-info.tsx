@@ -16,11 +16,11 @@ import {
   BreadcrumbSeparator,
 } from '@/components/ui/breadcrumb';
 import { getRelatedProducts } from '../../../../data/product';
-import { ProductCard } from '../product-card';
 import { auth } from '../../../../auth';
 import { formatCurrency } from './../../../lib/format-currency';
 import initTranslations from '@/app/i18n';
 import { Star } from 'lucide-react';
+import { ProductGrid } from './product-grid';
 
 interface ProductProps {
   productData:
@@ -111,7 +111,7 @@ export const ProductPageInfo = async ({
             height={600}
             src={(productData.image as string) || ''}
             alt='Product Image'
-            className='w-auto h-[550px]  object-cover '
+            className='w-full h-[550px]  object-contain '
           />
         </div>
 
@@ -215,11 +215,8 @@ export const ProductPageInfo = async ({
 
       <div className='mt-5 space-y-5'>
         <h3 className='text-2xl font-semibold'>{t('productsYouMayLike')}</h3>
-        <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'>
-          {relatedProducts?.map((prod) => (
-            <ProductCard key={prod.id} productData={prod} session={session} />
-          ))}
-        </div>
+
+        <ProductGrid products={relatedProducts || []} lazyLoad={true} />
       </div>
     </div>
   );

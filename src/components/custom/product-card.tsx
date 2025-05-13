@@ -43,6 +43,7 @@ interface ProductCardProps {
   favoriteItems?: Favorite[] | undefined;
   session?: Session | null;
   origin?: string;
+  isPriority?: boolean;
 }
 
 export const ProductCard = ({
@@ -50,6 +51,7 @@ export const ProductCard = ({
   favoriteItems,
   session,
   origin,
+  isPriority = false,
 }: ProductCardProps) => {
   // checks if item is favorite
 
@@ -166,10 +168,12 @@ export const ProductCard = ({
           <Image
             src={productData.image || ''}
             fill
-            loading='lazy'
-            alt='Product'
+            alt={productData.name}
+            loading={isPriority ? 'eager' : 'lazy'}
             className='object-contain transition-transform group-hover:scale-105'
-            sizes='(max-width: 368px) (max-height: 368px)'
+            sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw'
+            placeholder='blur'
+            blurDataURL='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMDAiIGhlaWdodD0iMTAwIj48cmVjdCB3aWR0aD0iMTAwIiBoZWlnaHQ9IjEwMCIgZmlsbD0iI2YxZjFmMSIvPjwvc3ZnPg=='
           />
         </Link>
         <div className='absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/50 to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity'>

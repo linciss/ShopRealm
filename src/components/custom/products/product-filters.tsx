@@ -11,26 +11,6 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, useTransition } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const categories = [
-  {
-    id: '',
-    label: 'Notirit',
-  },
-  {
-    id: 'electronics',
-    label: 'Elektronika',
-  },
-  { id: 'clothing' },
-  { id: 'home' },
-  { id: 'beauty' },
-  { id: 'sports' },
-  { id: 'toys' },
-  { id: 'books' },
-  { id: 'health' },
-  { id: 'automotive' },
-  { id: 'jewelry' },
-];
-
 interface ProductFilterProps {
   selectedCategory: string;
   minPrice: number | undefined;
@@ -44,12 +24,33 @@ export const ProductFilters = ({
   maxPrice,
   search,
 }: ProductFilterProps) => {
+  const categories = [
+    {
+      id: '',
+      label: 'Notirit',
+    },
+    {
+      id: 'electronics',
+      label: 'Elektronika',
+    },
+    { id: 'clothing' },
+    { id: 'home' },
+    { id: 'beauty' },
+    { id: 'sports' },
+    { id: 'toys' },
+    { id: 'books' },
+    { id: 'health' },
+    { id: 'automotive' },
+    { id: 'jewelry' },
+  ];
+
+  const { t } = useTranslation();
+
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
   const [mobileMenu, setMobileMenu] = useState<boolean>(false);
-
   const [searchValue, setSearchValue] = useState(search);
   const [priceRange, setPriceRange] = useState<[number, number]>([
     minPrice || 0,
@@ -65,8 +66,6 @@ export const ProductFilters = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
-
-  const { t } = useTranslation();
 
   const createQueryString = (
     params: Record<string, string | number | null>,
