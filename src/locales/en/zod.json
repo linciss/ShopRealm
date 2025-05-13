@@ -19,7 +19,7 @@
   "prodDesc": "Please describe your porduct in 20 or more characters",
   "price": "Please enter a valid price that is more than 0",
   "category": "Please enter atleast 1 category",
-  "maxSize": "Image size must be less than 100KB",
+  "maxSize": "Image size must be less than 350KB",
   "image": "Please enter a valid image",
   "formats": "Please add an image in JPG, JPEG, PNG or WEBP format",
   "quantity": "Please enter quantity",

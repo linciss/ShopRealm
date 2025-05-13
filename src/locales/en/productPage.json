@@ -215,7 +215,7 @@
   "prodImage": "Product image",
   "imageDesc": "Show your product in the best light. Choose a good image for your product. You can only choose a single image.",
   "pressToUpload": "Press to upload",
-  "uploadInfo": "JPG, JPEG, PNG or WEBP format. Max size 100KB.",
+  "uploadInfo": "JPG, JPEG, PNG or WEBP format. Max size 350KB.",
   "specifications": "Product specifications",
   "specificationsDesc": "Product specifications provide more information on product such as dimensions, weight, etc. You can add as many as you want. You can also edit or delete them later.",
   "specName": "Specification name",

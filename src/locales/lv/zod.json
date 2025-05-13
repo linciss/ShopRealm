@@ -19,7 +19,7 @@
   "prodDesc": "Lūdzu, aprakstiet savu produktu vismaz 20 rakstzīmēs",
   "price": "Lūdzu, ievadiet derīgu cenu, kas ir lielāka par 0",
   "category": "Lūdzu, ievadiet vismaz 1 kategoriju",
-  "maxSize": "Attēla izmēram jābūt mazākam par 100KB",
+  "maxSize": "Attēla izmēram jābūt mazākam par 350KB",
   "image": "Lūdzu, ievadiet derīgu attēlu",
   "formats": "Lūdzu, pievienojiet attēlu JPG, JPEG, PNG vai WEBP formātā",
   "quantity": "Lūdzu, ievadiet daudzumu",
