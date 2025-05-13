@@ -10,9 +10,10 @@ import initTranslations from '@/app/i18n';
 
 export const sendVerifyEmail = async (token: string, email: string) => {
   const pathname = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-
-  const confirmLink = `${pathname}/auth/verify-email?token=${token}`;
   const locale = (await cookies()).get('NEXT_LOCALE')?.value || 'en';
+
+  const confirmLink = `${pathname}/${locale}/auth/verify-email?token=${token}`;
+
   const html = render(await EmailVerification({ confirmLink, locale }));
   const { t } = await initTranslations(locale, ['email']);
 
@@ -40,9 +41,9 @@ export const sendVerifyEmail = async (token: string, email: string) => {
 
 export const sendSaleEmail = async (productId: string, emails: string[]) => {
   const pathname = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
+  const locale = (await cookies()).get('NEXT_LOCALE')?.value || 'en';
 
   const confirmLink = `${pathname}/products/${productId}`;
-  const locale = (await cookies()).get('NEXT_LOCALE')?.value || 'en';
   const html = render(await ProductSale({ confirmLink, locale }));
   const { t } = await initTranslations(locale, ['email']);
 
@@ -71,9 +72,10 @@ export const sendSaleEmail = async (productId: string, emails: string[]) => {
 
 export const sendResetPassword = async (token: string, email: string) => {
   const pathname = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
-
-  const confirmLink = `${pathname}/auth/reset-password?token=${token}`;
   const locale = (await cookies()).get('NEXT_LOCALE')?.value || 'en';
+
+  const confirmLink = `${pathname}/${locale}/auth/reset-password?token=${token}`;
+
   const html = render(await ResetPassword({ confirmLink, locale }));
   const { t } = await initTranslations(locale, ['email']);
 
