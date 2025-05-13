@@ -493,5 +493,6 @@
   "fr": "Français",
   "featuredHeading": "Produits en vedette",
   "searchForProducts": "Rechercher des produits",
-  "phoneExists": "Le numéro de téléphone existe déjà"
+  "phoneExists": "Le numéro de téléphone existe déjà",
+  "productConfigurator": "Configurateur de produit"
 }

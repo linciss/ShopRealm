@@ -493,5 +493,12 @@
   "fr": "Franču",
   "featuredHeading": "Piedāvājumi",
   "searchForProducts": "Meklēt produktus",
-  "phoneExists": "Šis tālruņa numurs jau pastāv"
+  "phoneExists": "Šis tālruņa numurs jau pastāv",
+  "productConfigurator": "Produktu konfigurators",
+  "holding": "Turēšanā",
+  "escrowStatus": "Eskrow statuss",
+  "orderPlacer": "Pasūtījuma veidotājs",
+  "user": "Pasūtījuma veidotājs",
+  "storeExists": "Veikals ar tādu vārdu jau pastāv",
+  "nameAndPhone": "Veikals ar tādu nosaukumu un vārdu jau pastāv"
 }
