@@ -92,7 +92,7 @@ export const OrdersTable = async ({
                 <TableCell>{formatCurrency(order.totalPrice)}</TableCell>
                 <TableCell>{t(order.status)}</TableCell>
                 <TableCell className='hidden md:table-cell'>
-                  {order.escrowStatus}
+                  {t(order.escrowStatus)}
                 </TableCell>
                 <TableCell className='hidden md:table-cell'>
                   {new Date(order.createdAt).toLocaleDateString()}

@@ -10,7 +10,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -172,7 +171,6 @@ export const CheckoutForm = ({ userInfo }: CheckoutProps) => {
                   <FormControl>
                     <Input value={userInfo.email} disabled />
                   </FormControl>
-                  <FormDescription>{t('wantChangeEmail')}</FormDescription>
                 </FormItem>
 
                 <FormField

@@ -3,10 +3,10 @@ import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import initTranslations from '../i18n';
 import { CategoryGrid } from '@/components/custom/category-grid';
-import { SearchBar } from '@/components/custom/search';
 import { FeaturedProducts } from '@/components/custom/products/featured-section';
 import { SaleProducts } from '@/components/custom/products/special-section';
 import { NewArrivals } from '@/components/custom/products/new-arrivals';
+import { NavSearch } from '@/components/custom/nav-search';
 
 interface HomeProps {
   params: Promise<{ locale: string }>;
@@ -28,7 +28,7 @@ export default async function Home({ params }: HomeProps) {
             </p>
 
             <div className='w-full max-w-2xl mt-6'>
-              <SearchBar />
+              <NavSearch />
             </div>
           </div>
         </div>

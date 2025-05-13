@@ -117,7 +117,7 @@ export const ProductPageInfo = async ({
 
         <div className='flex flex-col gap-5 px-4'>
           <div className='flex flex-col gap-2'>
-            <div className='flex gap-2 items-center'>
+            <div className=''>
               <h1 className='text-3xl font-semibold '>{productData.name}</h1>
               <Link
                 className='text-muted-foreground text-xs justify-self-end'

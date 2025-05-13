@@ -38,7 +38,7 @@ export const RevenueChart = ({ revenuePerDay }: RevenueChartProps) => {
 
     return last30Days.map((dateStr) => {
       const date = new Date(dateStr);
-      const formattedDate = date.toLocaleDateString(i18n.language, {
+      const formattedDate = date.toLocaleDateString('en-US', {
         month: 'short',
         day: 'numeric',
       });
@@ -101,7 +101,7 @@ export const RevenueChart = ({ revenuePerDay }: RevenueChartProps) => {
                   className='w-[150px]'
                   nameKey='views'
                   labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString(i18n.language, {
+                    return new Date(value).toLocaleDateString('en-US', {
                       month: 'short',
                       day: 'numeric',
                       year: 'numeric',
