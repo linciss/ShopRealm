@@ -76,7 +76,7 @@ export const createOrdersFromSession = async (session: any) => {
           data: {
             orderId: order.id,
             productId: item.id,
-            storeId: item.storeId,
+            storeId: item.storeId || '',
             quantity: item.quantity,
             priceAtOrder: parseFloat(
               item.sale ? item.salePrice || item.price : item.price,

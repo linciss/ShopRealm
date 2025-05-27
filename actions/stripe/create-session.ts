@@ -6,6 +6,7 @@ import { getUserCart } from '../../data/cart';
 import { auth } from '../../auth';
 import { z } from 'zod';
 import { shippingInfoSchema } from '../../schemas';
+import { cookies } from 'next/headers';
 
 export const createCheckoutSession = async (
   redirectUrl: string,
@@ -34,6 +35,16 @@ export const createCheckoutSession = async (
     validateData.data;
 
   try {
+    const existingPhone = await prisma.user.findFirst({
+      where: {
+        phone,
+        id: { not: session.user.id },
+      },
+    });
+    if (existingPhone) {
+      return { error: 'phoneExists' };
+    }
+
     if (saveInfo) {
       // if user select that they want to save their data then save  it into database
       await prisma.user.update({
@@ -93,6 +104,8 @@ export const createCheckoutSession = async (
       },
     }));
 
+    const locale = (await cookies()).get('NEXT_LOCALE')?.value || 'en';
+
     const stripeSession = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items: lineItems,
@@ -112,8 +125,8 @@ export const createCheckoutSession = async (
           ),
         },
       },
-      success_url: `${redirectUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${redirectUrl}/cart`,
+      success_url: `${redirectUrl}/${locale}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${redirectUrl}/${locale}/cart`,
       client_reference_id: session.user.id,
       customer_email: session.user.email as string,
       metadata: {
