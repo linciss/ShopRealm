@@ -12,6 +12,11 @@ export const createOrdersFromSession = async (session: any) => {
   const shippingCity = session.metadata.city;
   const shippingCountry = session.metadata.country;
   const shippingPostalCode = session.metadata.postalCode;
+  const productData = JSON.parse(session.metadata.productData) || [];
+
+  if (!productData) {
+    return { error: 'error' };
+  }
 
   const userId = session.client_reference_id;
 
@@ -43,24 +48,42 @@ export const createOrdersFromSession = async (session: any) => {
     // transferScheduleDate.setDate(transferScheduleDate.getDate() + 90);
 
     // creates an orderitem
+    const products = await prisma.product.findMany({
+      where: { id: { in: productData.map((p: { id: string }) => p.id) } },
+      include: { store: true },
+    });
+
+    if (products.length === 0) {
+      return { error: 'error' };
+    }
+
+    const cartProducts = products.map((product) => {
+      const cartItem = productData.find(
+        (item: { id: string }) => item.id === product.id,
+      );
+
+      const quantity = cartItem?.quantity || 0;
+
+      return {
+        ...product,
+        quantity: quantity || 0,
+      };
+    });
+
     await Promise.all(
-      cart.cartItems.map(async (item) => {
+      cartProducts.map(async (item) => {
         await prisma.orderItem.create({
           data: {
             orderId: order.id,
-            productId: item.productId,
-            storeId: item.product.storeId,
+            productId: item.id,
+            storeId: item.storeId,
             quantity: item.quantity,
             priceAtOrder: parseFloat(
-              item.product.sale
-                ? item.product.salePrice || item.product.price
-                : item.product.price,
+              item.sale ? item.salePrice || item.price : item.price,
             ),
             total:
               parseFloat(
-                item.product.sale
-                  ? item.product.salePrice || item.product.price
-                  : item.product.price,
+                item.sale ? item.salePrice || item.price : item.price,
               ) * item.quantity,
             status: 'pending',
             escrowStatus: 'holding',
@@ -79,8 +102,12 @@ export const createOrdersFromSession = async (session: any) => {
     );
 
     // updates quantity of product
+    const purchasedCartItems = cart.cartItems.filter((item) => {
+      return products.some((p: { id: string }) => p.id === item.productId);
+    });
+
     await Promise.all(
-      cart.cartItems.map((item) => {
+      purchasedCartItems.map((item) => {
         const newQuantity = Math.max(0, item.product.quantity - item.quantity);
         const isOutOfStock = newQuantity === 0;
 
@@ -99,11 +126,12 @@ export const createOrdersFromSession = async (session: any) => {
       where: { cartId },
     });
 
-    return order;
+    return { success: 'success' };
   } catch (err) {
     if (err instanceof Error) {
       console.log(err);
+      return { error: 'error' };
     }
-    return { error: 'Kluda!' };
+    return { error: 'error' };
   }
 };

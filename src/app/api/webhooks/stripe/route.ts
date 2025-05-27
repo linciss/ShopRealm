@@ -38,13 +38,28 @@ export async function POST(req: NextRequest) {
 
         return new Response(
           JSON.stringify({
-            error: 'Error',
+            error: 'error',
             products: unavailableProducts,
           }),
           { status: 200 },
         );
       }
-      await createOrdersFromSession(event.data.object);
+      let error = false;
+      await createOrdersFromSession(event.data.object).then((res) => {
+        if (res?.error) {
+          error = true;
+        }
+      });
+
+      if (error) {
+        await stripe.refunds.create({ payment_intent: paymentIntent });
+        return new Response(
+          JSON.stringify({
+            error: 'error',
+          }),
+          { status: 200 },
+        );
+      }
     }
 
     return NextResponse.json({ received: true });

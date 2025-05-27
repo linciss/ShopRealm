@@ -104,6 +104,12 @@ export const createCheckoutSession = async (
               .map((item) => item.product.storeId)
               .filter((v, i, a) => a.indexOf(v) === i),
           ),
+          productData: JSON.stringify(
+            cartItems.map((item) => ({
+              id: item.product.id,
+              quantity: item.quantity,
+            })),
+          ),
         },
       },
       success_url: `${redirectUrl}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
