@@ -494,5 +494,8 @@
   "featuredHeading": "Produits en vedette",
   "searchForProducts": "Rechercher des produits",
   "phoneExists": "Le numéro de téléphone existe déjà",
-  "productConfigurator": "Configurateur de produit"
+  "productConfigurator": "Configurateur de produit",
+  "continueShopping": "Continuer vos achats",
+  "ordersToReview": "Commandes à examiner",
+  "orderStatusCantBeChanged": "Le statut de la commande ne peut pas être modifié car l'utilisateur a déjà supprimé son profil. Veuillez contacter le support ou l'utilisateur."
 }

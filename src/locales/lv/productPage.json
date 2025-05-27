@@ -165,8 +165,9 @@
   "orderTotal": "Pasūtījuma kopsumma",
   "back": "Atpakaļ",
   "orderProduct": "Pasūtījuma produkts",
-  "dataTypeStore": "Veikals",
-  "dataTypeShopper": "Pircējs",
+  "dataTypeStore": "Veikala",
+  "dataTypeShopper": "Pircēja",
+  "data": "dati",
   "passwordChanged": "Jūsu parole ir veiksmīgi mainīta.",
   "userNotFound": "Lietotājs nav atrasts",
   "wrongOldPassword": "Jūsu vecā parole ir nepareiza",
@@ -500,5 +501,8 @@
   "orderPlacer": "Pasūtījuma veidotājs",
   "user": "Pasūtījuma veidotājs",
   "storeExists": "Veikals ar tādu vārdu jau pastāv",
-  "nameAndPhone": "Veikals ar tādu nosaukumu un vārdu jau pastāv"
+  "nameAndPhone": "Veikals ar tādu nosaukumu un vārdu jau pastāv",
+  "continueShopping": "Turpināt iepirkties",
+  "ordersToReview": "Pasūtījumi pārskatīšanai",
+  "orderStatusCantBeChanged": "Pasūtījuma statuss nevar tikt mainīts, jo lietotājs jau ir dzēsis savu profilu. Lūdzu, sazinieties ar atbalsta dienestu vai lietotāju."
 }

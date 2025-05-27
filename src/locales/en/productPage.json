@@ -493,5 +493,8 @@
   "fr": "French",
   "featuredHeading": "Featured products",
   "searchForProducts": "Search for products",
-  "phoneExists": "Phone number already exists"
+  "phoneExists": "Phone number already exists",
+  "continueShopping": "Continue shopping",
+  "ordersToReview": "Orders to review",
+  "orderStatusCantBeChanged": "Order status can't be changed beceuase user has already deleted their profile. Please contact support or the user."
 }
