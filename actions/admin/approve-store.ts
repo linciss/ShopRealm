@@ -42,7 +42,6 @@ export const approveStore = async (id: string, approve: boolean) => {
       return { success: 'approved' };
     }
 
-    console.log('disapprove', approve);
     await prisma.store.delete({
       where: { id },
     });

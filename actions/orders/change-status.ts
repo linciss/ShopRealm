@@ -28,6 +28,23 @@ export const changeOrderStatus = async (
       where: { id: orderItemId },
     });
 
+    const deletedUserOrder = await prisma.order.findFirst({
+      where: {
+        orderItems: {
+          some: {
+            id: orderItemId,
+          },
+        },
+        user: {
+          deleted: true,
+        },
+      },
+    });
+
+    if (deletedUserOrder && !session.user.admin) {
+      return { error: 'orderStatusCantBeChanged' };
+    }
+
     if (
       !existingOrderItem ||
       (existingOrderItem.storeId !== storeId && !session.user.admin)

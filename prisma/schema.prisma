@@ -38,6 +38,7 @@ model User {
   adminPrivileges Boolean?      @default(false)
   adminLevel    AdminLevel?
   userInterests UserInterest?
+  deleted       Boolean         @default(false)
 }
 
 
@@ -67,7 +68,7 @@ model Store {
   stripeAccountId   String?
   active      Boolean         @default(false)
   approved     Boolean         @default(false)
-  
+  deleted       Boolean         @default(false) 
 }
 
 model Product {
@@ -75,8 +76,8 @@ model Product {
   name          String
   description   String
   price         String
-  store         Store           @relation(fields: [storeId], references: [id])
-  storeId       String          @db.ObjectId
+  store         Store?           @relation(fields: [storeId], references: [id])
+  storeId       String?          @db.ObjectId
   category      String[]
   // image is optional for now until i make image handler
   image         String?
