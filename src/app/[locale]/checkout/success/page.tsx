@@ -3,6 +3,7 @@ import { getOrderBySessionId } from '../../../../../actions/orders/get-order';
 import { createOrdersFromSession } from '@/lib/create-orders';
 import { redirect } from 'next/navigation';
 import initTranslations from '@/app/i18n';
+import Link from 'next/link';
 
 interface SuccessPageProps {
   searchParams: Promise<{
@@ -54,6 +55,13 @@ export default async function SuccessPage({
               {t('orderNr')}: {order.id}
             </p>
           </div>
+
+          <Link
+            href='/products'
+            className='btn btn-primary mt-4 hover:underline'
+          >
+            {t('continueShopping')}
+          </Link>
         </>
       ) : (
         <p>{t('orderProcessed')}</p>

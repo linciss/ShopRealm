@@ -45,17 +45,21 @@ interface OrdersTableProps {
     | undefined;
   t: (value: string) => string;
   pageCount: number;
+  review?: boolean;
 }
 
 export const OrdersTable = async ({
   orders,
   t,
   pageCount,
+  review = false,
 }: OrdersTableProps) => {
   return (
     <Card>
       <CardHeader className='sm:p-6 px-2 !pb-0'>
-        <CardTitle className=''>{t('orders')}</CardTitle>
+        <CardTitle className=''>
+          {!review ? t('orders') : t('ordersToReview')}
+        </CardTitle>
       </CardHeader>
       <CardContent className='sm:p-6 px-2'>
         <div>
@@ -126,10 +130,11 @@ export const OrdersTable = async ({
           </TableBody>
         </Table>
       </CardContent>
-
-      <CardFooter className='flex flex-row items-center gap-1 justify-end'>
-        <Pagination pageCount={pageCount} />
-      </CardFooter>
+      {!review && (
+        <CardFooter className='flex flex-row items-center gap-1 justify-end'>
+          <Pagination pageCount={pageCount} />
+        </CardFooter>
+      )}
     </Card>
   );
 };

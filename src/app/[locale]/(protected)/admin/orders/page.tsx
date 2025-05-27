@@ -21,6 +21,13 @@ export default async function Admin({ params, searchParams }: ProductProps) {
       </div>
 
       <OrdersTable orders={data?.orders} t={t} pageCount={pageCount} />
+
+      <OrdersTable
+        orders={data?.ordersToReview}
+        t={t}
+        pageCount={pageCount}
+        review={true}
+      />
     </div>
   );
 }

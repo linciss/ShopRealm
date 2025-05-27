@@ -70,7 +70,7 @@ export const ReviewSection = ({
         <div className='flex flex-col' key={review.id}>
           <div className='flex flex-row items-center justify-between'>
             <div className='font-medium text-lg'>
-              {review.user.id === 'deleted-user'
+              {review.user.name === 'deletedUser'
                 ? t('deletedUser')
                 : review.user.name}
             </div>

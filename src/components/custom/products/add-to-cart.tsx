@@ -155,19 +155,27 @@ export const AddToCart = ({
         </Button>
       </div>
       <div className='flex flex-row gap-2'>
+        {session?.user.id && (
+          <Button
+            className='flex-1'
+            variant={'outline'}
+            aria-label='Add to favorites'
+            onClick={() => {
+              handleAddToFavorites();
+            }}
+          >
+            {favorite ? (
+              <Heart fill={'#ff0000'} stroke={'#ff0000'} />
+            ) : (
+              <Heart />
+            )}
+            {!favorite ? t('atf') : t('rtf')}
+          </Button>
+        )}
+
         <Button
-          className='flex-1'
           variant={'outline'}
-          aria-label='Add to favorites'
-          onClick={() => {
-            handleAddToFavorites();
-          }}
-        >
-          {favorite ? <Heart fill={'#ff0000'} stroke={'#ff0000'} /> : <Heart />}
-          {!favorite ? t('atf') : t('rtf')}
-        </Button>
-        <Button
-          variant={'outline'}
+          className={`${!session?.user.id ? 'flex-1' : ''} `}
           aria-label='Share product'
           onClick={() => {
             // LATER ADD SHARES????

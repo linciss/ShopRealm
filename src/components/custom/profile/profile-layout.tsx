@@ -24,7 +24,7 @@ interface OrderHistory {
       user: {
         email: string;
       };
-    };
+    } | null;
     product: {
       name: string;
       id: string;

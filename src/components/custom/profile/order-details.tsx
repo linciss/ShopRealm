@@ -17,7 +17,7 @@ interface OrderItem {
     user: {
       email: string;
     };
-  };
+  } | null;
   product: {
     name: string;
     image: string | null;
@@ -68,9 +68,9 @@ export const OrderDetails = ({
         <div className='col-span-1'>
           <DataCard
             dataType={t('dataTypeStore')}
-            name={orderItem.store.name}
-            email={orderItem.store.user.email}
-            phone={orderItem.store.storePhone}
+            name={orderItem?.store?.name || 'N/A'}
+            email={orderItem?.store?.user.email || 'N/A'}
+            phone={orderItem.store?.storePhone || 'N/A'}
             t={t}
           />
         </div>

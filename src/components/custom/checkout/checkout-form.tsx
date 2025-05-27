@@ -85,7 +85,7 @@ export const CheckoutForm = ({ userInfo }: CheckoutProps) => {
         } else {
           toast({
             title: t('error'),
-            description: `${t(res.error || 'error')}, ${res.productNames}`,
+            description: `${t(res.error || 'error')}, ${res.productNames ? res.productNames : ''}`,
             variant: 'destructive',
           });
         }
