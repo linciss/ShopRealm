@@ -17,15 +17,12 @@ export const deleteProduct = async (productId: string) => {
     if (!storeId) return { error: 'storeError' };
 
     // prisma transaction/bachquery since i also want to delete cart items completely forgot lol
-    const ordersWithProduct = await prisma.orderItem.findFirst({
-      where: { productId },
-    });
+    await prisma.$transaction(async (tx) => {
+      const ordersWithProduct = await tx.orderItem.findFirst({
+        where: { productId },
+      });
 
-    if (ordersWithProduct) {
-      await prisma.$transaction(async (tx) => {
-        await tx.cartItem.deleteMany({ where: { productId } });
-        await tx.favoriteItem.deleteMany({ where: { productId } });
-
+      if (ordersWithProduct) {
         await tx.product.update({
           where: { id: productId },
           data: {
@@ -34,14 +31,14 @@ export const deleteProduct = async (productId: string) => {
             deleted: true,
           },
         });
-      });
-    } else {
-      await prisma.$transaction(async (tx) => {
-        await tx.cartItem.deleteMany({ where: { productId } });
-        await tx.favoriteItem.deleteMany({ where: { productId } });
+      } else {
         await tx.product.delete({ where: { id: productId } });
-      });
-    }
+      }
+
+      await tx.cartItem.deleteMany({ where: { productId } });
+      await tx.favoriteItem.deleteMany({ where: { productId } });
+      await tx.review.deleteMany({ where: { productId } });
+    });
 
     revalidatePath('/store/products');
     return { success: 'productDeleted' };

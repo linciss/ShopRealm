@@ -1,7 +1,7 @@
 'use server';
 
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
-import { auth } from '../../auth';
+import { auth, signOut } from '../../auth';
 import prisma from '@/lib/db';
 import { getStoreId } from '../../data/store';
 import { z } from 'zod';
@@ -41,16 +41,78 @@ export const deleteStore = async (
     if (!storeId) return { error: 'authError' };
 
     await prisma.$transaction(async (tx) => {
-      await tx.product.deleteMany({
+      const storeProducts = await tx.product.findMany({
         where: { storeId },
+        select: { id: true },
       });
 
-      await tx.store.delete({
-        where: { id: storeId },
+      await tx.cartItem.deleteMany({
+        where: {
+          productId: { in: storeProducts.map((p) => p.id) },
+        },
       });
+
+      await tx.favoriteItem.deleteMany({
+        where: {
+          productId: { in: storeProducts.map((p) => p.id) },
+        },
+      });
+
+      const productsWithOrders = await tx.orderItem.findMany({
+        where: {
+          productId: { in: storeProducts.map((p) => p.id) },
+        },
+        select: { productId: true },
+      });
+
+      const productsWithOrdersSet = new Set(
+        productsWithOrders.map((p) => p.productId),
+      );
+
+      const productsWithoutOrders = storeProducts.filter(
+        (p) => !productsWithOrdersSet.has(p.id),
+      );
+
+      if (productsWithOrders.length > 0) {
+        await tx.product.updateMany({
+          where: {
+            id: { in: productsWithOrders.map((p) => p.productId) },
+          },
+          data: {
+            isActive: false,
+            quantity: 0,
+            deleted: true,
+            storeId: null,
+          },
+        });
+      }
+
+      if (productsWithoutOrders.length > 0) {
+        await tx.product.deleteMany({
+          where: {
+            id: { in: productsWithoutOrders.map((p) => p.id) },
+          },
+        });
+      }
+
+      if (productsWithOrders.length === 0) {
+        await tx.store.delete({
+          where: { id: storeId },
+        });
+      } else {
+        await tx.store.update({
+          where: { id: storeId },
+          data: {
+            active: false,
+            deleted: true,
+          },
+        });
+      }
 
       await tx.user.update({
-        where: { id: session?.user.id },
+        where: {
+          id: session.user.id,
+        },
         data: {
           hasStore: false,
           role: 'SHOPPER',
@@ -58,12 +120,16 @@ export const deleteStore = async (
       });
     });
 
+    await signOut({
+      redirectTo: '/auth/sign-in',
+    });
+
     return { success: true };
   } catch (error) {
     if (error instanceof PrismaClientKnownRequestError) {
       if (error.code === 'P2025') return { error: 'storeNotFound' };
-      return { error: 'validationError' };
     }
+    console.log(error);
     return { error: 'validationError' };
   }
 };

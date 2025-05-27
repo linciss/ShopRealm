@@ -41,7 +41,7 @@ export const deleteAccount = async (
       await tx.review.updateMany({
         where: { userId },
         data: {
-          userId: 'deleted-user',
+          userId: '6835d5809150feb71e83d922',
         },
       });
       const cart = await tx.cart.findUnique({
@@ -72,24 +72,79 @@ export const deleteAccount = async (
       });
 
       if (store) {
-        await tx.product.deleteMany({
+        const storeProducts = await tx.product.findMany({
           where: { storeId: store.id },
+          select: { id: true },
         });
 
-        await tx.store.delete({
-          where: { id: store.id },
+        await tx.cartItem.deleteMany({
+          where: {
+            productId: { in: storeProducts.map((p) => p.id) },
+          },
         });
+
+        await tx.favoriteItem.deleteMany({
+          where: {
+            productId: { in: storeProducts.map((p) => p.id) },
+          },
+        });
+
+        const productsWithOrders = await tx.orderItem.findMany({
+          where: {
+            productId: { in: storeProducts.map((p) => p.id) },
+          },
+          select: { productId: true },
+        });
+
+        const productsWithOrdersSet = new Set(
+          productsWithOrders.map((p) => p.productId),
+        );
+
+        const productsWithoutOrders = storeProducts.filter(
+          (p) => !productsWithOrdersSet.has(p.id),
+        );
+
+        if (productsWithOrders.length > 0) {
+          await tx.product.updateMany({
+            where: {
+              id: { in: productsWithOrders.map((p) => p.productId) },
+            },
+            data: {
+              isActive: false,
+              quantity: 0,
+              deleted: true,
+              storeId: null,
+            },
+          });
+        }
+
+        if (productsWithoutOrders.length > 0) {
+          await tx.product.deleteMany({
+            where: {
+              id: { in: productsWithoutOrders.map((p) => p.id) },
+            },
+          });
+        }
+
+        if (productsWithOrders.length === 0) {
+          await tx.store.delete({
+            where: { id: store.id },
+          });
+        } else {
+          await tx.store.update({
+            where: { id: store.id },
+            data: {
+              active: false,
+            },
+          });
+        }
       }
 
-      await tx.order.updateMany({
-        where: { userId },
-        data: {
-          userId: 'deleted-user',
-        },
-      });
-
-      await tx.user.delete({
+      await tx.user.update({
         where: { id: userId },
+        data: {
+          deleted: true,
+        },
       });
     });
 
@@ -108,6 +163,7 @@ export const deleteAccount = async (
       if (error.code === 'P2025') return { error: 'userNotFound' };
       return { error: 'validationError' };
     }
+    console.log(error);
     return { error: 'validationError' };
   }
 };

@@ -11,15 +11,12 @@ export const deleteProduct = async (id: string) => {
   if (!session?.user.admin) return { error: 'authError' };
 
   try {
-    const ordersWithProduct = await prisma.orderItem.findFirst({
-      where: { productId: id },
-    });
+    await prisma.$transaction(async (tx) => {
+      const ordersWithProduct = await tx.orderItem.findFirst({
+        where: { productId: id },
+      });
 
-    if (ordersWithProduct) {
-      await prisma.$transaction(async (tx) => {
-        await tx.cartItem.deleteMany({ where: { productId: id } });
-        await tx.favoriteItem.deleteMany({ where: { productId: id } });
-
+      if (ordersWithProduct) {
         await tx.product.update({
           where: { id },
           data: {
@@ -28,17 +25,15 @@ export const deleteProduct = async (id: string) => {
             deleted: true,
           },
         });
-      });
-    } else {
-      await prisma.$transaction(async (tx) => {
-        await tx.cartItem.deleteMany({ where: { productId: id } });
-        await tx.favoriteItem.deleteMany({ where: { productId: id } });
+      } else {
         await tx.product.delete({ where: { id } });
-      });
-    }
+      }
+      await tx.cartItem.deleteMany({ where: { productId: id } });
+      await tx.favoriteItem.deleteMany({ where: { productId: id } });
+      await tx.review.deleteMany({ where: { productId: id } });
+    });
 
     revalidatePath('/admin/products');
-    revalidatePath('/cart');
 
     return { success: 'productDeleted' };
   } catch (error) {

@@ -66,6 +66,7 @@ export const getStores = async ({ page, search }: QueryOptions) => {
       where: {
         approved: true,
         ...searchCondition,
+        deleted: false,
       },
     });
 
@@ -73,6 +74,7 @@ export const getStores = async ({ page, search }: QueryOptions) => {
       where: {
         approved: true,
         ...searchCondition,
+        deleted: false,
       },
       include: {
         products: {
@@ -91,6 +93,7 @@ export const getStores = async ({ page, search }: QueryOptions) => {
     const pendingStores = await prisma.store.findMany({
       where: {
         approved: false,
+        deleted: false,
       },
       include: {
         products: {
@@ -142,6 +145,7 @@ export const getStoreDataById = async (id: string) => {
     const store = await prisma.store.findUnique({
       where: {
         id: id,
+        deleted: false,
       },
       select: {
         name: true,
@@ -182,10 +186,16 @@ export const getUserData = async ({ page, search }: QueryOptions) => {
       ...searchCondition,
     };
 
-    const totalUsers = await prisma.user.count({ where: userConditions });
+    const totalUsers = await prisma.user.count({
+      where: { ...userConditions, id: { not: '6835d5809150feb71e83d922' } },
+    });
 
     const paginatedUsers = await prisma.user.findMany({
-      where: userConditions,
+      where: {
+        ...userConditions,
+        id: { not: '6835d5809150feb71e83d922' },
+        deleted: false,
+      },
       select: {
         id: true,
         name: true,
@@ -210,7 +220,7 @@ export const getUserData = async ({ page, search }: QueryOptions) => {
     };
 
     const admins = await prisma.user.findMany({
-      where: adminConditions,
+      where: { ...adminConditions, deleted: false },
       select: {
         id: true,
         name: true,
@@ -268,6 +278,7 @@ export const getUserDataById = async (id: string) => {
     const user = await prisma.user.findUnique({
       where: {
         id: id,
+        deleted: false,
       },
       select: {
         id: true,
@@ -332,7 +343,7 @@ export const getProducts = async ({ page, search }: QueryOptions) => {
       products: paginatedProducts.map((product) => ({
         id: product.id,
         name: product.name,
-        store: product.store.name,
+        store: product?.store?.name,
         stock: product.quantity,
         price: product.price,
         createdAt: product.createdAt,
@@ -384,6 +395,7 @@ export const getPendingStores = async () => {
     const pendingStores = await prisma.store.findMany({
       where: {
         approved: false,
+        deleted: false,
       },
       include: {
         user: {
@@ -439,7 +451,18 @@ export const getOrders = async ({ page, search }: QueryOptions) => {
       : {};
 
     const paginatedOrders = await prisma.orderItem.findMany({
-      where: { ...searchCondition },
+      where: {
+        ...searchCondition,
+        order: {
+          user: {
+            deleted: false,
+          },
+        },
+        store: {
+          deleted: false,
+        },
+      },
+
       include: {
         order: {
           select: {
@@ -466,12 +489,43 @@ export const getOrders = async ({ page, search }: QueryOptions) => {
 
     const totalOrders = await prisma.order.count();
 
+    const ordersToReview = await prisma.orderItem.findMany({
+      where: {
+        order: {
+          user: {
+            deleted: true,
+          },
+        },
+        store: {
+          deleted: true,
+        },
+      },
+      include: {
+        order: {
+          select: {
+            user: {
+              select: {
+                name: true,
+                lastName: true,
+                email: true,
+              },
+            },
+          },
+        },
+        store: {
+          select: {
+            name: true,
+          },
+        },
+      },
+    });
+
     return {
       orders: paginatedOrders.map((order) => ({
         id: order.id,
         user: order.order.user.name + ' ' + order.order.user.lastName,
         storeId: order.storeId,
-        storeName: order.store.name,
+        storeName: order?.store?.name,
         email: order.order.user.email,
         status: order.status,
         totalPrice: order.total,
@@ -479,6 +533,17 @@ export const getOrders = async ({ page, search }: QueryOptions) => {
         escrowStatus: order.escrowStatus,
       })),
       totalOrders,
+      ordersToReview: ordersToReview.map((order) => ({
+        id: order.id,
+        user: order.shippingName + ' ' + order.shippingLastName,
+        storeId: order.storeId,
+        storeName: order?.store?.name,
+        email: order.order.user.email,
+        status: order.status,
+        totalPrice: order.total,
+        createdAt: order.createdAt,
+        escrowStatus: order.escrowStatus,
+      })),
     };
   } catch (error) {
     if (error instanceof Error) {
