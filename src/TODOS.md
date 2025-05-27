@@ -10,7 +10,7 @@
 - [x] Emailing (?)
 - [x] Verify email
 - [x] Shop page!!!
-- [ ] Rework doc
+- [x] Rework doc
 - [x] Search bar
 - [x] ALL ADMIN SIDE
 - [x] product filtering
@@ -27,7 +27,7 @@
 - [x] Mkae the nav more responsive 
 - [x] about us 
 - [x] echckout page 
-- [ ] new order system? where user has 14 days  to confirm after shipped and then when user confirms then only make the order as complete (gonna need another cron) adn then start the escrow holding funds logic
+- [x] new order system? where user has 14 days  to confirm after shipped and then when user confirms then only make the order as complete (gonna need another cron) adn then start the escrow holding funds logic
 - [x] redesign the store craete card
 - [x] order filters
 - [x] makea  seperate registration for stores? so tehy dont have to mess with the user stuff?
@@ -56,6 +56,17 @@
 - [x] adminbs can add to featured
 - [x] lazy load iamges from products which are related
 - [x] see if maybe can oiptimize images more maybe put suspense?
+- [x] FIX: prolly check the deletions so no errors are thrown or something bad happens
+- [ ] send confirmation about order
+- [ ] 'addd the recomendation system in doc and other stuff that is kinda essential'
+- [ ] variants 
+- [x] when orderred then have a link back to homepage
+- [x] error handling when stripe
+- [x] test delete user with reviews and orders
+- [x] add deletedUser in localization
+- [ ] implement stripe refund when the user is delteed and they got uncompleted orders
+- [x] orders to review (deleted user orders)
+
 
 
 # TRANSLATIONS TODO 
