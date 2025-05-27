@@ -21,6 +21,10 @@ export default {
         // gets the user by email
         const user = await getUserByEmail(email);
 
+        if (user?.deleted) {
+          return null; // User is deleted, return null
+        }
+
         // if no user or password is found returns null
         if (!user || !user.password) {
           return null;
