@@ -29,6 +29,9 @@ export async function GET(request: NextRequest) {
         transferScheduledFor: {
           lte: new Date(),
         },
+        product: {
+          deleted: false,
+        },
       },
       include: {
         order: true,
@@ -40,7 +43,7 @@ export async function GET(request: NextRequest) {
     // calculates all the logic
     const results = await Promise.allSettled(
       itemsToRelease.map(async (item) => {
-        if (!item.store.stripeAccountId) return null;
+        if (!item.store || !item.store.stripeAccountId) return null;
 
         // calculates the fee
         const platformFeePercentage = 0.2;
