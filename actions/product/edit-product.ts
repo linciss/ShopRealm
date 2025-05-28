@@ -133,10 +133,7 @@ export const editProduct = async (
       },
     });
 
-    revalidatePath('/products');
     revalidatePath('/store/products');
-    revalidatePath(`/product/${itemSlug}`);
-    revalidatePath('/');
 
     // send email to users who have this product in their favorites
     if (!existingProduct.sale && sale) {

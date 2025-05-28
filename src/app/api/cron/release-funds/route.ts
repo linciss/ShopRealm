@@ -38,7 +38,6 @@ export async function GET(request: NextRequest) {
         store: true,
       },
     });
-    console.log(`${itemsToRelease.length}`);
 
     // calculates all the logic
     const results = await Promise.allSettled(
