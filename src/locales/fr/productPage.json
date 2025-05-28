@@ -497,5 +497,7 @@
   "productConfigurator": "Configurateur de produit",
   "continueShopping": "Continuer vos achats",
   "ordersToReview": "Commandes à examiner",
-  "orderStatusCantBeChanged": "Le statut de la commande ne peut pas être modifié car l'utilisateur a déjà supprimé son profil. Veuillez contacter le support ou l'utilisateur."
+  "orderStatusCantBeChanged": "Le statut de la commande ne peut pas être modifié car l'utilisateur a déjà supprimé son profil. Veuillez contacter le support ou l'utilisateur.",
+  "orderFailed": "Échec de la commande !",
+  "orderFailedDesc": "Une erreur s'est produite lors du traitement de votre commande. Veuillez réessayer plus tard ou contacter le support."
 }

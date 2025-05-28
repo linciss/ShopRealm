@@ -1,6 +1,4 @@
-import { stripe } from '@/lib/stripe';
 import { getOrderBySessionId } from '../../../../../actions/orders/get-order';
-import { createOrdersFromSession } from '@/lib/create-orders';
 import { redirect } from 'next/navigation';
 import initTranslations from '@/app/i18n';
 import Link from 'next/link';
@@ -27,22 +25,8 @@ export default async function SuccessPage({
     return null;
   }
 
-  let order = await getOrderBySessionId(sessionId);
-
-  if (!order && sessionId) {
-    try {
-      const stripeSession = await stripe.checkout.sessions.retrieve(sessionId);
-
-      await createOrdersFromSession(stripeSession);
-
-      order = await getOrderBySessionId(sessionId);
-    } catch (err) {
-      if (err instanceof Error) {
-        console.log(err);
-      }
-      return { error: t('error') };
-    }
-  }
+  // checks if order has been craeted
+  const order = await getOrderBySessionId(sessionId);
 
   return (
     <div className='container py-10 text-center'>
@@ -64,7 +48,20 @@ export default async function SuccessPage({
           </Link>
         </>
       ) : (
-        <p>{t('orderProcessed')}</p>
+        <>
+          <h1 className='text-2xl font-bold'>{t('orderFailed')}</h1>
+
+          <div>
+            <p>{t('orderFailedDesc')}</p>
+          </div>
+
+          <Link
+            href='/products'
+            className='btn btn-primary mt-4 hover:underline'
+          >
+            {t('continueShopping')}
+          </Link>
+        </>
       )}
     </div>
   );

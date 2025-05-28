@@ -19,9 +19,6 @@ export const ChangeLocaleButton = ({
   const handleChangeLocale = () => {
     const split = pathname.split('/');
 
-    console.log(pathname.slice(0));
-    console.log(split);
-
     // dont allow to change to current
     if (localeChange === params.locale) return;
 
