@@ -66,7 +66,10 @@ export const changeOrderStatus = async (
 
     const complete = status === 'complete';
     const transferScheduleDate = new Date();
-    transferScheduleDate.setDate(transferScheduleDate.getDate() + 14);
+    // for testing purposes
+    transferScheduleDate.setDate(transferScheduleDate.getDate());
+    // at first set 90 days but when the status of order is complete then set 14 days grace period;
+    // transferScheduleDate.setDate(transferScheduleDate.getDate() + 14);
 
     await prisma.orderItem.update({
       where: { id: orderItemId },
