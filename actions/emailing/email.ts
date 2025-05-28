@@ -7,6 +7,7 @@ import { ProductSale } from '@/components/emails/email-product-sale';
 import { ResetPassword } from '@/components/emails/reset-password';
 import { cookies } from 'next/headers';
 import initTranslations from '@/app/i18n';
+import { OrderConfirmation } from '@/components/emails/order-confirmation';
 
 export const sendVerifyEmail = async (token: string, email: string) => {
   const pathname = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
@@ -84,6 +85,35 @@ export const sendResetPassword = async (token: string, email: string) => {
       from: process.env.DOMAIN_EMAIL || 'Hello <onboarding@resend.dev>',
       to: [process.env.EMAIL || '', email],
       subject: t('email:resetPassword'),
+      html: await html,
+    });
+    if (error) {
+      return { error: 'error' };
+    }
+
+    if (data) {
+      return { success: 'email:sent' };
+    }
+  } catch (err) {
+    if (err instanceof Error) {
+      console.log(err);
+    }
+    return { error: 'validationError' };
+  }
+};
+
+export const sendOrderConfirmation = async (
+  orderId: string,
+  email: string,
+  locale: string,
+) => {
+  const html = render(await OrderConfirmation({ locale, orderId }));
+  const { t } = await initTranslations(locale, ['email']);
+  try {
+    const { data, error } = await resend.emails.send({
+      from: process.env.DOMAIN_EMAIL || 'Hello <onboarding@resend.dev>',
+      to: [process.env.EMAIL || '', email],
+      subject: t('email:orderConfirmed'),
       html: await html,
     });
     if (error) {

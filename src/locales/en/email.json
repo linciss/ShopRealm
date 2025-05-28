@@ -7,5 +7,7 @@
   "verifyEmail": "Verify your email address",
   "verifyEmailText": "You are receiving this email because you requested to verify your email address. To verify your email address, please click the link below:",
   "productOnSale": "Product on sale!",
-  "sent": "Email sent!"
+  "sent": "Email sent!",
+  "orderPlaced": "Your order has been placed successfully!",
+  "orderPlacedDesc": "Thank you for your order! We will process it as soon as possible. You can track your order status in your account."
 }

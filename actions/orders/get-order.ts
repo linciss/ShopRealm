@@ -1,5 +1,3 @@
-'use server';
-
 import prisma from '@/lib/db';
 import { auth } from '../../auth';
 
@@ -15,6 +13,7 @@ export const getOrderBySessionId = async (sessionId: string) => {
     },
     select: {
       id: true,
+      confirmationSent: true,
       orderItems: {
         select: {
           product: true,

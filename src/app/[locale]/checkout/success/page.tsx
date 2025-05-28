@@ -2,6 +2,10 @@ import { getOrderBySessionId } from '../../../../../actions/orders/get-order';
 import { redirect } from 'next/navigation';
 import initTranslations from '@/app/i18n';
 import Link from 'next/link';
+import { auth } from '../../../../../auth';
+import prisma from '@/lib/db';
+// import { sendOrderConfirmation } from '../../../../../actions/emailing/email';
+import { sendOrderConfirmation } from '@/../actions/emailing/email';
 
 interface SuccessPageProps {
   searchParams: Promise<{
@@ -14,6 +18,12 @@ export default async function SuccessPage({
   searchParams,
   params,
 }: SuccessPageProps) {
+  const session = await auth();
+
+  if (!session?.user.id) {
+    redirect('/auth/sign-in');
+    return null;
+  }
   const sp = await searchParams;
   const { locale } = await params;
   const { t } = await initTranslations(locale, ['productPage']);
@@ -24,9 +34,27 @@ export default async function SuccessPage({
     redirect('/');
     return null;
   }
+  const email = session.user ? session?.user?.email : '';
 
   // checks if order has been craeted
   const order = await getOrderBySessionId(sessionId);
+
+  if (order && !order.confirmationSent) {
+    try {
+      await sendOrderConfirmation(order.id, email as string, locale);
+
+      await prisma.order.update({
+        where: {
+          id: order.id,
+        },
+        data: {
+          confirmationSent: true,
+        },
+      });
+    } catch (error) {
+      console.error('Failed:', error);
+    }
+  }
 
   return (
     <div className='container py-10 text-center'>

@@ -147,7 +147,8 @@ model Order {
   amount            Float
   stripeSessionId   String?
   paymentIntentId   String?       
-  payoutsEnabled    Boolean       @default(false) 
+  payoutsEnabled    Boolean       @default(false)
+  confirmationSent  Boolean       @default(false) 
 }
 
 model OrderItem {

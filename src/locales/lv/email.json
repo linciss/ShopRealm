@@ -7,5 +7,7 @@
   "verifyEmail": "Apstipriniet savu e-pasta adresi",
   "verifyEmailText": "Jūs saņemat šo e-pastu, jo pieprasījāt apstiprināt savu e-pasta adresi. Lai to izdarītu, lūdzu, noklikšķiniet uz zemāk esošās saites:",
   "productOnSale": "Produkts izpārdošanā!",
-  "sent": "E-pasts nosūtīts!"
+  "sent": "E-pasts nosūtīts!",
+  "orderPlaced": "Jūsu pasūtījums ir veiksmīgi izveidots!",
+  "orderPlacedDesc": "Paldies par jūsu pasūtījumu! Mēs to apstrādāsim pēc iespējas ātrāk. Jūs varat sekot līdzi sava pasūtījuma statusam savā kontā."
 }

@@ -57,7 +57,7 @@
 - [x] lazy load iamges from products which are related
 - [x] see if maybe can oiptimize images more maybe put suspense?
 - [x] FIX: prolly check the deletions so no errors are thrown or something bad happens
-- [ ] send confirmation about order
+- [x] send confirmation about order
 - [ ] 'addd the recomendation system in doc and other stuff that is kinda essential'
 - [ ] variants 
 - [x] when orderred then have a link back to homepage
