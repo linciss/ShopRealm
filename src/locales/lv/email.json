@@ -9,5 +9,6 @@
   "productOnSale": "Produkts izpārdošanā!",
   "sent": "E-pasts nosūtīts!",
   "orderPlaced": "Jūsu pasūtījums ir veiksmīgi izveidots!",
-  "orderPlacedDesc": "Paldies par jūsu pasūtījumu! Mēs to apstrādāsim pēc iespējas ātrāk. Jūs varat sekot līdzi sava pasūtījuma statusam savā kontā."
+  "orderPlacedDesc": "Paldies par jūsu pasūtījumu! Mēs to apstrādāsim pēc iespējas ātrāk. Jūs varat sekot līdzi sava pasūtījuma statusam savā kontā.",
+  "orderNr": "Pasūtījuma numurs"
 }

@@ -9,5 +9,6 @@
   "productOnSale": "Product on sale!",
   "sent": "Email sent!",
   "orderPlaced": "Your order has been placed successfully!",
-  "orderPlacedDesc": "Thank you for your order! We will process it as soon as possible. You can track your order status in your account."
+  "orderPlacedDesc": "Thank you for your order! We will process it as soon as possible. You can track your order status in your account.",
+  "orderNr": "Order number"
 }
