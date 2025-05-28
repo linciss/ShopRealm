@@ -18,9 +18,13 @@ async function optimizeImage(imageBuffer: Buffer) {
 export const optimizedImage = async (image: string | File) => {
   if (typeof image === 'string' && image.startsWith('data:')) {
     const [format, base64Data] = image.split(',');
-
+    if (!base64Data) {
+      return { error: 'error' };
+    }
+    if (!format.startsWith('data:image/')) {
+      return { error: 'error' };
+    }
     const imageBuffer = Buffer.from(base64Data, 'base64');
-    console.log(format);
 
     if (imageBuffer.length > 350 * 1024) {
       return { error: 'error' };
