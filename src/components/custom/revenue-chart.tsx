@@ -30,7 +30,7 @@ export const RevenueChart = ({ revenuePerDay }: RevenueChartProps) => {
   } satisfies ChartConfig;
 
   const chartData = (() => {
-    const last30Days = Array.from({ length: 30 }, (_, i) => {
+    const last30Days = Array.from({ length: 31 }, (_, i) => {
       const date = new Date();
       date.setDate(date.getDate() - 30 + i);
       return date.toISOString().split('T')[0];
@@ -45,6 +45,7 @@ export const RevenueChart = ({ revenuePerDay }: RevenueChartProps) => {
 
       return {
         date: formattedDate,
+        fullDate: dateStr,
         revenue: revenuePerDay[dateStr] || 0,
       };
     });
@@ -98,14 +99,22 @@ export const RevenueChart = ({ revenuePerDay }: RevenueChartProps) => {
             <ChartTooltip
               content={
                 <ChartTooltipContent
+                  label={t('revenue')}
                   className='w-[150px]'
-                  nameKey='views'
-                  labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString('en-US', {
-                      month: 'short',
-                      day: 'numeric',
-                      year: 'numeric',
-                    });
+                  nameKey='revnue'
+                  labelFormatter={(_, payload) => {
+                    if (payload && payload.length > 0) {
+                      const fullDate = payload[0].payload.fullDate;
+                      return new Date(fullDate).toLocaleDateString(
+                        i18n.language,
+                        {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                        },
+                      );
+                    }
+                    return '';
                   }}
                 />
               }
