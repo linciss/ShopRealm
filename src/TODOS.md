@@ -58,14 +58,15 @@
 - [x] see if maybe can oiptimize images more maybe put suspense?
 - [x] FIX: prolly check the deletions so no errors are thrown or something bad happens
 - [x] send confirmation about order
-- [ ] 'addd the recomendation system in doc and other stuff that is kinda essential'
+- [x] 'addd the recomendation system in doc and other stuff that is kinda essential'
 - [ ] variants 
 - [x] when orderred then have a link back to homepage
 - [x] error handling when stripe
 - [x] test delete user with reviews and orders
 - [x] add deletedUser in localization
-- [ ] implement stripe refund when the user is delteed and they got uncompleted orders
 - [x] orders to review (deleted user orders)
+- [x] add store stripe implementation in doc
+- [ ] figure out relations in store to user when deleting since when deleting it doesnt delete sometimes and the userId is unique
 
 
 
