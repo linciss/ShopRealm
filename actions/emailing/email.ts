@@ -40,12 +40,16 @@ export const sendVerifyEmail = async (token: string, email: string) => {
   }
 };
 
-export const sendSaleEmail = async (productId: string, emails: string[]) => {
+export const sendSaleEmail = async (
+  productId: string,
+  emails: string[],
+  name: string,
+) => {
   const pathname = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
   const locale = (await cookies()).get('NEXT_LOCALE')?.value || 'en';
 
   const confirmLink = `${pathname}/products/${productId}`;
-  const html = render(await ProductSale({ confirmLink, locale }));
+  const html = render(await ProductSale({ confirmLink, locale, name }));
   const { t } = await initTranslations(locale, ['email']);
 
   try {

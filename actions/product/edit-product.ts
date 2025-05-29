@@ -162,7 +162,7 @@ export const editProduct = async (
         return { success: 'edited' };
       }
 
-      await sendSaleEmail(productId, uniqueEmails);
+      await sendSaleEmail(productId, uniqueEmails, name);
     }
 
     return { success: 'edited' };
