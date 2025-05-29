@@ -6,6 +6,7 @@ import { userCreateSchema, userEditSchema } from '../../schemas';
 import prisma from '@/lib/db';
 import bcrypt from 'bcryptjs';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { getUserByEmail } from '../../data/user';
 
 export const createUser = async (data: z.infer<typeof userCreateSchema>) => {
   const session = await auth();
@@ -45,11 +46,17 @@ export const createUser = async (data: z.infer<typeof userCreateSchema>) => {
 
   try {
     // cehck  if user already exists
-    const existingUser = await prisma.user.findUnique({
-      where: { email },
-    });
+    const existingUser = await getUserByEmail(emailToLower);
     if (existingUser) {
       return { error: 'userAlreadyExists' };
+    }
+
+    const existingPhone = await prisma.user.findFirst({
+      where: { phone: validateData.data.phone },
+    });
+
+    if (existingPhone) {
+      return { error: 'phoneExists' };
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -129,6 +136,14 @@ export const editUser = async (
     const existingUser = await prisma.user.findUnique({
       where: { id },
     });
+
+    const existingPhone = await prisma.user.findFirst({
+      where: { phone: validateData.data.phone, id: { not: id } },
+    });
+
+    if (existingPhone) {
+      return { error: 'phoneExists' };
+    }
 
     if (existingUser?.adminPrivileges && !adminPrivileges) {
       await prisma.user.update({
