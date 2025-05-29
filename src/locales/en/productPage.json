@@ -498,5 +498,6 @@
   "ordersToReview": "Orders to review",
   "orderStatusCantBeChanged": "Order status can't be changed beceuase user has already deleted their profile. Please contact support or the user.",
   "orderFailed": "Order failed!",
-  "orderFailedDesc": "There was an error processing your order. Please try again later or contact support."
+  "orderFailedDesc": "There was an error processing your order. Please try again later or contact support.",
+  "accountAlreadyExists": "A stripe account already exists for this store. Please contact support if you want to change it."
 }
