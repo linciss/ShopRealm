@@ -104,17 +104,17 @@ export default async function AboutPage({ params }: AboutProps) {
           {[
             {
               value: data?.openStores,
-              label: 'Active Stores',
+              label: t('activeStores'),
               icon: <Globe className='h-6 w-6' />,
             },
             {
               value: data?.totalProducts,
-              label: 'Products Listed',
+              label: t('productsListed'),
               icon: <BarChart4 className='h-6 w-6' />,
             },
             {
               value: data?.totalCustomers,
-              label: 'Happy Customers',
+              label: t('happyCustomers'),
               icon: <Users className='h-6 w-6' />,
             },
           ].map((stat, index) => (
