@@ -10,5 +10,10 @@
   "sent": "E-pasts nosūtīts!",
   "orderPlaced": "Jūsu pasūtījums ir veiksmīgi izveidots!",
   "orderPlacedDesc": "Paldies par jūsu pasūtījumu! Mēs to apstrādāsim pēc iespējas ātrāk. Jūs varat sekot līdzi sava pasūtījuma statusam savā kontā.",
-  "orderNr": "Pasūtījuma numurs"
+  "orderNr": "Pasūtījuma numurs",
+
+  "storeCreation": "Informācija par jūsu veikala izveidi",
+  "success": "Mēs esam pārskatījuši jūsu pieteikumu un ar prieku informējam, ka jūsu veikals ir veiksmīgi izveidots! Tagad varat sākt pārdot savus produktus.",
+  "rejected": "Mēs ar nožēlu informējam, ka jūsu veikals ir noraidīts.",
+  "orderConfirmed": "Jūsu pasūtījums ir apstiprināts!"
 }

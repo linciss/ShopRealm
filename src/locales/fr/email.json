@@ -10,5 +10,9 @@
   "sent": "E-mail envoyé !",
   "orderPlaced": "Votre commande a été passée avec succès !",
   "orderPlacedDesc": "Merci pour votre commande ! Nous la traiterons dès que possible. Vous pouvez suivre l'état de votre commande dans votre compte.",
-  "orderNr": "Numéro de commande"
+  "orderNr": "Numéro de commande",
+  "orderConfirmed": "Votre commande a été confirmée!",
+  "storeCreation": "Informations sur la création de votre boutique",
+  "success": "Nous avons examiné votre demande et sommes heureux de vous informer que votre boutique a été créée avec succès ! Vous pouvez maintenant commencer à vendre vos produits.",
+  "rejected": "Nous sommes désolés de vous informer que votre boutique a été rejetée."
 }

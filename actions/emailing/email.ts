@@ -8,6 +8,7 @@ import { ResetPassword } from '@/components/emails/reset-password';
 import { cookies } from 'next/headers';
 import initTranslations from '@/app/i18n';
 import { OrderConfirmation } from '@/components/emails/order-confirmation';
+import { StoreCreation } from '@/components/emails/store-approval';
 
 export const sendVerifyEmail = async (token: string, email: string) => {
   const pathname = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
@@ -118,6 +119,32 @@ export const sendOrderConfirmation = async (
       from: process.env.DOMAIN_EMAIL || 'Hello <onboarding@resend.dev>',
       to: [process.env.EMAIL || '', email],
       subject: t('email:orderConfirmed'),
+      html: await html,
+    });
+    if (error) {
+      return { error: 'error' };
+    }
+
+    if (data) {
+      return { success: 'email:sent' };
+    }
+  } catch (err) {
+    if (err instanceof Error) {
+      console.log(err);
+    }
+    return { error: 'validationError' };
+  }
+};
+
+export const sendStoreApproval = async (approved: boolean, email: string) => {
+  const locale = (await cookies()).get('NEXT_LOCALE')?.value || 'en';
+  const html = render(await StoreCreation({ approved, locale }));
+  const { t } = await initTranslations(locale, ['email']);
+  try {
+    const { data, error } = await resend.emails.send({
+      from: process.env.DOMAIN_EMAIL || 'Hello <onboarding@resend.dev>',
+      to: [process.env.EMAIL || '', email],
+      subject: t('email:storeCreation'),
       html: await html,
     });
     if (error) {

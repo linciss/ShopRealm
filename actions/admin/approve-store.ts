@@ -4,6 +4,7 @@ import prisma from '@/lib/db';
 import { auth } from '../../auth';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { revalidatePath } from 'next/cache';
+import { sendStoreApproval } from '../emailing/email';
 
 export const approveStore = async (id: string, approve: boolean) => {
   const session = await auth();
@@ -30,6 +31,11 @@ export const approveStore = async (id: string, approve: boolean) => {
       return { error: 'alreadyApproved' };
     }
 
+    const user = await prisma.user.findUnique({
+      where: { id: store.userId as string },
+      select: { email: true },
+    });
+
     if (approve) {
       await prisma.store.update({
         where: { id },
@@ -38,13 +44,17 @@ export const approveStore = async (id: string, approve: boolean) => {
           approved: true,
         },
       });
+
       revalidatePath('/admin/stores');
+      await sendStoreApproval(true, user?.email as string);
       return { success: 'approved' };
     }
 
     await prisma.store.delete({
       where: { id },
     });
+
+    await sendStoreApproval(false, user?.email as string);
 
     await prisma.user.update({
       where: { id: store.userId as string },

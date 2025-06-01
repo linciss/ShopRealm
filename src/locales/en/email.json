@@ -10,5 +10,9 @@
   "sent": "Email sent!",
   "orderPlaced": "Your order has been placed successfully!",
   "orderPlacedDesc": "Thank you for your order! We will process it as soon as possible. You can track your order status in your account.",
-  "orderNr": "Order number"
+  "orderNr": "Order number",
+  "storeCreation": "Information about your store's creation",
+  "success": "We have looked throughout your application and we are happy to inform you that your store has been created successfully! You can now start selling your products.",
+  "rejected": "We are sorry to inform you that your store has been rejected.",
+  "orderConfirmed": "Your order has been confirmed!"
 }
