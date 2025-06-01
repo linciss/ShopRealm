@@ -76,7 +76,7 @@ export default async function AboutPage({ params }: AboutProps) {
                 icon: <Heart className='h-6 w-6' />,
               },
               {
-                title: t('innovation'),
+                title: t('Innovation'),
                 description: t('innovationDesc'),
                 icon: <Zap className='h-6 w-6' />,
               },

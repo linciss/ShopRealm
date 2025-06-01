@@ -39,7 +39,7 @@ interface ProductsProps {
         image: string | null;
         name: string;
         price: string;
-        store: string;
+        store: string | undefined;
         stock: number;
         createdAt: Date;
         active: boolean;
