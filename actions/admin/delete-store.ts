@@ -4,6 +4,7 @@ import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { auth } from '../../auth';
 import prisma from '@/lib/db';
 import { revalidatePath } from 'next/cache';
+import { randomBytes } from 'crypto';
 
 export const deleteStore = async (id: string) => {
   const session = await auth();
@@ -76,14 +77,13 @@ export const deleteStore = async (id: string) => {
           where: { id: id },
         });
       } else {
-        const deletedUserId = `deleted-${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
-
+        const deletedUserId = randomBytes(12).toString('hex');
         await tx.store.update({
           where: { id: id },
           data: {
             active: false,
-            deleted: true,
             userId: deletedUserId,
+            deleted: true,
           },
         });
       }

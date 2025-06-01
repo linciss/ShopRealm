@@ -4,6 +4,7 @@ import prisma from '@/lib/db';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 import { auth } from '../../auth';
 import { revalidatePath } from 'next/cache';
+import { randomBytes } from 'crypto';
 
 export const deleteUser = async (id: string) => {
   const session = await auth();
@@ -120,10 +121,12 @@ export const deleteUser = async (id: string) => {
             where: { id: id },
           });
         } else {
+          const deletedUserId = randomBytes(12).toString('hex');
           await tx.store.update({
-            where: { userId: id },
+            where: { id: store.id },
             data: {
               active: false,
+              userId: deletedUserId,
               deleted: true,
             },
           });

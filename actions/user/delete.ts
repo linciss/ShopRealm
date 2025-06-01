@@ -7,6 +7,7 @@ import prisma from '@/lib/db';
 import { z } from 'zod';
 import { deleteConfirmationSchema } from '../../schemas';
 import bcrypt from 'bcryptjs';
+import { randomBytes } from 'crypto';
 
 export const deleteAccount = async (
   data: z.infer<typeof deleteConfirmationSchema>,
@@ -131,10 +132,13 @@ export const deleteAccount = async (
             where: { id: store.id },
           });
         } else {
+          const deletedUserId = randomBytes(12).toString('hex');
           await tx.store.update({
             where: { id: store.id },
             data: {
               active: false,
+              userId: deletedUserId,
+              deleted: true,
             },
           });
         }

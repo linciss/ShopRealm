@@ -7,6 +7,7 @@ import { getStoreId } from '../../data/store';
 import { z } from 'zod';
 import { deleteConfirmationSchema } from '../../schemas';
 import bcrypt from 'bcryptjs';
+import { randomBytes } from 'crypto';
 
 export const deleteStore = async (
   data: z.infer<typeof deleteConfirmationSchema>,
@@ -100,8 +101,7 @@ export const deleteStore = async (
           where: { id: storeId },
         });
       } else {
-        const deletedUserId = `deleted-${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
-
+        const deletedUserId = randomBytes(12).toString('hex');
         await tx.store.update({
           where: { id: storeId },
           data: {
