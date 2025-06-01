@@ -88,7 +88,7 @@ export const StoresTable = ({
                 <TableCell>{store.email}</TableCell>
                 <TableCell>{store.products}</TableCell>
                 <TableCell className='hidden md:table-cell'>
-                  {store.active ? 'Active' : 'Inactive'}
+                  {store.active ? t('active') : t('inactive')}
                 </TableCell>
                 <TableCell className='hidden md:table-cell'>
                   {new Date(store.createdAt).toLocaleDateString()}

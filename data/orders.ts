@@ -194,17 +194,10 @@ export const getOrderHsitory = async () => {
         orderItems: {
           select: {
             id: true,
-            store: {
-              select: {
-                name: true,
-                user: {
-                  select: {
-                    email: true,
-                  },
-                },
-                storePhone: true,
-              },
-            },
+            storeName: true,
+            storeEmail: true,
+            storePhone: true,
+
             product: {
               select: {
                 name: true,

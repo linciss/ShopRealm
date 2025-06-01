@@ -2,7 +2,6 @@
 import { stripe } from '@/lib/stripe';
 import prisma from '@/lib/db';
 import { auth } from '../../auth';
-import { cookies } from 'next/headers';
 
 export async function createConnectAccount() {
   const session = await auth();
@@ -36,12 +35,10 @@ export async function createConnectAccount() {
       data: { stripeAccountId: account.id },
     });
 
-    const locale = (await cookies()).get('NEXT_LOCALE') || 'en';
-
     const accountLink = await stripe.accountLinks.create({
       account: account.id,
-      refresh_url: `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/store/settings?refresh=true`,
-      return_url: `${process.env.NEXT_PUBLIC_APP_URL}/${locale}/store/settings?success=true`,
+      refresh_url: `${process.env.NEXT_PUBLIC_APP_URL}/store/settings?refresh=true`,
+      return_url: `${process.env.NEXT_PUBLIC_APP_URL}/store/settings?success=true`,
       type: 'account_onboarding',
     });
 

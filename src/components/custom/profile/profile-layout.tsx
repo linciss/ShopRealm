@@ -18,13 +18,9 @@ interface OrderHistory {
     id: string;
     status: string;
     total: number;
-    store: {
-      name: string;
-      storePhone: string;
-      user: {
-        email: string;
-      };
-    } | null;
+    storeName: string;
+    storeEmail: string;
+    storePhone: string;
     product: {
       name: string;
       id: string;

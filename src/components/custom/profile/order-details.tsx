@@ -11,13 +11,9 @@ interface OrderItem {
   id: string;
   status: string;
   total: number;
-  store: {
-    name: string;
-    storePhone: string;
-    user: {
-      email: string;
-    };
-  } | null;
+  storeName: string;
+  storeEmail: string;
+  storePhone: string;
   product: {
     name: string;
     image: string | null;
@@ -68,9 +64,9 @@ export const OrderDetails = ({
         <div className='col-span-1'>
           <DataCard
             dataType={t('dataTypeStore')}
-            name={orderItem?.store?.name || 'N/A'}
-            email={orderItem?.store?.user.email || 'N/A'}
-            phone={orderItem.store?.storePhone || 'N/A'}
+            name={orderItem?.storeName || 'N/A'}
+            email={orderItem?.storeEmail || 'N/A'}
+            phone={orderItem.storePhone || 'N/A'}
             t={t}
           />
         </div>

@@ -69,6 +69,7 @@ model Store {
   active      Boolean         @default(false)
   approved     Boolean         @default(false)
   deleted       Boolean         @default(false) 
+
 }
 
 model Product {
@@ -167,6 +168,10 @@ model OrderItem {
   transferScheduledFor  DateTime? 
   transferId            String?
   
+  storeName            String 
+  storePhone           String
+  storeEmail           String
+
   shippingName          String
   shippingLastName      String
   shippingEmail         String

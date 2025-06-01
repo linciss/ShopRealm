@@ -33,7 +33,7 @@ export const register = async (
   const existingUser = await getUserByEmail(emailToLower);
 
   //  checks if user already exists
-  if (existingUser) {
+  if (existingUser && !existingUser.deleted) {
     return { error: 'alreadyExists' };
   }
 
@@ -43,6 +43,36 @@ export const register = async (
   }
   // hashes the password using bcrypt
   const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
+
+  if (existingUser && existingUser.deleted) {
+    try {
+      await prisma.user.update({
+        where: { email: emailToLower },
+        data: {
+          deleted: false,
+          name,
+          lastName,
+          password: hashedPassword,
+          emailVerified: false,
+          hasStore: false,
+          createdAt: new Date(),
+          role: 'SHOPPER',
+          address: {
+            create: {
+              street: '',
+              city: '',
+              country: '',
+              postalCode: '',
+            },
+          },
+        },
+      });
+      return { success: 'reactivated' };
+    } catch (error) {
+      console.error('Error reactivating user:', error);
+      return { error: 'reactivationError' };
+    }
+  }
 
   try {
     // creates a new user in the db
