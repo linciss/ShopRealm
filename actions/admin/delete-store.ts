@@ -76,18 +76,21 @@ export const deleteStore = async (id: string) => {
           where: { id: id },
         });
       } else {
+        const deletedUserId = `deleted-${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
+
         await tx.store.update({
           where: { id: id },
           data: {
             active: false,
             deleted: true,
+            userId: deletedUserId,
           },
         });
       }
 
       await tx.user.update({
         where: {
-          id: store.userId,
+          id: store.userId as string,
         },
         data: {
           hasStore: false,

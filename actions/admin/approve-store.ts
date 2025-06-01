@@ -47,7 +47,7 @@ export const approveStore = async (id: string, approve: boolean) => {
     });
 
     await prisma.user.update({
-      where: { id: store.userId },
+      where: { id: store.userId as string },
       data: {
         hasStore: false,
       },

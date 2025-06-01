@@ -124,6 +124,7 @@ export const deleteUser = async (id: string) => {
             where: { userId: id },
             data: {
               active: false,
+              deleted: true,
             },
           });
         }
