@@ -225,7 +225,7 @@ export const OrderConfirmation = async ({
                   padding: '15px 8px',
                   textAlign: 'right',
                   borderTop: '2px solid #000000',
-                  color: '#007bff',
+                  color: '#000000',
                   fontSize: '18px',
                   fontWeight: 'bold',
                 }}
