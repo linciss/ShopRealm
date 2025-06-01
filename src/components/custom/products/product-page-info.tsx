@@ -52,7 +52,7 @@ interface ProductProps {
         store: {
           name: string;
           id: string;
-        };
+        } | null;
       }
     | undefined;
   locale: string;
@@ -121,11 +121,11 @@ export const ProductPageInfo = async ({
               <h1 className='text-3xl font-semibold '>{productData.name}</h1>
               <Link
                 className='text-muted-foreground text-xs justify-self-end'
-                href={`/store/${productData.store.id}`}
+                href={`/store/${productData?.store?.id}`}
                 target='_blank'
                 prefetch={false}
               >
-                {t('shop')}: {productData.store.name}
+                {t('shop')}: {productData?.store?.name}
               </Link>
             </div>
             {productData.featured && (

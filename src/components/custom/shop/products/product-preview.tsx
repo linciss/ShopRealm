@@ -23,7 +23,7 @@ interface ProductProps {
         category: string[];
         quantity: number;
         isActive: boolean;
-        storeId: string;
+        storeId: string | null;
         reviews: {
           id: string;
           rating: number;
