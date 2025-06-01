@@ -106,6 +106,22 @@ export const createCheckoutSession = async (
 
     const locale = (await cookies()).get('NEXT_LOCALE')?.value || 'en';
 
+    const stores = await prisma.store.findMany({
+      where: {
+        id: { in: cartItems.map((item) => item.product.storeId as string) },
+      },
+      select: {
+        id: true,
+        name: true,
+        storePhone: true,
+        user: {
+          select: {
+            email: true,
+          },
+        },
+      },
+    });
+
     const stripeSession = await stripe.checkout.sessions.create({
       mode: 'payment',
       line_items: lineItems,
@@ -121,6 +137,15 @@ export const createCheckoutSession = async (
             cartItems.map((item) => ({
               id: item.product.id,
               quantity: item.quantity,
+              storeName:
+                stores.find((store) => store.id === item.product.storeId)
+                  ?.name || 'Deleted Store',
+              storeEmail: stores.find(
+                (store) => store.id === item.product.storeId,
+              )?.user.email,
+              storePhone: stores.find(
+                (store) => store.id === item.product.storeId,
+              )?.storePhone,
             })),
           ),
         },
@@ -143,6 +168,15 @@ export const createCheckoutSession = async (
           cartItems.map((item) => ({
             id: item.product.id,
             quantity: item.quantity,
+            storeName:
+              stores.find((store) => store.id === item.product.storeId)?.name ||
+              'Deleted Store',
+            storeEmail: stores.find(
+              (store) => store.id === item.product.storeId,
+            )?.user.email,
+            storePhone: stores.find(
+              (store) => store.id === item.product.storeId,
+            )?.storePhone,
           })),
         ),
       },

@@ -63,9 +63,15 @@ export const createOrdersFromSession = async (session: any) => {
       );
 
       const quantity = cartItem?.quantity || 0;
+      const storeName = cartItem?.storeName || '';
+      const storeEmail = cartItem?.storeEmail || '';
+      const storePhone = cartItem?.storePhone || '';
 
       return {
         ...product,
+        storePhone,
+        storeEmail,
+        storeName,
         quantity: quantity || 0,
       };
     });
@@ -96,6 +102,9 @@ export const createOrdersFromSession = async (session: any) => {
             shippingPhone: shippingPhone || '',
             shippingPostalCode: shippingPostalCode || '',
             shippingStreet: shippingStreet || '',
+            storeName: item.storeName || '',
+            storeEmail: item.storeEmail || '',
+            storePhone: item.storePhone || '',
           },
         });
       }),
