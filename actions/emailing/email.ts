@@ -106,13 +106,28 @@ export const sendResetPassword = async (token: string, email: string) => {
     return { error: 'validationError' };
   }
 };
+interface UserData {
+  shippingInfo: {
+    street: string;
+    city: string;
+    country: string;
+    postalCode: string;
+  };
+  items: {
+    productName: string;
+    quantity: number;
+    price: number;
+    total: number;
+  }[];
+}
 
 export const sendOrderConfirmation = async (
   orderId: string,
   email: string,
   locale: string,
+  data: UserData,
 ) => {
-  const html = render(await OrderConfirmation({ locale, orderId }));
+  const html = render(await OrderConfirmation({ locale, orderId, data }));
   const { t } = await initTranslations(locale, ['email']);
   try {
     const { data, error } = await resend.emails.send({

@@ -14,5 +14,13 @@
   "orderConfirmed": "Votre commande a été confirmée!",
   "storeCreation": "Informations sur la création de votre boutique",
   "success": "Nous avons examiné votre demande et sommes heureux de vous informer que votre boutique a été créée avec succès ! Vous pouvez maintenant commencer à vendre vos produits.",
-  "rejected": "Nous sommes désolés de vous informer que votre boutique a été rejetée."
+  "rejected": "Nous sommes désolés de vous informer que votre boutique a été rejetée.",
+  "orderItems": "Articles de la commande",
+  "product": "Produit",
+  "quantity": "Qté",
+  "price": "Prix",
+  "total": "Total",
+  "orderTotal": "Total de la commande",
+  "shippingAddress": "Adresse de livraison",
+  "thankYouForOrder": "Merci pour votre commande !"
 }

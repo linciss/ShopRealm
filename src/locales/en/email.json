@@ -14,5 +14,13 @@
   "storeCreation": "Information about your store's creation",
   "success": "We have looked throughout your application and we are happy to inform you that your store has been created successfully! You can now start selling your products.",
   "rejected": "We are sorry to inform you that your store has been rejected.",
-  "orderConfirmed": "Your order has been confirmed!"
+  "orderConfirmed": "Your order has been confirmed!",
+  "orderItems": "Order Items",
+  "product": "Product",
+  "quantity": "Qty",
+  "price": "Price",
+  "total": "Total",
+  "orderTotal": "Order Total",
+  "shippingAddress": "Shipping Address",
+  "thankYouForOrder": "Thank you for your order!"
 }

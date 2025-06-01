@@ -17,6 +17,15 @@ export const getOrderBySessionId = async (sessionId: string) => {
       orderItems: {
         select: {
           product: true,
+          priceAtOrder: true,
+          quantity: true,
+          total: true,
+          shippingName: true,
+          shippingLastName: true,
+          shippingCity: true,
+          shippingCountry: true,
+          shippingPostalCode: true,
+          shippingStreet: true,
         },
       },
     },
