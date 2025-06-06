@@ -20,43 +20,43 @@ interface RouteProps {
 const shopperLinks: RouteProps[] = [
   {
     label: 'electronics',
-    href: '/products/category/electronics',
+    href: '/products?category=electronics',
   },
   {
     label: 'toys',
-    href: '/products/category/toys',
+    href: '/products?category=toys',
   },
   {
     label: 'home',
-    href: '/products/category/home',
+    href: '/products?category=home',
   },
   {
     label: 'health',
-    href: '/products/category/health',
+    href: '/products?category=health',
   },
   {
     label: 'automotive',
-    href: '/products/category/automotive',
+    href: '/products?category=automotive',
   },
   {
     label: 'clothing',
-    href: '/products/category/clothing',
+    href: '/products?category=clothing',
   },
   {
     label: 'sports',
-    href: '/products/category/sports',
+    href: '/products?category=sports',
   },
   {
     label: 'books',
-    href: '/products/category/books',
+    href: '/products?category=books',
   },
   {
     label: 'beauty',
-    href: '/products/category/beauty',
+    href: '/products?category=beauty',
   },
   {
     label: 'jewelry',
-    href: '/products/category/jewelry',
+    href: '/products=category?jewelry',
   },
 ];
 
@@ -72,6 +72,14 @@ const storeLinks: RouteProps[] = [
   {
     href: '/store/orders',
     label: 'orders',
+  },
+  {
+    href: '/store/analytics',
+    label: 'analytics',
+  },
+  {
+    href: '/store/settings',
+    label: 'settings',
   },
 ];
 
