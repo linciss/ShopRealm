@@ -500,5 +500,9 @@
   "orderFailed": "Order failed!",
   "orderFailedDesc": "There was an error processing your order. Please try again later or contact support.",
   "accountAlreadyExists": "A stripe account already exists for this store. Please contact support if you want to change it.",
-  "storeConfigurator": "Store configurator"
+  "storeConfigurator": "Store configurator",
+  "escrowStatus": "Escrow status",
+  "released": "Released",
+  "holding": "Holding",
+  "orderPlacer": "Order placer"
 }

@@ -508,5 +508,6 @@
   "orderFailed": "Pasūtījums neizdevās!",
   "orderFailedDesc": "Pasūtījums neizdevās, lūdzu, mēģiniet vēlreiz vēlāk. Ja problēma saglabājas, sazinieties ar atbalsta dienestu.",
   "accountAlreadyExists": "Stripe konts jau pastāv šim veikalam. Lūdzu, sazinieties ar atbalsta dienestu, ja vēlaties to mainīt.",
-  "storeConfigurator": "Veikala konfigurators"
+  "storeConfigurator": "Veikala konfigurators",
+  "released": "Atlaists"
 }
