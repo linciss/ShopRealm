@@ -138,7 +138,16 @@ export const editProduct = async (
     // send email to users who have this product in their favorites
     if (!existingProduct.sale && sale) {
       const favoriteListsUsers = await prisma.favoriteItem.findMany({
-        where: { productId },
+        where: {
+          productId,
+          favoriteList: {
+            is: {
+              user: {
+                isNot: undefined,
+              },
+            },
+          },
+        },
         select: {
           favoriteList: {
             select: {
