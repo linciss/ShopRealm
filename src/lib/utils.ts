@@ -64,7 +64,19 @@ export const statusMap: MapObject = {
   returned: { id: 'returned', label: 'Atgriezsts' },
 };
 
-export const supportedCountries = ['Latvija', 'USA', 'Anlgija', 'Turcija'];
+export const supportedCountries = [
+  'LV',
+  'EE',
+  'LT',
+  'FI',
+  'NO',
+  'DK',
+  'US',
+  'CA',
+  'GB',
+  'DE',
+  'FR',
+];
 
 export const isMobile = (userAgent: string): boolean => {
   return /android.+mobile|ip(hone|[oa]d)/i.test(userAgent);

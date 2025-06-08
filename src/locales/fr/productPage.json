@@ -501,5 +501,18 @@
   "orderFailed": "Échec de la commande !",
   "orderFailedDesc": "Une erreur s'est produite lors du traitement de votre commande. Veuillez réessayer plus tard ou contacter le support.",
   "accountAlreadyExists": "Un compte Stripe existe déjà pour cette boutique. Veuillez contacter le support si vous souhaitez le modifier.",
-  "storeConfigurator": "Configurateur de boutique"
+  "storeConfigurator": "Configurateur de boutique",
+  "chooseCountry": "Choisissez un pays",
+
+  "LV": "Lettonie",
+  "EE": "Estonie",
+  "LT": "Lituanie",
+  "FI": "Finlande",
+  "NO": "Norvège",
+  "DK": "Danemark",
+  "US": "États-Unis",
+  "CA": "Canada",
+  "GB": "Royaume-Uni",
+  "DE": "Allemagne",
+  "FR": "France"
 }

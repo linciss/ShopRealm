@@ -504,5 +504,18 @@
   "escrowStatus": "Escrow status",
   "released": "Released",
   "holding": "Holding",
-  "orderPlacer": "Order placer"
+  "orderPlacer": "Order placer",
+  "chooseCountry": "Choose your country",
+
+  "LV": "Latvia",
+  "EE": "Estonia",
+  "LT": "Lithuania",
+  "FI": "Finland",
+  "NO": "Norway",
+  "DK": "Denmark",
+  "US": "United States",
+  "CA": "Canada",
+  "GB": "United Kingdom",
+  "DE": "Germany",
+  "FR": "France"
 }

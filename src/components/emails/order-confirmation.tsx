@@ -263,7 +263,7 @@ export const OrderConfirmation = async ({
             {data.shippingInfo.city}, {data.shippingInfo.postalCode}
           </p>
           <p style={{ margin: '0', color: '#333', fontSize: '14px' }}>
-            {data.shippingInfo.country}
+            {t(data.shippingInfo.country)}
           </p>
         </div>
       </div>

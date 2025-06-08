@@ -202,7 +202,7 @@ export const CheckoutForm = ({ userInfo }: CheckoutProps) => {
                       <FormControl>
                         <Input
                           type='text'
-                          placeholder='Zalu iela 13A'
+                          placeholder='Ventspils iela'
                           {...field}
                           required
                         />
@@ -244,14 +244,13 @@ export const CheckoutForm = ({ userInfo }: CheckoutProps) => {
                       >
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder='Izvelies valsti' />
+                            <SelectValue placeholder={t('chooseCountry')} />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
                           {supportedCountries.map((country, idx) => (
                             <SelectItem key={idx} value={country}>
-                              {country.charAt(0).toUpperCase() +
-                                country.slice(1)}
+                              {t(country)}
                             </SelectItem>
                           ))}
                         </SelectContent>

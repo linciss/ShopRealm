@@ -123,13 +123,13 @@ export const AddressForms = ({ userAddress }: AddressFormsProps) => {
                     >
                       <FormControl>
                         <SelectTrigger>
-                          <SelectValue placeholder='Izvelies valsti' />
+                          <SelectValue placeholder={t('chooseCountry')} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         {supportedCountries.map((country, idx) => (
                           <SelectItem key={idx} value={country}>
-                            {country.charAt(0).toUpperCase() + country.slice(1)}
+                            {t(country)}
                           </SelectItem>
                         ))}
                       </SelectContent>

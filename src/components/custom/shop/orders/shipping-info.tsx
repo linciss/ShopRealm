@@ -29,7 +29,9 @@ export const ShippingInfo = ({ address, t }: CustomerInfoProps) => {
         </p>
         <p className='text-muted-foreground text-sm'>{address?.city}</p>
 
-        <p className='text-muted-foreground text-sm'>{address?.country}</p>
+        <p className='text-muted-foreground text-sm'>
+          {t(address?.country || 'LV')}
+        </p>
       </CardContent>
     </Card>
   );

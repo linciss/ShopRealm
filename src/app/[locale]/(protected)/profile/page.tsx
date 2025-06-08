@@ -44,7 +44,7 @@ export default async function Profile({ params }: ProfileProps) {
         email={userData.email}
         phone={userData.phone || ''}
         createdAt={userData.createdAt}
-        country={userAddress.country || ''}
+        country={t(userAddress.country) || ''}
         t={t}
       />
       <div className=' max-w-7xl mx-auto py-10 container !px-0'>
