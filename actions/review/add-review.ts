@@ -52,7 +52,11 @@ export const addReview = async (
       },
     });
 
-    revalidatePath(`/products/${productId}`);
+    const product = await prisma.product.findUnique({
+      where: { id: productId },
+      select: { slug: true },
+    });
+    revalidatePath(`/products/${product?.slug}`);
 
     return { success: 'reviewSubmitted' };
   } catch (err) {

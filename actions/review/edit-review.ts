@@ -33,10 +33,15 @@ export const editReview = async (
       },
       select: {
         productId: true,
+        product: {
+          select: {
+            slug: true,
+          },
+        },
       },
     });
 
-    revalidatePath(`/products/${editedReview.productId}`);
+    revalidatePath(`/products/${editedReview.product.slug}`);
 
     return { success: 'reviewUpdated' };
   } catch (err) {

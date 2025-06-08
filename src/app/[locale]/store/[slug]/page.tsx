@@ -1,20 +1,23 @@
 import { Metadata } from 'next';
-import { getStoreDataById, getStoreNameById } from '../../../../../data/store';
+import {
+  getStoreDataBySlug,
+  getStoreNameBySlug,
+} from '../../../../../data/store';
 
 import { redirect } from 'next/navigation';
 import { ProductGrid } from '@/components/custom/products/product-grid';
 import initTranslations from '@/app/i18n';
 
 interface StorePageProps {
-  params: Promise<{ id: string; locale: string }>;
+  params: Promise<{ slug: string; locale: string }>;
 }
 
 export async function generateMetadata({
   params,
 }: StorePageProps): Promise<Metadata> {
-  const { id } = await params;
+  const { slug } = await params;
 
-  const productData = await getStoreNameById(id);
+  const productData = await getStoreNameBySlug(slug);
 
   return {
     title: productData?.name,
@@ -23,9 +26,9 @@ export async function generateMetadata({
 }
 
 export default async function StorePage({ params }: StorePageProps) {
-  const { id, locale } = await params;
+  const { slug, locale } = await params;
 
-  const storeData = await getStoreDataById(id);
+  const storeData = await getStoreDataBySlug(slug);
   const { t } = await initTranslations(locale, ['productPage']);
 
   if (!storeData) redirect('/products');

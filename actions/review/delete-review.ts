@@ -20,10 +20,15 @@ export const deleteReview = async (reviewId: string) => {
       },
       select: {
         productId: true,
+        product: {
+          select: {
+            slug: true,
+          },
+        },
       },
     });
 
-    revalidatePath(`/products/${deletedReview?.productId}`);
+    revalidatePath(`/products/${deletedReview?.product.slug}`);
 
     return { success: 'reviewDeleted' };
   } catch (error) {

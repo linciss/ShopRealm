@@ -5,15 +5,15 @@ import { ProductPageInfo } from '@/components/custom/products/product-page-info'
 import { ViewTracker } from '@/components/custom/products/view-tracker';
 
 type Props = {
-  params: Promise<{ id: string; locale: string }>;
+  params: Promise<{ slug: string; locale: string }>;
   searchParams?: Promise<{ origin?: string }>;
 };
 
 // generates metadata for the page based on the product id
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = await params;
+  const { slug } = await params;
 
-  const productData = await getProduct(id);
+  const productData = await getProduct(slug);
 
   return {
     title: productData?.name,
@@ -22,11 +22,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ProductPage({ params, searchParams }: Props) {
-  const { id, locale } = await params;
+  const { slug, locale } = await params;
   const sp = await searchParams;
   const origin = sp?.origin || '';
 
-  const productData = await getProduct(id);
+  const productData = await getProduct(slug);
 
   if (!productData || productData.quantity <= 0) redirect('/products');
 
