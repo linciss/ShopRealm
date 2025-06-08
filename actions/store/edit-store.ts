@@ -3,7 +3,7 @@
 import { z } from 'zod';
 import prisma from '@/lib/db';
 import { storeSchema } from '../../schemas';
-import { checkHasStore } from '../../data/store';
+import { checkHasStore, getStoreId } from '../../data/store';
 import { auth } from '../../auth';
 import { slugify } from '@/lib/utils';
 import { revalidatePath } from 'next/cache';
@@ -25,10 +25,12 @@ export const editUserStore = async (
 
     const { name, description, phone } = validateData.data;
 
+    const storeId = await getStoreId();
+
     const existingStore = await prisma.store.findMany({
       where: {
         OR: [{ name: name }, { storePhone: phone }],
-        AND: id ? { id: { not: id } } : undefined,
+        AND: id || storeId ? { id: { not: id || storeId } } : undefined,
       },
     });
 
