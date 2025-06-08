@@ -75,7 +75,6 @@ export const createProduct = async (data: z.infer<typeof productSchema>) => {
     const itemSlug = `${slugify(name).toLowerCase()}-${UUID}`;
     const priceDecimals = price.toFixed(2);
     const salePriceDecimals = salePrice?.toFixed(2);
-    console.log(image);
     const optimizedBuffer = await optimizedImage(image);
 
     if (
