@@ -71,31 +71,18 @@ export const editProduct = async (
   // });
 
   try {
-    const userId = session.user.id;
-
+    const existingProduct = await prisma.product.findUnique({
+      where: { id: productId },
+      select: { sale: true, image: true, store: { select: { userId: true } } },
+    });
     const storeId = (await getStoreId()) as string;
 
     if (!storeId && !session.user.admin) return { error: 'storeError' };
 
-    if (!session.user.admin) {
-      const isStoreProduct = await prisma.store.findUnique({
-        where: { userId },
-        select: {
-          products: {
-            where: { id: productId },
-          },
-        },
-      });
-
-      if (!isStoreProduct?.products.length) {
-        return { error: 'notYourProduct' };
-      }
+    const isAdmin = !!session.user.admin;
+    if (!isAdmin && existingProduct?.store?.userId !== session.user.id) {
+      return { error: 'notYourProduct' };
     }
-
-    const existingProduct = await prisma.product.findUnique({
-      where: { id: productId },
-      select: { sale: true },
-    });
 
     if (!existingProduct) return { error: 'prodNotFound' };
 
@@ -111,7 +98,11 @@ export const editProduct = async (
       return { error: 'salePriceError' };
     }
 
-    const optimizedBuffer = await optimizedImage(image);
+    const imageChanged = image !== existingProduct.image;
+
+    const optimizedBuffer = imageChanged
+      ? await optimizedImage(image)
+      : existingProduct.image;
 
     const stringifiedSpec = JSON.stringify(specifications);
 
