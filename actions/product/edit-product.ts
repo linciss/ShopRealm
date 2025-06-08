@@ -115,7 +115,7 @@ export const editProduct = async (
 
     const stringifiedSpec = JSON.stringify(specifications);
 
-    await prisma.product.update({
+    const product = await prisma.product.update({
       where: { id: productId },
       data: {
         name,
@@ -171,7 +171,9 @@ export const editProduct = async (
         return { success: 'edited' };
       }
 
-      await sendSaleEmail(productId, uniqueEmails, name);
+      await sendSaleEmail(product.slug, uniqueEmails, name);
+
+      return { success: 'edited' };
     }
 
     return { success: 'edited' };

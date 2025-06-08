@@ -42,14 +42,14 @@ export const sendVerifyEmail = async (token: string, email: string) => {
 };
 
 export const sendSaleEmail = async (
-  productId: string,
+  productSlug: string,
   emails: string[],
   name: string,
 ) => {
   const pathname = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
   const locale = (await cookies()).get('NEXT_LOCALE')?.value || 'en';
 
-  const confirmLink = `${pathname}/products/${productId}`;
+  const confirmLink = `${pathname}/${locale}/products/${productSlug}`;
   const html = render(await ProductSale({ confirmLink, locale, name }));
   const { t } = await initTranslations(locale, ['email']);
 
