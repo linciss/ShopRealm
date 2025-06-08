@@ -57,7 +57,7 @@ const sortMap = [
     id: 'highest-value',
   },
   {
-    id: 'lowest-valie',
+    id: 'lowest-value',
   },
 ];
 
