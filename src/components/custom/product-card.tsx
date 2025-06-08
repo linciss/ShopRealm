@@ -153,8 +153,8 @@ export const ProductCard = ({
           href={
             productData.quantity > 0
               ? origin
-                ? `/products/${productData.id}?origin=${origin}`
-                : `/products/${productData.id}`
+                ? `/products/${productData.slug}?origin=${origin}`
+                : `/products/${productData.slug}`
               : ''
           }
           prefetch={false}
@@ -219,8 +219,8 @@ export const ProductCard = ({
           href={
             productData.quantity > 0
               ? origin
-                ? `/products/${productData.id}?origin=${origin}`
-                : `/products/${productData.id}`
+                ? `/products/${productData.slug}?origin=${origin}`
+                : `/products/${productData.slug}`
               : ''
           }
           prefetch={false}

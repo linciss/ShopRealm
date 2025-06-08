@@ -52,6 +52,7 @@ interface ProductProps {
         store: {
           name: string;
           id: string;
+          slug: string;
         } | null;
       }
     | undefined;
@@ -121,7 +122,7 @@ export const ProductPageInfo = async ({
               <h1 className='text-3xl font-semibold '>{productData.name}</h1>
               <Link
                 className='text-muted-foreground text-xs justify-self-end'
-                href={`/store/${productData?.store?.id}`}
+                href={`/store/${productData?.store?.slug}`}
                 target='_blank'
                 prefetch={false}
               >

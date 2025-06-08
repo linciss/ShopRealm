@@ -46,6 +46,7 @@ interface ProductsProps {
         sale: boolean;
         salePrice: string | null;
         featured: boolean;
+        slug: string;
       }[]
     | undefined;
   t: (value: string) => string;
@@ -126,7 +127,7 @@ export const ProductsTable = async ({
                       {product.active && (
                         <DropdownMenuItem>
                           <Link
-                            href={`/products/${product?.id}`}
+                            href={`/products/${product?.slug}`}
                             prefetch={false}
                             className='flex items-center gap-2'
                           >
