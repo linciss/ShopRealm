@@ -257,6 +257,27 @@ export const getStoreProductData = async (productId: string) => {
   }
 };
 
+export const getStoreNameBySlug = async (slug: string) => {
+  const session = await auth();
+  if (!session?.user.id) return;
+  try {
+    return await prisma.store.findUnique({
+      where: {
+        slug,
+      },
+      select: {
+        name: true,
+        description: true,
+      },
+    });
+  } catch (err) {
+    if (err instanceof Error) {
+      console.log(err);
+    }
+    return;
+  }
+};
+
 export const getStoreNameById = async (storeId: string) => {
   const session = await auth();
   if (!session?.user.id) return;
@@ -268,6 +289,48 @@ export const getStoreNameById = async (storeId: string) => {
       select: {
         name: true,
         description: true,
+      },
+    });
+  } catch (err) {
+    if (err instanceof Error) {
+      console.log(err);
+    }
+    return;
+  }
+};
+
+export const getStoreDataBySlug = async (slug: string) => {
+  const session = await auth();
+  if (!session?.user.id) return;
+  try {
+    return await prisma.store.findUnique({
+      where: {
+        slug,
+      },
+      select: {
+        name: true,
+        description: true,
+        products: {
+          where: {
+            deleted: false,
+          },
+          select: {
+            id: true,
+            name: true,
+            image: true,
+            price: true,
+            slug: true,
+            reviews: {
+              select: {
+                rating: true,
+              },
+            },
+            quantity: true,
+            sale: true,
+            salePrice: true,
+            featured: true,
+          },
+        },
       },
     });
   } catch (err) {

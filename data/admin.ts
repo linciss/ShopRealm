@@ -352,6 +352,7 @@ export const getProducts = async ({ page, search }: QueryOptions) => {
         sale: product.sale,
         salePrice: product.salePrice,
         featured: product.featured,
+        slug: product.slug,
       })),
       totalProducts,
     };

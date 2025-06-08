@@ -99,7 +99,10 @@ export const getFavoriteProducts = async () => {
     if (!favoriteList?.id) return;
 
     const favoriteItems = await prisma.favoriteItem.findMany({
-      where: { favoriteListId: favoriteList?.id },
+      where: {
+        favoriteListId: favoriteList?.id,
+        product: { isActive: true, deleted: false, store: { active: true } },
+      },
       select: {
         product: {
           select: {
@@ -112,6 +115,7 @@ export const getFavoriteProducts = async () => {
                 rating: true,
               },
             },
+            slug: true,
             quantity: true,
             sale: true,
             salePrice: true,

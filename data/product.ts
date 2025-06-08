@@ -219,11 +219,11 @@ export const getProducts = async ({
   };
 };
 
-export const getProduct = async (id: string) => {
+export const getProduct = async (slug: string) => {
   try {
     const product = await prisma.product.findUnique({
       where: {
-        id: id,
+        slug,
         store: {
           active: true,
         },
@@ -240,6 +240,7 @@ export const getProduct = async (id: string) => {
           select: {
             name: true,
             id: true,
+            slug: true,
           },
         },
         category: true,
